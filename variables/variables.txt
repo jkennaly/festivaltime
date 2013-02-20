@@ -9,5 +9,10 @@ $basepage='https://www.festivaltime.us/festival/coachella/2013/';
 $baseinstall="/var/www/festival/coachella/2013/";
 $forumbase="https://www.festivaltime.us/festival/forum/";
 $install_ok='No';
+//If $use_master_for_access is 'Yes', then the system will authenticate users through the specified master directory rather than the local user directory
+$use_master_for_access='No';
+$master_db='';
+$master_dbuser='';
+$master_dbpw='';
 
 ?>

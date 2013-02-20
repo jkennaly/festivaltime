@@ -3,6 +3,7 @@ robots.txt
 variables/variables.php
 .gitignore_global~
 variables/variables.php~
+variables/variables.txt~
 index.php~
 install/index.php~
 variables/variables.txt.orig
@@ -12,6 +13,10 @@ includes/content/rate_band.php~
 includes/content/link_band.php~
 includes/content/discussion.php~
 includes/content/comment_band.php~
+includes/content/update_master.php~
 includes/content/blocks/pregame_band.php~
+includes/content/blocks/scoring_functions.php~
+includes/content/blocks/band_selector.php~
 includes/content/add_groups.php~
 includes/content.php~
+includes/nav.php~

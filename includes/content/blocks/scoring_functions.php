@@ -30,5 +30,9 @@ If(!$urating) $uscore = $uavg_rating + $score;
 return $uscore;
 }
 
+function count_digit($number) {
+return strlen((string) $number);
+}
+
 ?>
 

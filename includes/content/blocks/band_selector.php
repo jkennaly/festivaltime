@@ -4,7 +4,7 @@
 *  to the $post_target page when submit is pressed.
 */
 
-	$query="select name, id from bands";
+	$query="select name, id from bands order by name asc";
 	$query_band = mysql_query($query);
 ?>
 <form action="<?php echo $post_target; ?>" method="post">

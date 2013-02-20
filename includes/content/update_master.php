@@ -1,0 +1,120 @@
+<div id="content">
+
+<?php
+$right_required = "EditFest";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+
+$post_target= $basepage."?disp=update_master";
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+
+//Get info on current festival
+$sql_info_get="select * from info";
+$res_info=mysql_query($sql_info_get, $main);
+echo "<table>";
+while ($row=mysql_fetch_array($res_info)) {
+	echo "<tr><th>".$row['id']."</th><td>".$row['item']."</td><td>".$row['value']."</td></tr>";
+	If($row['item']== "Festival id") $fest_id=$row['value'];
+	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
+	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
+} // Closes while ($row=mysql_fetch_array($res))
+echo "</table><br />";
+
+
+//Process any POST data
+If(!empty($_POST)) {
+//	var_dump($_POST);
+	foreach($_POST as $k => $v){
+		If(substr($k, 0, 4) == "upd_") {
+			$v=mysql_real_escape_string($v);
+			echo "Updating ".$v."<br>";
+			$fest_tag = substr($k, 4);
+			$sql = "UPDATE bands SET festivals=CONCAT(festivals, '$fest_tag') WHERE name='$v'";
+			$upd = mysql_query($sql, $master);
+		}
+		If(substr($k, 0, 4) == "add_") {
+			$v=mysql_real_escape_string($v);
+			$fest_tag = substr($k, 4);
+			$str_digits = 4+count_digit($fest_id);
+			$fest_tag_str = substr($fest_tag, $str_digits);
+			$sql = "INSERT INTO bands (name, festivals) VALUES ('$v', '$fest_tag')";
+			$upd = mysql_query($sql, $master);
+			//Get local id for band by stripping out the id components
+			//Take off the prefix
+			$pre_str=strlen($fest_id_start);
+			$post_str=-1*strlen($fest_id_end);
+			$main_band_id_temp = substr($fest_tag_str, $pre_str);
+			$main_band_id = substr($main_band_id_temp, 0, $post_str);
+			echo "Adding ".$v."with fest tag $fest_tag and main band id $main_band_id<br>";
+			$sql="select id from bands where festivals like '%$fest_tag%'";
+			$res = mysql_query($sql, $master);
+			$id= mysql_fetch_array($res);
+			$mas_id=$id['id'];
+			$sql = "UPDATE bands SET master_id='$mas_id' WHERE id='$main_band_id'";
+			$upd = mysql_query($sql, $main);
+		
+		}
+	} // Closes foreach($_POST as $k => $v)
+} // Closes If(!empty($_POST))
+
+
+
+
+
+
+
+//Get list of bands from current festival
+$sql_bands="select id, name, master_id from bands order by id asc";
+$res_bands=mysql_query($sql_bands, $main);
+
+echo "If submit is pressed at the bottom of this form, all bands with no possible match will be added to the database as new bands. All bands with a checked box will be associated with the band that is checked. Make sure only checkbox is checked per band! If there are checkboxes given but they do not match the band, the band must be manually directly into the database.";
+
+echo "<form action=\"$post_target\" method=\"post\"><table><th>Fest ID</th><th>Band name</th><th>Master code</th><th>Master ID</th><th>Possible Matches</th>";
+$i=0;
+while ($row=mysql_fetch_array($res_bands)) {
+	$bandmain[]=$row;
+	$fest_tag = "--".$fest_id."--".$fest_id_start.$row['id'].$fest_id_end;
+	$bandmain[$i]['fest_tag']=$fest_tag;
+	echo "<tr><th>".$row['id']."</th><td>".$row['name']."</td><td>".$fest_tag."</td><td>".$row['master_id']."</td><td><ul>";
+	If(empty($row['master_id'])) {
+		$namesize = strlen($row['name']);
+		If($namesize<6) $testname=$row['name'];
+		If($namesize>=6 && $namesize<10) $testname=substr($row['name'], 4);
+		If($namesize>=10) $testname=substr($row['name'], 4, 6);
+		
+		$match_sql = "select id, name from bands where name like '%".$testname."%'";
+		$res_match=mysql_query($match_sql, $master);
+		$match_found=0;
+		$box_checked=0;
+		while($match_names=mysql_fetch_array($res_match)) {
+			$match_found=1;
+			If($match_names['name'] == $row['name']) {echo "<li><input type=\"checkbox\" checked=\"checked\" name=\"upd_$fest_tag\" value=\"".$match_names['name']."\">".$match_names['name']."</input></li>"; $box_checked=1;}
+			If($match_names['name'] != $row['name']) echo "<li><input type=\"checkbox\" name=\"upd_$fest_tag\" value=\"".$match_names['name']."\">".$match_names['name']."</input></li>"; 
+			}
+		If($match_found==0) {
+			echo "<input type=\"hidden\" name=\"add_$fest_tag\" value=\"".$row['name']."\">";
+		} //Closes If($match_found==0)
+		If($box_checked==0) echo "<li><input type=\"checkbox\" checked=\"checked\" name=\"add_$fest_tag\" value=\"".$row['name']."\">".$row['name']."</input></li>";
+	} //Closes If(empty($row['master_id']))
+	echo "</ul></td></tr>";
+	$i++;
+} // Closes while ($row=mysql_fetch_array($res))
+echo "</table><input type=\"submit\" name=\"upd\" value=\"Update Master\"></form>";
+
+//Find any bands in the current festival that are not registered in master
+$sql = "select id, n";
+
+
+
+
+} else{
+echo "This page requires a higher level access than you currently have.";
+
+include "login.php";
+}
+
+?>
+</div> <!-- end #content -->
