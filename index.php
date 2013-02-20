@@ -14,8 +14,8 @@
 
 <link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
 
-<?php include('/var/www/festival/coachella/2013/variables/variables.php'); ?>
-<?php include('/var/www/festival/coachella/2013/includes/check_rights.php'); ?>
+<?php include('variables/variables.php'); ?>
+<?php include('includes/check_rights.php'); ?>
 <?php session_start(); ?>
 
 <title><?php echo $sitename ?></title>
