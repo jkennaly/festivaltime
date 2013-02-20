@@ -10,8 +10,8 @@ echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to choose from a li
 //If $band is defined
 If(!empty($band)){
 
-	include "/var/www/festival/coachella/2013/includes/content/blocks/band_info_search.php";
-//	include "/var/www/festival/coachella/2013/includes/content/blocks/recommendations.php";
+	include "$baseinstall."includes/content/blocks/band_info_search.php";
+//	include $baseinstall."includes/content/blocks/recommendations.php";
 
 	//query to pull basic data
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link, comments.id as comid FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";

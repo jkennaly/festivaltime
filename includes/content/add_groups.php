@@ -15,6 +15,7 @@ If(!empty($_POST)){
 //Escape entered info
 
 	$escapedgroup = mysql_real_escape_string($_POST['group']);
+	echo $escapedgroup;
 
 //Verify that the group name is not already taken
 
@@ -28,6 +29,7 @@ If(!empty($_POST)){
 	else{
 
 		$query = "insert into groups (name, creator) values ('$escapedgroup', $user); ";
+		echo $query;
 		$upd = mysql_query($query);
 
 		

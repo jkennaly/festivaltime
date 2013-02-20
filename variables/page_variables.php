@@ -1,7 +1,7 @@
 <?php
 
 
-/* These variables are available on every page in the coachella site.
+/* These variables are available on every page in the festival site.
 *  To ensure they are not stale, they are requested every time a content page
 *  is loaded.
 */
@@ -10,8 +10,8 @@
 If(!empty($_SESSION['user'])) {
 $uname = $_SESSION['user'];
 
-include "/var/www/festival/coachella/2013/includes/content/blocks/scoring_functions.php";
-include "/var/www/festival/coachella/2013/includes/content/blocks/search_selection_function.php";
+include $baseinstall."includes/content/blocks/scoring_functions.php";
+include $baseinstall."includes/content/blocks/search_selection_function.php";
 
 
 $query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";

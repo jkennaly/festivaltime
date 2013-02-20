@@ -7,4 +7,11 @@ index.php~
 install/index.php~
 variables/variables.txt.orig
 .gitignore~
-
+variables/page_variables.php~
+includes/content/rate_band.php~
+includes/content/link_band.php~
+includes/content/discussion.php~
+includes/content/comment_band.php~
+includes/content/blocks/pregame_band.php~
+includes/content/add_groups.php~
+includes/content.php~

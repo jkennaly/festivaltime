@@ -8,7 +8,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 	$post_target = "index.php?disp=discussion&comment=".$comment;
 
-	include "/var/www/festival/coachella/2013/includes/content/blocks/band_info_home.php";
+	include $baseinstall."includes/content/blocks/band_info_home.php";
 
 //Get comment info
 $sql = "select comment, username as commenter from comments left join Users on comments.user=Users.id where comments.id='$comment'";

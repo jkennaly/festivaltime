@@ -14,7 +14,7 @@ This page allows for creating a link to the band.
 </p>
 
 <?php
-		include "/var/www/festival/coachella/2013/includes/content/blocks/band_info_home.php";
+		include $baseinstall."includes/content/blocks/band_info_home.php";
 	
 
 	If ($_REQUEST["band"]) {

@@ -62,7 +62,7 @@ This page allows for viewing the bands and comments.
 
 
 
-	include "/var/www/festival/coachella/2013/includes/content/blocks/band_info_home.php";
+	include $baseinstall."includes/content/blocks/band_info_home.php";
 
 If(isset($rating_row['rating'])) {
 	echo "Your current rating for this band is ".$rating_row['rating']."<br>";
