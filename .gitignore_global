@@ -46,3 +46,8 @@ Thumbs.db
 ################
 .htaccess
 robots.txt
+
+
+# Apache files #
+################
+variables/variables.php
