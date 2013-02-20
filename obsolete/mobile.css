@@ -1,0 +1,190 @@
+body {
+background-color:black;
+font-family: georgia,sans-serif;
+color:#333;
+margin:0;
+padding:0;
+}
+
+#wrapper {
+width:1200px;
+background-color:#f8f8f8;
+margin:0 auto;
+border-left:1px solid #ccc;
+border-right:1px solid #ccc;
+}
+
+#header {
+width:1200px;
+height:135px;
+margin:0 auto;
+margin-bottom:25px;
+border-bottom:1px solid #ccc;
+border-top:1px solid #ccc;
+}
+
+#header h2 {
+padding:10px;
+}
+
+#nav {
+width:1200px;
+height:40px;
+border-bottom:1px solid #ccc;
+}
+
+#nav a {
+display:inline;
+padding:10px;
+text-decoration:none;
+background-color:#f1f1f1;
+}
+
+#nav a:hover {
+background-color:#bababa;
+height:80px;
+}
+
+#content {
+width:1000px;
+float:left;
+padding:10px;
+}
+
+#sidebar {
+width:180px;
+float:right;
+margin-bottom:25px;
+}
+
+#sidebar a {
+text-decoration:none;
+}
+
+#sidebar li {
+list-style:none;
+}
+
+#footer {
+clear:both;
+width:1200px;
+height:135px;
+border-top:1px solid #ccc;
+}
+
+#footer p {
+padding:10px;
+}
+
+div#banner { 
+position: absolute; 
+top: 0; 
+left: 0; 
+background-color:black; 
+width: 100%; 
+}
+
+div#banner-content { 
+width: 100%; 
+margin: 2px; 
+padding: 10px; 
+border: 1px solid #000;
+white-space:nowrap;
+overflow:hidden;
+text-align:center;
+border-style:solid;
+color:white;
+border-color:white;
+font-size:400%;
+}
+
+#upcoming {
+height: 75%;
+width: 100%;
+font-size: 125%;
+padding: 0.1em;
+background-color:black;
+color:white;
+}
+
+.bandname {
+font-size:200%;
+padding:0px;
+margin:0px;
+white-space:nowrap;
+overflow:hidden;
+}
+
+
+.band {
+position:fixed;
+height: 24%;
+width: 49%;
+text-align:center;
+border-style:solid;
+}
+
+.band1 {
+left:0%;
+top:0%;
+color:blue;
+border-color:blue;
+}
+
+.band2 {
+left:50%;
+top:0%;
+color:red;
+border-color:red;
+}
+
+.band3 {
+left:0%;
+top:25%;
+color:green;
+border-color:green;
+}
+
+.band4 {
+left:50%;
+top:25%;
+color:yellow;
+border-color:yellow;
+}
+
+.band5 {
+left:0%;
+top:50%;
+color:orange;
+border-color:orange;
+}
+
+.band6 {
+left:50%;
+top:50%;
+color:purple;
+border-color:purple;
+}
+
+.short_descrip {
+color:white;
+table-layout:fixed;
+width:100%;
+}
+
+dt, dd {
+display: inline;
+margin: 0;
+color:white;
+padding:0px;
+margin:0px;
+white-space:nowrap;
+overflow:hidden; !important
+}
+
+dd:after {
+content: '\A';
+white-space: pre;
+}
+
+

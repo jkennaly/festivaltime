@@ -1,0 +1,12 @@
+# robots.txt for http://playgroundofthemind.com/
+# robots.txt for http://xqdev.net/
+# robots.txt for http://festivaltime.us
+
+User-agent: *
+Disallow: /phpmyadmin/
+Disallow: /xqctrl/
+Disallow: /.*/
+Disallow: /gmg/
+Disallow: /festival/coachella/2013/dbscripts/
+Disallow: /festival/coachella/2013/obsolete/
+Disallow: /festival/coachella/2013/includes/content/blocks

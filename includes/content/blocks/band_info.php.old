@@ -1,0 +1,58 @@
+<?php
+
+
+/* In order for this block to work, the variables $_SESSION['user'] must contain
+*  the name of the currently logged in user, and $band must contain the id of the
+* band to be recommended. The information will be POSTed back to view_band.php
+*/
+
+
+If($band  && $_SESSION['user']){
+	$query="select bands.name AS name, days.name AS day, stages.name AS stage, start, end from bands, days, stages where bands.id='$band' AND days.id=bands.day AND stages.id=bands.stage";
+	$query_band = mysql_query($query);
+	$band_row = mysql_fetch_assoc($query_band);
+	$query="SELECT AVG(rating) AS avg FROM `ratings` WHERE band='$band'";
+	$query_rating = mysql_query($query);
+	$rating_row = mysql_fetch_assoc($query_rating);
+	$query="SELECT SUM(clicks) AS clicks FROM `links` WHERE band='$band'";
+	$query_link = mysql_query($query);
+	$link_row = mysql_fetch_assoc($query_link);
+	$query="SELECT COUNT(*) AS recomm FROM `recommendations` WHERE band='$band'";
+	$query_recomm = mysql_query($query);
+	$recomm_row = mysql_fetch_assoc($query_recomm);
+	$query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";
+	$query_user = mysql_query($query);
+	$user_row = mysql_fetch_assoc($query_user);
+	$user = $user_row['id'];
+
+	$starttime=substr($band_row['start'], 11, 5);
+	$endtime=substr($band_row['end'], 11, 5);
+
+	echo "Clicking the band name will open a new window and search Youtube for the band.";
+?>
+<table class="bandinfotable">
+<tr>
+<th>band name</th>
+<th>day</th>
+<th>stage</th>
+<th>average rating</th>
+<th>links clicked</th>
+<th>recommendations</th>
+<th>start time</th>
+<th>end time</th>
+</tr>
+<tr>
+<td><?php echo "<a href=\"http://www.youtube.com/results?search_query=".str_replace(" ", "+", $band_row['name'])."\"  target=\"_blank\">".$band_row['name']."</a>"; ?></td>
+<td><?php echo $band_row['day']; ?></td>
+<td><?php echo $band_row['stage']; ?></td>
+<td><?php echo $rating_row['avg']; ?></td>
+<td><?php echo $link_row['clicks']; ?></td>
+<td><?php echo $recomm_row['recomm']; ?></td>
+<td><?php echo $starttime; ?></td>
+<td><?php echo $endtime; ?></td>
+</tr>
+</table>
+
+<?php
+}
+?>

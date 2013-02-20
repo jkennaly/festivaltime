@@ -1,0 +1,203 @@
+<html>
+<head>
+
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+<meta name="description" content="" />
+
+<meta name="keywords" content="" />
+
+<meta name="author" content="" />
+
+<link rel="stylesheet" type="text/css" href="styles/mobile.css" media="screen" />
+
+<?php include('variables/variables.php'); ?>
+<?php include('includes/check_rights.php'); ?>
+<?php session_start(); 
+
+
+	mysql_connect($dbhost,$dbuser,$dbpw);
+	@mysql_select_db($dbname) or die( "Unable to select database");
+
+//Once set times are finalized, run the time update script. This will convert the set start and times into php time
+//Find bands to display
+
+//Get all bands that are playing starting ten minutes from now until 2 hours from now
+
+//For temporary testing purposes, $now is fixed
+
+//Because bands run past midnight but are still considered the prior day, we figure out the day first.
+//The following varaibles gives the time that the day is considered to change
+
+//echo strtotime("12 April 2013 11:55"), " Friday <br>";
+//echo strtotime("12 April 2013 17:55"), " Friday <br>";
+$current = date("M-d-Y G:i", time());
+
+$day_start = "8:00";
+
+
+	$query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";
+	$query_user = mysql_query($query);
+	$user_row = mysql_fetch_assoc($query_user);
+	$user = $user_row['id'];
+
+
+
+//This is the beginning of the prediction algorithm
+//For the intitial test run, it will display the six bands with the best avg rating
+
+//Returns sorted list by average rating
+$sql_avg = "select name, avg(rating) from ratings left join bands on ratings.band=bands.id group by ratings.band order by avg(rating) desc";
+
+//Gets the current average rating
+$sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
+
+$res = mysql_query($sql_curr_avg);
+$curr_avg_rate = mysql_fetch_assoc($res);
+$avg_rating = $curr_avg_rate['average'];
+
+//Returns list sorted by score
+$sql_score_up = "select days.date as stime, days.date as etime, stages.name as stage, ratings.band as id, bands.name as name, avg(rating) as average, count(rating), ((count(rating)-1)*.05+1)*(avg(rating)-$avg_rating) as score from bands left join ratings on bands.id=ratings.band left join stages on bands.stage=stages.id left join days on bands.day=days.id group by ratings.band order by score desc limit 0,6";
+
+$res = mysql_query($sql_score_up);
+/*
+while($row = mysql_fetch_array($res)) {
+	$bandid[]= $row;
+}
+
+for ($i=0; $i<=5; $i++)
+  {
+  echo "The number is " . $bandid[$i]['id'] . "<br>";
+  }
+$sql = "select rating from ratings where ".$bandid;
+*/
+
+?>
+<title>Gametime</title>
+
+</head>
+<body>
+
+<div id="upcoming">
+
+<?php
+
+$i=0;
+while($row = mysql_fetch_array($res)) {
+
+$sql = "select rating from ratings where ratings.band='".$row['id']."' AND ratings.user='".$user."'";
+$result = mysql_query($sql);
+$rate = mysql_fetch_assoc($result);
+
+$time_untils = strtotime($row['stime']) - time();
+$time_untile = strtotime($row['etime']) - time();
+
+$time_untils = round($time_untils/60/60/24, 0);
+$time_untile = round($time_untile/60/60/24, 0);
+
+
+	$i = $i+1;
+	echo "<a href=\"mobile_detail.php?band=".$row['id']."\">
+<div class=\"band$i band\"><p class=\"bandname\">".$row['name']."</p><dl><dt>Stage: </dt><dd>".$row['stage']."</dd><dt>Your Rating: </dt><dd>".$rate['rating']."</dd><dt>Avg Rating: </dt><dd>".$row['average']."</dd><dt>Starts In: </dt>$time_untils days<dd></dd><dt>Ends In: </dt>$time_untile days<dd></dd></dl></div></a>";
+}
+
+
+/*
+<a href="mobile_detail.php?band=20">
+<div class="band1 band">
+<p class="bandname">Blur</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd> echo $avg_rating; </dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+
+<a href="mobile_detail.php?band=143">
+<div class="band2 band">
+<p class="bandname">Stone Roses</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd>3.145</dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+
+<a href="mobile_detail.php?band=123">
+<div class="band3 band">
+<p class="bandname">Red Hot Chili Peppers</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd>3.145</dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+
+<a href="mobile_detail.php?band=44">
+<div class="band4 band">
+<p class="bandname">Dropkick Murphys</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd>3.145</dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+
+<a href="mobile_detail.php?band=37">
+<div class="band5 band">
+<p class="bandname">Descendants</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd>3.145</dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+
+<a href="mobile_detail.php?band=26">
+<div class="band6 band">
+<p class="bandname">Nick Cave and the Bad Seeds</p>
+<dl>
+<dt>Stage: </dt><dd>Coachella Main Stage</dd>
+<dt>Your Rating: </dt><dd>3</dd>
+<dt>Avg Rating: </dt><dd>3.145</dd>
+<dt>Starts In: </dt><dd>45 min</dd>
+<dt>Ends In: </dt><dd>130 min</dd>
+</dl>
+</div>
+</a>
+*/
+?>
+</div>
+
+<div id="comms">
+<p>22:08 matt will be at Blur Coachella Main Stage 22:30 00:15<p>
+<p>21:59 jkennaly will be at Reed, Lou Mojave Tent 22:45 00:05<p>
+<p>21:40 matt will be at Polica Gobi Tent 21:15 22:35<p>
+<p>21:21 eric will be at Modestep Sahara Tent 20:55 22:10<p>
+<p><?php echo $user." is logged on."; ?><p>
+
+</div>
+
+</body>
+
+<?php
+mysql_close();
+?>
+
+
+</html>

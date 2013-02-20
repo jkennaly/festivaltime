@@ -1,0 +1,33 @@
+Festivaltime is an open source project for managing all the prep work that goes into attending a major music festival. For several years, my friends and I have been attending Coachella and other similar music festivals. Every year the same issues come up:
+
+How do we figure out which bands to go see?
+
+How do we stay in touch with each other during the show?
+
+In the days before cell phones were common, we just lost each other and often never met up again. More recently, we communicate with text messages during the show, but it is a difficult propostion. Reception is dicey, and typing out a clear message and sending it to several people at one time under sometimes aggressive conditions can be difficult.
+
+So even though I am pretty tech savvy in most aspects of life, at Coachella I have walked in the door, grabbed a paper schedule, and hoped for the best. Sometimes I forget the name of a band I want to see. Sometimes everybody else in our group gets the SMS to meet up, but Sprint doesn't get it to me in time.
+
+So this year, I decided to develop a website to address all of this in one place. The site consists of two separate aspects-I call them pregame and gametime.
+
+Website
+
+The festivaltime project is currently running at festivaltime.us for Coachella 2013. You can log in to see the project running with username/password guest/guest.
+
+Pregame
+
+Pregame consists everything that goes on before the festival. The single mostimportant part of this is research on the bands. Coachella in 2013 has over 170 bands, and at the time of the lineup announcement, I had heard of maybe 30 of them, and was actually familiar with less than 10. So, to make the most out of Coachella, I need to listen to 150+ bands enough to get a feel for whether they are worth my time at Coachella, and then make that information availbale to myself at the festival.
+
+The homepage of the festivaltime site is a set of filters for filtering bands. These filters allow the user to narrow down what bands they will areinterested. It is focused on participating in a project with a group friends,since that is how I am used to attending Coachella. It is also possible to see a list of every band in the festival.
+
+After using filters to narrow the search criteria, the user selects a band. A details page for that band pops up, showing the user details on the band and any comments made by that user or t=other users. The name of band is alos a hyoerlink to a search engine of the users choice. This allows the user to research the festival bands without even typing the band name in on the keyboard.
+
+The site is set up to allow the users to make comments, and discuss each other's comments.
+
+Gametime
+
+The heart of the project is the Gametime web app. This sub site allows access to the user's comments as well as the other user's comments for each band. The main page shows the next few bands that the user should be interested in, based on user rating, site rating, how far in the future the set is, and how much of the set is left. There are some icons that provide critical information to help the user decide what band to go see. In addition, there is a communication platform built in to allow users to easily see what each other is doing, and make it easy to meet up, with all communication stored on the server and accessed by the users.
+
+Vision
+
+As this project develops, I hope to make it into a premier application for managing music festivals, with the possibility of helping people maximize their experience at any time of large scheduled event in the future.

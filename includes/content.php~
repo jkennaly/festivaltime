@@ -1,0 +1,28 @@
+<?php
+
+$disp = If(!empty($_GET["disp"])) htmlspecialchars($_GET["disp"]);
+$disp = If(empty($_GET["disp"])) "home";
+
+//Find all content files that can be displayed
+$old_path = getcwd();
+chdir('/var/www/festival/coachella/2013/includes/content/');
+include "/var/www/festival/coachella/2013/variables/page_variables.php";
+$content_files = glob("*.php");
+chdir($old_path);
+
+If($disp){
+	//If there is a specific type of content requested, and there is a file with that name, display it
+	If(in_array($disp . ".php", $content_files)){
+		include "/var/www/festival/coachella/2013/includes/content/" . $disp . ".php";
+	}
+	//If a content file is requested that does not exist, return error
+	else{
+		include "/var/www/festival/coachella/2013/includes/content/error.php";
+	}
+}
+//If no specific file is requested, return the home content
+else{
+	include "includes/content/home.php";
+}
+
+?>
