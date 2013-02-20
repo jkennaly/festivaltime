@@ -6,11 +6,12 @@ echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to choose from a li
 
 
 
+
 // Collect data display comments, etc.
 //If $band is defined
 If(!empty($band)){
 
-	include "$baseinstall."includes/content/blocks/band_info_search.php";
+	include $baseinstall."includes/content/blocks/band_info_search.php";
 //	include $baseinstall."includes/content/blocks/recommendations.php";
 
 	//query to pull basic data
