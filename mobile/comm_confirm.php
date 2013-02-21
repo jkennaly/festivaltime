@@ -15,7 +15,7 @@
 <?php include('../variables/variables.php'); ?>
 <?php include('../includes/check_rights.php'); ?>
 <?php session_start(); 
-If(!empty($_REQUEST['s']) {
+If(!empty($_REQUEST['s'])) {
 If($_REQUEST['s'] == "Cancel" ) header("Location: mobile.php");
 } //Closes If(!empty($_REQUEST['s'])
 ?>
