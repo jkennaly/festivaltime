@@ -4,9 +4,6 @@
 $right_required = "ModifySelf";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 	
 ?>
 <p>
@@ -57,7 +54,7 @@ $hashedPW = hash('sha256', $saltedPW);
 
 $query = "UPDATE Users SET hashedpw='$hashedPW', salt='$salt' WHERE username = '$escapedName'";
 
-$upd = mysql_query($query);
+$upd = mysql_query($query, $main);
 
 }
 }

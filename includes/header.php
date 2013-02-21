@@ -14,8 +14,7 @@
 
 <?php
 
-$mysql_link = mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname) or die( "Unable to select database");
+
 
 ?>
 

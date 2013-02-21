@@ -22,7 +22,7 @@ $post_target = $basepage."?disp=edit_user_settings";
 If(!empty($_POST['chg_default'])) {	
 	
 	$sql="update user_settings_template set value='".$_POST['value']."' where item='".$_POST['name']."'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	echo $sql;
 	echo mysql_error()."<br>";
 
@@ -41,7 +41,7 @@ If(!empty($_POST['new_item'])) {
 
 	//Second add the new record into the user_settings table
 	$sql="insert into user_settings (name, item, value) values ('$escapedName', '$escapedItem', '$escapedValue')";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	echo mysql_error()."<br>";
 
 	
@@ -56,16 +56,16 @@ If(!empty($_POST['rmv_setting'])) {
 
 	//First remove all records from the user_settings table
 	$sql="delete from user_settings where name='".$escapedName."'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	echo mysql_error()."<br>";
 
 	//Second, remove all records from each existing user_settings_xx table
 	$sqla="show tables like 'user_settings_%'";
-	$resa = mysql_query($sqla);
+	$resa = mysql_query($sqla, $main);
 
 	while($row=mysql_fetch_array($resa)) {
 		$sql="delete from ".$row[0]." where item='".$escapedName."'";
-		$res = mysql_query($sql);
+		$res = mysql_query($sql, $main);
 
 	} //Closes while($row=mysql_fetch_array($resa)
 
@@ -83,16 +83,16 @@ If(!empty($_POST['new_setting'])) {
 
 	//Second add the new record into the user_settings table
 	$sql="insert into user_settings (name, item, value, description) values ('$escapedName', '$escapedItem', '$escapedValue', '$escapedDescrip')";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	echo mysql_error()."<br>";
 
 	//Third, add the new setting into each existing user_settings_xx table
 	$sqla="show tables like 'user_settings_%'";
-	$resa = mysql_query($sqla);
+	$resa = mysql_query($sqla, $main);
 
 	while($row=mysql_fetch_array($resa)) {
 		$sql="insert into ".$row[0]." (item, value) values ('$escapedName', '$escapedValue')";
-		$res = mysql_query($sql);
+		$res = mysql_query($sql, $main);
 
 	} //Closes while($row=mysql_fetch_array($resa)
 
@@ -101,7 +101,7 @@ If(!empty($_POST['new_setting'])) {
 
 //Display existing user settings and the defaults from the template
 $sql = "select * from user_settings order by name, value asc";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $setting_prev = "";
 
 	$i=0;
@@ -124,10 +124,10 @@ echo $text;
 		echo "<h5>Current default:";
 		$text="";
 		$def_sql = "select value from user_settings_template where item='".$row['name']."'";
-		$def_res = mysql_query($def_sql);
+		$def_res = mysql_query($def_sql, $main);
 		$def = mysql_fetch_array($def_res);
 		$def_q = "select item from user_settings where name='".$row['name']."' and value='".$def['value']."'";
-		$def_r = mysql_query($def_q);
+		$def_r = mysql_query($def_q, $main);
 		$de = mysql_fetch_array($def_r);
 		
 		echo $de['item']."</h5>";

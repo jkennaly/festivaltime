@@ -12,9 +12,14 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); 
+<?php session_start();
+include('../variables/variables.php'); 
+$main=mysql_connect($dbhost,$dbuser,$dbpw);
+@mysql_select_db($dbname) or die( "Unable to select database");
+
+
+include('../variables/page_variables.php'); 
+include('../includes/check_rights.php'); 
 If(!empty($_REQUEST['s'])) {
 If($_REQUEST['s'] == "Cancel" ) header("Location: mobile.php");
 } //Closes If(!empty($_REQUEST['s'])
@@ -39,7 +44,9 @@ If(!empty($_GET['commstring_pre'])) $commstring_pre = mysql_real_escape_string($
 $commstring = mysql_real_escape_string($_GET['commstring']);
 $commtype = mysql_real_escape_string($_GET['commtype']);
 If(!empty($_GET['fromuser'])) $fromuser = mysql_real_escape_string($_GET['fromuser']);
+If(empty($_GET['fromuser'])) $fromuser = $user;
 If(!empty($_GET['band'])) $band = mysql_real_escape_string($_GET['band']);
+If(empty($_GET['band'])) $band = 0;
 If($commtype == 6) $commstring = $commstring_pre." ".$commstring;
 
 /*
@@ -67,7 +74,7 @@ echo "</div>";
 <?php
 
 
-mysql_close();
+mysql_close($main);
 }
 }
 else{

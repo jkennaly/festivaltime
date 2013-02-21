@@ -4,11 +4,6 @@
 $right_required = "EditFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
-
 //Once the information is submitted, store it in the database
 If(!empty($_POST)){
 
@@ -19,7 +14,7 @@ If(!empty($_POST)){
 //Verify that the genre name is not already taken
 
 	$query = "select * from genres where name='$escapedGenre'";
-	$pwq = mysql_query($query);
+	$pwq = mysql_query($query, $main);
 	$num = mysql_num_rows($pwq);
 
 	If(!empty($num)){
@@ -28,7 +23,7 @@ If(!empty($_POST)){
 	else{
 
 		$query = "insert into genres (name) values ('$escapedGenre'); ";
-		$upd = mysql_query($query);
+		$upd = mysql_query($query, $main);
 
 		
 	}
@@ -40,7 +35,7 @@ If(!empty($_POST)){
 mysql_connect($dbhost,$dbuser,$dbpw);
 	@mysql_select_db($dbname) or die( "Unable to select database");
 	$query="SELECT name FROM genres ORDER BY name ASC";
-	$mem_result = mysql_query($query);
+	$mem_result = mysql_query($query, $main);
 
 ?>
 <p>

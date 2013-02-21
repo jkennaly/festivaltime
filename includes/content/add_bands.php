@@ -4,15 +4,11 @@
 $right_required = "AddBands";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
 //Get data to make the pick lists
 	$query="select name, id from days";
-	$query_day = mysql_query($query);
+	$query_day = mysql_query($query, $main);
 	$query="select name, id from stages";
-	$query_stage = mysql_query($query);
+	$query_stage = mysql_query($query, $main);
 
 
 //Once the information is submitted, store it in the database
@@ -27,7 +23,7 @@ If($_POST){
 //Verify that the band name is not already taken
 
 	$query = "select * from bands where name='$escapedName'";
-	$pwq = mysql_query($query);
+	$pwq = mysql_query($query, $main);
 	$num = mysql_num_rows($pwq);
 
 	If($num){
@@ -36,7 +32,7 @@ If($_POST){
 	else{
 
 		$query = "insert into bands (name, start, end, day, stage) values ('$escapedName', '$escapedStart', '$escapedEnd', '".$_POST['day']."', '".$_POST['stage']."' ); ";
-		$upd = mysql_query($query);
+		$upd = mysql_query($query, $main);
 
 		
 	}

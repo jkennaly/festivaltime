@@ -16,11 +16,10 @@ Edit the file itself to enable the script.
 
 <?php
 /*
-mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
+
 
     $query = "SELECT id, start, end, name, day FROM bands";
-    $result = mysql_query($query); 
+    $result = mysql_query($query, $main); 
     if($result){
         $num = mysql_numrows($result);
         $i=0;
@@ -37,8 +36,8 @@ mysql_connect($dbhost,$dbuser,$dbpw);
 		echo "Projected start time for ".mysql_result($result,$i,"name")." is ".$as[$j]."<br>";
 		echo "Projected end time for ".mysql_result($result,$i,"name")." is ".$ae[$j]."<br><br>";
 		$id = mysql_result($result,$i,"id");
-//		mysql_query("UPDATE bands SET start = '".$as[$j]."', end = '".$ae[$j]."' WHERE id='$id'");
-		mysql_query("UPDATE bands SET sec_start = '$sec_start', sec_end = '$sec_end' WHERE id='$id'");
+//		mysql_query("UPDATE bands SET start = '".$as[$j]."', end = '".$ae[$j]."' WHERE id='$id'", $main);
+		mysql_query("UPDATE bands SET sec_start = '$sec_start', sec_end = '$sec_end' WHERE id='$id'", $main);
 		
 		$i++;
        }

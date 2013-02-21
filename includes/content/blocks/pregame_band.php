@@ -17,12 +17,12 @@ If(!empty($band)) {
 	//query to pull basic data
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link, comments.id as comid FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";
 	
-	$query_comment = mysql_query($query);
+	$query_comment = mysql_query($query, $main);
 
 	//If the page viewer was referred by a recommendation, set it to followed
 	If(!empty($_GET["recomm"])) {
 		$sql = "UPDATE recommendations SET followed='1' WHERE touser='$user' AND band='$band'";
-		$res = mysql_query($sql);
+		$res = mysql_query($sql, $main);
 	}  //Closes If($_GET["recomm"])
 	//end recommedations section
 
@@ -84,8 +84,9 @@ If(!empty($band)) {
 		
 	}//Closes while ($comment_row = mysql_fetch_assoc($query_comment))
 
-} //closes If(!empty($band))
-
+} else { //closes If(!empty($band))
+	echo "Band is empty.<br>";
+}
 ?>
 <div id="userinfo">
 

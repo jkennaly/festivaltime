@@ -13,7 +13,7 @@ $temp_right = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $temp_right)){
 
 	$query="select id, username from Users where username!='".$_SESSION['user']."' AND username IS NOT NULL ";
-	$query_users = mysql_query($query);
+	$query_users = mysql_query($query, $main);
 ?>
 <form action="index.php?disp=view_band&band=<?php echo $band; ?>" method="post">
 <select name="recommend">

@@ -27,37 +27,37 @@ This page allows for viewing the bands and comments.
 	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
-	$query_user = mysql_query($query);
+	$query_user = mysql_query($query, $main);
 	$user_row = mysql_fetch_assoc($query_user);
 	$query="SELECT comment FROM Users, comments WHERE band='$band' AND comments.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_comment = mysql_query($query);
+	$query_comment = mysql_query($query, $main);
 	$comment_row = mysql_fetch_assoc($query_comment);
 
 	If ( isset($_POST['new_comment']) && !isset($comment_row['comment']) ) {
 	$userid = $user_row['id'];
 	$comment = mysql_real_escape_string($_POST["new_comment"]);
 	$sql = "INSERT INTO comments (band, user, comment) VALUES ('$band', '$userid', '$comment')";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 	If ( isset($_POST['new_comment']) && isset($comment_row['comment']) ) {
 	$userid = $user_row['id'];
 	$comment = mysql_real_escape_string($_POST["new_comment"]);
 	$sql = "UPDATE comments SET comment='$comment' WHERE band='$band' AND user='$userid'";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 	If($band){
 	$query="select name from bands where id='$band'";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 	$band_row = mysql_fetch_assoc($query_band);
 	$query="SELECT comment FROM Users, comments WHERE band='$band' AND comments.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_comment = mysql_query($query);
+	$query_comment = mysql_query($query, $main);
 	$comment_row = mysql_fetch_assoc($query_comment);
 	
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, clicks, links.id as link FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' WHERE Users.username='".$_SESSION['user']."' GROUP BY Users.id";
 
-	$query_comment1 = mysql_query($query);
+	$query_comment1 = mysql_query($query, $main);
 
 
 
@@ -157,7 +157,7 @@ If(!isset($i_ret)){
 } else {
 
 	$query="select name, id from bands";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="index.php?disp=view_band" method="post">
 <select name="band">

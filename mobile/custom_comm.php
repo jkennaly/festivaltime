@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
 <?php include('../variables/variables.php'); ?>
+<?php include('../variables/page_variables.php'); ?>
 <?php include('../includes/check_rights.php'); ?>
 <?php session_start(); ?>
 
@@ -34,6 +35,7 @@ mysql_connect($dbhost,$dbuser,$dbpw);
 
 $commstring = mysql_real_escape_string($_GET['commstring']);
 $commtype = mysql_real_escape_string($_GET['commtype']);
+$fromuser = mysql_real_escape_string($_GET['fromuser']);
 
 
 echo "<div id=\"messageconfirm\">";
@@ -46,6 +48,8 @@ echo "</div>";
 <textarea name="commstring" rows="5" style="width:100%;"></textarea>
 <input type="hidden" name="commstring_pre" value="<?php echo $commstring; ?>">
 <input type="hidden" name="commtype" value="6">
+<input type="hidden" name="fromuser" value="<?php echo $fromuser; ?>">
+<input type="hidden" name="band" value="0">
 <input type="submit" name="s" class="mobilebutton" value="Confirm">
 <input type="submit" name="s" class="mobilebutton" value="Cancel">
 

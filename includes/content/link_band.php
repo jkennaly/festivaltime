@@ -27,10 +27,10 @@ This page allows for creating a link to the band.
 	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
-	$query_user = mysql_query($query);
+	$query_user = mysql_query($query, $main);
 	$user_row = mysql_fetch_assoc($query_user);
 	$query="SELECT link FROM Users, links WHERE band='$band' AND links.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_link = mysql_query($query);
+	$query_link = mysql_query($query, $main);
 	$link_row = mysql_fetch_assoc($query_link);
 
 	If ( isset($_POST['new_link']) && !isset($link_row['link']) ) {
@@ -38,7 +38,7 @@ This page allows for creating a link to the band.
 	$link = mysql_real_escape_string($_POST["new_link"]);
 	$descrip = mysql_real_escape_string($_POST["new_descrip"]);
 	$sql = "INSERT INTO links (band, user, link, descrip) VALUES ('$band', '$userid', '$link', '$descrip')";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 	If ( isset($_POST['new_link']) && isset($link_row['link']) ) {
@@ -46,20 +46,20 @@ This page allows for creating a link to the band.
 	$link = mysql_real_escape_string($_POST["new_link"]);
 	$descrip = mysql_real_escape_string($_POST["new_descrip"]);
 	$sql = "UPDATE links SET link='$link', descrip='$descrip', clicks='0' WHERE band='$band' AND user='$userid'";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 	If($band){
 	$query="select name from bands where id='$band'";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 	$band_row = mysql_fetch_assoc($query_band);
 	$query="SELECT link, clicks, descrip FROM Users, links WHERE band='$band' AND links.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_link = mysql_query($query);
+	$query_link = mysql_query($query, $main);
 	$link_row = mysql_fetch_assoc($query_link);
 	
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, clicks, links.id as link FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' WHERE Users.username='".$_SESSION['user']."' GROUP BY Users.id";
 
-	$query_comment1 = mysql_query($query);
+	$query_comment1 = mysql_query($query, $main);
 ?>
 
 
@@ -180,7 +180,7 @@ If(!isset($i_ret)){
 } else {
 
 	$query="select name, id from bands";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="index.php?disp=view_band" method="post">
 <select name="band">

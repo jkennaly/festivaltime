@@ -3,11 +3,8 @@
 
 
 <?php
-mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 
-
-if(!empty($_POST)){ session_destroy(); Login();}
+if(!empty($_POST)){ session_destroy(); Login($main);}
 if(!empty($_SESSION['user'])){
 if(!$_POST) echo "User $uname already logged in. Press Log Out first to change user."; 
 include "home.php";
@@ -32,7 +29,7 @@ else{
 }
 
 
-function Login()
+function Login($mysql_link)
 {
 	if(isset($_SESSION['uid'])){
 		session_destroy();
@@ -50,7 +47,7 @@ function Login()
         return false;
     }
     
-    If(!CheckLoginInDB($_POST['username'],$_POST['password'])){
+    If(!CheckLoginInDB($_POST['username'],$_POST['password'], $mysql_link)){
 		die("That username or password is invalid.");
 		return false;
 	}
@@ -60,24 +57,24 @@ function Login()
     $_SESSION['user'] = mysql_real_escape_string($_POST['username']);
 
 	$query = "select * from Users where username = '".$_SESSION['user']."'";
-	$pwq = mysql_query($query);
+	$pwq = mysql_query($query, $mysql_link);
 	$row = mysql_fetch_assoc($pwq);
 	$_SESSION['level'] = $row['level'];
 	$sql = "UPDATE Users SET count=count+1 WHERE username='".$_SESSION['user']."'";
-	$pwq = mysql_query($sql);
+	$pwq = mysql_query($sql, $mysql_link);
 
 
 
    return true;
 }
 
-function CheckLoginInDB($username,$password)
+function CheckLoginInDB($username,$password, $mysql_link)
 {
 $escapedName = mysql_real_escape_string($username);
 $escapedPW = mysql_real_escape_string($password);
 
 $saltQuery = "select salt from Users where username = '$escapedName';";
-$result = mysql_query($saltQuery);
+$result = mysql_query($saltQuery, $mysql_link);
 
 $row = mysql_fetch_assoc($result);
 $salt = $row['salt'];
@@ -88,7 +85,7 @@ $hashedPW = hash('sha256', $saltedPW);
 
 $query = "select * from Users where username = '$escapedName' and hashedpw = '$hashedPW'; ";
 
-$pwq = mysql_query($query);
+$pwq = mysql_query($query, $mysql_link);
 
 # if nonzero query return then successful login
 

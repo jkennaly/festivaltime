@@ -11,7 +11,7 @@
 
 
 	$query="SELECT bands.id as id, bands.name as name, recommendations.id as recomm from recommendations, bands where touser='$userid' AND followed='0' AND bands.id=recommendations.band limit 0,9";
-	$result=mysql_query($query);
+	$result=mysql_query($query, $main);
 
 //Do not display anything if there are no recommendations to show
 	If (0 != mysql_num_rows($result)) {

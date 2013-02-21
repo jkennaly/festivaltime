@@ -5,7 +5,7 @@
 */
 
 	$query="select username, id from Users";
-	$query_user = mysql_query($query);
+	$query_user = mysql_query($query, $main);
 ?>
 <form action="<?php echo $post_target; ?>" method="post">
 <select name="user">

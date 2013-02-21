@@ -12,9 +12,17 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); ?>
+<?php session_start();
+include('../variables/variables.php'); 
+$main=mysql_connect($dbhost,$dbuser,$dbpw);
+@mysql_select_db($dbname) or die( "Unable to select database");
+
+
+include('../variables/page_variables.php'); 
+include('../includes/check_rights.php'); 
+
+?>
+
 
 <title>Gametime Comms Confirmation</title>
 
@@ -30,11 +38,14 @@ $right_required = "SendComms";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 
-mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname) or die( "Unable to select database");
+
 
 $commstring_inc = mysql_real_escape_string($_GET['commstring']);
 $commtype = mysql_real_escape_string($_GET['commtype']);
+If(!empty($_GET['band'])) {$band = mysql_real_escape_string($_GET['band']);}
+	else $band = 0;
+If(!empty($_GET['fromuser'])) {$fromuser = mysql_real_escape_string($_GET['fromuser']);}
+	else $fromuser = 0;
 
 for($i=1;$i<=6;$i++) {
 
@@ -112,7 +123,7 @@ default:
 
 } //Closes switch ($i)
 
-echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring\">";
+echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser\">";
 echo "<div class=\"band$i band\">
 
 <p class=\"bandname\">".$displaystring."</p>";

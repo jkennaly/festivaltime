@@ -12,7 +12,7 @@ return $passes;
 
 function ExternalIncludeFilter($field, $table, $ext_target, $ext_table, $ext_key, $ext_value){
 	$query="select $ext_target from $ext_table where $ext_key='$ext_value'";
-	$result = mysql_query($query);
+	$result = mysql_query($query, $main, $main);
 	while($row = mysql_fetch_array($result)) {
 		If (!isset($first_pass_complete)) $temp = "(".$table.".".$field."='".$row[$ext_target]."'";
 		If (isset($first_pass_complete)) $temp .= " OR ".$table.".".$field."='".$row[$ext_target]."'";
@@ -24,7 +24,7 @@ return $passes;
 
 function ExternalExcludeFilter($field, $table, $ext_target, $ext_table, $ext_key, $ext_value){
 	$query="select $ext_target from $ext_table where $ext_key='$ext_value'";
-	$result = mysql_query($query);
+	$result = mysql_query($query, $main, $main);
 	while($row = mysql_fetch_array($result)) {
 		If (!isset($first_pass_complete)) $temp = "(".$table.".".$field."!='".$row[$ext_target]."'";
 		If (isset($first_pass_complete)) $temp .= " AND ".$table.".".$field."!='".$row[$ext_target]."'";
@@ -36,7 +36,7 @@ return $passes;
 
 function ExternalMinimumFilter($field, $table, $ext_target, $ext_table, $ext_key, $ext_value){
 	$query="select $ext_target from $ext_table group by $ext_target having $ext_key>$ext_value";
-	$result = mysql_query($query);
+	$result = mysql_query($query, $main);
 	while($row = mysql_fetch_array($result)) {
 		If (!isset($first_pass_complete)) $temp = "(".$table.".".$field."='".$row[$ext_target]."'";
 		If (isset($first_pass_complete)) $temp .= " OR ".$table.".".$field."='".$row[$ext_target]."'";
@@ -48,7 +48,7 @@ return $passes;
 
 function ExternalMaximumFilter($field, $table, $ext_target, $ext_table, $ext_key, $ext_value){
 	$query="select $ext_target from $ext_table group by $ext_target having $ext_key<$ext_value";
-	$result = mysql_query($query);
+	$result = mysql_query($query, $main);
 	while($row = mysql_fetch_array($result)) {
 		If (!isset($first_pass_complete)) $temp = "(".$table.".".$field."='".$row[$ext_target]."'";
 		If (isset($first_pass_complete)) $temp .= " OR ".$table.".".$field."='".$row[$ext_target]."'";

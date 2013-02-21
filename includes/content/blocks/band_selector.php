@@ -5,7 +5,7 @@
 */
 
 	$query="select name, id from bands order by name asc";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="<?php echo $post_target; ?>" method="post">
 <select name="band">

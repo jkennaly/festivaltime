@@ -6,7 +6,7 @@
 
 //Get data for the most recently commented bands
 	$query="SELECT comments.band as id, bands.name as name FROM comments, bands WHERE comments.band=bands.id GROUP BY comments.band ORDER BY MAX(comments.id) desc limit 0,9";
-	$result=mysql_query($query);
+	$result=mysql_query($query, $main);
 	echo "<div id=\"comments\" class=\"activelist\"><p class=\"activehead\">Bands that have recent comments:<a class=\"helplink\" href=\"".$basepage."?disp=about#comments\">Click here for help with this section</a></p><p><ul>";
 while($row = mysql_fetch_array($result)) {
 	echo "<li><a href=\"".$basepage."?disp=view_band&band=".$row["id"]."\">".$row["name"]."</a></li>";

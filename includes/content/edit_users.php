@@ -9,43 +9,43 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 	If(!empty($_POST["delete_user"])){
 		$sql = "DELETE FROM Users WHERE id = '".$_POST["delete_user"]."'";
-		$upd = mysql_query($sql);
+		$upd = mysql_query($sql, $main);
 		$sql2 = "DROP TABLE user_settings_".$_POST["delete_user"]."";
-		$drop = mysql_query($sql2);
+		$drop = mysql_query($sql2, $main);
 	}
 
 	If(!empty($_POST["add_group"])){
 		$check_sql = "select * from Users where id='".$_POST['add_group']."' AND `group` like '%--".$_POST['group']."--%'";
-		$check_res = mysql_query($check_sql);
+		$check_res = mysql_query($check_sql, $main);
 		If(mysql_num_rows($check_res)==0) {
 		$sql = "UPDATE Users SET `group`=CONCAT(`group`, '--".$_POST['group']."--') WHERE id='".$_POST['add_group']."'";
-		$upd = mysql_query($sql);
+		$upd = mysql_query($sql, $main);
 		} else echo "User is already part of that group.<br>";
 	}
 
 	If(!empty($_POST["rmv_group"])){
 		$check_sql = "select * from Users where id='".$_POST['rmv_group']."' AND `group` like '%--".$_POST['group']."--%'";
-		$check_res = mysql_query($check_sql);
+		$check_res = mysql_query($check_sql, $main);
 		If(mysql_num_rows($check_res)==0) {
 		echo "User is not part of that group.<br>";
 		} else {
 			$sql = "select `group` from Users where id='".$_POST['rmv_group']."'";
-			$res = mysql_query($sql);
+			$res = mysql_query($sql, $main);
 			$result = mysql_fetch_array($res);
 
 			$stripped = str_replace ( "--".$_POST['group']."--" , " " , $result['group'] );
 			$query = "UPDATE Users SET `group`='$stripped' where id='".$_POST['rmv_group']."'";
-			$upd = mysql_query($query);
+			$upd = mysql_query($query, $main);
 		}
 	}
 
 /*
 	$sql = "select group from Users where id='".$_POST['add_group']."'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	$result = mysql_fetch_array($res);
 	$stripped = str_replace ( "--".$user."--" , " " , $result['ignored'] );
 	$query = "UPDATE Users SET group='$stripped' where id='".$_POST['add_group']."'";
-	$upd = mysql_query($query);
+	$upd = mysql_query($query, $main);
 
 
 */
@@ -58,9 +58,9 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 
 	$query="SELECT id, username, level, `group` FROM Users ORDER BY level ASC";
-	$mem_result = mysql_query($query);
+	$mem_result = mysql_query($query, $main);
 	$query="SELECT id, name FROM groups ORDER BY id ASC";
-	$query_groups = mysql_query($query);
+	$query_groups = mysql_query($query, $main);
 	
 	
 ?>
@@ -104,7 +104,7 @@ while($row = mysql_fetch_array($mem_result)) {
 	echo "<td>";
 	foreach($g_exp as $g) {
 	$sql_group = "select name from groups where id='$g'";
-	$res_group = mysql_query($sql_group);
+	$res_group = mysql_query($sql_group, $main);
 	while($rowc = mysql_fetch_array($res_group))	echo $rowc["name"]."/";
 	}
 	echo "</td>";

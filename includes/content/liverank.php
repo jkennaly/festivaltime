@@ -56,14 +56,14 @@ $sql = "select * from bands where (sec_end> '$t_10min' and sec_end < '$t_2hr') O
 //echo $sql."<br>";
 
 
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 while($row=mysql_fetch_array($res)) {
 	$active_band[] = $row;
 }//Closes while($row=mysql_fetch_array($res)
 If(!empty($active_band)) {
 $i=0;
 foreach($active_band as $v) {
-	$uscore = uscoref($v['id'], $user, $avg_rating);
+	$uscore = uscoref($v['id'], $user, $avg_rating, $main);
 //	echo "Band id is ".$v['id']."<br>";
 //	echo "Band name is ".$v['name']."<br>";
 //	echo "Band start is ".$v['start']."<br>";
@@ -117,14 +117,14 @@ foreach($active_band as $v) {
 	$i++;
 	
 } //Closes foreach($active_band as $v)
-} //Closes If(!empty($active_band)
+
 
 
 
 
 
 $sql="select max(id) as rows from bands";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $num = mysql_fetch_assoc($res);
 
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
@@ -132,13 +132,13 @@ If(empty($_POST['user'])) $scoreuser = $user;
 
 $sql = "select avg(rating) as average from ratings where ratings.user='$scoreuser'";
 
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $arr = mysql_fetch_assoc($res);
 
 $useravgrating = $arr['average'];
 
 $sql = "select username from Users where id='$scoreuser'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 
@@ -178,13 +178,16 @@ for ($i=1; $i<=12; $i++)
   {
 	$mband=key($uscoreall);
 	$sql="select name from bands where id='$mband'";
-	$name_res = mysql_query($sql);
+	$name_res = mysql_query($sql, $main);
 	$name= mysql_fetch_array($name_res);
 	echo "<tr><td>".key($uscoreall)."</td><th>$i</th><th><a href=\"".$basepage."?disp=view_band&band=".key($uscoreall)."\">".$name['name']."</a></th><td>".current($uscoreall)."</td><td>".$sfeall[key($uscoreall)]."</td><td>".$basescoreall[key($uscoreall)]."</td></tr>";
 	next($uscoreall);
   
   }
 echo "</table>";
+
+} //Closes If(!empty($active_band)
+
 /*
 for ($i=1; $i<=$6; $i++) {
 	echo $mband[$i]."<br>";

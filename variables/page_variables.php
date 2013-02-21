@@ -6,16 +6,20 @@
 *  is loaded.
 */
 
+
+
 //This query collects data about the current band, if one is specified
 If(!empty($_SESSION['user'])) {
 $uname = $_SESSION['user'];
+
+
 
 include $baseinstall."includes/content/blocks/scoring_functions.php";
 include $baseinstall."includes/content/blocks/search_selection_function.php";
 
 
 $query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";
-$query_user = mysql_query($query);
+$query_user = mysql_query($query, $main);
 $user_row = mysql_fetch_assoc($query_user);
 $user = $user_row['id'];
 
@@ -23,13 +27,14 @@ $user = $user_row['id'];
 //Gets the current average rating of all ratings and the current user
 $sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
 
-$res = mysql_query($sql_curr_avg);
+$res = mysql_query($sql_curr_avg, $main);
 $curr_avg_rate = mysql_fetch_assoc($res);
 $avg_rating = $curr_avg_rate['average'];
+If(!(mysql_num_rows($res) > 0)) $avg_rating = "0";
 
 $sql_curr_avg = "select avg(rating) as average from ratings where ratings.user='$user'";
 
-$res = mysql_query($sql_curr_avg);
+$res = mysql_query($sql_curr_avg, $main);
 $curr_avg_rate = mysql_fetch_assoc($res);
 $uavg_rating = $curr_avg_rate['average'];
 
@@ -40,18 +45,20 @@ If( !empty($_REQUEST['band']) || !empty($_REQUEST['comment']) ) {
 
 If( empty($_REQUEST['band']) && !empty($_REQUEST['comment']) ) {
 	$sql = "SELECT band from comments where id='".$_REQUEST['comment']."'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	$arr = mysql_fetch_assoc($res);
 	$band = $arr['band'];
 }  //Closes If( empty($_REQUEST['band']) && !empty($_REQUEST['comment']) )
 
 //If the band parameteris passed, use that
-If(!empty($_REQUEST['band'])) $band = $_REQUEST['band'];
+If(!empty($_REQUEST['band'])) {
+$band = $_REQUEST['band'];
 
-$sql = "SELECT d.name as dayname, s.name as stagename, g.name as genrename, sec_start as stimes, sec_end as etimes, bands.day as day, bands.genre as genre, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-$avg_rating) as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id LEFT JOIN genres as g ON bands.genre=g.id WHERE bands.id='$band'";
+$sql = "SELECT d.name as dayname, s.name as stagename, g.name as genrename, sec_start as stimes, sec_end as etimes, bands.day as day, bands.genre as genre, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-"."0".") as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id LEFT JOIN genres as g ON bands.genre=g.id WHERE bands.id='$band'";
 
 
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
+If(mysql_num_rows($res)>0) {
 $arr = mysql_fetch_assoc($res);
 
 $stimes = $arr['stimes'];
@@ -67,14 +74,16 @@ $score = $arr['score'];
 $dayname = $arr['dayname'];
 $stagename = $arr['stagename'];
 $genrename = $arr['genrename'];
+} // Closes If(!empty($res))
+} // Closes If(!empty($_REQUEST['band']))
+
 
 $sql = "select rating as urating from ratings where user='$user' and band='$band'";
 
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $arr = mysql_fetch_assoc($res);
 
-$urating = $arr['urating'];
-$uscore = uscoref($band, $user, $avg_rating);
+$uscore = uscoref($band, $user, $avg_rating, $main);
 
 
 } // Closes If( !empty($_REQUEST['band']) || !empty($_REQUEST['comment']) )

@@ -14,16 +14,14 @@ $post_target=$basepage."?disp=home#bandlist";
 
 //echo $post_target;
 
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 
 //Get data to make the check lists
 	$query="select name, id from days";
-	$query_day = mysql_query($query);
+	$query_day = mysql_query($query, $main);
 	$query="select name, id from stages";
-	$query_stage = mysql_query($query);
+	$query_stage = mysql_query($query, $main);
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
-	$query_user = mysql_query($query);
+	$query_user = mysql_query($query, $main);
 	$user_row = mysql_fetch_assoc($query_user);
 	$userid = $user_row["id"];
 

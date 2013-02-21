@@ -12,7 +12,7 @@ Having trouble with the site? <a href="mailto:festivaltime.us@gmail.com">Send an
 else{
 	echo "No user is currently logged in.";
 }	
-If(!empty($mysql_link)) mysql_close($mysql_link);
+
 ?></p>
 </div> <!-- end #footer -->
 

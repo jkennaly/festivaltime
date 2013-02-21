@@ -32,7 +32,7 @@ If(!empty($_POST['search_query'])){
 	If(!empty($_POST['bands'])) {
 		
 		$sql = "select id, name from bands where name like '%$escapedQuery%'";
-		$result = mysql_query($sql);
+		$result = mysql_query($sql, $main);
 		If(mysql_num_rows($result) > 0 ) {
 			echo "<h4>The following bands were found like \"<i>$escapedQuery</i>\":</h4>";
 			include $baseinstall."includes/content/blocks/display_bands.php";
@@ -44,7 +44,7 @@ If(!empty($_POST['search_query'])){
 	If(!empty($_POST['comments'])) {
 		
 		$sql = "select comments.id as id, bands.id as band, comment, username, name from comments left join Users on comments.user=Users.id left join bands on comments.band=bands.id where comments.comment like '%$escapedQuery%'";
-		$result = mysql_query($sql);
+		$result = mysql_query($sql, $main);
 		If(mysql_num_rows($result) > 0 ) {
 			echo "<div id=\"commentlist\"><h4>The following comments were found like \"<i>$escapedQuery</i>\":</h4>";
 			while($row=mysql_fetch_array($result)) {
@@ -58,12 +58,12 @@ If(!empty($_POST['search_query'])){
 	If(!empty($_POST['discussions'])) {
 		$j=0; //Nonzero value for $j indicates discussion result
 		$sql = "select comments.id as id, bands.id as band, CONCAT(LEFT(comment, 75), '...') as comment, username, name from comments left join Users on comments.user=Users.id left join bands on comments.band=bands.id where (comments.discussed like '%--%' OR comments.discuss_current like '%--%')";
-		$result = mysql_query($sql);
+		$result = mysql_query($sql, $main);
 		If(mysql_num_rows($result) > 0 ) {
 			while($row=mysql_fetch_array($result)) { //cycles every comment with a discussion
 				//Search through each discussion for the string
 				$query = "select username, response from discussion_".$row['id']." as d left join Users on d.user=Users.id where d.response like '%$escapedQuery%'";
-				$res = mysql_query($query);
+				$res = mysql_query($query, $main);
 				$i=0; //Used to indicate no results found in this discussion yet
 				
 				while($drow=mysql_fetch_array($res)) { //cycles every reply within discussion

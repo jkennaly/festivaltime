@@ -254,7 +254,7 @@ If($sort_active == 1) $sql .= $order;
 
 // echo "<br>$sql<br>";
 
-$result = mysql_query($sql);
+$result = mysql_query($sql, $main);
 
 
 ?>

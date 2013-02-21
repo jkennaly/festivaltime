@@ -1,15 +1,15 @@
 <?php
 //Retunrs a string, formatted according to the users spec'd search engine
-function searchlink($band, $user) {
+function searchlink($band, $user, $mysql_link) {
 //Get user's search engine
 
 $sql = "select value from user_settings_$user where item='Search Engine'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $mysql_link);
 $val = mysql_fetch_array($res);
 
 //Get band name
 $sql = "select name from bands where id='$band'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $mysql_link);
 $value = mysql_fetch_array($res);
 $name=$value['name'];
 

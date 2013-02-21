@@ -4,11 +4,6 @@
 $right_required = "EditFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
-
 //Once the information is submitted, store it in the database
 If($_POST){
 
@@ -19,7 +14,7 @@ If($_POST){
 //Verify that the day name is not already taken
 
 	$query = "select * from stages where name='$escapedStage'";
-	$pwq = mysql_query($query);
+	$pwq = mysql_query($query, $main);
 	$num = mysql_num_rows($pwq);
 
 	If($num){
@@ -28,7 +23,7 @@ If($_POST){
 	else{
 
 		$query = "insert into stages (name) values ('$escapedStage'); ";
-		$upd = mysql_query($query);
+		$upd = mysql_query($query, $main);
 
 		
 	}
@@ -40,7 +35,7 @@ If($_POST){
 mysql_connect($dbhost,$dbuser,$dbpw);
 	@mysql_select_db($dbname) or die( "Unable to select database");
 	$query="SELECT name FROM stages ORDER BY id ASC";
-	$mem_result = mysql_query($query);
+	$mem_result = mysql_query($query, $main);
 
 ?>
 <p>
@@ -55,7 +50,7 @@ This page allows for adding new stages to the festival.
 </tr>
 <tr>
 <td>
-<input type="text" name="stage" maxlength="100" size ="100">
+<input type="text" autofocus name="stage" maxlength="100" size ="100">
 </td>
 </tr>
 </table>

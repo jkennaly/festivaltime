@@ -15,18 +15,18 @@ $post_target=$basepage."?disp=edit_bands";
 If(!empty($_POST['day'])){
 //Get the date for the day
 		$sql="select date from days where id='".$_POST['day']."'";
-		$res=mysql_query($sql);
+		$res=mysql_query($sql, $main);
 		$row=mysql_fetch_array($res);
 		$fest_day_date = $row['date'];
 
 //Get fest start time and length
 $sql="select value from info where item like 'Festival Start Time%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_start_time = $fest_day_date." ".$row['value'];
 
 $sql="select value from info where item like 'Festival Length%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_length = $row['value'];
 
@@ -57,7 +57,7 @@ If(!empty($_POST['edits'])){
 //Verify that the band name is not already taken
 
 	$query = "select * from bands where name='$escapedName' AND id!='$band'";
-	$pwq = mysql_query($query);
+	$pwq = mysql_query($query, $main);
 	$num = mysql_num_rows($pwq);
 
 	If(!empty($num)){
@@ -90,7 +90,7 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 
 		If(empty($i)){
 		$query = "update bands set name='$escapedName', start='$escapedStart', end='$escapedEnd', day='".$_POST['day']."', stage='".$_POST['stage']."', genre='".$_POST['genre']."', sec_start='$band_start_time_sec', sec_end='$band_end_time_sec', start='$band_start', end='$band_end' where id=$band";
-		$upd = mysql_query($query);
+		$upd = mysql_query($query, $main);
 		$name = $escapedName;
 		$day=$_POST['day'];
 		$stage=$_POST['stage'];
@@ -105,11 +105,11 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 
 //Get data to make the pick lists
 	$query="select name, id from days";
-	$query_day = mysql_query($query);
+	$query_day = mysql_query($query, $main);
 	$query="select name, id from stages";
-	$query_stage = mysql_query($query);
+	$query_stage = mysql_query($query, $main);
 	$query="select name, id from genres";
-	$query_genre = mysql_query($query);
+	$query_genre = mysql_query($query, $main);
 
 
 If(!empty($band)) {

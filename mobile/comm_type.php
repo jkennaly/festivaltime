@@ -107,10 +107,10 @@ default:
 
 } //Closes switch ($i)
 
-If($moreinfo == 0) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring\">";
-If($moreinfo == 1) echo "<a href=\"more_info.php?commtype=$commtype&commstring=$commstring\">";
-If($moreinfo == 2) echo "<a href=\"custom_comm.php?commtype=$commtype&commstring=$commstring\">";
-If($moreinfo == 3) echo "<a href=\"mobile_rate.php?commtype=$commtype&commstring=$commstring&time=$basetime_s\">";
+If($moreinfo == 0) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$user&band=0\">";
+If($moreinfo == 1) echo "<a href=\"more_info.php?commtype=$commtype&commstring=$commstring&fromuser=$user&band=0\">";
+If($moreinfo == 2) echo "<a href=\"custom_comm.php?commtype=$commtype&commstring=$commstring&fromuser=$user&band=0\">";
+If($moreinfo == 3) echo "<a href=\"mobile_rate.php?commtype=$commtype&commstring=$commstring&time=$basetime_s&fromuser=$user&band=0\">";
 echo "<div class=\"band$i band\">
 
 <p class=\"bandname\">".$displaystring."</p>";

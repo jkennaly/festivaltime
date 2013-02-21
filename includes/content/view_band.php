@@ -25,7 +25,7 @@ This page allows for viewing the bands and comments.<a class="helplink" href="<?
 //If no band is passed through GET or POST, display a selector
 
 	$query="select name, id from bands";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="index.php?disp=view_band" method="post">
 <select name="band">

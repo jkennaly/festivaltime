@@ -30,12 +30,12 @@ If(empty($_POST) || !empty($_POST['portrait'])) {
 
 //Get fest start time and length
 $sql="select value from info where item like 'Festival Start Time%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_start_time = $row['value'];
 
 $sql="select value from info where item like 'Festival Length%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_length = $row['value'];
 
@@ -48,12 +48,12 @@ $sql = "select name as stagename, id from stages where name!='Undetermined'";
 
 //Get list of days
 $sql1 = "select name as dayname, date as daydate from days where name!='Undetermined'";
-$res1 = mysql_query($sql1);
+$res1 = mysql_query($sql1, $main);
 
 //Index is incremented in 5 min increments to draw the table
 
 while($day = mysql_fetch_array($res1)){
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $i=0;
 $fest_start_time_sec = strtotime($day['daydate']." ".$fest_start_time);
 echo "<br> Day date is ".$day['daydate']." and fest start time is ".$fest_start_time;
@@ -79,13 +79,13 @@ for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
 			If(empty($band_name_prev[$j])) $band_name_prev[$j] = 0;
 			$k_temp=$k+300*$l;
 			$sql_band = "select id, name, sec_start, sec_end, start, end, stage from bands where sec_start<='$k_temp' AND sec_end >'$k_temp' AND stage='$j'";
-			$res_band = mysql_query($sql_band);
+			$res_band = mysql_query($sql_band, $main);
 			$row_band = mysql_fetch_array($res_band);
 			If(!empty($row_band['name'])) {
 				$band_current[$j]=1;
 				$rat_sql = "select rating from ratings where user='$user' and band='".$row_band['id']."'";
-				$res_rat = mysql_query($rat_sql);
-				$rat_row=mysql_fetch_array($res_rat);
+				$res_rat = mysql_query($rat_sql, $main);
+				$rat_row=mysql_fetch_array($res_rat, $main);
 			}
 			If(empty($row_band['name'])){ $band_current[$j]=0; $ticks[$j]=0;  $ticked[$j]=0; }
 			If($ticked[$j]>0 ) $ticked[$j] = $ticked[$j] +1;
@@ -123,12 +123,12 @@ echo "</table><!-- end .schedtable -->";
 
 //Get fest start time and length
 $sql="select value from info where item like 'Festival Start Time%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_start_time = $row['value'];
 
 $sql="select value from info where item like 'Festival Length%'";
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $fest_length = $row['value'];
 
@@ -142,13 +142,13 @@ unset($day);
 
 //Get the list of stages
 $sql = "select name, id from stages where name!='Undetermined'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 while($row=mysql_fetch_array($res)){
 	$stage[] = $row;
 }
 //Get list of days
 $sql1 = "select id, name, date from days where name!='Undetermined'";
-$res1 = mysql_query($sql1);
+$res1 = mysql_query($sql1, $main);
 while($row=mysql_fetch_array($res1)){
 	$day[] = $row;
 }
@@ -182,14 +182,14 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $band_end = $k+300;
 //See if a band starts at the current time block and pull info if it does
 $sql_band = "select id, name, sec_start, sec_end, start, end, stage from bands where sec_start<'$band_end' AND sec_start>='$k' AND stage='".$stage[$j]['id']."'";
-$res_band = mysql_query($sql_band);
+$res_band = mysql_query($sql_band, $main);
 If(mysql_num_rows($res_band)>0) {
 	$band_row=mysql_fetch_array($res_band);
 	//Find number of blocks
 	$set_time = $band_row['sec_end'] - $band_row['sec_start'];
 	$blocks = $set_time/300;
 	$rat_sql = "select rating from ratings where user='$user' and band='".$band_row['id']."'";
-	$res_rat = mysql_query($rat_sql);
+	$res_rat = mysql_query($rat_sql, $main);
 	$rat_row=mysql_fetch_array($res_rat);
 	//Lay down the band name
 	echo "<td class=\"rating".$rat_row['rating']."\" colspan=\"$blocks\">"."<a href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\">".$band_row['name']."</a></td>";

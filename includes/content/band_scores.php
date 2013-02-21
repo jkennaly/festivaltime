@@ -13,7 +13,7 @@ include $baseinstall."includes/content/blocks/user_selector.php";
 $uscoreall[] = NULL;
 
 $sql="select max(id) as rows from bands";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $num = mysql_fetch_assoc($res);
 
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
@@ -21,13 +21,13 @@ If(empty($_POST['user'])) $scoreuser = $user;
 
 $sql = "select avg(rating) as average from ratings where ratings.user='$scoreuser'";
 
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $arr = mysql_fetch_assoc($res);
 
 $useravgrating = $arr['average'];
 
 $sql = "select username from Users where id='$scoreuser'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 
@@ -39,9 +39,9 @@ echo "Your average rating for all bands is ".$uavg_rating."<br>";
 for ($i=1; $i<=$num["rows"]; $i++)
   {
 	$sql="select name from bands where id='$i'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	$arr[$i] = mysql_fetch_assoc($res);
-	$uscoreall[] = uscoref($i, $scoreuser, $avg_rating);
+	$uscoreall[] = uscoref($i, $scoreuser, $avg_rating, $main);
   	$j=$i;
   }
 

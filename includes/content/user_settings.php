@@ -15,7 +15,7 @@ $post_target = $basepage."?disp=user_settings";
 If(!empty($_POST['chg_setting'])) {	
 	
 	$sql="update user_settings_$user set value='".$_POST['item_select']."' where item='".$_POST['name']."'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 
 	
 
@@ -24,7 +24,7 @@ If(!empty($_POST['chg_setting'])) {
 
 //Cycle through each item
 $query="select item, value from user_settings_$user";
-$result = mysql_query($query);
+$result = mysql_query($query, $main);
 echo mysql_error()."<br>";
 
 while($cycle=mysql_fetch_array($result)) {
@@ -32,13 +32,13 @@ $item = $cycle['item'];
 echo "<h3>$item</h3>";
 
 $sql = "select item from user_settings where name='$item' and value='".$cycle['value']."'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $row = mysql_fetch_array($res);
 echo "<h5>Current selection is ".$row['item']."</h5>";
 
 //Display existing user settings and selectors to change them
 $sql = "select value, item from user_settings where name='$item'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 
 ?>
 <form name="chg_<?php echo $item; ?>"action="<?php echo $post_target; ?>" method="post">

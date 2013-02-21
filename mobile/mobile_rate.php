@@ -64,7 +64,7 @@ $res = mysql_query($sql);
 $i=1;
 while($row = mysql_fetch_array($res)) {
 	$commstring = $commstring_inc." ".$row['name']." with a ";
-	echo "<a href=\"more_info.php?band=".$row['id']."&time=$basetime_s&commtype=3&commstring=$commstring\"><div class=\"band$i band\"><p class=\"bandname\">".$row['name']."</p></div></a>";
+	echo "<a href=\"more_info.php?band=".$row['id']."&time=$basetime_s&commtype=3&commstring=$commstring&fromuser=$user\"><div class=\"band$i band\"><p class=\"bandname\">".$row['name']."</p></div></a>";
 	$i++;
 }
 

@@ -18,7 +18,7 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-	mysql_connect($dbhost,$dbuser,$dbpw);
+	$main = mysql_connect($dbhost,$dbuser,$dbpw);
 	@mysql_select_db($dbname) or die( "Unable to select database");
 
 include('../variables/page_variables.php'); 
@@ -115,7 +115,7 @@ while($row=mysql_fetch_array($res)) {
 If(!empty($active_band)) {
 $i=0;
 foreach($active_band as $v) {
-	$uscore = uscoref($v['id'], $user, $avg_rating);
+	$uscore = uscoref($v['id'], $user, $avg_rating, $main);
 //	echo "Band id is ".$v['id']."<br>";
 //	echo "Band name is ".$v['name']."<br>";
 //	echo "Band start is ".$v['start']."<br>";

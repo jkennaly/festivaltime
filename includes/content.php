@@ -6,7 +6,6 @@ If(empty($_GET["disp"])) $disp = "home";
 //Find all content files that can be displayed
 $old_path = getcwd();
 chdir($baseinstall."includes/content/");
-include $baseinstall."variables/page_variables.php";
 $content_files = glob("*.php");
 chdir($old_path);
 
