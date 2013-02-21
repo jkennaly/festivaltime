@@ -1,7 +1,7 @@
 <?php
 
 //display results
-If(!empty(mysql_num_rows($result))) {
+If(mysql_num_rows($result)>0) {
 echo "<div id=\"bandlist\"><p><ul>";
 echo "<p>Displaying ".mysql_num_rows($result)." results</p>";
 

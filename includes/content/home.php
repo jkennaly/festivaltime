@@ -42,7 +42,8 @@ If(!empty($_GET['disp'])) {
 
 echo "<p>Bands:<a class=\"helplink\" href=\"".$basepage."?disp=about#bands\">Click here for help with this section</a></p>";
 
-include "includes/content/blocks/display_bands.php";
+
+If(!empty($result)) include "includes/content/blocks/display_bands.php";
 
 ?>
 </div> <!-- end #content -->
