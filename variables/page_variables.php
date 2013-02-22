@@ -105,7 +105,9 @@ $res_info=mysql_query($sql_info_get, $main);
 while ($row=mysql_fetch_array($res_info)) {
 	If($row['item']== "Festival id") $fest_id=$row['value'];
 	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
-	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
+	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];	
+	If($row['item']== "Festival Name") $fest_name=$row['value'];
+	If($row['item']== "Festival Year") $fest_year=$row['value'];
 } // Closes while ($row=mysql_fetch_array($res))
 
 

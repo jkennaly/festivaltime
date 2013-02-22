@@ -78,4 +78,21 @@ return $bname;
 
 }
 
+function getFname($source, $festid){
+//This function checks $source table Users for the username of $userid
+
+$sql = "select * from `info_$festid`";
+$res = mysql_query($sql, $source);
+
+
+while ($urow=mysql_fetch_array($res)) {
+	If($urow['item']== "Festival Name") $fest_name=$urow['value'];
+	If($urow['item']== "Festival Year") $fest_year=$urow['value'];
+}
+
+$fname=$fest_name." ".$fest_year;
+return $fname;
+
+}
+
 ?>

@@ -48,7 +48,7 @@ If($_POST['s'] == "Confirm") {
 	$rating = $_POST['rating'];
 		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band' ); ";
 		$upd = mysql_query($query, $main);
-		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id' ); ";
+		$query = "insert into live_rating (comment, rating, user, band, festival) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id' ); ";
 		$upd = mysql_query($query, $master);
 	} // Closes If($commtype == 3)
 } // Closes If($_POST['s'] == "Confirm")
