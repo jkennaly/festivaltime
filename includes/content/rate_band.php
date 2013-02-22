@@ -24,7 +24,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 	}
 
 
-	$band = $_REQUEST["band"];
+//	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
 	$query_user = mysql_query($query, $main);
@@ -38,7 +38,9 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 	$userid = $user_row['id'];
 	$rating = $_POST["new_rating"];
 	$sql = "INSERT INTO ratings (band, user, rating) VALUES ('$band', '$userid', '$rating')";
-	$sql_run = mysql_query($sql, $main);	
+	$sql_run = mysql_query($sql, $main);
+	$sql = "INSERT INTO ratings (band, user, rating, festival) VALUES ('$band_master_id', '$userid', '$rating', '$fest_id')";
+	$sql_run = mysql_query($sql, $master);	
 	}
 
 	If ( isset($_POST['new_rating']) && isset($rating_row['rating']) ) {
@@ -46,7 +48,9 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 	$userid = $user_row['id'];
 	$rating = $_POST["new_rating"];
 	$sql = "UPDATE ratings SET rating='$rating' WHERE band='$band' AND user='$userid'";
-	$sql_run = mysql_query($sql, $main);	
+	$sql_run = mysql_query($sql, $main);
+	$sql = "UPDATE ratings SET rating='$rating' WHERE band='$band_master_id' AND user='$userid'";
+	$sql_run = mysql_query($sql, $master);	
 	}
 
 

@@ -24,7 +24,7 @@ This page allows for making comments.
 	If ($_REQUEST["band"]) {
 		echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to view a different band.</a></p>";
 	}
-	$band = $_REQUEST["band"];
+//	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
 	$query_user = mysql_query($query, $main);
@@ -46,7 +46,9 @@ This page allows for making comments.
 	$userid = $user_row['id'];
 	$comment = mysql_real_escape_string($_POST["new_comment"]);
 	$sql = "UPDATE comments SET comment='$comment' WHERE band='$band' AND user='$userid'";
-	$sql_run = mysql_query($sql, $main);	
+	$sql_run = mysql_query($sql, $main);
+	$sql = "UPDATE comments SET comment='$comment' WHERE band='$band_master_id' AND user='$userid'";
+	$sql_run = mysql_query($sql, $master);	
 	}
 
 	If($band){
