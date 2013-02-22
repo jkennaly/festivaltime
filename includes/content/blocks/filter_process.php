@@ -61,7 +61,7 @@ if(!empty($comments)) {
 	echo "Displaying bands I have commented on.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalIncludeFilter("id", "bands", "band", "comments", "user", $userid);
+		$where .= ExternalIncludeFilter("id", "bands", "band", "comments", "user", $userid, $main);
 		$where_active = 1;
 	}
 
@@ -70,7 +70,7 @@ if(!empty($comments)) {
 	echo "Displaying bands I have not commented on.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalExcludeFilter("id", "bands", "band", "comments", "user", $userid);
+		$where .= ExternalExcludeFilter("id", "bands", "band", "comments", "user", $userid, $main);
 		$where_active = 1;
 	}
 
@@ -78,7 +78,7 @@ if(!empty($comments)) {
 	echo "Displaying bands no one has commented on.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalExcludeFilter("id", "bands", "band", "comments", "'1'", "1");
+		$where .= ExternalExcludeFilter("id", "bands", "band", "comments", "'1'", "1", $main);
 		$where_active = 1;
 
 	}
@@ -87,7 +87,7 @@ if(!empty($comments)) {
 	echo "Displaying bands someone has commented on.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalIncludeFilter("id", "bands", "band", "comments", "'1'", "1");
+		$where .= ExternalIncludeFilter("id", "bands", "band", "comments", "'1'", "1", $main);
 		$where_active = 1;
 
 	}
@@ -96,7 +96,7 @@ if(!empty($comments)) {
 	echo "Displaying bands many have commented on.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalMinimumFilter("id", "bands", "band", "comments", "count(*)", "2");
+		$where .= ExternalMinimumFilter("id", "bands", "band", "comments", "count(*)", "2", $main);
 		$where_active = 1;
 
 	}
@@ -114,31 +114,31 @@ if(!empty($ratings)) {
 {
 case "ihave":
 	echo "Displaying bands I have rated.<br>";
-	$where .= ExternalIncludeFilter("id", "bands", "band", "ratings", "user", $userid);
+	$where .= ExternalIncludeFilter("id", "bands", "band", "ratings", "user", $userid, $main);
   break;
 case "ihavenot":
 	echo "Displaying bands I have not rated.<br>";
-		$where .= ExternalExcludeFilter("id", "bands", "band", "ratings", "user", $userid);
+		$where .= ExternalExcludeFilter("id", "bands", "band", "ratings", "user", $userid, $main);
   break;
 case "none":
 	echo "Displaying bands no one has rated.<br>";
-	$where .= ExternalExcludeFilter("id", "bands", "band", "ratings", "'1'", "1");
+	$where .= ExternalExcludeFilter("id", "bands", "band", "ratings", "'1'", "1", $main);
   break;
 case "someone":
 	echo "Displaying bands someone has rated.<br>";
-	$where .= ExternalIncludeFilter("id", "bands", "band", "ratings", "'1'", "1");
+	$where .= ExternalIncludeFilter("id", "bands", "band", "ratings", "'1'", "1", $main);
   break;
 case "many":
 	echo "Displaying bands many have rated.<br>";
-	$where .= ExternalMinimumFilter("id", "bands", "band", "ratings", "count(*)", "2");
+	$where .= ExternalMinimumFilter("id", "bands", "band", "ratings", "count(*)", "2", $main);
   break;
 case "high":
 	echo "Displaying bands with a high rating.<br>";
-	$where .= ExternalMinimumFilter("id", "bands", "band", "ratings", "avg(rating)", "3.5");
+	$where .= ExternalMinimumFilter("id", "bands", "band", "ratings", "avg(rating)", "3.5", $main);
   break;
 case "low":
 	echo "Displaying bands with a low rating.<br>";
-	$where .= ExternalMaximumFilter("id", "bands", "band", "ratings", "avg(rating)", "2.5");
+	$where .= ExternalMaximumFilter("id", "bands", "band", "ratings", "avg(rating)", "2.5", $main);
   break;
 }
 $where_active = 1;
@@ -153,7 +153,7 @@ if(!empty($links)) {
 	echo "Displaying bands I have linked.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalIncludeFilter("id", "bands", "band", "links", "user", $userid);
+		$where .= ExternalIncludeFilter("id", "bands", "band", "links", "user", $userid, $main);
 		$where_active = 1;
 	}
 
@@ -162,7 +162,7 @@ if(!empty($links)) {
 	echo "Displaying bands I have not linked.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalExcludeFilter("id", "bands", "band", "links", "user", $userid);
+		$where .= ExternalExcludeFilter("id", "bands", "band", "links", "user", $userid, $main);
 		$where_active = 1;
 	}
 
@@ -170,7 +170,7 @@ if(!empty($links)) {
 	echo "Displaying bands no one has linked.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalExcludeFilter("id", "bands", "band", "links", "'1'", "1");
+		$where .= ExternalExcludeFilter("id", "bands", "band", "links", "'1'", "1", $main);
 		$where_active = 1;
 
 	}
@@ -179,7 +179,7 @@ if(!empty($links)) {
 	echo "Displaying bands someone has linked.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalIncludeFilter("id", "bands", "band", "links", "'1'", "1");
+		$where .= ExternalIncludeFilter("id", "bands", "band", "links", "'1'", "1", $main);
 		$where_active = 1;
 
 	}
@@ -188,7 +188,7 @@ if(!empty($links)) {
 	echo "Displaying bands many have linked.<br>";
 
 		If ($where_active == 1) $where .= " AND ";
-		$where .= ExternalMinimumFilter("id", "bands", "band", "links", "count(*)", "2");
+		$where .= ExternalMinimumFilter("id", "bands", "band", "links", "count(*)", "2", $main);
 		$where_active = 1;
 
 	}
