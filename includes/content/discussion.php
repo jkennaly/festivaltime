@@ -4,6 +4,8 @@
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
 	$comment = $_REQUEST['comment'];
 
 	$post_target = "index.php?disp=discussion&comment=".$comment;
@@ -181,7 +183,7 @@ If(strpos($comment_row['ignored'], "-$user--")) {
 //No comment selected.
 
 
-mysql_close();
+rmTable($main, "Users");
 
 }
 else{

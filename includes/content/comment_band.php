@@ -6,10 +6,14 @@
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
+
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
+
 ?>
 <p>
 
-This page allows for viewing the bands and comments.
+This page allows for making comments.
 
 </p>
 
@@ -20,10 +24,6 @@ This page allows for viewing the bands and comments.
 	If ($_REQUEST["band"]) {
 		echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to view a different band.</a></p>";
 	}
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
 	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
@@ -173,7 +173,7 @@ while($row = mysql_fetch_array($query_band)) {
 <?php
 	}
 
-mysql_close();
+rmTable($main, "Users");
 }
 else{
 echo "This page requires a higher level access than you currently have.";

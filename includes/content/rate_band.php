@@ -9,11 +9,13 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 ?>
 <p>
 
-This page allows for viewing the bands and comments.
+This page allows for rating the bands.
 
 </p>
 
 <?php
+
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
 	
 	
 
@@ -21,44 +23,44 @@ This page allows for viewing the bands and comments.
 		echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to view a different band.</a></p>";
 	}
 
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 
 	$band = $_REQUEST["band"];
 
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
-	$query_user = mysql_query($query);
+	$query_user = mysql_query($query, $main);
 	$user_row = mysql_fetch_assoc($query_user);
 	$query="SELECT rating FROM Users, ratings WHERE band='$band' AND ratings.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_rating = mysql_query($query);
+	$query_rating = mysql_query($query, $main);
 	$rating_row = mysql_fetch_assoc($query_rating);
 
 	If ( isset($_POST['new_rating']) && !isset($rating_row['rating']) ) {
+	echo "No rating logic entered<br>";
 	$userid = $user_row['id'];
 	$rating = $_POST["new_rating"];
 	$sql = "INSERT INTO ratings (band, user, rating) VALUES ('$band', '$userid', '$rating')";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 	If ( isset($_POST['new_rating']) && isset($rating_row['rating']) ) {
+	echo "With rating logic entered<br>";
 	$userid = $user_row['id'];
 	$rating = $_POST["new_rating"];
 	$sql = "UPDATE ratings SET rating='$rating' WHERE band='$band' AND user='$userid'";
-	$sql_run = mysql_query($sql);	
+	$sql_run = mysql_query($sql, $main);	
 	}
 
 
 	If($band){
 	$query="select name from bands where id='$band'";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 	$band_row = mysql_fetch_assoc($query_band);
 	$query="SELECT rating FROM Users, ratings WHERE band='$band' AND ratings.user=Users.id AND Users.username='".$_SESSION['user']."'";
-	$query_rating = mysql_query($query);
+	$query_rating = mysql_query($query, $main);
 	$rating_row = mysql_fetch_assoc($query_rating);
 	
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, clicks, links.id as link FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' WHERE Users.username='".$_SESSION['user']."' GROUP BY Users.id";
 
-	$query_comment = mysql_query($query);
+	$query_comment = mysql_query($query, $main);
 
 
 
@@ -164,7 +166,7 @@ If(!isset($i_ret)){
 } else {
 
 	$query="select name, id from bands";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="index.php?disp=view_band" method="post">
 <select name="band">
@@ -180,7 +182,7 @@ while($row = mysql_fetch_array($query_band)) {
 <?php
 	}
 
-mysql_close();
+rmTable($main, "Users");
 }
 else{
 echo "This page requires a higher level access than you currently have.";

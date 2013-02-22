@@ -12,14 +12,19 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php session_start();
-include('../variables/variables.php'); 
-$main=mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname) or die( "Unable to select database");
+<?php 
+
+include("../variables/variables.php");
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
 
-include('../variables/page_variables.php'); 
-include('../includes/check_rights.php'); 
+ session_start(); 
+ include('../variables/page_variables.php');  
+ include('../includes/check_rights.php');
 
 ?>
 
@@ -165,7 +170,7 @@ echo "</div> <!--end #comms -->";
 */
 
 
-mysql_close();
+
 }
 else{
 ?>
@@ -177,6 +182,8 @@ You do not have sufficient access rights to view this page.
 
 <?php 
 }
+If(!empty($main)) mysql_close($main);
+If(!empty($master)) mysql_close($master);
 
 ?>
 </div> <!-- end #content -->

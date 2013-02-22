@@ -32,7 +32,7 @@ If(!empty($_POST)) {
 		If(substr($k, 0, 4) == "upd_") {
 			$sql = "UPDATE bands SET festivals=CONCAT(festivals, '$fest_tag') WHERE name='$v' AND festivals NOT LIKE '%$fest_tag%'";
 			$upd = mysql_query($sql, $master);
-		}Closes If(substr($k, 0, 4) == "upd_")
+		} //Closes If(substr($k, 0, 4) == "upd_")
 		If(substr($k, 0, 4) == "add_") {
 			$sql = "INSERT INTO bands (name, festivals) VALUES ('$v', '$fest_tag')";
 			$upd = mysql_query($sql, $master);

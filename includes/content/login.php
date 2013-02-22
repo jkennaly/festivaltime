@@ -4,9 +4,9 @@
 
 <?php
 
-if(!empty($_POST)){ session_destroy(); Login($main);}
+if(!empty($_POST)){ session_destroy(); Login($master);}
 if(!empty($_SESSION['user'])){
-if(!$_POST) echo "User $uname already logged in. Press Log Out first to change user."; 
+if(empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user."; 
 include "home.php";
 }
 else{
@@ -72,10 +72,8 @@ function CheckLoginInDB($username,$password, $mysql_link)
 {
 $escapedName = mysql_real_escape_string($username);
 $escapedPW = mysql_real_escape_string($password);
-
 $saltQuery = "select salt from Users where username = '$escapedName';";
 $result = mysql_query($saltQuery, $mysql_link);
-
 $row = mysql_fetch_assoc($result);
 $salt = $row['salt'];
 

@@ -15,7 +15,7 @@ If($_POST){
 //Verify that the username is not already taken
 
 	$query = "select * from Users where username='$escapedName'";
-	$pwq = mysql_query($query, $main);
+	$pwq = mysql_query($query, $master);
 	$num = mysql_num_rows($pwq);
 
 	If($num){
@@ -32,10 +32,10 @@ If($_POST){
 		$hashedPW = hash('sha256', $saltedPW);
 
 		$query = "insert into Users (username, hashedpw, salt, level, `group`) values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."' ); ";
-		$upd = mysql_query($query, $main);
+		$upd = mysql_query($query, $master);
 //Get the id for the new user
 		$query = "select max(id) as id from Users";
-		$res = mysql_query($query, $main);
+		$res = mysql_query($query, $master);
 		$max = mysql_fetch_array($res);
 
 //Create a settings table for the user
@@ -44,9 +44,9 @@ If($_POST){
 $sql = "CREATE TABLE user_settings_".$max['id']." (id int NOT NULL AUTO_INCREMENT, item varchar( 255 ) NOT NULL ,value varchar( 255 ) NOT NULL, PRIMARY KEY (id))";
 $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_template;";
 
-		$res = mysql_query($sql, $main);
+		$res = mysql_query($sql, $master);
 		echo mysql_error()."<br>";
-		$res = mysql_query($sql2, $main);
+		$res = mysql_query($sql2, $master);
 		echo mysql_error()."<br>";
 	}
 

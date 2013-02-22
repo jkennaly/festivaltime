@@ -25,7 +25,8 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 
  session_start(); 
  include('variables/page_variables.php');  
- include('includes/check_rights.php'); 
+ include('includes/check_rights.php');   
+ include('includes/content/blocks/database_functions.php'); 
 
 
 ?>

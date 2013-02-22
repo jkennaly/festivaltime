@@ -12,10 +12,21 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../variables/page_variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); ?>
+<?php 
+
+include("../variables/variables.php");
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+
+
+ session_start(); 
+ include('../variables/page_variables.php');  
+ include('../includes/check_rights.php');
+
+ ?>
 
 <title>Gametime Comms Confirmation</title>
 
@@ -62,7 +73,7 @@ echo "</div>";
 
 
 
-mysql_close();
+
 }
 }
 else{
@@ -75,6 +86,8 @@ You do not have sufficient access rights to view this page.
 
 <?php 
 }
+If(!empty($main)) mysql_close($main);
+If(!empty($master)) mysql_close($master);
 
 ?>
 </div> <!-- end #content -->

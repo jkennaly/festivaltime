@@ -12,9 +12,21 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); ?>
+<?php 
+
+include("../variables/variables.php");
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+
+
+ session_start(); 
+ include('../variables/page_variables.php');  
+ include('../includes/check_rights.php');
+
+ ?>
 
 <title>Gametime Comms Confirmation</title>
 
@@ -29,37 +41,13 @@ $right_required = "SendComms";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 
-mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname) or die( "Unable to select database");
-
 $query="SELECT id, username FROM Users WHERE username='".$_SESSION['user']."'";
-$query_user = mysql_query($query);
+$query_user = mysql_query($query, $master);
 $user_row = mysql_fetch_array($query_user);
 $user = $user_row['id'];
 $uname = $user_row['username'];
 $basetime_s=mysql_real_escape_string($_GET['time']);
-/*
-$band = $_GET['band'];
 
-
-$sql = "select bands.start as stime, bands.end as etime, stages.name as stage, bands.id as id, bands.name as name from bands, stages where bands.id='$band'";
-$res = mysql_query($sql);
-$band_row = mysql_fetch_array($res);
-$name=$band_row['name'];
-$band=$band_row['id'];
-$stage=$band_row['stage'];
-
-$query="SELECT id, username FROM Users WHERE username='".$_SESSION['user']."'";
-$query_user = mysql_query($query);
-$user_row = mysql_fetch_array($query_user);
-$user = $user_row['id'];
-$uname = $user_row['username'];
-
-
-$stime= substr($band_row['stime'], 11, 5);
-$etime= substr($band_row['etime'], 11, 5);
-$ctime= strftime("%H:%M");
-*/
 echo "<div id=\"upcomingsmall\">";
 
 for($i=1;$i<=2;$i++) {
@@ -123,7 +111,7 @@ echo "</div></a>";
 <?php
 //Get current comms data
 $sql = "select commstring from comms order by id desc";
-$result = mysql_query($sql);
+$result = mysql_query($sql, $main);
 while($row = mysql_fetch_array($result)) {
 	echo "<p>".$row['commstring']."</p>";
 }
@@ -135,7 +123,6 @@ while($row = mysql_fetch_array($result)) {
 </div> <!--end #content -->
 
 <?php 
-mysql_close();
 }
 else{
 ?>
@@ -147,6 +134,8 @@ You do not have sufficient access rights to view this page.
 
 <?php 
 }
+If(!empty($main)) mysql_close($main);
+If(!empty($master)) mysql_close($master);
 
 ?>
 </div> <!-- end #content -->

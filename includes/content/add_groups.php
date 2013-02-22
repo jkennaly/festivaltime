@@ -4,18 +4,12 @@
 $right_required = "EditSite";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
-
 //Once the information is submitted, store it in the database
 If(!empty($_POST)){
 
 //Escape entered info
 
 	$escapedgroup = mysql_real_escape_string($_POST['group']);
-	echo $escapedgroup;
 
 //Verify that the group name is not already taken
 
@@ -24,12 +18,11 @@ If(!empty($_POST)){
 	$num = mysql_num_rows($pwq);
 
 	If(!empty($num)){
-		echo "That genere name is not unique. group not created.";
+		echo "That group name is not unique. group not created.";
 	}
 	else{
 
 		$query = "insert into groups (name, creator) values ('$escapedgroup', $user); ";
-		echo $query;
 		$upd = mysql_query($query, $main);
 
 		
@@ -47,7 +40,7 @@ mysql_connect($dbhost,$dbuser,$dbpw);
 ?>
 <p>
 
-This page allows for adding new stages to the festival.
+This page allows for adding new groups to FestivalTime.
 
 </p>
 <form action="index.php?disp=add_groups" method="post">
@@ -85,8 +78,6 @@ while($row = mysql_fetch_array($mem_result)) {
 <?php
 
 
-
-mysql_close();
 }
 else{
 echo "This page requires a higher level access than you currently have.";

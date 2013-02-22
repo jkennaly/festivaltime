@@ -27,7 +27,7 @@ $arr = mysql_fetch_assoc($res);
 $useravgrating = $arr['average'];
 
 $sql = "select username from Users where id='$scoreuser'";
-$res = mysql_query($sql, $main);
+$res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 

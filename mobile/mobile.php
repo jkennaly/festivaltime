@@ -11,17 +11,23 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile2.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); 
+<?php 
+
+include("../variables/variables.php");
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+
+
+ session_start(); 
+ include('../variables/page_variables.php');  
+ include('../includes/check_rights.php');
 
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-	$main = mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
-include('../variables/page_variables.php'); 
 
 //If there is an incoming Submitted commstring, process it, if it is not cancelled
 If(!empty($_POST)) {
@@ -31,10 +37,10 @@ If($_POST['s'] == "Confirm") {
 	$band = $_POST['band'];
 	//Verify string is not already in db
 	$query = "select * from comms where commstring='$commstring'";
-	$check = mysql_query($query);
+	$check = mysql_query($query, $main);
 	If(mysql_num_rows($check) == 0) {
 		$query = "insert into comms (commstring, displayed, fromuser, band) values ( '$commstring', '0', '$fromuser', '$band' ); ";
-		$upd = mysql_query($query);
+		$upd = mysql_query($query, $main);
 	} //Closes If(mysql_num_rows($check) == 
 } // Closes If($_POST['s'] == "Confirm")
 }// Closes If(!empty($_POST) 
@@ -52,7 +58,7 @@ If($_POST['s'] == "Confirm") {
 //Find the max and min php time asscosated with the dates in the days table
 
 $sql = "select date from days";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $fest_date_min = 0;
 $fest_date_max=0;
 while($row=mysql_fetch_array($res)) {
@@ -108,7 +114,7 @@ $sql = "select * from bands where (sec_end> '$t_10min' and sec_end < '$t_2hr') O
 
 
 
-$res=mysql_query($sql);
+$res=mysql_query($sql, $main);
 while($row=mysql_fetch_array($res)) {
 	$active_band[] = $row;
 }//Closes while($row=mysql_fetch_array($res)
@@ -122,6 +128,8 @@ foreach($active_band as $v) {
 //	echo "Static score for this band is $uscore<br>";
 //	echo "Band end is ".$v['end']."<br>";
 	$total_set = $v['sec_end'] - $v['sec_start'];
+//If the set time is calculated at 0, simulate a set time of 45 min.
+	If($total_set == 0) $total_set = 45*60;
 	$time_to_end = $v['sec_end'] - $t_10min;
 	If($time_to_end>$total_set) $time_to_end = $total_set;
 	$time_to_start = $v['sec_start'] - $t_10min;
@@ -176,7 +184,7 @@ foreach($active_band as $v) {
 
 
 $sql="select max(id) as rows from bands";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $num = mysql_fetch_assoc($res);
 
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
@@ -184,13 +192,13 @@ If(empty($_POST['user'])) $scoreuser = $user;
 
 $sql = "select avg(rating) as average from ratings where ratings.user='$scoreuser'";
 
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $arr = mysql_fetch_assoc($res);
 
 $useravgrating = $arr['average'];
 
 $sql = "select username from Users where id='$scoreuser'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 
@@ -243,17 +251,17 @@ for ($i=1; $i<=$elements; $i++)
   {
 	$mband=key($uscoreall);
 	$sql="select b.name as name, b.id as id, r.rating as rating, sec_start, sec_end, stage from bands as b left join ratings as r on r.band=b.id and r.user='$user' where b.id='$mband'";
-	$res = mysql_query($sql);
+	$res = mysql_query($sql, $main);
 	$row= mysql_fetch_array($res);
 	$sql_avg = "select avg(rating) as avg from ratings where band='$mband'";
-	$res_avg = mysql_query($sql_avg);
+	$res_avg = mysql_query($sql_avg, $main);
 	$row_avg= mysql_fetch_array($res_avg);
 	$sql_stage = "select stages.id as stage from stages, bands where stages.id=bands.stage and bands.id='$mband'";
-	$res_stage = mysql_query($sql_stage);
+	$res_stage = mysql_query($sql_stage, $main);
 	$row_stage= mysql_fetch_array($res_stage);
 	$sql_friends = "SELECT DISTINCT fromuser FROM `comms` where band='$mband' and fromuser!='$user'";
 //	echo $sql_friends."<br>";
-	$res_friends = mysql_query($sql_friends);
+	$res_friends = mysql_query($sql_friends, $main);
 	$row_friends= mysql_fetch_array($res_friends);
 	$num_friends=mysql_num_rows($res_friends);
 	$starts_in = ($row['sec_start'] - $basetime_s )/60;
@@ -386,7 +394,7 @@ for($i=1;$i<=$elements;$i++) {
 <?php
 //Get current comms data
 $sql = "select commstring from comms order by id desc limit 0,6";
-$result = mysql_query($sql);
+$result = mysql_query($sql, $main);
 while($row = mysql_fetch_array($result)) {
 	echo "<p>".$row['commstring']."</p>";
 }
@@ -394,14 +402,6 @@ while($row = mysql_fetch_array($result)) {
 
 <p><?php echo "Current date/time is $basetime"; If($time_is_simmed == 1) echo " Time is simulated";?><p>
 <p>
-<?php 
-/*
-echo "Current fest_span is ";
-echo	$fest_span/3600;
-echo	" hrs. Currently at hour ";
-echo	($basetime_s - $fest_date_min)/3600;
-*/
-?>
 <p>
 </a>
 </div> <!--end #comms -->
@@ -409,7 +409,6 @@ echo	($basetime_s - $fest_date_min)/3600;
 </body>
 
 <?php
-mysql_close();
 
 }
 else{
@@ -424,6 +423,8 @@ You do not have sufficient access rights to view this page.
 
 <?php 
 }
+If(!empty($main)) mysql_close($main);
+If(!empty($master)) mysql_close($master);
 
 ?>
 </html>

@@ -138,7 +138,7 @@ $arr = mysql_fetch_assoc($res);
 $useravgrating = $arr['average'];
 
 $sql = "select username from Users where id='$scoreuser'";
-$res = mysql_query($sql, $main);
+$res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 
@@ -172,15 +172,24 @@ arsort($uscoreall);
 
 echo "<table><tr><th>Band ID</th><th>Live Rank</th><th>Band Name</th><th>Live Score</th><th>Scoring Factor</th><th>Base Score</th></tr>";
 
+
+$max_i = count($uscoreall);
 reset($uscoreall);
 //$j
-for ($i=1; $i<=12; $i++)
+for ($i=1; $i<=$max_i; $i++)
   {
 	$mband=key($uscoreall);
 	$sql="select name from bands where id='$mband'";
 	$name_res = mysql_query($sql, $main);
 	$name= mysql_fetch_array($name_res);
-	echo "<tr><td>".key($uscoreall)."</td><th>$i</th><th><a href=\"".$basepage."?disp=view_band&band=".key($uscoreall)."\">".$name['name']."</a></th><td>".current($uscoreall)."</td><td>".$sfeall[key($uscoreall)]."</td><td>".$basescoreall[key($uscoreall)]."</td></tr>";
+	echo "<tr><td>".key($uscoreall).
+		"</td><th>$i</th><th><a href=\"".$basepage.
+		"?disp=view_band&band=".key($uscoreall).
+		"\">".$name['name'].
+		"</a></th><td>".current($uscoreall).
+		"</td><td>".$sfeall[key($uscoreall)].
+		"</td><td>".$basescoreall[key($uscoreall)].
+		"</td></tr>";
 	next($uscoreall);
   
   }

@@ -74,4 +74,6 @@ mobile/custom_comm.php~
 mobile/mobile.php~
 mobile/mobile_rate.php~
 mobile/more_info.php~
-
+includes/content/blocks/database_functions.php~
+mobile/comm_view.php~
+mobile/mobile_detail.php~

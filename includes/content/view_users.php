@@ -8,7 +8,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 //First, find all users
 
 	$query="SELECT username, level, `group` FROM Users ORDER BY level ASC";
-	$mem_result = mysql_query($query, $main);
+	$mem_result = mysql_query($query, $master);
 
 	
 ?>

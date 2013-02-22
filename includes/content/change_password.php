@@ -54,7 +54,7 @@ $hashedPW = hash('sha256', $saltedPW);
 
 $query = "UPDATE Users SET hashedpw='$hashedPW', salt='$salt' WHERE username = '$escapedName'";
 
-$upd = mysql_query($query, $main);
+$upd = mysql_query($query, $master);
 
 }
 }

@@ -85,7 +85,7 @@ for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
 				$band_current[$j]=1;
 				$rat_sql = "select rating from ratings where user='$user' and band='".$row_band['id']."'";
 				$res_rat = mysql_query($rat_sql, $main);
-				$rat_row=mysql_fetch_array($res_rat, $main);
+				$rat_row=mysql_fetch_array($res_rat);
 			}
 			If(empty($row_band['name'])){ $band_current[$j]=0; $ticks[$j]=0;  $ticked[$j]=0; }
 			If($ticked[$j]>0 ) $ticked[$j] = $ticked[$j] +1;

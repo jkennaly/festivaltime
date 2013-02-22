@@ -24,7 +24,8 @@ If(CheckRights($_SESSION['level'], $temp_right)) echo "<input type=\"checkbox\" 
 
 <?php
 
-		
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
 If(!empty($_POST['search_query'])){
 	$escapedQuery = mysql_real_escape_string($_POST['search_query']);
 	
@@ -85,7 +86,7 @@ If(!empty($_POST['search_query'])){
 
 
 
-
+rmTable($main, "Users");
 }
 else{
 echo "This page requires a higher level access than you currently have.";

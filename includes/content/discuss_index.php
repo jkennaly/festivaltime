@@ -18,7 +18,7 @@ while($row = mysql_fetch_array($result)) {
 	$comment_res = mysql_query($query, $main);
 	$comment_row = mysql_fetch_array($comment_res);
 	$user_query = "select username from Users where id='".$comment_row['user']."'";
-	$user_res = mysql_query($user_query, $main);
+	$user_res = mysql_query($user_query, $master);
 	$user_row = mysql_fetch_array($user_res);
 	$band_query = "select name from bands where id='".$comment_row['band']."'";
 	$band_res = mysql_query($band_query, $main);

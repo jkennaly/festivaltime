@@ -15,14 +15,15 @@ This page allows for creating a link to the band.
 
 <?php
 		include $baseinstall."includes/content/blocks/band_info_home.php";
+
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
 	
 
 	If ($_REQUEST["band"]) {
 		echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to view a different band.</a></p>";
 	}
 
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 
 	$band = $_REQUEST["band"];
 
@@ -195,8 +196,7 @@ while($row = mysql_fetch_array($query_band)) {
 </form>
 <?php
 	}
-
-mysql_close();
+rmTable($main, "Users");
 }
 else{
 echo "This page requires a higher level access than you currently have.";

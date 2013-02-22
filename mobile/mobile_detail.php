@@ -11,9 +11,19 @@
 
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
-<?php include('../variables/variables.php'); ?>
-<?php include('../includes/check_rights.php'); ?>
-<?php session_start(); 
+<?php 
+include("../variables/variables.php");
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+
+
+ session_start(); 
+ include('../variables/page_variables.php');  
+ include('../includes/check_rights.php'); 
+ include('../includes/content/blocks/database_functions.php');
 
 ?>
 <title>Should I check out...</title>
@@ -28,41 +38,28 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-
-	mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-
 	$band = $_REQUEST["band"];
 
 	If(!empty($band)){
 	$query="SELECT AVG(rating) AS avg FROM `ratings` WHERE band='$band'";
-	$query_rating = mysql_query($query);
+	$query_rating = mysql_query($query, $main);
 	$rating_row = mysql_fetch_assoc($query_rating);
 	echo $rating_row['avg'];
 	$query="SELECT SUM(clicks) AS clicks FROM `links` WHERE band='$band'";
-	$query_link = mysql_query($query);
+	$query_link = mysql_query($query, $main);
 	$link_row = mysql_fetch_assoc($query_link);
+	
+//This function pulls the Users data from the master for temporary use
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
+
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";
 	
-	$query_comment = mysql_query($query);
+	$query_comment = mysql_query($query, $main);
 
-/*
-//Gets the current average rating
-$sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
 
-$res = mysql_query($sql_curr_avg);
-$curr_avg_rate = mysql_fetch_assoc($res);
-*/
 $avg_rating = $rating_row['avg'];
-/*
-//Returns current band info
-//Change stime and etime to actual times after set time announcement
-$sql_score_up = "select sec_start as stime, sec_end as etime, stages.name as stage, bands.id as id, bands.name as name from bands left join stages on bands.stage=stages.id where bands.id=$band";
 
-$res = mysql_query($sql_score_up);
-
-$band_row = mysql_fetch_array($res);
-*/
 
 
 /*******************************************************************
@@ -72,14 +69,14 @@ $band_row = mysql_fetch_array($res);
 *******************************************************************/
 
 $sql = "select bands.start as stime, bands.end as etime, stages.name as stage, bands.id as id, bands.name as name, sec_start, sec_end from bands, stages where bands.id='$band'";
-$res = mysql_query($sql);
+$res = mysql_query($sql, $main);
 $band_row = mysql_fetch_array($res);
 $name=$band_row['name'];
 $band=$band_row['id'];
 $stage=$band_row['stage'];
 
 $query="SELECT id, username FROM Users WHERE username='".$_SESSION['user']."'";
-$query_user = mysql_query($query);
+$query_user = mysql_query($query, $main);
 $user_row = mysql_fetch_array($query_user);
 $user = $user_row['id'];
 $uname = $user_row['username'];
@@ -139,7 +136,7 @@ If($time_untils<=0) $time_untils = "On now";
 //Begin display friends at show
 
 $sql_friends = "SELECT DISTINCT username as friend FROM `comms` left join Users on comms.fromuser=Users.id where band='$band' and fromuser!='$user'";
-$res_friends = mysql_query($sql_friends);
+$res_friends = mysql_query($sql_friends, $main);
 $num_friends=mysql_num_rows($res_friends);
 
 If($num_friends>0) {
@@ -212,7 +209,7 @@ If(!isset($i_ret)) {
 } else {
 
 	$query="select name, id from bands";
-	$query_band = mysql_query($query);
+	$query_band = mysql_query($query, $main);
 ?>
 <form action="mobile_detail.php" method="get">
 <select name="band">
@@ -232,6 +229,8 @@ while($row = mysql_fetch_array($query_band)) {
 <?php
 	}
 
+
+rmTable($main, "Users");
 mysql_close();
 }
 else{
@@ -246,6 +245,8 @@ You do not have sufficient access rights to view this page.
 
 <?php 
 }
+If(!empty($main)) mysql_close($main);
+If(!empty($master)) mysql_close($master);
 /*
 <!--- Footer disabled
 <div id="footer_container">

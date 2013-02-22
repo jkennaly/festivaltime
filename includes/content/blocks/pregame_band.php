@@ -15,6 +15,11 @@ If(!empty($band)) {
 //	include $baseinstall."includes/content/blocks/recommendations.php";
 
 	//query to pull basic data
+
+UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
+
+
 	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link, comments.id as comid FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";
 	
 	$query_comment = mysql_query($query, $main);
@@ -115,6 +120,7 @@ If(!isset($i_ret)){
 	} //Closes for ($i=0; $i<=$i_max; $i++)
 
 }//Closes If(!isset($i_ret)) else
+rmTable($main, "Users");
 echo "</div> <!-- end #userinfo -->";
 
 ?>

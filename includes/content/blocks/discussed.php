@@ -29,7 +29,7 @@ while($row = mysql_fetch_array($result)) {
 		IF($j == 0) echo "<div id=\"discussions\" class=\"activelist\"><p class=\"activehead\">Bands that have new discussion activity:<a class=\"helplink\" href=\"".$basepage."?disp=about#discussions\">Click here for help with this section</a></p>";
 		$comment_row = mysql_fetch_array($comment_res);
 		$user_query = "select username from Users where id='".$comment_row['user']."'";
-		$user_res = mysql_query($user_query, $main);
+		$user_res = mysql_query($user_query, $master);
 		$user_row = mysql_fetch_array($user_res);
 		$band_query = "select name from bands where id='".$comment_row['band']."'";
 		$band_res = mysql_query($band_query, $main);
