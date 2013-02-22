@@ -43,8 +43,7 @@ $right_required = "SendComms";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 If(!empty($_GET['commstring']) && !empty($_GET['commtype'])) {
 
-mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname) or die( "Unable to select database");
+
 If(!empty($_GET['commstring_pre'])) $commstring_pre = mysql_real_escape_string($_GET['commstring_pre']);
 $commstring = mysql_real_escape_string($_GET['commstring']);
 $commtype = mysql_real_escape_string($_GET['commtype']);
@@ -54,24 +53,26 @@ If(!empty($_GET['band'])) $band = mysql_real_escape_string($_GET['band']);
 If(empty($_GET['band'])) $band = 0;
 If($commtype == 6) $commstring = $commstring_pre." ".$commstring;
 
-/*
-echo "Current user is ".$_SESSION['user'];
-echo "<br>Band you are announcing is ".$band_row['name'];
-echo "<br>Stage you are announcing is ".$band_row['stage'];
-echo "<br>Start time you are announcing is ".$stime;
-echo "<br>End time you are announcing is ".$etime;
-echo "<br>Current time is ".$ctime;
-*/
+
 echo "<div id=\"messageconfirm\">";
 echo "<br>Message will display as shown on the following line:<br>";
 echo "<p>".$commstring."<p>";
+
+If($commtype == 3) {
+	$rate_comment = mysql_real_escape_string($_GET['rate_comment']);
+	echo "<br>The following comment will be recorded in the database but not broadcast:<br>";
+	echo "<p>".$rate_comment."<p>";
+}
 echo "</div>";
 
 ?>
 <form id="confirmcommform" action="mobile.php" method="post">
 <input type="hidden" name="commstring" value="<?php echo $commstring; ?>">
+<input type="hidden" name="rate_comment" value="<?php echo $rate_comment; ?>">
+<input type="hidden" name="commtype" value="<?php echo $commtype; ?>">
 <input type="hidden" name="fromuser" value="<?php echo $fromuser; ?>">
 <input type="hidden" name="band" value="<?php echo $band; ?>">
+<input type="hidden" name="rating" value="<?php echo $rating; ?>">
 <input type="submit" name="s" class="mobilebutton" value="Confirm">
 <input type="submit" name="s" class="mobilebutton" value="Cancel">
 

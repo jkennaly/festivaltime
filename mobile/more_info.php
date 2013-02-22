@@ -79,9 +79,11 @@ case "3":
 If( $i <6){
   $commstring = $commstring_inc." $i";
   $displaystring = "$i";
+  $rating = $i;
 } else {
   $commstring = $commstring_inc."";
   $displaystring = "Unrated";
+  $rating = 0;
 }
   break;
 case "4":
@@ -128,7 +130,9 @@ default:
 
 } //Closes switch ($i)
 
-echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser\">";
+If($i != 3) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser\">";
+If($commtype == 3) echo "<a href=\"rate_message.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser&band=$band&rating=$rating\">";
+
 echo "<div class=\"band$i band\">
 
 <p class=\"bandname\">".$displaystring."</p>";
@@ -140,15 +144,7 @@ echo "</div></a>";
 
 <?php
 
-/*
 
-echo "Current user is ".$_SESSION['user'];
-echo "<br>Band you are announcing is ".$band_row['name'];
-echo "<br>Stage you are announcing is ".$band_row['stage'];
-echo "<br>Start time you are announcing is ".$stime;
-echo "<br>End time you are announcing is ".$etime;
-echo "<br>Current time is ".$ctime;
-*/
 
 echo "<div id=\"comms\">";
 echo "<br>Message so far:<br>";
@@ -156,18 +152,6 @@ echo "<p>".$_GET['commstring']."<p>";
 echo "</div> <!--end #comms -->";
 
 
-/*
-?>
-<form id="confirmcommform" action="mobile.php" method="post">
-<input type="hidden" name="commstring" value="<?php echo $commstring; ?>">
-<input type="hidden" name="fromuser" value="<?php echo $user; ?>">
-<input type="hidden" name="band" value="<?php echo $band_row['id']; ?>">
-<input type="submit" name="s" class="mobilebutton" value="Confirm">
-<input type="submit" name="s" class="mobilebutton" value="Cancel">
-
-</form>
-<?php
-*/
 
 
 

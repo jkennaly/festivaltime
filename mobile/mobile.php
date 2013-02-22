@@ -33,6 +33,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 If(!empty($_POST)) {
 If($_POST['s'] == "Confirm") {
 	$commstring = $_POST['commstring'];
+	$commtype = $_POST['commtype'];
 	$fromuser = $_POST['fromuser'];
 	$band = $_POST['band'];
 	//Verify string is not already in db
@@ -42,6 +43,14 @@ If($_POST['s'] == "Confirm") {
 		$query = "insert into comms (commstring, displayed, fromuser, band) values ( '$commstring', '0', '$fromuser', '$band' ); ";
 		$upd = mysql_query($query, $main);
 	} //Closes If(mysql_num_rows($check) == 
+	If($commtype == 3) {
+	$rate_comment = $_POST['rate_comment'];
+	$rating = $_POST['rating'];
+		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band' ); ";
+		$upd = mysql_query($query, $main);
+		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id' ); ";
+		$upd = mysql_query($query, $master);
+	} // Closes If($commtype == 3)
 } // Closes If($_POST['s'] == "Confirm")
 }// Closes If(!empty($_POST) 
 //Finished processing commstring

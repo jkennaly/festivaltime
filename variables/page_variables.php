@@ -85,14 +85,7 @@ $genrename = $arr2['genrename'];
 
 } // Closes If(mysql_num_rows($res)>0)
 
-//Get info on current festival
-$sql_info_get="select * from info";
-$res_info=mysql_query($sql_info_get, $main);
-while ($row=mysql_fetch_array($res_info)) {
-	If($row['item']== "Festival id") $fest_id=$row['value'];
-	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
-	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
-} // Closes while ($row=mysql_fetch_array($res))
+
 
 
 
@@ -105,6 +98,16 @@ $uscore = uscoref($band, $user, $avg_rating, $main);
 
 
 } // Closes If( !empty($_REQUEST['band']) || !empty($_REQUEST['comment']) )
+
+//Get info on current festival
+$sql_info_get="select * from info";
+$res_info=mysql_query($sql_info_get, $main);
+while ($row=mysql_fetch_array($res_info)) {
+	If($row['item']== "Festival id") $fest_id=$row['value'];
+	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
+	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
+} // Closes while ($row=mysql_fetch_array($res))
+
 
 } // ClosesIf(!empty($_SESSION['user'])
 

@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="../styles/mobile.css" media="screen" />
 
 <?php 
+
 include("../variables/variables.php");
 
 $main = mysql_connect($dbhost,$dbuser,$dbpw);
@@ -24,6 +25,7 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
  session_start(); 
  include('../variables/page_variables.php');  
  include('../includes/check_rights.php');
+
  ?>
 
 <title>Gametime Comms Confirmation</title>
@@ -37,41 +39,43 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 <?php
 $right_required = "SendComms";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+If(!empty($_GET['commstring']) && ($_GET['commtype'] == 3)) {
 
 
-$query="SELECT id, username FROM Users WHERE username='".$_SESSION['user']."'";
-$query_user = mysql_query($query, $master);
-$user_row = mysql_fetch_array($query_user);
-$user = $user_row['id'];
-$uname = $user_row['username'];
-$basetime_s=mysql_real_escape_string($_GET['time']);
-$commstring_inc=mysql_real_escape_string($_GET['commstring']);
+$commstring = mysql_real_escape_string($_GET['commstring']);
+$commtype = mysql_real_escape_string($_GET['commtype']);
+$fromuser = mysql_real_escape_string($_GET['fromuser']);
+$band = mysql_real_escape_string($_GET['band']);
+$rating = mysql_real_escape_string($_GET['rating']);
 
 
-$ctime= strftime("%H:%M");
-
-echo "<div id=\"upcoming\">";
-
-$sql = "select * from bands where sec_start < '$basetime_s' and sec_end > '0' order by sec_end desc limit 0,6";
-$res = mysql_query($sql, $main);
-$i=1;
-while($row = mysql_fetch_array($res)) {
-	$commstring = $commstring_inc." ".$row['name']." with a ";
-	echo "<a href=\"more_info.php?band=".$row['id']."&time=$basetime_s&commtype=3&commstring=$commstring&fromuser=$user\"><div class=\"band$i band\"><p class=\"bandname\">".$row['name']."</p></div></a>";
-	$i++;
-}
-
+echo "<div id=\"messageconfirm\">";
+echo "<br>Message will display as shown on the following line:<br>";
+echo "<p>".$commstring."<p>";
+echo "</div>";
 
 ?>
-</div> <!--End of #upcoming -->
+<form id="custom" action="comm_confirm.php" autofocus method="get">
+<textarea name="rate_comment" rows="5" style="width:100%;"></textarea>
+<input type="hidden" name="commstring" value="<?php echo $commstring; ?>">
+<input type="hidden" name="commtype" value="<?php echo $commtype; ?>">
+<input type="hidden" name="fromuser" value="<?php echo $fromuser; ?>">
+<input type="hidden" name="band" value="<?php echo $band; ?>">
+<input type="hidden" name="rating" value="<?php echo $rating; ?>">
+<input type="submit" name="s" class="mobilebutton" value="Confirm">
+<input type="submit" name="s" class="mobilebutton" value="Cancel">
 
-<div id="comms">
-<h1>Choose a band to rate</h1>
+</form>
+<?php
 
-</div> <!--end #comms -->
-</div> <!--end #content -->
 
-<?php 
+
+
+
+
+
+
+}
 }
 else{
 ?>
