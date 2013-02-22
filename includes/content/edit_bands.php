@@ -109,7 +109,7 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 	$query="select name, id from stages";
 	$query_stage = mysql_query($query, $main);
 	$query="select name, id from genres";
-	$query_genre = mysql_query($query, $main);
+	$query_genre = mysql_query($query, $master);
 
 
 If(!empty($band)) {

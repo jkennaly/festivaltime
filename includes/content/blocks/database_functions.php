@@ -18,7 +18,7 @@ exec("mysql --user=$targetuser --password=$targetpassword --host=$targethost $ta
 
 exec("rm $path$table.sql");
 
-return "true";
+return true;
 }
 
 function rmTable($target, $table){
@@ -27,7 +27,33 @@ function rmTable($target, $table){
 
    mysql_query("DROP TABLE IF EXISTS `".$table."`", $target) or die(mysql_error());
 
-return "true";
+return true;
+}
+
+function checkTable($source, $target, $stable, $ttable){
+//This function checks to see if $stable in $source matches the $ttable in $target. It retunrs true if they match and false if they do not.
+
+$sql = "select * from `".$ttable."`";
+$valt = mysql_query($sql, $target);
+
+if($valt !== FALSE) {
+	//Table exists in target
+	
+	$sql = "select * from `".$stable."`";
+	$vals = mysql_query($sql, $source);
+	if($vals !== FALSE) {
+		//Table exists in source
+		If(mysql_num_rows($valt) == mysql_num_rows($vals)) {
+			//They have the same number of rows
+			while($row=mysql_fetch_array($vals)) {
+				If($row != mysql_fetch_array($valt) ) return false;
+			}
+		return true;
+		}
+	} //Closes if($vals !== FALSE)
+} //Closes if($valt !== FALSE)
+
+return false;
 }
 
 ?>

@@ -49,7 +49,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 	$query="SELECT id, username, level, `group` FROM Users ORDER BY level ASC";
 	$mem_result = mysql_query($query, $master);
 	$query="SELECT id, name FROM groups ORDER BY id ASC";
-	$query_groups = mysql_query($query, $main);
+	$query_groups = mysql_query($query, $master);
 	
 	
 ?>
@@ -93,7 +93,7 @@ while($row = mysql_fetch_array($mem_result)) {
 	echo "<td>";
 	foreach($g_exp as $g) {
 	$sql_group = "select name from groups where id='$g'";
-	$res_group = mysql_query($sql_group, $main);
+	$res_group = mysql_query($sql_group, $master);
 	while($rowc = mysql_fetch_array($res_group))	echo $rowc["name"]."/";
 	}
 	echo "</td>";

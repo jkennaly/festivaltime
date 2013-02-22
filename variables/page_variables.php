@@ -55,7 +55,7 @@ If(!empty($_REQUEST['band'])) {
 $band = $_REQUEST['band'];
 } // Closes If(!empty($_REQUEST['band']))
 
-$sql = "SELECT d.name as dayname, s.name as stagename, g.name as genrename, sec_start as stimes, sec_end as etimes, bands.day as day, bands.genre as genre, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-"."0".") as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id LEFT JOIN genres as g ON bands.genre=g.id WHERE bands.id='$band'";
+$sql = "SELECT d.name as dayname, s.name as stagename, sec_start as stimes, sec_end as etimes, bands.master_id as master_id, bands.day as day, bands.genre as genre, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-".$avg_rating.") as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id WHERE bands.id='$band'";
 
 
 $res = mysql_query($sql, $main);
@@ -74,8 +74,25 @@ $rating = $arr['rating'];
 $score = $arr['score'];
 $dayname = $arr['dayname'];
 $stagename = $arr['stagename'];
-$genrename = $arr['genrename'];
+$band_master_id = $arr['master_id'];
+
+$sql_genre = "SELECT name as genrename FROM genres WHERE id='$genre'"; 
+$res_genre = mysql_query($sql_genre, $master);
+$arr2 = mysql_fetch_assoc($res_genre);
+$genrename = $arr2['genrename'];
+
+
+
 } // Closes If(mysql_num_rows($res)>0)
+
+//Get info on current festival
+$sql_info_get="select * from info";
+$res_info=mysql_query($sql_info_get, $main);
+while ($row=mysql_fetch_array($res_info)) {
+	If($row['item']== "Festival id") $fest_id=$row['value'];
+	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
+	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
+} // Closes while ($row=mysql_fetch_array($res))
 
 
 

@@ -34,7 +34,7 @@ while($row = mysql_fetch_array($mem_result)) {
 	echo "<td>";
 	foreach($g_exp as $g) {
 		$sql_group = "select name from groups where id='$g'";
-		$res_group = mysql_query($sql_group, $main);
+		$res_group = mysql_query($sql_group, $master);
 		while($rowc = mysql_fetch_array($res_group))	echo $rowc["name"]."/";
 	}// Closes foreach($g_exp as $g)
 	echo "</td></tr>";

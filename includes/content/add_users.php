@@ -53,9 +53,9 @@ $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_t
 }
 
 $access_sql = "select value, name from access_levels";
-$res_sql = mysql_query($access_sql, $main);
+$res_sql = mysql_query($access_sql, $master);
 $group_sql = "select id, name from `groups`";
-$group_res = mysql_query($group_sql, $main);
+$group_res = mysql_query($group_sql, $master);
 
 
 ?>

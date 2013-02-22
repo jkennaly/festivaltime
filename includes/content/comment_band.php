@@ -37,7 +37,9 @@ This page allows for making comments.
 	$userid = $user_row['id'];
 	$comment = mysql_real_escape_string($_POST["new_comment"]);
 	$sql = "INSERT INTO comments (band, user, comment) VALUES ('$band', '$userid', '$comment')";
-	$sql_run = mysql_query($sql, $main);	
+	$sql_run = mysql_query($sql, $main);
+	$sql = "INSERT INTO comments (band, user, comment, festival) VALUES ('$band_master_id', '$userid', '$comment', '$fest_id')";
+	$sql_run = mysql_query($sql, $master);	
 	}
 
 	If ( isset($_POST['new_comment']) && isset($comment_row['comment']) ) {

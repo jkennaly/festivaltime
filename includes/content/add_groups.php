@@ -14,7 +14,7 @@ If(!empty($_POST)){
 //Verify that the group name is not already taken
 
 	$query = "select * from groups where name='$escapedgroup'";
-	$pwq = mysql_query($query, $main);
+	$pwq = mysql_query($query, $master);
 	$num = mysql_num_rows($pwq);
 
 	If(!empty($num)){
@@ -23,7 +23,7 @@ If(!empty($_POST)){
 	else{
 
 		$query = "insert into groups (name, creator) values ('$escapedgroup', $user); ";
-		$upd = mysql_query($query, $main);
+		$upd = mysql_query($query, $master);
 
 		
 	}
@@ -35,7 +35,7 @@ If(!empty($_POST)){
 mysql_connect($dbhost,$dbuser,$dbpw);
 	@mysql_select_db($dbname) or die( "Unable to select database");
 	$query="SELECT name FROM groups ORDER BY name ASC";
-	$mem_result = mysql_query($query, $main);
+	$mem_result = mysql_query($query, $master);
 
 ?>
 <p>

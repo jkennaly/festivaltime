@@ -7,22 +7,8 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 $post_target= $basepage."?disp=update_master";
 
 
-
-//Get info on current festival
-$sql_info_get="select * from info";
-$res_info=mysql_query($sql_info_get, $main);
-echo "<table>";
-while ($row=mysql_fetch_array($res_info)) {
-	echo "<tr><th>".$row['id']."</th><td>".$row['item']."</td><td>".$row['value']."</td></tr>";
-	If($row['item']== "Festival id") $fest_id=$row['value'];
-	If($row['item']== "Festival Identifier Begin") $fest_id_start=$row['value'];
-	If($row['item']== "Festival Identifier End") $fest_id_end=$row['value'];
-} // Closes while ($row=mysql_fetch_array($res))
-echo "</table><br />";
-
-
 //Process any POST data
-If(!empty($_POST)) {
+If(!empty($_POST['upd'])) {
 //	var_dump($_POST);
 	foreach($_POST as $k => $v){
 		$v=mysql_real_escape_string($v);
@@ -49,8 +35,32 @@ If(!empty($_POST)) {
 		$upd = mysql_query($sql, $main);
 		
 	} // Closes foreach($_POST as $k => $v)
-} // Closes If(!empty($_POST))
+} // Closes If(!empty($_POST['upd']))
 
+
+$ttable = "info_".$fest_id;
+
+If(!empty($_POST['info_upd'])) {
+
+UpdateTable($main, $master, "info", $dbuser, $dbpw, $dbhost, $dbname, $master_dbuser, $master_dbpw, $dbhost, $master_db, $baseinstall);
+
+$sql_rename = "RENAME TABLE `info` TO `$ttable`";
+$upd=mysql_query($sql_rename, $master);
+}
+
+
+
+
+If(checkTable($main, $master, "info", $ttable)) {
+	echo "The info table in this festival matches the table in the master database.<br>";
+} else {
+	echo "The info table in this database does not match the master. The button below will update the master to match this database's info. This will destroy any existing info table in the master!<br>";
+?>
+	<form action="<?php echo $post_target; ?>" method="post">
+	<input type="submit" name="info_upd" value="Update Master Info table">
+	</form>
+<?php 
+} //Closes eles If(checkTable($ma...
 
 
 
