@@ -30,7 +30,7 @@ $sql_curr_avg = "select avg(rating) as average from ratings left join bands on r
 $res = mysql_query($sql_curr_avg, $main);
 $curr_avg_rate = mysql_fetch_assoc($res);
 $avg_rating = $curr_avg_rate['average'];
-If(!(mysql_num_rows($res) > 0)) $avg_rating = "0";
+If(empty($avg_rating)) $avg_rating = "0.0";
 
 $sql_curr_avg = "select avg(rating) as average from ratings where ratings.user='$user'";
 

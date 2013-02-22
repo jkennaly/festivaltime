@@ -34,6 +34,8 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 
 	include "includes/content/blocks/recommendations.php";
 
+	include "includes/content/blocks/liveranked.php";
+
 	$i = 1;
 	while ($comment_row = mysql_fetch_assoc($query_comment)) {
 

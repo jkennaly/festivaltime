@@ -56,4 +56,26 @@ if($valt !== FALSE) {
 return false;
 }
 
+function getUname($source, $userid){
+//This function checks $source table Users for the username of $userid
+
+$sql = "select username from `Users` where id='$userid'";
+$res = mysql_query($sql, $source);
+$urow=mysql_fetch_array($res);
+$uname=$urow['username'];
+return $uname;
+
+}
+
+function getBname($source, $bandid){
+//This function checks $source table Users for the username of $userid
+
+$sql = "select name from `bands` where id='$bandid'";
+$res = mysql_query($sql, $source);
+$urow=mysql_fetch_array($res);
+$bname=$urow['name'];
+return $bname;
+
+}
+
 ?>
