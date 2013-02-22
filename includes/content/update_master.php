@@ -51,6 +51,7 @@ $upd=mysql_query($sql_rename, $master);
 //Get info on current festival
 $sql_info_get="select * from info";
 $res_info=mysql_query($sql_info_get, $main);
+echo "<h3>This is the info table for festival #$fest_id</h3>";
 echo "<table>";
 while ($row=mysql_fetch_array($res_info)) {
 	echo "<tr><th>".$row['id']."</th><td>".$row['item']."</td><td>".$row['value']."</td></tr>";
