@@ -24,7 +24,7 @@
 <th>end time</th>
 </tr>
 <tr>
-<td><?php searchlink($band, $user, $main); ?></td>
+<td><?php searchlink($band, $user, $main, $master); ?></td>
 <td><?php echo $dayname; ?></td>
 <td><?php echo $stagename; ?></td>
 <td><?php echo $genrename; ?></td>

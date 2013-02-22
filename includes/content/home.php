@@ -21,7 +21,7 @@ $post_target=$basepage."?disp=home#bandlist";
 	$query="select name, id from stages";
 	$query_stage = mysql_query($query, $main);
 	$query="SELECT id FROM Users WHERE username='".$_SESSION['user']."'";
-	$query_user = mysql_query($query, $main);
+	$query_user = mysql_query($query, $master);
 	$user_row = mysql_fetch_assoc($query_user);
 	$userid = $user_row["id"];
 

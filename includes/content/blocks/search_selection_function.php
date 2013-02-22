@@ -1,10 +1,10 @@
 <?php
 //Retunrs a string, formatted according to the users spec'd search engine
-function searchlink($band, $user, $mysql_link) {
+function searchlink($band, $user, $mysql_link, $mysql_link2) {
 //Get user's search engine
 
 $sql = "select value from user_settings_$user where item='Search Engine'";
-$res = mysql_query($sql, $mysql_link);
+$res = mysql_query($sql, $mysql_link2);
 $val = mysql_fetch_array($res);
 
 //Get band name
