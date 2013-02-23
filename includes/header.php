@@ -1,6 +1,13 @@
-<div id="header">
+<?php
 
-    <h2><?php echo $sitename ?></h2>
+
+
+?>
+
+<div id="header">
+<!--<img src="includes/images/ferriswheel.jpg" >-->
+
+    <h2><?php echo $sitename; ?></h2>
 
 <ul id="headernav">
 	<li><a href="#">My Account</a>
