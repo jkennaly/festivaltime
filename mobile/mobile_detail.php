@@ -64,7 +64,7 @@ $avg_rating = $rating_row['avg'];
 
 /*******************************************************************
 *
-*           End inserted logic for detemrining commstring
+*           Begin inserted logic for detemrining commstring
 *
 *******************************************************************/
 
@@ -135,7 +135,7 @@ If($time_untils<=0) $time_untils = "On now";
 <?php
 //Begin display friends at show
 
-$sql_friends = "SELECT DISTINCT username as friend FROM `comms` left join Users on comms.fromuser=Users.id where band='$band' and fromuser!='$user'";
+$sql_friends = "SELECT DISTINCT username as friend, comms.fromuser as sender FROM `comms` left join Users on comms.fromuser=Users.id where band='$band' and fromuser!='$user'";
 $res_friends = mysql_query($sql_friends, $main);
 $num_friends=mysql_num_rows($res_friends);
 
@@ -144,7 +144,15 @@ echo "<div class=\"friends\"><dl><dt>People at the show:</dt>";
 
 
 while($row=mysql_fetch_array($res_friends)) {
-	echo "<dd>".$row['friend']."</dd>";
+//For each person at the show, check to see if they have issued a live rating, and return the most recent one
+	$sql_raters="select * from live_rating where user='".$row['sender']."' and band='$band' order by id desc limit 0,1";
+	$res_raters=mysql_query($sql_raters, $main);
+	If(mysql_num_rows($res_raters)>0) {
+		$rate_row = mysql_fetch_array($res_raters);
+		echo "<dd>".$row['friend'].":</dd>";
+		If(!empty($rate_row['rating'])) echo "<dt>Rated show a ".$rate_row['rating'].":</dt>";
+		If(!empty($rate_row['comment'])) echo "<dt>Said: ".$rate_row['comment'].":</dt>";
+	} else echo "<dd>".$row['friend']."</dd>";
 }
 echo "</dl></div><!-- end#friends -->";
 } // Closes If($num_friends>0)

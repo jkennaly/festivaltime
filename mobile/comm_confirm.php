@@ -63,7 +63,7 @@ If($commtype == 3) {
 	$rating = mysql_real_escape_string($_GET['rating']);
 	echo "<br>The following comment will be recorded in the database but not broadcast:<br>";
 	echo "<p>".$rate_comment."<p>";
-} else {$rate_comment = 0;}
+} else {$rate_comment = 0; $rating=0;}
 echo "</div>";
 
 ?>
