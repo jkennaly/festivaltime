@@ -40,12 +40,19 @@ If($_POST['s'] == "Confirm") {
 	$query = "select * from comms where commstring='$commstring'";
 	$check = mysql_query($query, $main);
 	If(mysql_num_rows($check) == 0) {
-		$query = "insert into comms (commstring, displayed, fromuser, band) values ( '$commstring', '0', '$fromuser', '$band' ); ";
+		$query = "insert into comms (commstring, displayed, fromuser, band, commtype) values ( '$commstring', '0', '$fromuser', '$band', '$commtype' ); ";
 		$upd = mysql_query($query, $main);
 	} //Closes If(mysql_num_rows($check) == 
 	If($commtype == 3) {
 	$rate_comment = $_POST['rate_comment'];
 	$rating = $_POST['rating'];
+	//If rating is not 6 automatically send a message that the user at the show
+	$loc_query = "select * from comms where commtype='2' and fromuser='$fromuser' and band='$band'";
+	$check = mysql_query($loc_query, $main);
+	If(mysql_num_rows($check) == 0) {
+		$query = "insert into comms (displayed, fromuser, band, commtype) values ( '0', '$fromuser', '$band', '2' ); ";
+		$upd = mysql_query($query, $main);
+	} //Closes If(mysql_num_rows($check) == 
 		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band' ); ";
 		$upd = mysql_query($query, $main);
 		$query = "insert into live_rating (comment, rating, user, band, festival) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id' ); ";
@@ -94,7 +101,7 @@ If(time()>$fest_pre && time()<$fest_post) {
 	$time_is_simmed = 0;
 } else {
 	//Calculate a simulated elapsed time since fest started, plus correction to make simulated times convenient
-	$correction = -53*3600; //-53 hours
+	$correction = 19*3600; //+19 hours
 	$basetime_s = (time()+ $correction) % ($fest_span) + $fest_date_min ;
 	$basetime = strftime("%a %Y-%m-%d %H:%M", $basetime_s);
 	$time_is_simmed = 1;

@@ -211,31 +211,6 @@ text-align:center;
 font-size:150%;
 }
 
-.friends1 {
-color:red !important;
-
-}
-
-.friends2 {
-color:orange !important;
-
-}
-
-.friends3 {
-color:yellow !important;
-
-}
-
-.friends4 {
-color:green !important;
-
-}
-
-.friends5 {
-color:blue !important;
-
-}
-
 
 .friends dt, dd{
 text-decoration:none;

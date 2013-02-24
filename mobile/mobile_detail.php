@@ -149,9 +149,10 @@ while($row=mysql_fetch_array($res_friends)) {
 	$res_raters=mysql_query($sql_raters, $main);
 	If(mysql_num_rows($res_raters)>0) {
 		$rate_row = mysql_fetch_array($res_raters);
-		echo "<dd>".$row['friend'].":</dd>";
-		If(!empty($rate_row['rating'])) echo "<dt>Rated show a ".$rate_row['rating'].":</dt>";
-		If(!empty($rate_row['comment'])) echo "<dt>Said: ".$rate_row['comment'].":</dt>";
+		echo "<dd class=\"friends".$rate_row['rating']."\">".$row['friend'].":";
+		If(!empty($rate_row['rating'])) echo "".$rate_row['rating']."/";
+		If(!empty($rate_row['comment'])) echo "".$rate_row['comment']."";
+		echo "</dd>";
 	} else echo "<dd>".$row['friend']."</dd>";
 }
 echo "</dl></div><!-- end#friends -->";
