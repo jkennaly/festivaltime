@@ -97,41 +97,20 @@ case "4":
   break;
 case "5":
 //other location more info
-  switch ($i)
-{
-case "1":
-  $commstring = $commstring_inc." Sahara Beer Tent"; 
-  $displaystring = "Sahara Beer Tent";
-  break;
-case "2":
-  $commstring = $commstring_inc." Main/Outdoor Beer Tent"; 
-  $displaystring = "Main/Outdoor Beer Tent";
-  break;
-case "3":
-  $commstring = $commstring_inc." Main VIP"; 
-  $displaystring = "Main VIP";
-  break;
-case "4":
-  $commstring = $commstring_inc." Sahara VIP"; 
-  $displaystring = "Sahara VIP";
-  break;
-case "5":
-  $commstring = $commstring_inc." lockers"; 
-  $displaystring = "lockers";
-  break;
-case "6":
-  $commstring = $commstring_inc." Shuttle Pickup"; 
-  $displaystring = "Shuttle Pickup";
-  break;
-
-} //Closes switch ($i)
+	$query="SELECT name, id FROM locations ORDER BY id ASC limit 0,6";
+	If(empty($row_locname)) $mem_result = mysql_query($query, $main);
+	$row_locname=mysql_fetch_array($mem_result);
+	$commstring = $commstring_inc." ".$row_locname['name'];
+  	$displaystring = $row_locname['name'];
+	$location = $row_locname['id'];
   break;
 default:
 
 } //Closes switch ($i)
 
-If($i != 3) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser\">";
+If($commtype != 3 && $commtype != 5) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser\">";
 If($commtype == 3) echo "<a href=\"rate_message.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser&band=$band&rating=$rating\">";
+If($commtype == 5) echo "<a href=\"comm_confirm.php?commtype=$commtype&commstring=$commstring&fromuser=$fromuser&location=$location\">";
 
 echo "<div class=\"band$i band\">
 

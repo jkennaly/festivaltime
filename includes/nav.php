@@ -34,6 +34,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 					<li><a href="<?php echo $basepage; ?>?disp=add_bands">Add Bands</a></li>
 					<li><a href="<?php echo $basepage; ?>?disp=edit_bands">Edit Bands</a></li>
 					<li><a href="<?php echo $basepage; ?>?disp=update_master">Update Master</a></li>
+					<li><a href="<?php echo $basepage; ?>?disp=add_locations">Add Locations</a></li>
 				</ul>
 			</li>
 			<li><a href="#">Site</a>

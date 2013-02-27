@@ -33,13 +33,13 @@ margin:0 auto;
 overflow:auto;
 padding:80px 0;
 width:940px; }
-
+/*
 table, td, th{
 color:white;
 margin:0 auto;
 font-size:150%;
 }
-
+*/
 #band_details{
 margin:120px;
 color:white;
@@ -47,7 +47,7 @@ display:block;
 }
 
 #upcoming {
-height: 75%;
+height: 55%;
 width: 100%;
 font-size: 125%;
 padding: 0.1em;
@@ -63,9 +63,9 @@ padding: 0.1em;
 background-color:black;
 color:white;
 }
-
+/*
 #comms {
-height: 25%;
+height: 45%;
 width: 100%;
 font-size: 125%;
 padding: 0.1em;
@@ -85,7 +85,7 @@ padding:0;
 color:white;
 text-decoration:none;
 }
-
+*/
 #commslarge {
 height: 70%;
 width: 100%;
@@ -135,14 +135,14 @@ float:clear;
 
 .band {
 position:fixed;
-height: 24%;
+height: 17%;
 width: 49%;
 text-align:center;
 border-style:solid;
 display:block;
 }
 .band h1{
-font-size:300%;
+font-size:200%;
 color:white;
 }
 
@@ -153,6 +153,75 @@ float:left;
 .band img:after{
 
 clear:float;
+}
+
+#comms img{
+width:16%;
+display:inline-block;
+margin:0 auto;
+}
+
+table#loctable {
+width:66% !important;
+display:table;
+margin:0 auto;
+}
+
+#loctable td{
+border:1px solid white;
+padding:0em 1em;
+margin:0 auto;
+font-size:200%;
+}
+
+td.blue {
+color:blue;
+text-decoration:none;
+}
+
+td.green {
+color:green;
+text-decoration:none;
+}
+
+td.yellow{
+color:yellow;
+text-decoration:none;
+}
+
+td.orange{
+color:orange;
+text-decoration:none;
+}
+
+td.white {
+color:white;
+text-decoration:none;
+}
+
+td.blue a{
+color:blue;
+text-decoration:none;
+}
+
+td.green a{
+color:green;
+text-decoration:none;
+}
+
+td.yellow a{
+color:yellow;
+text-decoration:none;
+}
+
+td.orange a{
+color:orange;
+text-decoration:none;
+}
+
+td.white a{
+color:white;
+text-decoration:none;
 }
 
 .band1 {
@@ -171,28 +240,28 @@ border-color:green;
 
 .band3 {
 left:0%;
-top:25%;
+top:18%;
 color:yellow;
 border-color:yellow;
 }
 
 .band4 {
 left:50%;
-top:25%;
+top:18%;
 color:orange;
 border-color:orange;
 }
 
 .band5 {
 left:0%;
-top:50%;
+top:36%;
 color:red;
 border-color:red;
 }
 
 .band6 {
 left:50%;
-top:50%;
+top:36%;
 color:purple;
 border-color:purple;
 }

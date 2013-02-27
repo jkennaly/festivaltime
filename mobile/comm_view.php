@@ -50,7 +50,7 @@ $basetime_s=mysql_real_escape_string($_GET['time']);
 
 echo "<div id=\"upcomingsmall\">";
 
-for($i=1;$i<=2;$i++) {
+for($i=1;$i<=4;$i++) {
 switch ($i)
 {
 case "1":
@@ -65,17 +65,17 @@ case "2":
   break;
 case "3":
 //rated requires more info
-  $commtype=$i;
-  $link = "mobile_rate.php?time=$basetime_s&commtype=$i";
-  $commstring = "$ctime $uname rated $name with a ";
-  $displaystring = "rated";
+  $commtype=0;
+  $link = "location_tracker.php?time=$basetime_s";
+  $commstring = "";
+  $displaystring = "Location Tracker";
   break;
 case "4":
-//leaving
+//empty
   $commtype=$i;
   $moreinfo = 0;
-  $commstring = "$ctime $uname leaving $name $stage $stime $etime";
-  $displaystring = "leaving";
+  $commstring = "";
+  $displaystring = "empty";
   break;
 case "5":
 //other location near more info
@@ -120,7 +120,6 @@ while($row = mysql_fetch_array($result)) {
 <p><?php echo $user." is logged on."; ?><p>
 
 </div> <!--end #comms -->
-</div> <!--end #content -->
 
 <?php 
 }

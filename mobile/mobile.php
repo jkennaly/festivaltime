@@ -23,7 +23,8 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 
  session_start(); 
  include('../variables/page_variables.php');  
- include('../includes/check_rights.php');
+ include('../includes/check_rights.php');  
+ include('../includes/content/blocks/database_functions.php');
 
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
@@ -36,11 +37,12 @@ If($_POST['s'] == "Confirm") {
 	$commtype = $_POST['commtype'];
 	$fromuser = $_POST['fromuser'];
 	$band = $_POST['band'];
+	$location = $_POST['location'];
 	//Verify string is not already in db
 	$query = "select * from comms where commstring='$commstring'";
 	$check = mysql_query($query, $main);
 	If(mysql_num_rows($check) == 0) {
-		$query = "insert into comms (commstring, displayed, fromuser, band, commtype) values ( '$commstring', '0', '$fromuser', '$band', '$commtype' ); ";
+		$query = "insert into comms (commstring, displayed, fromuser, band, commtype, location) values ( '$commstring', '0', '$fromuser', '$band', '$commtype', '$location' ); ";
 		$upd = mysql_query($query, $main);
 	} //Closes If(mysql_num_rows($check) == 
 	If($commtype == 3) {
@@ -101,8 +103,10 @@ If(time()>$fest_pre && time()<$fest_post) {
 	$time_is_simmed = 0;
 } else {
 	//Calculate a simulated elapsed time since fest started, plus correction to make simulated times convenient
-	$correction = 19*3600; //+19 hours
+	$correction = 24*3600; //+19 hours
 	$basetime_s = (time()+ $correction) % ($fest_span) + $fest_date_min ;
+	//Comment the following line to unfreeze time
+	$basetime_s = 1365979398;
 	$basetime = strftime("%a %Y-%m-%d %H:%M", $basetime_s);
 	$time_is_simmed = 1;
 } //Closes If($time()>$fest_pre && $time()<$fest_post)
@@ -275,16 +279,23 @@ for ($i=1; $i<=$elements; $i++)
 	$sql_stage = "select stages.id as stage from stages, bands where stages.id=bands.stage and bands.id='$mband'";
 	$res_stage = mysql_query($sql_stage, $main);
 	$row_stage= mysql_fetch_array($res_stage);
-	$sql_friends = "SELECT DISTINCT fromuser FROM `comms` where band='$mband' and fromuser!='$user'";
-//	echo $sql_friends."<br>";
-	$res_friends = mysql_query($sql_friends, $main);
-	$row_friends= mysql_fetch_array($res_friends);
-	$num_friends=mysql_num_rows($res_friends);
+	//Determine how many group members are at the show
+	$num_friends=0;
+	$sql_friends1 = "SELECT Max(id) as id, fromuser FROM `comms` where band='$mband' and fromuser!='$user' and (commtype='2' or commtype='5') group by fromuser";
+	If($i == 3) $test = $sql_friends1."<br>";
+	$res_friends1 = mysql_query($sql_friends1, $main);	
+	while($row_friends1= mysql_fetch_array($res_friends1)) {
+		$sql_friends2 = "SELECT Max(id) as max FROM `comms` where fromuser='".$row_friends1['fromuser']."' AND (commtype='2' OR commtype='5')";
+//	echo $sql_friends2."<br>";
+		$res_friends2 = mysql_query($sql_friends2, $main);
+		$row_friends2= mysql_fetch_array($res_friends2);
+		If($row_friends1['id'] == $row_friends2['max']) $num_friends=$num_friends+1;
+	} //Closes while($row_friends1= my...
 	$starts_in = ($row['sec_start'] - $basetime_s )/60;
 	$starts_in = round( $starts_in, 0 );
 	If($starts_in<=0) {
 		unset($starts_in);
-		$starts_in = "Playing Now";
+		$starts_in = "Now";
 	} else {
 		$starts_in = $starts_in;
 	}// Closes else If($starts_in<=0)
@@ -406,20 +417,41 @@ for($i=1;$i<=$elements;$i++) {
 </div>
 
 <div id="comms">
-<a href="comm_view.php?time=<?php echo $basetime_s; ?>">
+<!--<p><?php echo "Current date/time is $basetime"; If($time_is_simmed == 1) echo " Time is simulated. ";?><p>-->
+
 <?php
+$ctime= strftime("%H:%M");
+  $commtype=3;
+  $uname = getUname($master, $user);
+  $commstring = "$ctime $uname rated ";
+echo "<a href=\"mobile_rate.php?commtype=$commtype&commstring=$commstring&time=$basetime_s&fromuser=$user&band=0\">";
+?>
+<img src="../includes/images/rate2.png">
+</a>
+<?php
+/*
 //Get current comms data
 $sql = "select commstring from comms order by id desc limit 0,6";
 $result = mysql_query($sql, $main);
 while($row = mysql_fetch_array($result)) {
 	echo "<p>".$row['commstring']."</p>";
 }
+*/
+
+
+
+echo "<a href=\"comm_type.php?time=$basetime_s\">";
+$commstring = "$ctime $uname is at ";
 ?>
 
-<p><?php echo "Current date/time is $basetime"; If($time_is_simmed == 1) echo " Time is simulated";?><p>
-<p>
-<p>
+
+<img src="../includes/images/messages.png">
 </a>
+
+<a href="more_info.php?commtype=5&commstring=<?php echo $commstring; ?>&fromuser=<?php echo $user; ?>&band=0">
+<img src="../includes/images/places.png">
+</a>
+<?php include "location_tracker_inlay.php"; ?>
 </div> <!--end #comms -->
 
 </body>

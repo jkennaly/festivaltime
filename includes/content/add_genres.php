@@ -1,7 +1,7 @@
 <div id="content">
 
 <?php
-$right_required = "EditFest";
+$right_required = "AddBands";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 //Once the information is submitted, store it in the database

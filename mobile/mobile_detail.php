@@ -109,13 +109,23 @@ If($time_untils<=0) $time_untils = "On now";
     <div id="header">
         <?php echo $band_row["name"]."-".$band_row["stage"]; ?>
     </div>
-</div>
+</div> <!--end#header_container -->
 
-
+<div id="button_row">
+<a href="comm_confirm.php?commstring=<?php echo $commstring; ?>&commtype=2&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>">
+<img src="../includes/images/checkin.png">
+</a>
+<a href="more_info.php?commstring=<?php echo $commstring; ?>&commtype=3&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>&time=<?php echo $_GET['time']; ?>">
+<img src="../includes/images/rate.png">
+</a>
+<a href="mobile.php">
+<img src="../includes/images/home.png">
+    </a>
+</div><!--end#button_row -->
 
 
 <div id="band_details">
-<a href="comm_confirm.php?commstring=<?php echo $commstring; ?>&commtype=2&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>">
+
 
 <table border="1">
 <tr>
@@ -135,28 +145,65 @@ If($time_untils<=0) $time_untils = "On now";
 <?php
 //Begin display friends at show
 
-$sql_friends = "SELECT DISTINCT username as friend, comms.fromuser as sender FROM `comms` left join Users on comms.fromuser=Users.id where band='$band' and fromuser!='$user'";
-$res_friends = mysql_query($sql_friends, $main);
-$num_friends=mysql_num_rows($res_friends);
 
-If($num_friends>0) {
-echo "<div class=\"friends\"><dl><dt>People at the show:</dt>";
+	//Determine how many group members are at the show
+	$num_friends=0;
+	$sql_friends1 = "SELECT Max(id) as id, fromuser FROM `comms` where band='$band' and fromuser!='$user' and (commtype='2' or commtype='5') group by fromuser";
+//	echo $sql_friends1."<br>";
+	$res_friends1 = mysql_query($sql_friends1, $main);
+	$i=0;	
+	while($row_friends1= mysql_fetch_array($res_friends1)) {
+		$sql_friends2 = "SELECT Max(id) as max FROM `comms` where fromuser='".$row_friends1['fromuser']."' AND (commtype='2' OR commtype='5')";
+//	echo $sql_friends2."<br>";
+		$res_friends2 = mysql_query($sql_friends2, $main);
+		$row_friends2= mysql_fetch_array($res_friends2);
+		$friend[$i]=$row_friends1;
+		$friend[$i]['status']= "left";
+		If($row_friends1['id'] == $row_friends2['max']) {
+			$num_friends=$num_friends+1;
+			$friend[$i]['status']= "present";
+		} //Closes If($row_friends1['id'] == $row_friends2['max'])
+		$i++;
+	} //Closes while($row_friends1= my...
+
+If(!empty($friend)) {
+echo "<div class=\"friends\"><dl>";
 
 
-while($row=mysql_fetch_array($res_friends)) {
+foreach($friend as $k => $v) {
 //For each person at the show, check to see if they have issued a live rating, and return the most recent one
-	$sql_raters="select * from live_rating where user='".$row['sender']."' and band='$band' order by id desc limit 0,1";
-	$res_raters=mysql_query($sql_raters, $main);
-	If(mysql_num_rows($res_raters)>0) {
-		$rate_row = mysql_fetch_array($res_raters);
-		echo "<dd class=\"friends".$rate_row['rating']."\">".$row['friend'].":";
-		If(!empty($rate_row['rating'])) echo "".$rate_row['rating']."/";
-		If(!empty($rate_row['comment'])) echo "".$rate_row['comment']."";
-		echo "</dd>";
-	} else echo "<dd>".$row['friend']."</dd>";
-}
-echo "</dl></div><!-- end#friends -->";
-} // Closes If($num_friends>0)
+	If($v['status'] == "present") {
+		$sql_raters="select * from live_rating where user='".$v['fromuser']."' and band='$band' order by id desc limit 0,1";
+//echo $sql_raters."<br>";
+		$res_raters=mysql_query($sql_raters, $main);
+		If(mysql_num_rows($res_raters)>0) {
+			$rate_row = mysql_fetch_array($res_raters);
+			echo "<dd class=\"friends".$rate_row['rating']."\">".getUname($master, $v['fromuser'])."(at the show):";
+			If(!empty($rate_row['rating'])) echo "".$rate_row['rating']."/";
+			If(!empty($rate_row['comment'])) echo "".$rate_row['comment']."";
+			echo "</dd>";
+		} else echo "<dd>".getUname($master, $v['fromuser'])."(at the show)</dd>";
+	} //Closes If($v['status'] == "present")
+
+	If($v['status'] == "left") {
+		$sql_raters="select * from live_rating where user='".$v['fromuser']."' and band='$band' order by id desc limit 0,1";
+//		echo $sql_raters;
+		$res_raters=mysql_query($sql_raters, $main);
+		If(mysql_num_rows($res_raters)>0) {
+			$rate_row = mysql_fetch_array($res_raters);
+			echo "<dd class=\"friends".$rate_row['rating']."\">".getUname($master, $v['fromuser'])."(left the show):";
+			If(!empty($rate_row['rating'])) echo "".$rate_row['rating']."/";
+			If(!empty($rate_row['comment'])) echo "".$rate_row['comment']."";
+			echo "</dd>";
+		} else echo "<dd>".getUname($master, $v['fromuser'])."(left the show)</dd>";
+	} //Closes If($v['status'] == "present")
+}// Closes foreach($friend as $k => $v)
+
+echo "</dl></div><!-- end .friends -->";
+
+} // Closes If(!empty($friend))
+
+
 
 //End display friends at show
 
@@ -231,7 +278,6 @@ while($row = mysql_fetch_array($query_band)) {
 </select>
 <input type="submit">
 </form>
-</a>
 </div> <!--end #band_details -->
 
 

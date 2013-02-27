@@ -54,11 +54,12 @@ $etime= substr($band_row['etime'], 11, 5);
 */
 $ctime= strftime("%H:%M");
 
-echo "<div id=\"upcoming\">";
+echo "<div id=\"upcomingsmall\">";
 
-for($i=1;$i<=6;$i++) {
+for($i=1;$i<=2;$i++) {
 switch ($i)
 {
+/*
 case "1":
 //will be at
   $commtype=$i;
@@ -87,16 +88,17 @@ case "4":
   $commstring = "";
   $displaystring = "empty";
   break;
-case "5":
+*/
+case "1":
 //other location near more info
-  $commtype=$i;
+  $commtype=5;
   $moreinfo = 1;
   $commstring = "$ctime $uname is at ";
   $displaystring = "I am at";
   break;
-case "6":
+case "2":
 //custom requires more info
-  $commtype=$i;
+  $commtype=6;
   $moreinfo = 2;
   $commstring = "$ctime $uname "; 
   $displaystring = "custom message";
@@ -118,21 +120,20 @@ echo "</div></a>";
 
 
 ?>
-</div> <!--End of #upcoming -->
+</div> <!--End of #upcomingsmall -->
 
-<div id="comms">
+<div id="commslarge">
 <?php
 //Get current comms data
-$sql = "select commstring from comms order by id desc limit 0,6";
+$sql = "select commstring from comms where commtype!='2' AND commtype!='5' AND commtype!='0' order by id desc";
 $result = mysql_query($sql, $main);
 while($row = mysql_fetch_array($result)) {
 	echo "<p>".$row['commstring']."</p>";
 }
 ?>
 
-<p><?php echo $user." is logged on."; ?><p>
 
-</div> <!--end #comms -->
+</div> <!--end #commslarge -->
 </div> <!--end #content -->
 
 <?php 

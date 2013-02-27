@@ -51,6 +51,8 @@ If(!empty($_GET['fromuser'])) $fromuser = mysql_real_escape_string($_GET['fromus
 If(empty($_GET['fromuser'])) $fromuser = $user;
 If(!empty($_GET['band'])) $band = mysql_real_escape_string($_GET['band']);
 If(empty($_GET['band'])) $band = 0;
+If(!empty($_GET['location'])) $location = mysql_real_escape_string($_GET['location']);
+If(empty($_GET['location'])) $location = 0;
 If($commtype == 6) $commstring = $commstring_pre." ".$commstring;
 
 
@@ -74,6 +76,7 @@ echo "</div>";
 <input type="hidden" name="fromuser" value="<?php echo $fromuser; ?>">
 <input type="hidden" name="band" value="<?php echo $band; ?>">
 <input type="hidden" name="rating" value="<?php echo $rating; ?>">
+<input type="hidden" name="location" value="<?php echo $location; ?>">
 <input type="submit" name="s" class="mobilebutton" value="Confirm">
 <input type="submit" name="s" class="mobilebutton" value="Cancel">
 
