@@ -26,7 +26,8 @@ while($row = mysql_fetch_array($result)) {
 	$comment_res = mysql_query($query, $main);
 	
 	If(mysql_num_rows($comment_res) > 0){
-		IF($j == 0) echo "<div id=\"discussions\" class=\"activelist\"><p class=\"activehead\">Bands that have new discussion activity:<a class=\"helplink\" href=\"".$basepage."?disp=about#discussions\">Click here for help with this section</a></p>";
+		$discuss_pics = 1;
+//		IF($j == 0) echo "<div id=\"discussions\" class=\"activelist\"><p class=\"activehead\">Bands that have new discussion activity:<a class=\"helplink\" href=\"".$basepage."?disp=about#discussions\">Click here for help with this section</a></p>";
 		$comment_row = mysql_fetch_array($comment_res);
 		$user_query = "select username from Users where id='".$comment_row['user']."'";
 		$user_res = mysql_query($user_query, $master);
@@ -34,10 +35,11 @@ while($row = mysql_fetch_array($result)) {
 		$band_query = "select name from bands where id='".$comment_row['band']."'";
 		$band_res = mysql_query($band_query, $main);
 		$band_row = mysql_fetch_array($band_res);
-		echo "<p class=\"discussionindex\"><a href=\"$basepage?disp=discussion&comment=".$comment."\">Discuss ".$user_row['username']."'s comment regarding ".$band_row['name']."</a></p>";
+		echo "<table class=\"bandcap\"><caption align=\"bottom\">Discuss ".$band_row['name']."</caption><tr><td><a class=\"pic_row_pic\" href=\"".$basepage."?disp=discussion&comment=".$comment."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$comment_row['band']."\" alt=\"band pic\" /></a></td></tr></table>";
+//		echo "<p class=\"discussionindex\"><a href=\"$basepage?disp=discussion&comment=".$comment."\">Discuss ".$user_row['username']."'s comment regarding ".$band_row['name']."</a></p>";
 		If(!strpos($comment_row['pinned'], "-$user--")) $i=$i+1;
 		$j = $j+1;
-		If($i>3) break;
+		If($i>2) break;
 	} // Closes If(mysql_num_rows($comment_res) > 0)
 	
 	If($i>3) break;

@@ -31,11 +31,54 @@ display:inline;
 
 #navwrapper {
 width:750px;
-height:35px !important;
+height:4em !important;
 padding:2px;
 margin:0px;
 
 
+}
+
+#searchbox input{
+display:inline-block;
+float:right;
+margin-bottom:1em;
+
+}
+
+#searchbox input[type="hidden"]{
+display:none;
+
+
+}
+
+#searchbox after{
+clear:float;
+
+
+}
+
+#genrebands h2{
+clear:both;
+padding-top:1.5em;
+margin-bottom:0.1em;
+}
+
+#band_pic_home {
+float:left;
+margin-right:1em;
+min-height:10em;
+}
+
+table.bandcap {
+float:left;
+margin-right:1em;
+display:inline-block;
+}
+
+p.band_info {
+padding:.25em;
+margin-top:.1em;
+margin-bottom:.1em;
 }
 
 /*Header Account Manager menu */
@@ -106,14 +149,15 @@ margin:0px;
 /*Main Nav Bar */
 #nav{
  /*   font-weight:bold;*/
-    margin-bottom:10px;
+    margin-bottom:5px;
     margin-top:2px;
     padding:0px;
     float:left;
     width:750px;
-    height:100% !important;
+    height:50% !important;
     border-bottom:1px solid #ccc;
     z-index:1;
+    bottom:15%;
 }
 #nav li{
     list-style:none;
@@ -240,6 +284,12 @@ padding:5px;
 width:680px;
 }
 
+
+#commments {
+display:block;
+margin: 105px;
+}
+
 #sidebar {
 width:180px;
 float:right;
@@ -275,11 +325,11 @@ background-color:beige;
 }
 
 #filterday {
-/* display:none; */
+display:none; 
 }
 
 #filterstage {
- /* display:none; */
+display:none; 
 }
 
 #filtertime {
@@ -294,6 +344,13 @@ display:none;
 
 #filterlink {
 
+}
+
+#filtergenre li {
+float:left;
+width: 200px;
+list-style-type: none;
+padding: 2px;
 }
 
 #empty1 {
@@ -313,7 +370,14 @@ float:left;
 width: 374px;
 height: 200px;
 display:inline-block;
+} 
+
+.dualfiltersection {
+float:left;
+width: 750px;
+display:inline-block;
 }
+
 
 .responder {
 border:1px;
@@ -330,31 +394,31 @@ display:block;
 clear:both;
 }
 
-#bandlist {
+.bandlist {
 display:block;
 min-height:1em;
 }
 
 
-#bandlist:hover ul {
+.bandlist:hover ul {
 }
 
-#bandlist ul {
+.bandlist ul {
 width: 750px;
 }
 
-#bandlist ul li {
+.bandlist ul li {
 float:left;
 width: 244px;
 list-style-type: none;
 padding: 2px;
 }
 
-#bandlist a:link {
+.bandlist a:link {
 text-decoration: none;
 }
 
-#bandlist a:visited {
+.bandlist a:visited {
 text-decoration: none;
 }
 
@@ -491,3 +555,23 @@ background-color:white;
 color:black;
 text-decoration:none;
 }
+
+#pic_row {
+width:750px;
+height:155px !important;
+padding:2px;
+margin:0px;
+display:block;
+}
+
+.pic_row_pic img{
+max-height:155px;
+max-width:100%;
+}
+
+td.pic_cell {
+max-height:155px;
+max-width:220px;
+}
+
+

@@ -4,11 +4,13 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-$post_target = $basepage."?disp=search";
 
+
+include $baseinstall."includes/content/blocks/searchbox.php";
+/*
 ?>
 <div id="searchbox">
-<form action="<?php echo $post_target; ?>" method="post">
+<form action="<?php echo $basepage."?disp=search"; ?>" method="post">
 <input type="text" size="64" name="search_query" autofocus="autofocus"></textarea>
 <br>
 <input type="checkbox" checked="checked" name="bands" value="true">Bands</input>
@@ -23,7 +25,7 @@ If(CheckRights($_SESSION['level'], $temp_right)) echo "<input type=\"checkbox\" 
 </div> <!-- end #searchbox -->
 
 <?php
-
+*/
 UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
 
 If(!empty($_POST['search_query'])){

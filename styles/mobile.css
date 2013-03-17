@@ -41,7 +41,7 @@ font-size:150%;
 }
 
 #band_details{
-margin:120px;
+margin:400px 120px 120px 120px;
 color:white;
 display:block;
 }
@@ -228,21 +228,6 @@ table-layout:fixed;
 width:100%;
 }
 
-.details dt, dd {
-display: inline;
-margin: 0;
-color:white;
-padding:0px;
-margin:0px;
-white-space:nowrap;
-overflow:hidden; !important
-}
-
-.details dd:after {
-content: '\A';
-white-space: pre;
-}
-
 .friends {
 text-align:center;
 font-size:150%;
@@ -321,6 +306,15 @@ display: inline-block;
 .score {
 width:33%;
 display: inline-block;
+}
+
+#band_details dd  {
+font-size:300%;
+}
+
+#band_details dd:after {
+content: '\A';
+white-space: pre;
 }
 
 

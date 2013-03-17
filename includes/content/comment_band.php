@@ -36,10 +36,22 @@ This page allows for making comments.
 	If ( isset($_POST['new_comment']) && !isset($comment_row['comment']) ) {
 	$userid = $user_row['id'];
 	$comment = mysql_real_escape_string($_POST["new_comment"]);
-	$sql = "INSERT INTO comments (band, user, comment) VALUES ('$band', '$userid', '$comment')";
+	$sql = "INSERT INTO comments (band, user, comment, discuss_current) VALUES ('$band', '$userid', '$comment', '--".$userid."--')";
 	$sql_run = mysql_query($sql, $main);
+//	echo $sql;
 	$sql = "INSERT INTO comments (band, user, comment, festival) VALUES ('$band_master_id', '$userid', '$comment', '$fest_id')";
 	$sql_run = mysql_query($sql, $master);	
+	//Get id for new comment
+	$sql = "select max(id) as disc from comments";
+	$sql_run = mysql_query($sql, $main);
+	$res = mysql_fetch_array($sql_run);
+	
+	//set $discuss_table for comment
+	$discuss_table = "discussion_".$res['disc'];
+
+	//Create a discussion table for the comment
+	$sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
+	$res = mysql_query($sql, $main);
 	}
 
 	If ( isset($_POST['new_comment']) && isset($comment_row['comment']) ) {

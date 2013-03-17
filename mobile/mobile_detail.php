@@ -68,7 +68,7 @@ $avg_rating = $rating_row['avg'];
 *
 *******************************************************************/
 
-$sql = "select bands.start as stime, bands.end as etime, stages.name as stage, bands.id as id, bands.name as name, sec_start, sec_end from bands, stages where bands.id='$band'";
+$sql = "select bands.start as stime, bands.end as etime, stages.name as stage, bands.id as id, bands.name as name, sec_start, sec_end, genre from bands, stages where bands.id='$band'";
 $res = mysql_query($sql, $main);
 $band_row = mysql_fetch_array($res);
 $name=$band_row['name'];
@@ -93,6 +93,7 @@ $ctime= strftime("%H:%M");
 *******************************************************************/
 
 $commstring = "$ctime $uname is at $name $stage $stime $etime";
+$commstring_rate = "$ctime $uname rated $name with a ";
 
 
 $time_untils = $band_row['sec_start'] - $_GET['time'];
@@ -115,7 +116,7 @@ If($time_untils<=0) $time_untils = "On now";
 <a href="comm_confirm.php?commstring=<?php echo $commstring; ?>&commtype=2&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>">
 <img src="../includes/images/checkin.png">
 </a>
-<a href="more_info.php?commstring=<?php echo $commstring; ?>&commtype=3&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>&time=<?php echo $_GET['time']; ?>">
+<a href="more_info.php?commstring=<?php echo $commstring_rate; ?>&commtype=3&fromuser=<?php echo $user; ?>&band=<?php echo $band; ?>&time=<?php echo $_GET['time']; ?>">
 <img src="../includes/images/rate.png">
 </a>
 <a href="mobile.php">
@@ -126,21 +127,22 @@ If($time_untils<=0) $time_untils = "On now";
 
 <div id="band_details">
 
+<div class="band_info"><dl>
 
-<table border="1">
-<tr>
-<th>band name</th>
-<th>average rating</th>
-<th>min until start</th>
-<th>min until end</th>
-</tr>
-<tr>
-<td><?php echo $band_row['name']; ?></td>
-<td><?php echo round($avg_rating, 1); ?></td>
-<td><?php echo $time_untils; ?></td>
-<td><?php echo $time_untile; ?></td>
-</tr>
-</table>
+<dd><?php echo $band_row['name']; ?></dd>
+<dd><?php echo getGname($master, $band_row['genre']); ?></dd>
+<dd>Group average: <?php echo round($avg_rating, 1); ?></dd>
+<dd>
+<?php
+If($time_untils>0) echo "Starts in ".$time_untils." min</dd>";
+else echo "Ends in ".$time_untile." min</dd>";
+
+
+?>
+
+</dl></div><!---End .band_info -->
+
+
 
 <?php
 //Begin display friends at show

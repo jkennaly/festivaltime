@@ -1,5 +1,10 @@
 <div id="navwrapper">
 
+
+<?php
+include $baseinstall."includes/content/blocks/searchbox.php";
+?>
+
 <ul id="nav">
 
 	<li><a href="<?php echo $basepage; ?>?disp=home">Home</a></li>
@@ -7,7 +12,6 @@
 	<li><a href="<?php echo $basepage; ?>?disp=guide">Site Guide</a></li>
 	<li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
 	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Gametime</a></li>
-	<li><a href="<?php echo $basepage; ?>?disp=search">Search</a></li>
 	<li><a href="<?php echo $forumbase; ?>">Forum</a></li>
 
 <?php
@@ -49,7 +53,8 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			<ul><li><a href="<?php echo $basepage; ?>?disp=discuss_index">Discussion Index</a></li></ul>
 		</li>
 		<li><a href="#">Stats</a>
-			<ul><li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li></ul>
+			<ul><li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
+			<li><a href="<?php echo $basepage; ?>?disp=best_path">Best Path</a></li></ul>
 						
 		</li>
 		<li><a href="#">Development</a>

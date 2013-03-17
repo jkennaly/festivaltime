@@ -42,6 +42,19 @@ while($row = mysql_fetch_array($query_stage)) {
 </p>
 </div><!-- End #filterstage -->
 
+<div id="filtergenre" class="dualfiltersection">
+<p>
+Filter by genre:
+<ul>
+<?php
+while($row = mysql_fetch_array($query_genre)) {
+	echo "<li><input type=\"checkbox\" name=\"genre[]\" value=\"".$row["id"]."\">".$row["name"]."</li>";
+}
+?>
+</ul>
+</p>
+</div><!-- End #filtergenre -->
+
 <div id="sortorder" class="filtersection">
 <p>
 Sort order:
@@ -121,6 +134,8 @@ Filter by links:
 <br />
 
 
-<input type="submit" value="Show my bands">
+<?php //If(isset($_SESSION['filter'])) echo "<input type=\"submit\" name=\"old\" value=\"Run my previous filter\">"; ?>
+<input type="submit" name="new" value="Use selected filter">
 </form>
+
 </div><!-- End #filter -->

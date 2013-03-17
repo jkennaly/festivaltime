@@ -78,7 +78,7 @@ for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
 			If(empty($ticks[$j])) $ticks[$j] = 0;
 			If(empty($band_name_prev[$j])) $band_name_prev[$j] = 0;
 			$k_temp=$k+300*$l;
-			$sql_band = "select id, name, sec_start, sec_end, start, end, stage from bands where sec_start<='$k_temp' AND sec_end >'$k_temp' AND stage='$j'";
+			$sql_band = "select id, name, sec_start, sec_end, start, end, stage, genre from bands where sec_start<='$k_temp' AND sec_end >'$k_temp' AND stage='$j'";
 			$res_band = mysql_query($sql_band, $main);
 			$row_band = mysql_fetch_array($res_band);
 			If(!empty($row_band['name'])) {
@@ -92,7 +92,7 @@ for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
 			If(empty($band_current[$j])) $band_current[$j]=0;
 			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
 If(    (   ($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
-			If($ticked[$j] == 1 ) echo "<td class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."</a></td>";
+			If($ticked[$j] == 1 ) echo "<td class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getGname($master, $row_band['genre'])."</a></td>";
 			If($ticked[$j] == 0 ) echo "<td></td>";
 			$band_current_prev[$j] = $band_current[$stageid[$j-1]['id']];
 			$band_name_prev[$j] = $row_band['name'];
@@ -181,7 +181,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 
 $band_end = $k+300;
 //See if a band starts at the current time block and pull info if it does
-$sql_band = "select id, name, sec_start, sec_end, start, end, stage from bands where sec_start<'$band_end' AND sec_start>='$k' AND stage='".$stage[$j]['id']."'";
+$sql_band = "select id, name, sec_start, sec_end, start, end, stage, genre from bands where sec_start<'$band_end' AND sec_start>='$k' AND stage='".$stage[$j]['id']."'";
 $res_band = mysql_query($sql_band, $main);
 If(mysql_num_rows($res_band)>0) {
 	$band_row=mysql_fetch_array($res_band);
@@ -192,7 +192,7 @@ If(mysql_num_rows($res_band)>0) {
 	$res_rat = mysql_query($rat_sql, $main);
 	$rat_row=mysql_fetch_array($res_rat);
 	//Lay down the band name
-	echo "<td class=\"rating".$rat_row['rating']."\" colspan=\"$blocks\">"."<a href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\">".$band_row['name']."</a></td>";
+	echo "<td class=\"rating".$rat_row['rating']."\" colspan=\"$blocks\">"."<a href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\">".$band_row['name']."<br />".getGname($master, $band_row['genre'])."</a></td>";
 	//Skip index to end of band
 	$k = $band_row['sec_end'] - 300;
 } else {

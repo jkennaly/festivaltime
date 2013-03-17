@@ -1,39 +1,59 @@
 
 <?php
+If(!empty($_POST['new']) || !empty($_POST['all_bands'])) {
+unset($_SESSION['filter']);
+	If(!empty($_POST['day'])) $_SESSION['filter']['day']= $_POST['day'];
+	If(!empty($_POST['stage'])) $_SESSION['filter']['stage']= $_POST['stage'];
+	If(!empty($_POST['genre'])) $_SESSION['filter']['genre']= $_POST['genre'];
+	If(!empty($_POST['time'])) $_SESSION['filter']['time']= $_POST['time'];
+	If(!empty($_POST['comments'])) $_SESSION['filter']['comments']= $_POST['comments'];
+	If(!empty($_POST['ratings'])) $_SESSION['filter']['ratings']= $_POST['ratings'];
+	If(!empty($_POST['links'])) $_SESSION['filter']['links']= $_POST['links'];
+	If(!empty($_POST['sort'])) $_SESSION['filter']['sort']= $_POST['sort'];
 
-
+} //Closes If(!empty($_POST['new']))
+/*
+echo "filter_process test";
+var_dump($_SESSION['filter']);
+*/
 //Pull the POST data into regular arrays
-if(!empty($_POST['day'])) {
-	$where .= MatchFilter($_POST['day'], "day", "bands");
+if(!empty($_SESSION['filter']['day'])) {
+	$where .= MatchFilter($_SESSION['filter']['day'], "day", "bands");
 	$where_active = 1;
 }
 
-if(!empty($_POST['stage'])) {
-    foreach($_POST['stage'] as $check) {
+if(!empty($_SESSION['filter']['stage'])) {
+    foreach($_SESSION['filter']['stage'] as $check) {
             $stage[]= $check;
     }
 }
 
-if(!empty($_POST['time'])) {
-    foreach($_POST['time'] as $check) {
+if(!empty($_SESSION['filter']['genre'])) {
+    foreach($_SESSION['filter']['genre'] as $check) {
+            $genre[]= $check;
+    }
+}
+
+if(!empty($_SESSION['filter']['time'])) {
+    foreach($_SESSION['filter']['time'] as $check) {
             $time[]= $check;
     }
 }
 
-if(!empty($_POST['comments'])) {
-    foreach($_POST['comments'] as $check) {
+if(!empty($_SESSION['filter']['comments'])) {
+    foreach($_SESSION['filter']['comments'] as $check) {
             $comments[]= $check;
     }
 }
 
-if(!empty($_POST['ratings'])) {
-    foreach($_POST['ratings'] as $check) {
+if(!empty($_SESSION['filter']['ratings'])) {
+    foreach($_SESSION['filter']['ratings'] as $check) {
             $ratings[]= $check;
     }
 }
 
-if(!empty($_POST['links'])) {
-    foreach($_POST['links'] as $check) {
+if(!empty($_SESSION['filter']['links'])) {
+    foreach($_SESSION['filter']['links'] as $check) {
             $links[]= $check;
     }
 }
@@ -45,6 +65,12 @@ if(!empty($_POST['links'])) {
 if(!empty($stage)) {
 	If ($where_active == 1) $where .= " AND ";
 	$where .= MatchFilter($stage, "stage", "bands");
+	$where_active = 1;
+}
+
+if(!empty($genre)) {
+	If ($where_active == 1) $where .= " AND ";
+	$where .= MatchFilter($genre, "genre", "bands");
 	$where_active = 1;
 }
 
@@ -196,11 +222,11 @@ if(!empty($links)) {
 }
 
 
-if(!empty($_POST['sort'])) {
+if(!empty($_SESSION['filter']['sort'])) {
 
+	
 
-
-	foreach($_POST['sort'] as $check) {
+	foreach($_SESSION['filter']['sort'] as $check) {
 		switch ($check)
 
 		{

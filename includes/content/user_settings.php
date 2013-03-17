@@ -15,7 +15,7 @@ $post_target = $basepage."?disp=user_settings";
 If(!empty($_POST['chg_setting'])) {	
 	
 	$sql="update user_settings_$user set value='".$_POST['item_select']."' where item='".$_POST['name']."'";
-	$res = mysql_query($sql, $main);
+	$res = mysql_query($sql, $master);
 
 	
 

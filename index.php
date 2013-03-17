@@ -38,6 +38,7 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 	<body>
 
 		<div id="wrapper">
+<?php // var_dump($_SESSION); ?>
 
 <?php include('includes/header.php'); ?>
 

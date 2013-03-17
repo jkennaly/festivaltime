@@ -12,12 +12,46 @@ $post_target=$basepage."?disp=band_scores";
 include $baseinstall."includes/content/blocks/user_selector.php";
 $uscoreall[] = NULL;
 
+If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
+If(empty($_POST['user'])) $scoreuser = $user;
+
+//Genre-based averages
+
+$sql_user_genre = "select avg(ruser.rating) as useraverage, count(ruser.rating) as usercount, genre from bands left join ratings as ruser on bands.id=ruser.band and user='$scoreuser' group by genre order by useraverage desc";
+
+$sql_all_genre = "select avg(rating) as average, count(rating) as count, genre from bands left join ratings on bands.id=ratings.band group by genre";
+
+$res_user_genre = mysql_query($sql_user_genre, $main);
+$res_all_genre = mysql_query($sql_all_genre, $main);
+
+//echo $sql_user_genre;
+
+
+while($row=mysql_fetch_array($res_all_genre)) {
+	$all_genre[$row['genre']]['avg']=$row['average'];
+	$all_genre[$row['genre']]['cnt']=$row['count'];	
+}
+
+?>
+
+<table>
+<tr>
+<th>Genre</th>
+<th>Group rating</th>
+<th>Total ratings in this genre</th>
+<th><?php echo getUname($master, $scoreuser); ?>'s rating</th>
+<th><?php echo getUname($master, $scoreuser); ?>'s ratings in this genre</th>
+</tr>
+
+<?php
+while($row=mysql_fetch_array($res_user_genre)) {
+echo "<tr><td>".getGname($master, $row['genre'])."</td><td>".$all_genre[$row['genre']]['avg']."</td><td>".$all_genre[$row['genre']]['cnt']."</td><td>".$row['useraverage']."</td><td>".$row['usercount']."</td></tr>";
+}
+echo "</table>";
+
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
 $num = mysql_fetch_assoc($res);
-
-If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
-If(empty($_POST['user'])) $scoreuser = $user;
 
 $sql = "select avg(rating) as average from ratings where ratings.user='$scoreuser'";
 
@@ -54,7 +88,10 @@ reset($uscoreall);
 
 for ($i=1; $i<=$j; $i++)
   {
-	echo "<tr><th>$i</th><th><a href=\"".$basepage."?disp=view_band&band=".key($uscoreall)."\">".$arr[(key($uscoreall))]["name"]."</a></th><td>".current($uscoreall)."</td></tr>";
+	If( $arr[(key($uscoreall))]["name"] ) echo "<tr><th>$i</th><th><a href=\"".$basepage."?disp=view_band&band=".key($uscoreall)."\">".$arr[(key($uscoreall))]["name"]."</a></th><td>".current($uscoreall)."</td></tr>"; else {
+	$i = $i-1;
+	$j=$j-1;
+	}
 	next($uscoreall);
   
   }

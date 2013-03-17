@@ -2,7 +2,7 @@
 
 
 
-echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to choose from a list of all the bands</a> or select Home from the Nav bar up top to use the filters</p>";
+//echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to choose from a list of all the bands</a> or select Home from the Nav bar up top to use the filters</p>";
 
 
 
@@ -11,9 +11,28 @@ echo "<p><a href=\"".$basepage."?disp=view_band\">Click here to choose from a li
 //If $band is defined
 If(!empty($band)) {
 
+If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	include $baseinstall."includes/content/blocks/band_info_search.php";
-//	include $baseinstall."includes/content/blocks/recommendations.php";
+?>
 
+<form id="edit_band_button" action="<?php echo $basepage."?disp=view_band&band=$band"; ?>" method="post">
+<input type="submit" value="Edit Band Info" name="edit">
+</form>
+
+<?php
+} //Closes If(empty($_POST['edit']))
+
+If(!empty($_POST['edit']) || !empty($_POST['edits']))	{
+	$post_target = $basepage."?disp=view_band&band=$band";
+	include $baseinstall."includes/content/blocks/band_info_edit.php";
+?>
+
+<form id="edit_band_button" action="<?php echo $basepage."?disp=view_band&band=$band"; ?>" method="post">
+<input type="submit" value="Done Editing" name="done">
+</form>
+
+<?php
+} //Closes If(!empty($_POST['edit']))
 	//query to pull basic data
 
 UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
@@ -99,7 +118,10 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 
 <?php
 
-echo "<br>User comments, ratings, and links for this band:<a class=\"helplink\" href=\"$basepage?disp=about&band=$band#commenting\">Click here for help with this section</a><br>";
+//echo "<br>User comments, ratings, and links for this band:<a class=\"helplink\" href=\"$basepage?disp=about&band=$band#commenting\">Click here for help with this section</a><br>";
+
+
+	echo "<br><a href=\"".$basepage."?disp=pic_band&band=".$band."\">Click here to share a pic of the band.</a>";
 
 If(!isset($i_ret)){
 //Execute this logic if the user has not rated, commented or linked the band	

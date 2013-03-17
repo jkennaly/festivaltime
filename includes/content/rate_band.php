@@ -34,7 +34,6 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 	$rating_row = mysql_fetch_assoc($query_rating);
 
 	If ( isset($_POST['new_rating']) && !isset($rating_row['rating']) ) {
-	echo "No rating logic entered<br>";
 	$userid = $user_row['id'];
 	$rating = $_POST["new_rating"];
 	$sql = "INSERT INTO ratings (band, user, rating) VALUES ('$band', '$userid', '$rating')";

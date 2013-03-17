@@ -134,12 +134,14 @@ float:clear;
 
 
 .band {
-position:fixed;
+/*position:fixed; */
+position:absolute;
 height: 17%;
 width: 49%;
 text-align:center;
 border-style:solid;
 display:block;
+z-index:1;
 }
 .band h1{
 font-size:200%;
@@ -159,6 +161,12 @@ clear:float;
 width:16%;
 display:inline-block;
 margin:0 auto;
+}
+
+
+#comms p{
+color:white;
+font-size:200%;
 }
 
 table#loctable {
@@ -341,5 +349,15 @@ width:33%;
 display: inline-block;
 }
 
+.rate_image { 
+   position: relative; 
+}
 
+h2 { 
+   position: absolute; 
+   top: 0; 
+   left: 0; 
+   white-space:nowrap;
+   overflow:hidden; !important
+}
 

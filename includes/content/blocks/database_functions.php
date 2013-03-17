@@ -95,4 +95,33 @@ return $fname;
 
 }
 
+function getGname($source, $genreid){
+//This function checks $source table genres for the name of $genreid
+
+$sql = "select name from `genres` where id=$genreid";
+$res = mysql_query($sql, $source);
+
+
+$grow = mysql_fetch_array($res);
+$gname = $grow['name'];
+
+return $gname;
+
+}
+
+function getSname($source, $stageid){
+//This function checks $source table stages for the name of $stageid
+
+$sql = "select name from `stages` where id=$stageid";
+$res = mysql_query($sql, $source);
+
+
+$srow = mysql_fetch_array($res);
+$sname = $srow['name'];
+
+return $sname;
+
+}
+
+
 ?>

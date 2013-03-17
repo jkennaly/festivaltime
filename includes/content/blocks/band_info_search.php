@@ -11,26 +11,15 @@
 	$starttime=substr($stime, 11, 5);
 	$endtime=substr($etime, 11, 5);
 
-	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
+//	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
 ?>
-<table class="bandinfotable">
-<tr>
-<th>band name</th>
-<th>day</th>
-<th>stage</th>
-<th>genre</th>
-<th>average rating</th>
-<th>start time</th>
-<th>end time</th>
-</tr>
-<tr>
-<td><?php searchlink($band, $user, $main, $master); ?></td>
-<td><?php echo $dayname; ?></td>
-<td><?php echo $stagename; ?></td>
-<td><?php echo $genrename; ?></td>
-<td><?php echo round($rating, 1); ?></td>
-<td><?php echo $starttime; ?></td>
-<td><?php echo $endtime; ?></td>
-</tr>
-</table>
+<h1><?php searchlink($band, $user, $main, $master); ?></h1>
+<img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>" alt="band pic" />
 
+
+<p class="band_info"><?php echo $dayname; ?></p>
+<p class="band_info"><?php echo $stagename; ?></p>
+<p class="band_info"><?php echo $genrename; ?></p>
+<p class="band_info"><?php echo "Group average rating: ".round($rating, 1); ?></p>
+<p class="band_info"><?php echo $starttime."-".$endtime; ?></p>
+<br />

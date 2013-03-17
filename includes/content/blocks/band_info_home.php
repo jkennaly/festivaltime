@@ -9,8 +9,9 @@
 	$starttime=substr($stime, 11, 5);
 	$endtime=substr($etime, 11, 5);
 
-	echo "Clicking the band name will take you to the details page for that band.";
+//	echo "Clicking the band name will take you to the details page for that band.";
 ?>
+<img src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>" alt="band pic" />
 <table class="bandinfotable">
 <tr>
 <th>band name</th>

@@ -103,10 +103,10 @@ If(time()>$fest_pre && time()<$fest_post) {
 	$time_is_simmed = 0;
 } else {
 	//Calculate a simulated elapsed time since fest started, plus correction to make simulated times convenient
-	$correction = 24*3600; //+19 hours
+	$correction = 67*3600; //+67 hours
 	$basetime_s = (time()+ $correction) % ($fest_span) + $fest_date_min ;
 	//Comment the following line to unfreeze time
-	$basetime_s = 1365979398;
+//	$basetime_s = 1365979398;
 	$basetime = strftime("%a %Y-%m-%d %H:%M", $basetime_s);
 	$time_is_simmed = 1;
 } //Closes If($time()>$fest_pre && $time()<$fest_post)
@@ -263,6 +263,40 @@ arsort($uscoreall);
 
 //echo "<table><tr><th>Band ID</th><th>Band Name</th><th>Your Rating</th><th>Average Rating</th><th>Starts in</th><th>Ends in</th></tr>";
 
+
+
+/***************************************************************
+*
+* If desired, instead display next bands or current bands on each stage
+*
+****************************************************************/
+
+//Find the user setting
+$stage_display_sql="select value from user_settings_".$user." where item='Gametime View'";
+// echo $stage_display_sql;
+$stage_display_res=mysql_query($stage_display_sql, $master);
+$stage_disp=mysql_fetch_array($stage_display_res);
+$stage_display=$stage_disp['value'];
+If(!empty($_GET['stagedisp'])) {
+If($_GET['stagedisp']=="current") $stage_display = 1;
+If($_GET['stagedisp']=="best") $stage_display = 2;
+} //Closes If(!empty($_GET['stagedisp'])
+
+If($stage_display == 1) {
+
+	unset($uscoreall);
+	//Get all the stages
+	$stages_display_sql="select id from stages";
+	$stages_display_res=mysql_query($stages_display_sql, $main);
+	while($row=mysql_fetch_array($stages_display_res)) {
+		$stage_select_sql="select id from bands where stage='".$row['id']."' and sec_end>$basetime_s order by sec_start asc limit 1";
+		$stage_select_res=mysql_query($stage_select_sql, $main);
+		$stage_select=mysql_fetch_array($stage_select_res);
+		$uscoreall[$stage_select['id']]=1;
+	} //Closes while($row=mysql_fetch_array($stages_display_res)
+
+} //Closes If($stage_display == 1)
+
 reset($uscoreall);
 $elements=count($uscoreall);
 If($elements>6) $elements = 6;
@@ -270,7 +304,7 @@ If($elements>6) $elements = 6;
 for ($i=1; $i<=$elements; $i++)
   {
 	$mband=key($uscoreall);
-	$sql="select b.name as name, b.id as id, r.rating as rating, sec_start, sec_end, stage from bands as b left join ratings as r on r.band=b.id and r.user='$user' where b.id='$mband'";
+	$sql="select b.name as name, b.id as id, r.rating as rating, sec_start, sec_end, stage, genre from bands as b left join ratings as r on r.band=b.id and r.user='$user' where b.id='$mband'";
 	$res = mysql_query($sql, $main);
 	$row= mysql_fetch_array($res);
 	$sql_avg = "select avg(rating) as avg from ratings where band='$mband'";
@@ -300,13 +334,14 @@ for ($i=1; $i<=$elements; $i++)
 		$starts_in = $starts_in;
 	}// Closes else If($starts_in<=0)
 	$ends_in = ($row['sec_end'] - $basetime_s )/60;
-	$ends_in = round( $ends_in, 0 )." min";
+	$ends_in = round( $ends_in, 0 );
 //	echo "<tr><td>".$row['id']."</td><td>".$row['name']."</td><td>".$row['rating']."</td><td>".$row_avg['avg']."</td><td>".$starts_in."</td><td>".$ends_in."</td></tr>";
 	next($uscoreall);
 	$gametime_band[$i]['id'] = $row['id'];
 	$gametime_band[$i]['name'] = $row['name'];
 	$gametime_band[$i]['rating'] = $row['rating'];
 	$gametime_band[$i]['stage'] = $row_stage['stage'];
+	$gametime_band[$i]['genre'] = getGname($master, $row['genre']);
 	$gametime_band[$i]['avg'] = round( $row_avg['avg'], 1);
 	$gametime_band[$i]['starts'] = $starts_in;
 	$gametime_band[$i]['ends'] = $ends_in;
@@ -384,7 +419,10 @@ for ($i=1; $i<=$elements; $i++)
 <div id="upcoming">
 
 <?php
-//Display data. This only occurs if $i is defined, which only happens if ther eis data to display
+//Display best bet data. This only occurs if $i is defined, which only happens if ther eis data to display, and the user setting is to display the data, or the button to display best bet has been pressed.
+
+
+
 
 If(!empty($i)) {
 
@@ -392,7 +430,11 @@ for($i=1;$i<=$elements;$i++) {
 
 	echo "<a href=\"mobile_detail.php?band=".$gametime_band[$i]['id']."&time=$basetime_s\"><div class=\"band$i band\"><p class=\"bandname\">".$gametime_band[$i]['name']."</p>";
 
-	echo "<img src=\"".$gametime_band[$i]['img1']."\" alt=\"".$gametime_band[$i]['rating']."\" >";
+	echo "<div class=\"rate_image\"><img src=\"".$gametime_band[$i]['img1']."\" alt=\"".$gametime_band[$i]['rating']."\" >";
+
+	If($gametime_band[$i]['img1'] == "../includes/images/black.png") echo "<h2>".$gametime_band[$i]['genre']."</h2>";
+	
+	echo "</div>";
 
 	echo "<img src=\"".$gametime_band[$i]['img2']."\" alt=\"".$gametime_band[$i]['friends']." people\" >";
 
@@ -403,7 +445,11 @@ for($i=1;$i<=$elements;$i++) {
 //	echo "<dd>".$gametime_band[$i]['stage']."</dd>";
 
 //	If($gametime_band[$i]['starts'] != "Playing Now") echo "<h3>Starts In: </h3>";
-	echo "<h1>".$gametime_band[$i]['starts']."</h1>";
+	echo "<h1>".$gametime_band[$i]['starts'];
+
+	If($gametime_band[$i]['starts']=="Now") echo " (".$gametime_band[$i]['ends'].")";
+
+	echo "</h1>";
 
 //	echo "<dt>Ends In: </dt><dd>".$gametime_band[$i]['ends']."</dd>";
 
@@ -416,8 +462,8 @@ for($i=1;$i<=$elements;$i++) {
 ?>
 </div>
 
-<div id="comms">
-<!--<p><?php echo "Current date/time is $basetime"; If($time_is_simmed == 1) echo " Time is simulated. ";?><p>-->
+<div id="location">
+<p><?php // echo "Current date/time is $basetime"; If($time_is_simmed == 1) echo " Time is simulated. ";?><p>
 
 <?php
 $ctime= strftime("%H:%M");
@@ -451,7 +497,23 @@ $commstring = "$ctime $uname is at ";
 <a href="more_info.php?commtype=5&commstring=<?php echo $commstring; ?>&fromuser=<?php echo $user; ?>&band=0">
 <img src="../includes/images/places.png">
 </a>
-<?php include "location_tracker_inlay.php"; ?>
+<?php 
+If(empty($stage_display)) $stage_display = 2;
+If($stage_display == 1) echo "<a href=\"mobile.php?stagedisp=best\"><img src=\"../includes/images/best.png\"></a>";
+If($stage_display == 2) echo "<a href=\"mobile.php?stagedisp=current\"><img src=\"../includes/images/current.png\"></a>";
+
+include "location_tracker_inlay.php"; ?>
+</div> <!--end #location -->
+
+<div id="comms">
+<?php
+//Get current comms data
+$sql = "select commstring from comms where commtype!='2' AND commtype!='5' order by id desc limit 20";
+$result = mysql_query($sql, $main);
+while($row = mysql_fetch_array($result)) {
+	echo "<p class=\"commstring\">".$row['commstring']."</p>";
+}
+?>
 </div> <!--end #comms -->
 
 </body>

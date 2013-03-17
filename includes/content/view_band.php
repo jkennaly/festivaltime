@@ -6,7 +6,7 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 If(empty($band)) $band="";
-
+/*/
 ?>
 <p>
 
@@ -15,9 +15,12 @@ This page allows for viewing the bands and comments.<a class="helplink" href="<?
 </p>
 
 <?php
+*/
 
 //Process displaying band info
 	If (!empty($_REQUEST["band"])) {
+
+
 
 		include('blocks/pregame_band.php');
 
@@ -41,7 +44,6 @@ while($row = mysql_fetch_array($query_band)) {
 <?php
 	}
 
-mysql_close();
 }
 else{
 echo "This page requires a higher level access than you currently have.";
