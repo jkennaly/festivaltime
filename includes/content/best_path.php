@@ -216,7 +216,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			}
 		}
 	};
-	If($travelling==0) {
+	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
 		$currentshow = $currentbest['band'];
