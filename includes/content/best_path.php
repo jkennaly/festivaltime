@@ -200,7 +200,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			
 			If(!empty($currentbest['score'])) 
 			{
-				If($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band'] && ($changing==1 || $minhere>=15)) {
+				If(($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band'] && ($changing==1 || $minhere>=15)) || $currentbest['sec_end']>$k ) {
 					$currentbest = $v;
 				}
 			} else {
