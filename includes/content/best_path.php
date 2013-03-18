@@ -196,13 +196,15 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		
 	} else {
 		$secondpass[$k] = $firstpass[$k];
-		$status="Still rockin'";
+		If(unset($prevstage)) $status="At first show of day"; else $status="Still rockin'"
 //		$nextchecktime=$k+900;
 		
 	}
 	If(isset($secondpass[$k])) {
 		$currentbest = $secondpass[$k];
 		$currentstage = $currentbest['stage'];
+		
+		$prevstage = $currentstage
 //		$k = $nextchecktime;
 		echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />".$status."<br />".$currentbest['score']."</td>";
 	} else echo "<td></td>";
