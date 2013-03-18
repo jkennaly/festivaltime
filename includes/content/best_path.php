@@ -273,10 +273,11 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	}
 	}
 	$prevshow = $currentshow;
+	}
 //	$k = $nextchecktime;
 	If(isset($currentshow)) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
 	 else echo "<td></td>";
-	 }
+	 
 	If($travelling > 0) {
 		echo "<td>Travelling to ".$target['name']." id of ".$target['band']." Looking is $looking and moving is $moving and travelling is $travelling</td>";
 		$looking=0;
