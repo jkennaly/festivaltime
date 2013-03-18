@@ -5,6 +5,9 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
+//Set some variables for use
+$banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at
+
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
@@ -207,9 +210,9 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	
 	If($minhere>=15 || $changing==1) {
 		$secondpass[$k] = $firstpass[$k];
-		$currentbest = $secondpass[$k];
-		$currentshow = $currentbest['band'];
+		$currentshow = $secondpass[$k]['band'];
 		If($prevshow != $currentshow || $changing == 1) {
+				$currentbest = $secondpass[$k];
 				$status="At a new show"; 
 				$minhere=0;
 				$changing=0;
@@ -217,6 +220,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$minhere=$minhere+5;
+				$currentbest['score']=$currentbest['score']-$banddecay;
 			} else {
 			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
