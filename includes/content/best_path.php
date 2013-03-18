@@ -132,7 +132,7 @@ for($j=0;$j<mysql_num_rows($res);$j++) {
 
 //echo "<tr><th>".$stage[$j]['name']."</th>";
 
-for ($k=$fest_start_time_sec;$k<$fest_end_time_sec+600;$k=$k+300) {
+for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+600);$k=$k+300) {
 
 $band_end = $k+300;
 //See if a band is playing at the current time block and pull info if it does
