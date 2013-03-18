@@ -222,7 +222,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>=20 || $changing==1) {
+	If($minhere>=15 || $changing==1) {
 		$secondpass[$k] = $firstpass[$k];
 		$currentbest = $secondpass[$k];
 		$currentshow = $currentbest['band'];
