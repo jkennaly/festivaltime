@@ -231,7 +231,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 				$minhere=0;
 				$changing=0;
 		} else {
-			$status="Still at ".$currentbest['name'];
+			$status="Still the best option";
 			$minhere=$minhere+5;
 		}
 	}
