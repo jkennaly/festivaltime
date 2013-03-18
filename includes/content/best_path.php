@@ -6,8 +6,8 @@ $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 //Set some variables for use
-$banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at
-
+$banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
+$traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
@@ -166,6 +166,7 @@ If(mysql_num_rows($res_band)>0) {
 //echo "</tr>";
 }
 echo "<tr><th>Best Path (First Pass)</th>";
+$travelling=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	unset($currentshow);
 	unset($currentbest);
@@ -194,20 +195,25 @@ echo "</tr>";
 echo "<tr><th>Best Path (min 20 min)</th>";
 unset($currentshow);
 unset($currentbest);
+$travelling=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	foreach($bestpath[$k] as $v) {
 		If (!empty($v)) {
 			
 			If(!empty($currentbest['score'])) 
 			{
-				If(($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band'] && ($changing==1 || $minhere>=15)) || $currentbest['sec_end']<=$k ) {
-					$currentbest = $v;
+				If(($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band'] && $minhere>=15) || $currentbest['sec_end']<=$k ) {
+					
+					$target = $v;
+					$travelling=1;
 				}
 			} else {
-				$currentbest = $v;
+					$target = $v;
+					$travelling=1;
 			}
 		}
 	}
+	If($travelling==0) {
 	//First show of the day
 	If(!isset($currentshow)) {
 		$currentshow = $currentbest['band'];
@@ -220,12 +226,11 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>=15 || $changing==1) {
+	If($minhere>=15) {
 		$currentshow = $currentbest['band'];
-		If($prevshow != $currentshow || $changing == 1) {
+		If($prevshow != $currentshow) {
 				$status="At a new show"; 
 				$minhere=0;
-				$changing=0;
 		} else {
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
@@ -245,7 +250,6 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$minhere=$minhere+5;
 			$currentbest['score']=$currentbest['score']-$banddecay;
 		} else {
-			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
 			
@@ -256,6 +260,16 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 //	$k = $nextchecktime;
 	If(isset($currentshow)) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
 	 else echo "<td></td>";
+	 }
+	If($travelling > 0) {
+		echo "<td>Travelling to ".$target['name']."</td>";
+		$travelling = $travelling+1;
+		If($travelling > $traveltime) {
+			$currentbest = $target;
+			$minhere=0;
+			$travelling =0;
+		}
+	}
 }
 
 echo "</tr>";
