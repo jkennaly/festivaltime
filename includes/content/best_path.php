@@ -165,6 +165,7 @@ If(mysql_num_rows($res_band)>0) {
 echo "<tr><th>Best Path (First Pass)</th>";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	unset($currentshow);
+	unset($currentbest);
 	foreach($bestpath[$k] as $v) {
 		If (!empty($v)) {
 			If(!empty($currentbest['score'])) 
