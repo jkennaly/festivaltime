@@ -200,10 +200,9 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			
 			If(!empty($currentbest['score'])) 
 			{
-				If($v['score'] > $currentbest['score']) {
+				If($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band']) {
 					$currentbest = $v;
-			
-				} //Closes If($v['score'] > $currentbest['score'])
+				}
 			} else {
 				$currentbest = $v;
 			}
