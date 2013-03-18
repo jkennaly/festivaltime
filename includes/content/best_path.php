@@ -264,7 +264,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$target['score']=0;
 			
 		}
-		If($prevshow != $currentshow) {
+		If($minhere == 0 && $status != "First show of the day") {
 				$status="At a new show"; 
 				$minhere=0;
 				$looking=0;
