@@ -9,6 +9,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
 $traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
 $mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
+$thirstiness = 0.05; //$thristiness affects how fast score for beer tent accumulates
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
@@ -207,7 +208,7 @@ $beertent['sec_end']=$fest_end_time_sec;
 $beertent['sec_start']=$fest_start_time_sec;
 $beertent['stage']=-1;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-$beertent['score']=$beertent['score']+0.1;
+$beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
