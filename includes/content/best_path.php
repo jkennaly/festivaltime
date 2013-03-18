@@ -225,7 +225,7 @@ If(empty($targetset)) $target['score']=-10;
 			}
 		}
 		If(($looking ==1 || $moving ==1) && $travelling==1) {
-			$target = $beertent;
+			If($beertent['score'] > $target['score']) $target = $beertent;
 			
 		}
 	};
