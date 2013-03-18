@@ -199,7 +199,15 @@ unset($currentbest);
 $travelling=0;
 $looking=0;
 $moving=1;
+$beertent['band']=-1;
+$beertent['score']=0;
+$beertent['rating']=0;
+$beertent['name']="Beer Tent";
+$beertent['sec_end']=$fest_end_time_sec;
+$beertent['sec_start']=$fest_start_time_sec;
+$beertent['stage']=-1;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
+$beertent['score']=$beertent['score']+0.1;
 If(empty($targetset)) $target['score']=-10;
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
@@ -215,6 +223,10 @@ If(empty($targetset)) $target['score']=-10;
 					$travelling=1;
 					$targetset=1;
 			}
+		}
+		If(($looking ==1 || $moving ==1) && $travelling==1) {
+			$target = $beertent;
+			
 		}
 	};
 	If($travelling==0 && $moving == 0) {
@@ -236,6 +248,7 @@ If(empty($targetset)) $target['score']=-10;
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$currentbest['score']=$currentbest['score']-$banddecay;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=$beertent['score']-0.35;
 				$looking=1;
 				$moving=0;
 			} else {
@@ -251,6 +264,7 @@ If(empty($targetset)) $target['score']=-10;
 		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=$beertent['score']-0.35;
 			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
 		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<$mintime) {
