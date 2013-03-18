@@ -198,9 +198,9 @@ unset($currentbest);
 $travelling=0;
 $looking=0;
 $moving=1;
-$target['score']=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 					$looked = "Not Looked";
+$target['score']=0;
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			If($looking == 1) {
