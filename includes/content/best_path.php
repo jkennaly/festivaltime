@@ -196,19 +196,22 @@ echo "<tr><th>Best Path (min 20 min)</th>";
 unset($currentshow);
 unset($currentbest);
 $travelling=0;
+$looking=0;
+$moving=1;
+$target['score']=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	foreach($bestpath[$k+600] as $v) {
-		If (!empty($v) && $travelling==0) {
+		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			
-			If(!empty($currentbest['score'])) 
-			{
-				If(($v['score'] > $currentbest['score'] && $v['band'] != $currentbest['band'] && $minhere>=15) || $currentbest['sec_end']<=$k ) {
+			If($looking == 1) {
+				If($v['score'] > $currentbest['score']) {
 					
 					$target = $v;
 					$travelling=1;
 				}
-			} else {
-					$target = $v;
+			}
+			If($moving == 1){
+					If( $v['score'] > $target['score'] ) $target = $v;
 					$travelling=1;
 			}
 		}
@@ -231,15 +234,21 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		If($prevshow != $currentshow) {
 				$status="At a new show"; 
 				$minhere=0;
+				$looking=0;
+				$moving=0;
 		} else {
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$minhere=$minhere+5;
 				$currentbest['score']=$currentbest['score']-$banddecay;
+				$looking=1;
+				$moving=0;
 			} else {
 			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
+			$looking=0;
+			$moving=1;
 			
 			}
 		}
@@ -249,9 +258,13 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$status="Still at ".$currentbest['name'];
 			$minhere=$minhere+5;
 			$currentbest['score']=$currentbest['score']-$banddecay;
+			$looking=0;
+			$moving=0;
 		} else {
 			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
+			$looking=0;
+			$moving=1;
 			
 		}
 	}
@@ -268,6 +281,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$currentbest = $target;
 			$minhere=0;
 			$travelling =0;
+			$looking=0;
+			$moving=0;
 		}
 	}
 }
