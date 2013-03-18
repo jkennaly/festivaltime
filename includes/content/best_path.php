@@ -275,7 +275,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	 else echo "<td></td>";
 	 }
 	If($travelling > 0) {
-		echo "<td>Travelling to ".$target['name']."</td>";
+		echo "<td>Travelling to ".$target['name']." Looking is $looking and moving is $moving and travelling is $travelling</td>";
 		$travelling = $travelling+1;
 		If($travelling > $traveltime) {
 			$currentbest = $target;
