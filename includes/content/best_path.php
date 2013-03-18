@@ -231,15 +231,22 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 				$minhere=0;
 				$changing=0;
 		} else {
-			$status="Still the best option";
+			If($currentbest['sec_end']>$k+300) {
+				$status="Still the best option";
+				$minhere=$minhere+5;
+			} else {
+			$changing=1;
+			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
+			
+			}
 		}
 	}
 	
 	}
 	//First 20 min of show
 	If($minhere<20) {
-		If($currentbest['sec_end']>$k+300) {
+		
 		$status="Still at ".$currentbest['name'];
 		$minhere=$minhere+5;
 		} else {
