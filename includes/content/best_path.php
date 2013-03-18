@@ -104,6 +104,7 @@ while($row=mysql_fetch_array($res1)){
 	$day[] = $row;
 }
 for($i=0;$i<mysql_num_rows($res1);$i++) {
+unset($currentstage);
 
 $fest_start_time_sec = strtotime($day[$i]['date']." ".$fest_start_time);
 
