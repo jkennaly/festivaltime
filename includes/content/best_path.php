@@ -285,7 +285,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$prevshow=-1;
 		If($travelling > $traveltime) {
 			$currentbest = $target;
-			echo "$currentbest is now in effect"
+			echo "$currentbest is now in effect";
 			$minhere=0;
 			$travelling =0;
 		}
