@@ -234,10 +234,10 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		If($prevshow != $currentshow) {
 				$status="At a new show"; 
 				$minhere=0;
-		}
-	}	else {
+		} else {
 		$status="Still at ".$currentbest['name'];
 		$minhere=$minhere+5;
+	}
 	}
 	
 	}
