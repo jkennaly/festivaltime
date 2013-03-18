@@ -199,8 +199,7 @@ $travelling=0;
 $looking=0;
 $moving=1;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-					$looked = "Not Looked";
-$target['score']=0;
+If(empty($targetset)) $target['score']=0;
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			If($looking == 1) {
@@ -208,11 +207,13 @@ $target['score']=0;
 				If(($v['score'] > $currentbest['score'] ) && ($v['score'] > $target['score'] ) && ( $v['name'] != $currentbest['name'])) {				
 					$target = $v;
 					$travelling=1;
+					$targetset=1;
 				}
 			}
 			If($moving == 1){
 					If( $v['score'] > $target['score'] ) $target = $v;
 					$travelling=1;
+					$targetset=1;
 			}
 		}
 	};
@@ -242,7 +243,6 @@ $target['score']=0;
 			$status="Finishing up ".$currentbest['name'];
 			$looking=0;
 			$moving=1;
-			$target['score']=0;
 			
 			}
 		
@@ -257,7 +257,6 @@ $target['score']=0;
 			$status="Finishing up ".$currentbest['name'];
 			$looking=0;
 			$moving=1;
-			$target['score']=0;
 			
 		}
 		If($minhere == 0 && $status != "First show of the day") {
@@ -283,6 +282,7 @@ elseif ($travelling == 0) echo "<td></td>";
 		$prevshow=-1;
 		If($travelling > $traveltime) {
 			$currentbest = $target;
+			$targetset=0;
 			$minhere=0;
 			$travelling =0;
 		}
