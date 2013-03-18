@@ -281,6 +281,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$looking=0;
 		$moving=0;
 		$travelling = $travelling+1;
+		$prevshow=-1;
 		If($travelling > $traveltime) {
 			$currentbest = $target;
 			$minhere=0;
