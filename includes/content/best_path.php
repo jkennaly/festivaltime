@@ -233,6 +233,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		If($currentbest['sec_end']>$k+300) {
 			$status="Still at ".$currentbest['name'];
 			$minhere=$minhere+5;
+			$currentbest['score']=$currentbest['score']-$banddecay;
 		} else {
 			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
