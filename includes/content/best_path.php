@@ -164,7 +164,7 @@ If(mysql_num_rows($res_band)>0) {
 }
 echo "<tr><th>Best Path (First Pass)</th>";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-	unset($currentbest);
+	unset($currentshow);
 	foreach($bestpath[$k] as $v) {
 		If (!empty($v)) {
 			If(!empty($currentbest['score'])) 
@@ -189,11 +189,12 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 echo "</tr>";
 echo "<tr><th>Best Path (min 20 min)</th>";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-	If(!isset($currentstage)) {
+	If(!isset($currentshow)) {
 		$secondpass[$k] = $firstpass[$k];
 		$currentbest = $secondpass[$k];
 		$currentshow = $currentbest['band'];
 		$status="First show of the day";
+		$minhere=0;
 //		$nextchecktime=$k+900;
 		
 	} else {
