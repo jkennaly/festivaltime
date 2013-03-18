@@ -210,12 +210,9 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	}
 	//First show of the day
 	If(!isset($currentshow)) {
-		$secondpass[$k] = $firstpass[$k];
-		$currentbest = $secondpass[$k];
 		$currentshow = $currentbest['band'];
 		$status="First show of the day";
 		$minhere=0;
-//		$nextchecktime=$k+900;
 		
 	} else {
 	//First block seen, but not first show of day
@@ -224,10 +221,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	//Been at the show more than 20 min
 	
 	If($minhere>=15 || $changing==1) {
-		$secondpass[$k] = $firstpass[$k];
-		$currentshow = $secondpass[$k]['band'];
+		$currentshow = $currentbest['band'];
 		If($prevshow != $currentshow || $changing == 1) {
-				$currentbest = $secondpass[$k];
 				$status="At a new show"; 
 				$minhere=0;
 				$changing=0;
