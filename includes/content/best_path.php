@@ -226,7 +226,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$minhere=$minhere+5;
 		} else {
 			$changing=1;
-			$status="Still at ".$currentbest['name'];
+			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
 			
 		}
