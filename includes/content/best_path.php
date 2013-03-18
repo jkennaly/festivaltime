@@ -9,7 +9,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
 $traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
 $mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
-$thirstiness = 0.02; //$thristiness affects how fast score for beer tent accumulates
+$thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
