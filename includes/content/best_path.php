@@ -250,13 +250,13 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		
 	//First 20 min of show
 	}
-		If($currentbest['sec_end']>$k+300 && $minhere>0) {
+		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<15) {
 			$status="Still at ".$currentbest['name'];
 			$minhere=$minhere+5;
 			$currentbest['score']=$currentbest['score']-$banddecay;
 			$looking=0;
 			$moving=0;
-		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0) {
+		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<15) {
 			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
 			$looking=0;
