@@ -191,23 +191,23 @@ echo "<tr><th>Best Path (min 20 min)</th>";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	If(!isset($currentstage)) {
 		$secondpass[$k] = $firstpass[$k];
+		$currentbest = $secondpass[$k];
+		$currentstage = $currentbest['stage'];
 		$status="First show of the day";
 //		$nextchecktime=$k+900;
 		
 	} else {
 		$secondpass[$k] = $firstpass[$k];
+		$currentbest = $secondpass[$k];
+		$currentstage = $currentbest['stage'];
 		If($prevstage != $currentstage) $status="At a new stage"; 
 			else $status="Still rockin'";
 //		$nextchecktime=$k+900;
 		
 	}
-	If(isset($secondpass[$k])) {
-		$currentbest = $secondpass[$k];
-		$currentstage = $currentbest['stage'];
-		
-		$prevstage = $currentstage;
-//		$k = $nextchecktime;
-		echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />".$status."<br />".$currentbest['score']."</td>";
+	$prevstage = $currentstage;
+//	$k = $nextchecktime;
+	echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />".$status."<br />".$currentbest['score']."</td>";
 	} else echo "<td></td>";
 }
 
