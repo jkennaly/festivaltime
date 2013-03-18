@@ -9,7 +9,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
 $traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
 $mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
-$thirstiness = 0.05; //$thristiness affects how fast score for beer tent accumulates
+$thirstiness = 0.02; //$thristiness affects how fast score for beer tent accumulates
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
@@ -249,7 +249,7 @@ If(empty($targetset)) $target['score']=-10;
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$currentbest['score']=$currentbest['score']-$banddecay;
-				If($currentbest['name']=="Beer Tent") $beertent['score']=1+$thirstiness;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
 				$looking=1;
 				$moving=0;
 			} else {
@@ -265,7 +265,7 @@ If(empty($targetset)) $target['score']=-10;
 		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
-				If($currentbest['name']=="Beer Tent") $beertent['score']=$beertent['score']-0.35;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
 			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
 		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<$mintime) {
