@@ -170,7 +170,7 @@ $travelling=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	unset($currentshow);
 	unset($currentbest);
-	foreach($bestpath[$k] as $v) {
+	If(isset($bestpath[$k])) foreach($bestpath[$k] as $v) {
 		If (!empty($v)) {
 			If(!empty($currentbest['score'])) 
 			{
@@ -182,7 +182,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 				$currentbest = $v;
 			} //Closes else If(!empty($currentbest['score']))
 		} //Closes If (!empty($v))
-	} // Closes foreach($bestpath[$k] as $v)
+	}; // Closes foreach($bestpath[$k] as $v)
 	If(!isset($currentbest)) {echo "<td></td>";}
 	else {
 		$firstpass[$k] = $currentbest;
