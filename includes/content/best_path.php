@@ -249,7 +249,7 @@ If(empty($targetset)) $target['score']=-10;
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$currentbest['score']=$currentbest['score']-$banddecay;
-				If($currentbest['name']=="Beer Tent") $beertent['score']=$beertent['score']-0.35;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=1+$thirstiness;
 				$looking=1;
 				$moving=0;
 			} else {
@@ -285,7 +285,7 @@ If(empty($targetset)) $target['score']=-10;
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
