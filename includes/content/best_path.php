@@ -234,14 +234,12 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
-				$minhere=$minhere+5;
 				$currentbest['score']=$currentbest['score']-$banddecay;
 				$looking=1;
 				$moving=0;
 			} else {
 			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
-			$minhere=$minhere+5;
 			$looking=0;
 			$moving=1;
 			$target['score']=0;
@@ -252,13 +250,11 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	}
 		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<15) {
 			$status="Still at ".$currentbest['name'];
-			$minhere=$minhere+5;
 			$currentbest['score']=$currentbest['score']-$banddecay;
 			$looking=0;
 			$moving=0;
 		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<15) {
 			$status="Finishing up ".$currentbest['name'];
-			$minhere=$minhere+5;
 			$looking=0;
 			$moving=1;
 			$target['score']=0;
@@ -277,7 +273,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 //	$k = $nextchecktime;
 	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
 elseif ($travelling == 0) echo "<td></td>";
-	If($minhere == 0) $minhere=$minhere+5;
+	$minhere=$minhere+5;
 	 
 	If($travelling > 0) {
 		echo "<td>Travelling to ".$target['name']." id of ".$target['band']." Looking is $looking and moving is $moving and travelling is $travelling</td>";
