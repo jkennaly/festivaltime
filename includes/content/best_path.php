@@ -219,18 +219,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	 */
 	//First block seen, but not first show of day
 	
-	//First 20 min of show
-	If($minhere<20) {
-		If($currentbest['sec_end']>$k+300) {
-		$status="Still at ".$currentbest['name'];
-		$minhere=$minhere+5;
-		} else {
-			$changing=1;
-			$status="Finishing up ".$currentbest['name'];
-			$minhere=$minhere+5;
-			
-		}
-	}
+	
 	//Been at the show more than 20 min
 	
 	If($minhere>=20 || $changing==1) {
@@ -247,6 +236,18 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		}
 	}
 	
+	}
+	//First 20 min of show
+	If($minhere<20) {
+		If($currentbest['sec_end']>$k+300) {
+		$status="Still at ".$currentbest['name'];
+		$minhere=$minhere+5;
+		} else {
+			$changing=1;
+			$status="Finishing up ".$currentbest['name'];
+			$minhere=$minhere+5;
+			
+		}
 	}
 	
 	$prevshow = $currentshow;
