@@ -231,12 +231,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	
 	If($minhere>=15) {
 		$currentshow = $currentbest['band'];
-		If($prevshow != $currentshow) {
-				$status="At a new show"; 
-				$minhere=0;
-				$looking=0;
-				$moving=0;
-		} else {
+		
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$minhere=$minhere+5;
@@ -252,16 +247,16 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$target['score']=0;
 			
 			}
-		}
+		
 	//First 20 min of show
 	} else {
-		If($currentbest['sec_end']>$k+300) {
+		If($currentbest['sec_end']>$k+300 && $minhere>0) {
 			$status="Still at ".$currentbest['name'];
 			$minhere=$minhere+5;
 			$currentbest['score']=$currentbest['score']-$banddecay;
 			$looking=0;
 			$moving=0;
-		} else {
+		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0) {
 			$status="Finishing up ".$currentbest['name'];
 			$minhere=$minhere+5;
 			$looking=0;
@@ -269,6 +264,12 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$target['score']=0;
 			
 		}
+		If($prevshow != $currentshow) {
+				$status="At a new show"; 
+				$minhere=0;
+				$looking=0;
+				$moving=0;
+		} 
 	}
 	}
 	$prevshow = $currentshow;
