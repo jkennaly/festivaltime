@@ -8,6 +8,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 //Set some variables for use
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
 $traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
+$mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
 
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
@@ -199,11 +200,10 @@ $travelling=0;
 $looking=0;
 $moving=1;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-If(empty($targetset)) $target['score']=0;
+If(empty($targetset)) $target['score']=-10;
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			If($looking == 1) {
-					$looked = "Looked";
 				If(($v['score'] > $currentbest['score'] ) && ($v['score'] > $target['score'] ) && ( $v['name'] != $currentbest['name'])) {				
 					$target = $v;
 					$travelling=1;
@@ -230,7 +230,7 @@ If(empty($targetset)) $target['score']=0;
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>=20) {
+	If($minhere>=$mintime) {
 		$currentshow = $currentbest['band'];
 		
 			If($currentbest['sec_end']>$k+300) {
@@ -248,12 +248,12 @@ If(empty($targetset)) $target['score']=0;
 		
 	//First 20 min of show
 	}
-		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<20) {
+		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
-			If($minhere==15) $looking=1; else $looking=0;
+			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
-		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<20) {
+		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Finishing up ".$currentbest['name'];
 			$looking=0;
 			$moving=1;
@@ -270,7 +270,7 @@ If(empty($targetset)) $target['score']=0;
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">$looked ".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
