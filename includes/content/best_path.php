@@ -249,6 +249,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$minhere=$minhere+5;
 			$looking=0;
 			$moving=1;
+			$target['score']=0;
 			
 			}
 		}
@@ -265,6 +266,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			$minhere=$minhere+5;
 			$looking=0;
 			$moving=1;
+			$target['score']=0;
 			
 		}
 	}
