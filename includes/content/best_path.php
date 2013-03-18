@@ -203,10 +203,10 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			If($looking == 1) {
-				If($v['score'] > $currentbest['score'] && $v['score'] > $target['score'] && $v['name'] != $currentbest['name']) {
-					
+				If($v['score'] > $currentbest['score'] && $v['score'] > $target['score'] && $v['name'] != $currentbest['name']) {				
 					$target = $v;
 					$travelling=1;
+					$looked = "Looked";
 				}
 			}
 			If($moving == 1){
@@ -270,7 +270,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">$looked ".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
