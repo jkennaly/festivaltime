@@ -196,7 +196,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		
 	} else {
 		$secondpass[$k] = $firstpass[$k];
-		If(unset($prevstage)) $status="At first show of day"; else $status="Still rockin'";
+		If(unset($prevstage)) $status="At first show of day"; 
+			else $status="Still rockin'";
 //		$nextchecktime=$k+900;
 		
 	}
