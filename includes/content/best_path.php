@@ -270,12 +270,12 @@ If(empty($targetset)) $target['score']=-10;
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
 	If($travelling > 0) {
-		echo "<td>Travelling to ".$target['name']." id of ".$target['band']." Looking is $looking and moving is $moving and travelling is $travelling</td>";
+		echo "<td>Travelling</td>";
 		$looking=0;
 		$moving=0;
 		$travelling = $travelling+1;
