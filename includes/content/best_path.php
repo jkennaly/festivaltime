@@ -200,7 +200,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$secondpass[$k] = $firstpass[$k];
 		$currentbest = $secondpass[$k];
 		$currentshow = $currentbest['band'];
-		If($prevshow != $currentshow {
+		If($prevshow != $currentshow) {
 				$status="At a new show"; 
 				$minhere=0;
 		}
