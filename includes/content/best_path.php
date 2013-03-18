@@ -190,6 +190,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 echo "</tr>";
 echo "<tr><th>Best Path (min 20 min)</th>";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
+	//First show of the day
 	If(!isset($currentshow)) {
 		$secondpass[$k] = $firstpass[$k];
 		$currentbest = $secondpass[$k];
@@ -198,7 +199,9 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$minhere=0;
 //		$nextchecktime=$k+900;
 		
-	} else {
+	} 
+	else {
+		/*
 		$secondpass[$k] = $firstpass[$k];
 		$currentbest = $secondpass[$k];
 		$currentshow = $currentbest['band'];
@@ -213,6 +216,32 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 //		$nextchecktime=$k+900;
 		
 	}
+	 */
+	//First block seen, but not first show of day
+	
+	//First 20 min of show
+	If($minhere<20) {
+		
+		$status="Still at ".$currentbest['name'];
+		$minhere=$minhere+5;
+	}
+	//Been at the show more than 20 min
+	
+	If($minhere>=20) {
+		$secondpass[$k] = $firstpass[$k];
+		$currentbest = $secondpass[$k];
+		$currentshow = $currentbest['band'];
+		If($prevshow != $currentshow) {
+				$status="At a new show"; 
+				$minhere=0;
+		}
+			else {
+		$status="Still at ".$currentbest['name'];
+		$minhere=$minhere+5;
+	}
+	
+	}
+	
 	$prevshow = $currentshow;
 //	$k = $nextchecktime;
 	If(isset($currentshow)) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br />$status <br />Been here for ".$minhere." min<br />".$currentbest['score']."</td>";
