@@ -192,7 +192,23 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 
 echo "</tr>";
 echo "<tr><th>Best Path (min 20 min)</th>";
+unset($currentshow);
+unset($currentbest);
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
+	foreach($bestpath[$k] as $v) {
+		If (!empty($v)) {
+			
+			If(!empty($currentbest['score'])) 
+			{
+				If($v['score'] > $currentbest['score']) {
+					$currentbest = $v;
+			
+				} //Closes If($v['score'] > $currentbest['score'])
+			} else {
+				$currentbest = $v;
+			}
+		}
+	}
 	//First show of the day
 	If(!isset($currentshow)) {
 		$secondpass[$k] = $firstpass[$k];
