@@ -205,7 +205,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		If (!empty($v) && ($looking ==1 || $moving ==1)) {
 			If($looking == 1) {
 					$looked = "Looked";
-				If($v['score'] > $currentbest['score'] && $v['score'] > $target['score'] && $v['name'] != $currentbest['name']) {				
+				If(($v['score'] > $currentbest['score'] ) && ($v['score'] > $target['score'] ) && ( $v['name'] != $currentbest['name'])) {				
 					$target = $v;
 					$travelling=1;
 				}
