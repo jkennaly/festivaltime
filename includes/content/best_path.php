@@ -223,7 +223,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 		$status="First show of the day";
 		$minhere=0;
 		
-	} else {
+	}
 	//First block seen, but not first show of day
 	
 	
@@ -249,7 +249,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 			}
 		
 	//First 20 min of show
-	} else {
+	}
 		If($currentbest['sec_end']>$k+300 && $minhere>0) {
 			$status="Still at ".$currentbest['name'];
 			$minhere=$minhere+5;
@@ -270,8 +270,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 				$looking=0;
 				$moving=0;
 		} 
-	}
-	}
+	
+	
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
