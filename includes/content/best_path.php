@@ -198,7 +198,7 @@ unset($currentbest);
 $travelling=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	foreach($bestpath[$k] as $v) {
-		If (!empty($v)) {
+		If (!empty($v) && $travelling==0) {
 			
 			If(!empty($currentbest['score'])) 
 			{
