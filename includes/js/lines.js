@@ -48,7 +48,22 @@ function getDayOffset( el ) {
 }
 
 window.bestPath = function() {
-    var div1 = document.getElementById('day1');
-    var div2 = document.getElementById('band111')
+    var divday1 = document.getElementById('day1');
+    var divband111in = document.getElementById('band111');
+    var divband111out = document.getElementById('band111');
+    var divband89in = document.getElementById('band111');
+    var divband89out = document.getElementById('band111');
+    var div3 = document.getElementById('band89');
+    var div4 = document.getElementById('band73');
+    var div5 = document.getElementById('band23');
+    var div6 = document.getElementById('band114');
+    var div7 = document.getElementById('band5');
+    var div8 = document.getElementById('band171');
+    var div9 = document.getElementById('band96');
+    var div10 = document.getElementById('band74');
+    var div11 = document.getElementById('band51');
+    var div12 = document.getElementById('band34');
+    var div13 = document.getElementById('band-1');
+    var div14 = document.getElementById('band124');
     connect(div1, div2, "#0F0", 5);
 }
