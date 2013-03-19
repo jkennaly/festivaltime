@@ -232,7 +232,8 @@ If(empty($targetset)) $target['score']=-10;
 		}
 	};
 	If(isset($currentshow)) $pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-	If (!empty($targetset) && isset($currentshow) && $travelling==1) echo "band$currentshow at $pcgone<br />";
+	If (!empty($targetset) && isset($currentshow) && $travelling==1) 
+		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
