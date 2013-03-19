@@ -317,7 +317,7 @@ If(empty($targetset)) $target['score']=-10;
 //				echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
-		If($currentshow < 0 ) $currentshow="beer";
+		If($currentshow < 0 ) $currentshow="beer$showday";
 		$curpc=$pcgone;
 		$curdiv = "divband$currentshow";
 		$conline .="var $prevdiv = document.getElementById('band$prenode');<br />";
