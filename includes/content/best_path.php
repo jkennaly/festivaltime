@@ -230,14 +230,17 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "Leaving $currentshow at $k<br /><br />";
+	$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
+	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "Leaving $currentshow at $pcgone<br /><br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
 		$currentshow = $currentbest['band'];
+		$currentshowstart = $currentbest['sec_start'];
+		$currentshowend = $currentbest['sec_end'];
 		$status="First show of the day";
 		$minhere=0;
-		echo "Arriving $currentshow at $k<br />";
+		echo "Arriving $currentshow at $pcgone<br />";
 		
 	}
 	//First block seen, but not first show of day
@@ -277,11 +280,13 @@ If(empty($targetset)) $target['score']=-10;
 		}
 		If($minhere == 0 && $status != "First show of the day") {
 				$currentshow = $currentbest['band'];
+				$currentshowstart = $currentbest['sec_start'];
+				$currentshowend = $currentbest['sec_end'];
 				$status="At a new show"; 
 				$minhere=0;
 				$looking=0;
 				$moving=0;
-				echo "Arriving $currentshow at $k<br />";
+				echo "Arriving $currentshow at $pcgone<br />";
 		} 
 	
 
