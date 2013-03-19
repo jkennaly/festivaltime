@@ -29,7 +29,7 @@ $sql = "select username from Users where id='$scoreuser'";
 $res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
-echo "Showing best path for user ".$scoreusername."<br>";
+//echo "Showing best path for user ".$scoreusername."<br>";
 
 
 for ($i=1; $i<=$num["rows"]; $i++)
