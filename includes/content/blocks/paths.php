@@ -7,8 +7,6 @@ $traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from o
 $mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
 $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates
 
-//Sets the target for all POST actions
-$post_target=$basepage."?disp=best_path";
 
 
 $uscoreall[] = NULL;
