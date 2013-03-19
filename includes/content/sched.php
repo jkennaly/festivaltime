@@ -41,8 +41,6 @@ include $baseinstall."includes/content/blocks/paths.php";
 
 include $baseinstall."includes/content/blocks/user_selector.php";
 
-include $baseinstall."includes/content/blocks/paths.php";
-
 //First draw a grid for Day 1
 
 //Get fest start time and length
