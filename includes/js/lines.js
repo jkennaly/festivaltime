@@ -1,5 +1,5 @@
 function connect(div1, div2, color, thickness) {
-    var off1 = getOffset(div1);
+    var off1 = getDayOffset(div1);
     var off2 = getOffset(div2);
     // bottom right
     var x1 = off1.left + off1.width;
