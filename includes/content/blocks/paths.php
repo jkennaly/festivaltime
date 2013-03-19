@@ -29,11 +29,11 @@ $sql = "select username from Users where id='$scoreuser'";
 $res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
+echo "Showing best path for user ".$scoreusername."<br>";
 
 
 for ($i=1; $i<=$num["rows"]; $i++)
   {
-echo "Showing best path for user ".$scoreusername."<br>";
 	$sql="select name from bands where id='$i'";
 	$res = mysql_query($sql, $main);
 	$arr[$i] = mysql_fetch_assoc($res);
@@ -60,12 +60,6 @@ for ($i=1; $i<=$j; $i++)
   
   }
 
-
-?>
-
-
-
-<?php
 
 //First draw a grid for Day 1
 
@@ -109,22 +103,7 @@ $fest_start_time_sec = strtotime($day[$i]['date']." ".$fest_start_time);
 $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 
 
-//First open the table and lay down the times in 5min increments
-//echo "<table class=\"lsched\"><tr><th>Time</th>";
-
-for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-
-//echo "<th class=\"ltime\">".strftime("%I:%M %p", $k)."</th>";
-
-}
-
-//echo "</tr>";
-
 for($j=0;$j<mysql_num_rows($res);$j++) {
-
-//Now lay down the stages
-
-//echo "<tr><th>".$stage[$j]['name']."</th>";
 
 for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+600);$k=$k+300) {
 
@@ -149,44 +128,9 @@ If(mysql_num_rows($res_band)>0) {
 	$bestpath[$k][$stage[$j]['id']]['sec_end']=$band_row['sec_end'];
 	$bestpath[$k][$stage[$j]['id']]['sec_start']=$band_row['sec_start'];
 	$bestpath[$k][$stage[$j]['id']]['stage']=$stage[$j]['id'];
-} else {
-//	echo "<td></td>";
-
-} // Closes else If(mysql_num_rows($res_band>0)
+}
 }
 
-
-
-//echo "</tr>";
-}
-//echo "<tr><th>Best Path (First Pass)</th>";
-$travelling=0;
-for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
-	unset($currentshow);
-	unset($currentbest);
-	If(isset($bestpath[$k])) foreach($bestpath[$k] as $v) {
-		If (!empty($v)) {
-			If(!empty($currentbest['score'])) 
-			{
-				If($v['score'] > $currentbest['score']) {
-					$currentbest = $v;
-			
-				} //Closes If($v['score'] > $currentbest['score'])
-			} else {
-				$currentbest = $v;
-			} //Closes else If(!empty($currentbest['score']))
-		} //Closes If (!empty($v))
-	}; // Closes foreach($bestpath[$k] as $v)
-	If(!isset($currentbest)) {/*echo "<td></td>";*/}
-	else {
-		$firstpass[$k] = $currentbest;
-		
-//		echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."\n".$currentbest['score']."</td>";
-	}
-}
-
-//echo "</tr></table>";
-//echo "Best Path";
 unset($currentshow);
 unset($currentbest);
 unset($conline);
@@ -347,5 +291,4 @@ echo $conline;
 
 }
 
-?>
-
+}
