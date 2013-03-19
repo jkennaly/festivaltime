@@ -230,13 +230,14 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If ($targetset==1 && isset($currentshow)) echo "Leaving $prevshow at $k<br /><br />";
+	If ($targetset==1 && isset($currentshow)) echo "Leaving $currentshow at $k<br /><br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
 		$currentshow = $currentbest['band'];
 		$status="First show of the day";
 		$minhere=0;
+		echo "Arriving $currentshow at $k<br />";
 		
 	}
 	//First block seen, but not first show of day
@@ -245,7 +246,6 @@ If(empty($targetset)) $target['score']=-10;
 	//Been at the show more than 20 min
 	
 	If($minhere>=$mintime) {
-		$currentshow = $currentbest['band'];
 		
 			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
@@ -276,6 +276,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 		If($minhere == 0 && $status != "First show of the day") {
+				$currentshow = $currentbest['band'];
 				$status="At a new show"; 
 				$minhere=0;
 				$looking=0;
