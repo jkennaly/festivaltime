@@ -240,10 +240,11 @@ If(empty($targetset)) $target['score']=-10;
 //		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
-		If($currentshow > 0 ) $curdiv="divband$currentshow"; else $curdiv="divbandbeer";
+		If($currentshow < 0 ) $currentshow="beer";
 		$curpc=$pcgone;
 		$conline .="var $curdiv = document.getElementById('band$currentshow');<br />";
 		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
+		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}
 	If($travelling==0 && $moving == 0) {
@@ -258,12 +259,13 @@ If(empty($targetset)) $target['score']=-10;
 //		echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
-		If($currentshow > 0 ) $curdiv="divband$currentshow"; else $curdiv="divbandbeer";
+		If($currentshow < 0 ) $currentshow="beer";
 		$curpc=$pcgone;
 		$conline ="var $prevdiv = document.getElementById('day$showday');<br />";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');<br />";
 		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		$prenode=$currentshow;
+		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}
 	//First block seen, but not first show of day
@@ -313,7 +315,7 @@ If(empty($targetset)) $target['score']=-10;
 //				echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
-		If($currentshow > 0 ) $currentshow="beer";
+		If($currentshow < 0 ) $currentshow="beer";
 		$curpc=$pcgone;
 		$conline .="var $prevdiv = document.getElementById('band$prenode');<br />";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');<br />";
