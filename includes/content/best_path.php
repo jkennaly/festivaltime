@@ -194,7 +194,7 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 }
 
 echo "</tr></table>";
-echo "Best Path";
+//echo "Best Path";
 unset($currentshow);
 unset($currentbest);
 $travelling=0;
@@ -230,7 +230,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
+	If(isset($currentshow)) $pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
 	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "band$currentshow at $pcgone<br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
