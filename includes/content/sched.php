@@ -24,7 +24,7 @@ If(empty($_POST) || !empty($_POST['portrait'])) {
 <input type="submit" name="landscape" value="Flip orientation">
 </form>
 
-<input type="button" onclick="testIt();" value="Draw Line" />
+<input type="button" onclick="bestPath();" value="Show Best Path" />
 
 <div id="content">
 <?php
@@ -52,7 +52,7 @@ $fest_length = $row['value'];
 $sql = "select name as stagename, id from stages where name!='Undetermined'";
 
 //Get list of days
-$sql1 = "select name as dayname, date as daydate from days where name!='Undetermined'";
+$sql1 = "select name as dayname, date as daydate, id from days where name!='Undetermined'";
 $res1 = mysql_query($sql1, $main);
 
 //Index is incremented in 5 min increments to draw the table
@@ -62,7 +62,7 @@ $res = mysql_query($sql, $main);
 $i=0;
 $fest_start_time_sec = strtotime($day['daydate']." ".$fest_start_time);
 echo "<br> Day date is ".$day['daydate']." and fest start time is ".$fest_start_time;
-echo "<h3>".$day['dayname']."</h3>";
+echo "<h3 id=\"day".$day['id']."\">".$day['dayname']."</h3>";
 $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 
 //Draw first row of stage names

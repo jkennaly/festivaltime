@@ -34,8 +34,8 @@ function getOffset( el ) {
     return { top: _y, left: _x, width: _w, height: _h };
 }
 
-window.testIt = function() {
-    var div1 = document.getElementById('band1');
-    var div2 = document.getElementById('band2')
+window.bestPath = function() {
+    var div1 = document.getElementById('day1');
+    var div2 = document.getElementById('band111')
     connect(div1, div2, "#0F0", 5);
 }
