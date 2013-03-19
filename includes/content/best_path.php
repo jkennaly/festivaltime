@@ -230,7 +230,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	$pcgone=($k+$currentshowstart)*100/($currentshowend-$currentshowstart);
+	$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
 	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "Leaving $currentshow at $pcgone<br /><br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
