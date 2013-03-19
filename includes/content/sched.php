@@ -67,7 +67,7 @@ echo "<th>".$row['stagename']."</th>";
 $i=$i+1;
 $stageid[]=$row;
 } // Closes while($row = my_sql_fetch_array($res)) 
-echo "</tr>";
+echo "<th>Beer Tent</th></tr>";
 
 //Draw a row with i columns every 5 min from start time for fest length
 for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
@@ -98,7 +98,7 @@ If(    (   ($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_nam
 			$band_current_prev[$j] = $band_current[$stageid[$j-1]['id']];
 			$band_name_prev[$j] = $row_band['name'];
 		} // Closes for ($j=1;$j<=$i;$j++)
-		echo "</tr>";
+		echo "<td></td></tr>";
 	} // Closes for ($l=0;$l<3;$l++)
 } //Closes for ($k=$fest_start_time_sec,$k+300,$k<=$fest_end_time_sec)
 echo "</table><!-- end .schedtable -->";
