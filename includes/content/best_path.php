@@ -230,7 +230,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If ($targetset==1 && isset($currentshow)) echo "Leaving $currentshow at $k<br /><br />";
+	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "Leaving $currentshow at $k<br /><br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
