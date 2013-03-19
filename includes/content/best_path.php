@@ -289,7 +289,7 @@ If(empty($targetset)) $target['score']=-10;
 				$looking=0;
 				$moving=0;
 				$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-				echo "band$currentshow at $pcgone<br />";
+				echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
 		} 
 	
 
