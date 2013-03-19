@@ -193,8 +193,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	}
 }
 
-echo "</tr>";
-echo "<tr><th>Best Path (min 20 min)</th>";
+echo "</tr></table>";
+echo "Best Path";
 unset($currentshow);
 unset($currentbest);
 $travelling=0;
@@ -285,12 +285,13 @@ If(empty($targetset)) $target['score']=-10;
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">Current score: ".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "Current score: ".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br /><br />";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
 	If($travelling > 0) {
-		echo "<td>Travelling</td>";
+		If(isset($currentshow))echo "Travelling to ".$target['name'];
+		If(!isset($currentshow)) echo "Travelling to first show";
 		$looking=0;
 		$moving=0;
 		$travelling = $travelling+1;
