@@ -234,9 +234,16 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If(isset($currentshow)) round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
-//	If (!empty($targetset) && isset($currentshow) && $travelling==1) 
+	If(isset($currentshow)) round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
+	If (!empty($targetset) && isset($currentshow) && $travelling==1) {
 //		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
+		$prevdiv=$curdiv;
+		$prevpc=$curpc;
+		$curdiv="divband$currentshow";
+		$curpc=$pcgone;
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
+		
+	}
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
@@ -245,7 +252,7 @@ If(empty($targetset)) $target['score']=-10;
 		$currentshowend = $currentbest['sec_end'];
 		$status="First show of the day";
 		$minhere=0;
-		$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
+		$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
 		echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
@@ -297,7 +304,7 @@ If(empty($targetset)) $target['score']=-10;
 				$minhere=0;
 				$looking=0;
 				$moving=0;
-				$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
+				$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
 				echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;

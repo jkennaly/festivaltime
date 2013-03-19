@@ -48,22 +48,30 @@ function getDayOffset( el ) {
 }
 
 window.bestPath = function() {
-    var divday1 = document.getElementById('day1');
-    var divband111in = document.getElementById('band111');
-    var divband111out = document.getElementById('band111');
-    var divband89in = document.getElementById('band111');
-    var divband89out = document.getElementById('band111');
-    var div3 = document.getElementById('band89');
-    var div4 = document.getElementById('band73');
-    var div5 = document.getElementById('band23');
-    var div6 = document.getElementById('band114');
-    var div7 = document.getElementById('band5');
-    var div8 = document.getElementById('band171');
-    var div9 = document.getElementById('band96');
-    var div10 = document.getElementById('band74');
-    var div11 = document.getElementById('band51');
-    var div12 = document.getElementById('band34');
-    var div13 = document.getElementById('band-1');
-    var div14 = document.getElementById('band124');
+var divday1 = document.getElementById('day1');
+var divband111 = document.getElementById('band111');
+var divband89 = document.getElementById('band89');
+var divband73 = document.getElementById('band73');
+var divband23 = document.getElementById('band23');
+var divband114 = document.getElementById('band114');
+var divband5 = document.getElementById('band5');
+var divband171 = document.getElementById('band171');
+var divband96 = document.getElementById('band96');
+var divband74 = document.getElementById('band74');
+var divband51 = document.getElementById('band51');
+var divband34 = document.getElementById('band34');
+var divband-1 = document.getElementById('band-1');
+var divband124 = document.getElementById('band124');
+var divband98 = document.getElementById('band98');
+var divband86 = document.getElementById('band86');
+var divband61 = document.getElementById('band61');
+var divband42 = document.getElementById('band42');
+var divband78 = document.getElementById('band78');
+var divband132 = document.getElementById('band132');
+var divband10 = document.getElementById('band10');
+var divband-1 = document.getElementById('band-1');
+var divband101 = document.getElementById('band101');
+var divband143 = document.getElementById('band143');
+var divband68 = document.getElementById('band68');
     connect(div1, div2, "#0F0", 5);
 }
