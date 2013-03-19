@@ -8,7 +8,7 @@ $post_target=$basepage."?disp=sched";
 
 ?>
 
-<script type="text/javascript" src="../js/lines.js"></script>
+<script type="text/javascript" src="includes/js/lines.js"></script>
 
 <table ><caption>Color Code (Band names are links to band details)</caption>
 <tr>
