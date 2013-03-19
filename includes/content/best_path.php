@@ -258,7 +258,7 @@ If(empty($targetset)) $target['score']=-10;
 		$prevpc=$curpc;
 		$curdiv="divband$currentshow";
 		$curpc=$pcgone;
-		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
+		$conline.="var $prevdiv, $curdiv;<br />connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		
 	}
 	//First block seen, but not first show of day
