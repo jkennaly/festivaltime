@@ -285,7 +285,7 @@ If(empty($targetset)) $target['score']=-10;
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
+	If(isset($currentshow) && $travelling == 0) echo "<td class=\"rating".$currentbest['rating']."\">Current score: ".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."</td>";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
