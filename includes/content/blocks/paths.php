@@ -30,10 +30,10 @@ $res = mysql_query($sql, $master);
 $user_row = mysql_fetch_array($res);
 $scoreusername = $user_row['username'];
 
-echo "Showing best path for user ".$scoreusername."<br>";
 
 for ($i=1; $i<=$num["rows"]; $i++)
   {
+echo "Showing best path for user ".$scoreusername."<br>";
 	$sql="select name from bands where id='$i'";
 	$res = mysql_query($sql, $main);
 	$arr[$i] = mysql_fetch_assoc($res);
