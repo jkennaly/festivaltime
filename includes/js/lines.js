@@ -1,7 +1,7 @@
 function connect(div1, div2, offS1, offS2, color, thickness) {
     alert(div1+" "+div2);
-    var off1 = getOffset(div1);
-    var off2 = getOffset(div2);
+    var off1 = GetBox(div1);
+    var off2 = GetBox(div2);
     alert(off1.left+" "+off1.top);
     // bottom right
     var x1 = off1.left + 0.5*off1.width;
@@ -38,6 +38,20 @@ function getOffset( el ) { // return element top, left, width, height
     }
     return { top: _y, left: _x, width: _w, height: _h };
 }
+
+function GetBox (div) {
+
+            if (div.getBoundingClientRect) {        // Internet Explorer, Firefox 3+, Google Chrome, Opera 9.5+, Safari 4+
+                var rect = div.getBoundingClientRect ();
+                x = rect.left;
+                y = rect.top;
+                w = rect.right - rect.left;
+                h = rect.bottom - rect.top;
+
+                alert (" Left: " + x + "\n Top: " + y + "\n Width: " + w + "\n Height: " + h);
+    return { top: y, left: x, width: w, height: h };
+                
+            }
 
 window.bestPath = function () {
     var divday1 = document.getElementById('day1');
