@@ -44,7 +44,7 @@ function getDayOffset( el ) {
         _y += el.offsetTop - el.scrollTop;
         el = el.offsetParent;
     }
-    return { top: _y, left: _x, width: _w, height: _h };
+    return { top: _y, left: _x, width: 0, height: _h };
 }
 
 window.bestPath = function() {
