@@ -39,6 +39,8 @@ include $baseinstall."includes/content/blocks/paths.php";
 <div id="content">
 <?php
 
+include $baseinstall."includes/content/blocks/user_selector.php";
+
 include $baseinstall."includes/content/blocks/paths.php";
 
 //First draw a grid for Day 1

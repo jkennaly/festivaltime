@@ -10,7 +10,7 @@ $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumul
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=best_path";
 
-include $baseinstall."includes/content/blocks/user_selector.php";
+
 $uscoreall[] = NULL;
 
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
