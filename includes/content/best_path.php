@@ -231,7 +231,7 @@ If(empty($targetset)) $target['score']=-10;
 		}
 	};
 	$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "Leaving $currentshow at $pcgone<br /><br />";
+	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "band$currentshow at $pcgone<br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
@@ -241,7 +241,7 @@ If(empty($targetset)) $target['score']=-10;
 		$status="First show of the day";
 		$minhere=0;
 		$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-		echo "Arriving $currentshow at $pcgone<br />";
+		echo "band$currentshow at $pcgone<br />";
 		
 	}
 	//First block seen, but not first show of day
@@ -288,7 +288,7 @@ If(empty($targetset)) $target['score']=-10;
 				$looking=0;
 				$moving=0;
 				$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-				echo "Arriving $currentshow at $pcgone<br />";
+				echo "band$currentshow at $pcgone<br />";
 		} 
 	
 
@@ -300,8 +300,8 @@ elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
 	If($travelling > 0) {
-		If(isset($currentshow))echo "Travelling to ".$target['name']."<br />";
-		If(!isset($currentshow)) echo "Travelling to first show<br /><br />";
+//		If(isset($currentshow))echo "Travelling to ".$target['name']."<br />";
+		If(!isset($currentshow)) echo "Travelling to first show<br />";
 		$looking=0;
 		$moving=0;
 		$travelling = $travelling+1;
