@@ -207,6 +207,7 @@ $beertent['name']="Beer Tent";
 $beertent['sec_end']=$fest_end_time_sec;
 $beertent['sec_start']=$fest_start_time_sec;
 $beertent['stage']=-1;
+echo $day[$i]['id']."<br />";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
@@ -231,7 +232,7 @@ If(empty($targetset)) $target['score']=-10;
 		}
 	};
 	If(isset($currentshow)) $pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-	If ($targetset==1 && isset($currentshow) && $travelling==1) echo "band$currentshow at $pcgone<br />";
+	If (!empty($targetset) && isset($currentshow) && $travelling==1) echo "band$currentshow at $pcgone<br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
@@ -301,7 +302,7 @@ elseif ($travelling == 0) echo "<td></td>";
 	 
 	If($travelling > 0) {
 //		If(isset($currentshow))echo "Travelling to ".$target['name']."<br />";
-		If(!isset($currentshow)) echo "Travelling to first show<br />";
+//		If(!isset($currentshow)) echo "Travelling to first show<br />";
 		$looking=0;
 		$moving=0;
 		$travelling = $travelling+1;
@@ -314,9 +315,6 @@ elseif ($travelling == 0) echo "<td></td>";
 		}
 	}
 }
-
-echo "</tr>";
-echo "</table>";
 
 }
 
