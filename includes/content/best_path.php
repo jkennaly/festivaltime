@@ -242,6 +242,7 @@ If(empty($targetset)) $target['score']=-10;
 		$prevpc=$curpc;
 		$curdiv="divband$currentshow";
 		$curpc=$pcgone;
+		$conline .="var $curdiv = document.getElementById('band$currentshow');<br />";
 		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		
 	}
@@ -261,7 +262,7 @@ If(empty($targetset)) $target['score']=-10;
 		$curpc=$pcgone;
 		$conline .="var $prevdiv = document.getElementById('day$showday');<br />";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');<br />";
-		$conline.="var $prevdiv, $curdiv;<br />connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		
 	}
 	//First block seen, but not first show of day
