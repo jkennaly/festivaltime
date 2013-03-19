@@ -67,6 +67,7 @@ echo "<th>".$row['stagename']."</th>";
 $i=$i+1;
 $stageid[]=$row;
 } // Closes while($row = my_sql_fetch_array($res)) 
+echo "</tr>";
 
 //Draw a row with i columns every 5 min from start time for fest length
 for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
