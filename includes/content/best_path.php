@@ -208,7 +208,7 @@ $beertent['name']="Beer Tent";
 $beertent['sec_end']=$fest_end_time_sec;
 $beertent['sec_start']=$fest_start_time_sec;
 $beertent['stage']=-1;
-echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
+//echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
 $curdiv="divday".$day[$i]['id'];
 $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
@@ -253,11 +253,13 @@ If(empty($targetset)) $target['score']=-10;
 		$status="First show of the day";
 		$minhere=0;
 		$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
-		echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
+//		echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
 		$prevpc=$curpc;
 		$curdiv="divband$currentshow";
 		$curpc=$pcgone;
+		$conline .="var divday$prevdiv = document.getElementById('day$prevdiv');<br />";
+		$conline .="var divday$curdiv = document.getElementById('day$curdiv');<br />";
 		$conline.="var $prevdiv, $curdiv;<br />connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		
 	}
@@ -310,6 +312,8 @@ If(empty($targetset)) $target['score']=-10;
 		$prevpc=$curpc;
 		$curdiv="divband$currentshow";
 		$curpc=$pcgone;
+		$conline .="var divday$prevdiv = document.getElementById('day$prevdiv');<br />";
+		$conline .="var divday$curdiv = document.getElementById('day$curdiv');<br />";
 		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		} 
 	
