@@ -34,6 +34,19 @@ function getOffset( el ) {
     return { top: _y, left: _x, width: _w, height: _h };
 }
 
+function getDayOffset( el ) {
+    var _x = 0;
+    var _y = 0;
+    var _w = el.offsetWidth|0;
+    var _h = el.offsetHeight|0;
+    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+    }
+    return { top: _y, left: _x, width: 0, height: _h };
+}
+
 window.bestPath = function() {
     var div1 = document.getElementById('day1');
     var div2 = document.getElementById('band111')
