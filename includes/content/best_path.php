@@ -224,13 +224,13 @@ If(empty($targetset)) $target['score']=-10;
 					$travelling=1;
 					$targetset=1;
 			}
-		If ($targetset==1 && isset($currentshow)) echo "Leaving $prevshow at $k<br />";
 		}
 		If(($looking ==1 || $moving ==1) && $travelling==1) {
 			If($beertent['score'] > $target['score']) $target = $beertent;
 			
 		}
 	};
+	If ($targetset==1 && isset($currentshow)) echo "Leaving $prevshow at $k<br /><br />";
 	If($travelling==0 && $moving == 0) {
 	//First show of the day
 	If(!isset($currentshow)) {
@@ -280,13 +280,14 @@ If(empty($targetset)) $target['score']=-10;
 				$minhere=0;
 				$looking=0;
 				$moving=0;
+				echo "Arriving $currentshow at $k<br />";
 		} 
 	
 
 	$prevshow = $currentshow;
 	}
 //	$k = $nextchecktime;
-	If(isset($currentshow) && $travelling == 0) echo "Current score: ".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br /><br />";
+//	If(isset($currentshow) && $travelling == 0) echo "Current score: ".$currentbest['score']."<br />".$currentbest['name']."<br />at ".getSname($main, $currentbest['stage'])."<br /><br />";
 elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
