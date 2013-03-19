@@ -26,6 +26,14 @@ If(empty($_POST) || !empty($_POST['portrait'])) {
 
 <input type="button" onclick="bestPath();" value="Show Best Path" />
 
+<script type="text/javascript"></script>
+window.bestPath = function () {
+<?php
+include "blocks/path.php";
+?>
+}
+</script>
+
 <div id="content">
 <?php
 
