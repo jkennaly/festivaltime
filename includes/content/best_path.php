@@ -224,6 +224,7 @@ If(empty($targetset)) $target['score']=-10;
 					$travelling=1;
 					$targetset=1;
 			}
+		If ($targetset==1 && isset($currentshow)) echo "Leaving $prevshow at $k<br />";
 		}
 		If(($looking ==1 || $moving ==1) && $travelling==1) {
 			If($beertent['score'] > $target['score']) $target = $beertent;
