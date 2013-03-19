@@ -29,15 +29,17 @@ If(empty($_POST) || !empty($_POST['portrait'])) {
 <script type="text/javascript">
 window.bestPath = function () {
 <?php
-include "blocks/path.php";
+include $baseinstall."includes/content/blocks/paths.php";
 ?>
 }
 </script>
 
+
+
 <div id="content">
 <?php
 
-
+include $baseinstall."includes/content/blocks/paths.php";
 
 //First draw a grid for Day 1
 
