@@ -207,7 +207,7 @@ $beertent['name']="Beer Tent";
 $beertent['sec_end']=$fest_end_time_sec;
 $beertent['sec_start']=$fest_start_time_sec;
 $beertent['stage']=-1;
-//echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
+echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
