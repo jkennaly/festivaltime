@@ -197,6 +197,7 @@ echo "</tr></table>";
 //echo "Best Path";
 unset($currentshow);
 unset($currentbest);
+unset($conline);
 $travelling=0;
 $looking=0;
 $moving=1;
@@ -298,6 +299,11 @@ If(empty($targetset)) $target['score']=-10;
 				$moving=0;
 				$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
 				echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
+		$prevdiv=$curdiv;
+		$prevpc=$curpc;
+		$curdiv="divband$currentshow";
+		$curpc=$pcgone;
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);<br />";
 		} 
 	
 
