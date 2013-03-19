@@ -240,6 +240,7 @@ If(empty($targetset)) $target['score']=-10;
 		$currentshowend = $currentbest['sec_end'];
 		$status="First show of the day";
 		$minhere=0;
+		$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
 		echo "Arriving $currentshow at $pcgone<br />";
 		
 	}
@@ -286,6 +287,7 @@ If(empty($targetset)) $target['score']=-10;
 				$minhere=0;
 				$looking=0;
 				$moving=0;
+				$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
 				echo "Arriving $currentshow at $pcgone<br />";
 		} 
 	
