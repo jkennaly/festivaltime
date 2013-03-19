@@ -41,7 +41,7 @@ function getOffset( el ) { // return element top, left, width, height
 
 function GetBox (div) {
 
-            if (div.getBoundingClientRect) {        // Internet Explorer, Firefox 3+, Google Chrome, Opera 9.5+, Safari 4+
+                // Internet Explorer, Firefox 3+, Google Chrome, Opera 9.5+, Safari 4+
                 var rect = div.getBoundingClientRect ();
                 x = rect.left;
                 y = rect.top;
