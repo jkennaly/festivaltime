@@ -292,7 +292,7 @@ elseif ($travelling == 0) echo "<td></td>";
 	$minhere=$minhere+5;
 	 
 	If($travelling > 0) {
-		If(isset($currentshow))echo "Travelling to ".$target['name']"<br />";
+		If(isset($currentshow))echo "Travelling to ".$target['name']."<br />";
 		If(!isset($currentshow)) echo "Travelling to first show<br /><br />";
 		$looking=0;
 		$moving=0;
