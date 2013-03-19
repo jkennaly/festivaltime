@@ -234,7 +234,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If(isset($currentshow)) round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
+	If(isset($currentshow)) $pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
 	If (!empty($targetset) && isset($currentshow) && $travelling==1) {
 //		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
 		$prevdiv=$curdiv;
