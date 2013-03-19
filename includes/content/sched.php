@@ -30,6 +30,7 @@ If(empty($_POST['landscape'])) {
 window.bestPath = function () {
 <?php
 include $baseinstall."includes/content/blocks/paths.php";
+echo "alert(\"Paths complete!\");";
 ?>
 }
 </script>
