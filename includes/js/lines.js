@@ -1,5 +1,6 @@
 function connect(div1, div2, offS1, offS2, color, thickness) {
     alert(div1+" "+div2);
+    var off1 = new Object, off2 = new Object;
     var off1 = GetBox(div1);
     var off2 = GetBox(div2);
     alert(off1.left+" "+off1.top);
