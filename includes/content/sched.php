@@ -17,7 +17,7 @@ $post_target=$basepage."?disp=sched";
 </table>
 
 <?php
-If(empty($_POST) || !empty($_POST['portrait'])) {
+If(empty($_POST['landscape'])) {
 ?>
 
 <form action="<?php echo $post_target; ?>" method="post">
