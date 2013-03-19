@@ -7,6 +7,9 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 $post_target=$basepage."?disp=sched";
 
 ?>
+
+<script type="text/javascript" src="../js/lines.js"></script>
+
 <table ><caption>Color Code (Band names are links to band details)</caption>
 <tr>
 <td class="rating"><a>Unrated</a></td><td class="rating1"><a>Rating=1</a></td><td class="rating2"><a>Rating=2</a></td><td class="rating3"><a>Rating=3</a></td><td class="rating4"><a>Rating=4</a></td><td class="rating5"><a>Rating=5</a></td>
@@ -20,6 +23,8 @@ If(empty($_POST) || !empty($_POST['portrait'])) {
 <form action="<?php echo $post_target; ?>" method="post">
 <input type="submit" name="landscape" value="Flip orientation">
 </form>
+
+<input type="button" onclick="testIt();" value="Draw Line" />
 
 <div id="content">
 <?php
@@ -93,7 +98,7 @@ for ($k=$fest_start_time_sec;$k<=$fest_end_time_sec;$k=$k+900) {
 			If(empty($band_current[$j])) $band_current[$j]=0;
 			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
 If(    (   ($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
-			If($ticked[$j] == 1 ) echo "<td class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getGname($master, $row_band['genre'])."</a></td>";
+			If($ticked[$j] == 1 ) echo "<td id=\"band".$row_band['id']."\" class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getGname($master, $row_band['genre'])."</a></td>";
 			If($ticked[$j] == 0 ) echo "<td></td>";
 			$band_current_prev[$j] = $band_current[$stageid[$j-1]['id']];
 			$band_name_prev[$j] = $row_band['name'];
