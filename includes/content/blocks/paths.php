@@ -94,6 +94,8 @@ $res1 = mysql_query($sql1, $main);
 while($row=mysql_fetch_array($res1)){
 	$day[] = $row;
 }
+
+//Loop for each day
 for($i=0;$i<mysql_num_rows($res1);$i++) {
 unset($currentstage);
 
@@ -102,9 +104,10 @@ $fest_start_time_sec = strtotime($day[$i]['date']." ".$fest_start_time);
 //echo "<h3>".$day[$i]['name']."</h3>";
 $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 
-
+//Loop for each stage
 for($j=0;$j<mysql_num_rows($res);$j++) {
-
+	
+//Loop for each 5 min increment to collect band data
 for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+600);$k=$k+300) {
 
 $band_end = $k+300;
@@ -128,6 +131,7 @@ If(mysql_num_rows($res_band)>0) {
 	$bestpath[$k][$stage[$j]['id']]['sec_end']=$band_row['sec_end'];
 	$bestpath[$k][$stage[$j]['id']]['sec_start']=$band_row['sec_start'];
 	$bestpath[$k][$stage[$j]['id']]['stage']=$stage[$j]['id'];
+}
 }
 }
 
@@ -266,7 +270,7 @@ If(empty($targetset)) $target['score']=-10;
 
 	$prevshow = $currentshow;
 	}
-	}
+	
 
 	If(isset($currentshow)) $minhere=$minhere+5;
 	 
