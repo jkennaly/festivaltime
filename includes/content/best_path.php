@@ -207,7 +207,7 @@ $beertent['name']="Beer Tent";
 $beertent['sec_end']=$fest_end_time_sec;
 $beertent['sec_start']=$fest_start_time_sec;
 $beertent['stage']=-1;
-echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
+//echo "var divday".$day[$i]['id']." = document.getElementById('day".$day[$i]['id']."');<br />";
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
@@ -231,7 +231,7 @@ If(empty($targetset)) $target['score']=-10;
 			
 		}
 	};
-	If(isset($currentshow)) $pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
+	If(isset($currentshow)) round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
 	If (!empty($targetset) && isset($currentshow) && $travelling==1) 
 		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
 	If($travelling==0 && $moving == 0) {
@@ -243,7 +243,7 @@ If(empty($targetset)) $target['score']=-10;
 		$status="First show of the day";
 		$minhere=0;
 		$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
-		echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
+		echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		
 	}
 	//First block seen, but not first show of day
@@ -289,8 +289,8 @@ If(empty($targetset)) $target['score']=-10;
 				$minhere=0;
 				$looking=0;
 				$moving=0;
-				$pcgone=($k-$currentshowstart)*100/($currentshowend-$currentshowstart);
-				echo "var divband$currentshow$pcgone = document.getElementById('band$currentshow');<br />";
+				$pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 0);
+				echo "var divband$currentshow = document.getElementById('band$currentshow');<br />";
 		} 
 	
 
