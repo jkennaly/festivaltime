@@ -289,9 +289,8 @@ If(empty($targetset)) $target['score']=-10;
 		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}
-	If($travelling==0 && $moving == 0) {
 	//First show of the day
-	If(!isset($currentshow)) {
+	If(!isset($currentshow) && isset($currentbest)) {
 		$currentshow = $currentbest['band'];
 		$currentshowstart = $currentbest['sec_start'];
 		$currentshowend = $currentbest['sec_end'];
@@ -311,6 +310,7 @@ If(empty($targetset)) $target['score']=-10;
 		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}
+	If($travelling==0 && $moving == 0) {
 	//First block seen, but not first show of day
 	
 	
