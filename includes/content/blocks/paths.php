@@ -13,6 +13,7 @@ $uscoreall[] = NULL;
 
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
 If(empty($_POST['user'])) $scoreuser = $user;
+If(!empty($jsuser)) $scoreuser = $jsuser;
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);

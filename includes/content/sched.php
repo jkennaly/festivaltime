@@ -24,11 +24,19 @@ If(empty($_POST['landscape'])) {
 <input type="submit" name="landscape" value="Flip orientation">
 </form>
 
-<input type="button" onclick="bestPath();" value="Show Best Path" />
+<?php
+$usersql="select id, username from Users";
+$userres=mysql_query($usersql, $master);
+while($row=mysql_fetch_array($userres)) {
+	
+
+?>
+<input type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['name']; ?>'s Best Path" />
 
 <script type="text/javascript">
-window.bestPath = function () {
+window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
+$jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");";
 include $baseinstall."includes/content/blocks/paths.php";
 echo "alert(\"Paths complete!\");";
@@ -36,12 +44,14 @@ echo "alert(\"Paths complete!\");";
 }
 </script>
 
-
+<?php
+}
+?>
 
 <div id="content">
 <?php
 
-include $baseinstall."includes/content/blocks/user_selector.php";
+//include $baseinstall."includes/content/blocks/user_selector.php";
 
 //First draw a grid for Day 1
 
