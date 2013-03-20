@@ -148,9 +148,9 @@ If(empty($targetset)) $target['score']=-10;
 	If(empty($currentshow)) {
 			If(isset($bestpath[$k+600]))  {
 				//Find the best 10 min band
-				$tenmin = $beertent;
+				$tenmin['score']=-10;
 				foreach($bestpath[$k+600] as $v) {
-					If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+1800) $tenmin = $v;
+					If($v['score'] > $tenmin['score']) $tenmin = $v;
 					$target = $tenmin;
 					$travelling=1;
 					$targetset=1;
