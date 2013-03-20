@@ -182,7 +182,8 @@ If(empty($targetset)) $target['score']=-10;
 		$tenmin = $tempband;
 		foreach($bestpath[$k+$tenminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*2;
-			If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $tenmin = $v;
+			If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+$twentyminmod) $tenmin = $v;
+//			echo "alert(\"v score is ".$v['score']." and tenmin score is ".$tenmin['score']."\");";
 		}
 		//Find the best 20 min band
 		$twentymin = $tempband;
