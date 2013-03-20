@@ -37,6 +37,8 @@ function uscoref2($band, $user, $avg_rating, $mysql_link) {
 
 $sql1 = "SELECT rating as score FROM ratings WHERE band='$band' and user='$user'";
 
+echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
+
 $res = mysql_query($sql1, $mysql_link);
 If(!empty($res)) {
 	$arr = mysql_fetch_assoc($res);

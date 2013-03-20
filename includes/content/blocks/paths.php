@@ -161,7 +161,7 @@ If(empty($targetset)) $target['score']=-10;
 				//Find the best 10 min band
 				$tenmin['score']=-10;
 				foreach($bestpath[$k+$tenminmod] as $v) {
-						echo "alert(\"Found a band: ".$v['name']." with a score of ".$v['score']."\");";
+	//					echo "alert(\"Found a band: ".$v['name']." with a score of ".$v['score']."\");";
 					If($v['score'] > $tenmin['score']) {
 						$tenmin = $v;
 						$target = $tenmin;
