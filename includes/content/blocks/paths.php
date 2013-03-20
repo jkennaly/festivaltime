@@ -359,7 +359,7 @@ If(empty($targetset)) $target['score']=-10;
 		$moving=0;
 		$travelling = $travelling+1;
 		$prevshow=-1;
-		If($travelling > $traveltime) {
+		If($travelling > $traveltimeactual) {
 			$currentbest = $target;
 			$targetset=0;
 			$minhere=0;
