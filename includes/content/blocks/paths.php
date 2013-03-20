@@ -214,7 +214,7 @@ If(empty($targetset)) $target['score']=-10;
 					$traveltimeactual=$traveltime;
 				}
 			}
-			If($moving == 1){
+			If($moving == 1 && !empty($currentshow)){
 					/* Old Moving Logic
 					If( $v['score'] > $target['score'] ) $target = $v;
 					$travelling=1;
@@ -246,6 +246,13 @@ If(empty($targetset)) $target['score']=-10;
 					If($target['sec_start'] > $k+300) $traveltimeactual=($target['sec_start']-$k)/300; else $traveltimeactual=$traveltime;
 					}
 				}
+			}
+			If($moving == 1 && empty($currentshow) && !empty($tenmin)){
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
+				
 			}
 		}
 		If(($looking ==1 || $moving ==1) && $travelling==1) {
