@@ -160,6 +160,7 @@ switch ($nighttraveltimeval) {
 }
 
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
+echo "alert(\"Thirstiness value is $thirstiness.\");\n";
 pathfinder($row['id'], $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
 echo "alert(\"Paths complete!\");";
 ?>
