@@ -2,7 +2,7 @@
 <?php
 
 
-function pathfinder($scoreuser, $banddecay, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
+function pathfinder($scoreuser, $banddecay, $color, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
@@ -273,7 +273,7 @@ If(empty($targetset)) $target['score']=-10;
 		$curpc=$pcgone;
 		$curdiv = "divband$currentshow";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');\n";
-		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);\n";
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"$color\", 5);\n";
 		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}

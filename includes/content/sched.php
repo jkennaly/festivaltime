@@ -31,9 +31,10 @@ $userres=mysql_query($usersql, $master);
 include $baseinstall."includes/content/blocks/paths.php";
 	
 
+
 while($row=mysql_fetch_array($userres)) {
 	
-	
+$color=	($row['id'] % 100) *10000 + ($row['id']*3 % 100) * 100 + ($row['id']*9 % 100);
 
 
 //Set some variables for use
@@ -50,7 +51,7 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
 $jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
-pathfinder($row['id'], $banddecay, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
+pathfinder($row['id'], $banddecay, $color, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
 echo "alert(\"Paths complete!\");";
 ?>
 }
