@@ -145,7 +145,7 @@ $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
-	If(empty($currentshow)) {
+	If(empty($currentshow) && $travelling==0) {
 			If(isset($bestpath[$k+600]))  {
 				//Find the best 10 min band
 				$tenmin['score']=-10;
@@ -156,7 +156,7 @@ If(empty($targetset)) $target['score']=-10;
 						$travelling=1;
 						$targetset=1;
 						$traveltimeactual=$traveltime;
-				echo $v['name'].$v['score']." ";
+//				echo $v['name'].$v['score']." ";
 					}
 				}
 			}
