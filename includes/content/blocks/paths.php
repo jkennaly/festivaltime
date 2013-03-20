@@ -150,12 +150,14 @@ If(empty($targetset)) $target['score']=-10;
 				//Find the best 10 min band
 				$tenmin['score']=-10;
 				foreach($bestpath[$k+600] as $v) {
-					echo $v['name'].$v['score']." ";
-					If($v['score'] > $tenmin['score']) $tenmin = $v;
-					$target = $tenmin;
-					$travelling=1;
-					$targetset=1;
-					$traveltimeactual=$traveltime;
+				//	echo $v['name'].$v['score']." ";
+					If($v['score'] > $tenmin['score']) {
+						$tenmin = $v;
+						$target = $tenmin;
+						$travelling=1;
+						$targetset=1;
+						$traveltimeactual=$traveltime;
+					}
 				}
 			}
 	} else {
