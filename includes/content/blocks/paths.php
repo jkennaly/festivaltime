@@ -273,7 +273,7 @@ If(empty($targetset)) $target['score']=-10;
 		$curpc=$pcgone;
 		$curdiv = "divband$currentshow";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');\n";
-		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"$color\", 5);\n";
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#$color\", 5);\n";
 		If($currentshow =="beer" ) $currentshow=-1;
 		
 	}
@@ -294,7 +294,7 @@ If(empty($targetset)) $target['score']=-10;
 		$curdiv = "divband$currentshow";
 		$conline .="var $prevdiv = document.getElementById('day$showday');\n";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');\n";
-		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);\n";
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#$color\", 5);\n";
 		$prenode=$currentshow;
 		If($currentshow =="beer" ) $currentshow=-1;
 		
@@ -351,7 +351,7 @@ If(empty($targetset)) $target['score']=-10;
 		$curdiv = "divband$currentshow";
 		$conline .="var $prevdiv = document.getElementById('band$prenode');\n";
 		$conline .="var $curdiv = document.getElementById('band$currentshow');\n";
-		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#0F0\", 5);\n";
+		$conline.="connect($prevdiv, $curdiv, $prevpc, $curpc, \"#$color\", 5);\n";
 		$prenode=$currentshow;
 		If($currentshow =="beer" ) $currentshow=-1;
 		} 
