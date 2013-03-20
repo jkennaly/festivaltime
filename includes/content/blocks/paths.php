@@ -98,7 +98,7 @@ $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 for($j=0;$j<mysql_num_rows($res);$j++) {
 	
 //Loop for each 5 min increment to collect band data
-for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+600);$k=$k+300) {
+for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+4200);$k=$k+300) {
 
 $band_end = $k+300;
 //See if a band is playing at the current time block and pull info if it does
