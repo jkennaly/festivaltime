@@ -207,7 +207,7 @@ If(empty($targetset)) $target['score']=-10;
 					$targetset=1;
 				}
 				 */
-				If($tenmin['name'] != $currentbest['name'] && $tenmin==$thirtymin && $tenmin['score'] >= $currentbest['score'] && !($tenmin != $twentymin && $twentymin == $fortymin)) {
+				If($tenmin['name'] != $currentbest['name'] && $tenmin==$thirtymin && $tenmin['score'] >= $currentbest['score']) {
 					$target = $tenmin;
 					$travelling=1;
 					$targetset=1;
