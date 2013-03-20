@@ -34,7 +34,7 @@ include $baseinstall."includes/content/blocks/paths.php";
 
 while($row=mysql_fetch_array($userres)) {
 	
-$color=	($row['id'] % 100) *10000 + ($row['id']*3 % 100) * 100 + ($row['id']*9 % 100);
+$color=	random_color();
 
 
 //Set some variables for use
