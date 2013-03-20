@@ -313,7 +313,7 @@ If(empty($targetset)) $target['score']=-10;
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>=$mintime) {
+	If($minhere>$mintime) {
 		
 			If($currentbest['sec_end']>=$k+300) {
 				$status="Still the best option";
