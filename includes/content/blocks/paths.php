@@ -361,4 +361,5 @@ If(empty($targetset)) $target['score']=-10;
 echo $conline;
 
 }
+return true;
 }
