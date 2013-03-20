@@ -39,7 +39,6 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 $jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
 echo "alert(\"Adding line for user ".$row['username'].".\");";
-echo 
 include $baseinstall."includes/content/blocks/paths.php";
 echo "alert(\"Paths complete!\");";
 ?>
