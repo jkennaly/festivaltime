@@ -29,7 +29,7 @@ for ($i=1; $i<=$num["rows"]; $i++)
 	$arr[$i] = mysql_fetch_assoc($res);
 	$uscoreall[] = uscoref($i, $scoreuser, $avg_rating, $main);
   	$j=$i;
-	echo $i;
+	echo uscoref($i, $scoreuser, $avg_rating, $main);
   }
 
 
