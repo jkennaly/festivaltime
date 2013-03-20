@@ -197,6 +197,7 @@ If(empty($targetset)) $target['score']=-10;
 			If($v['score'] > $seventymin['score'] && $v['sec_end'] >= $k+1800) $seventymin = $v;
 		}
 		}
+		}
 		If ($looking ==1 || $moving ==1) {
 			If($looking == 1) {
 				/* Old looking logic
