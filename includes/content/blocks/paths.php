@@ -156,7 +156,7 @@ If(empty($targetset)) $target['score']=-10;
 						$travelling=1;
 						$targetset=1;
 						$traveltimeactual=$traveltime;
-//				echo $v['name'].$v['score']." ";
+				echo $v['name'].$v['score']." ";
 					}
 				}
 			}
