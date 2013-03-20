@@ -39,7 +39,8 @@ $color=	random_color();
 
 //Set some variables for use
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
-$traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
+$daytraveltime = 1; //Traveltime is the number of 5min blocks it takes to go from one placeto another
+$nighttraveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
 $mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
 $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates	
 
@@ -51,7 +52,7 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
 $jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
-pathfinder($row['id'], $banddecay, $color, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
+pathfinder($row['id'], $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
 echo "alert(\"Paths complete!\");";
 ?>
 }

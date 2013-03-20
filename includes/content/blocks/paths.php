@@ -2,7 +2,7 @@
 <?php
 
 
-function pathfinder($scoreuser, $banddecay, $color, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
+function pathfinder($scoreuser, $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
@@ -143,6 +143,7 @@ $curdiv="divday".$day[$i]['id'];
 $showday=$day[$i]['id'];
 $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
+	If(strftime("%H", $k) >= 19 || strftime("%H", $k) < 6) $traveltime=$nighttraveltime; else $traveltime=$daytraveltime;
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
 	If(empty($currentbest) && $travelling==0) {
