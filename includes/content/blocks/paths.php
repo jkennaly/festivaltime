@@ -4,6 +4,8 @@
 
 function pathfinder($scoreuser, $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
 
+echo "alert(\"$thirstiness is thirstiness\");";
+
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
 $num = mysql_fetch_assoc($res);
