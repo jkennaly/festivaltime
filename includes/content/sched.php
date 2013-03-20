@@ -50,7 +50,115 @@ $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumul
 <script type="text/javascript">
 window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
-$jsuser = $row['id'];
+//Determine variables from user settings
+$setting_sql = "select * from user_settings_".$row['id'];
+$settings_res = mysql_query($setting_sql, $master);
+while($row=mysql_fetch_array($settings_res)) {
+	If($row['item'] == "Minimum time at a band") $mintimeval = $row['value'];
+	If($row['item'] == "Travel Time-night") $nighttraveltimeval = $row['value'];
+	If($row['item'] == "Travel Time-day") $daytraveltimeval = $row['value'];
+	If($row['item'] == "Thirstiness") $thirstinesseval = $row['value'];
+	If($row['item'] == "Band boredom") $banddecayval = $row['value'];
+}
+
+//Minimum Time
+switch ($mintimeval) {
+	case 1:
+		$mintime = 20;
+		break;
+	case 2:
+		$mintime = 10;
+		break;
+	case 3:
+		$mintime = 30;
+		break;
+	case 4:
+		$mintime = 40;
+		break;
+	case 5:
+		$mintime = 50;
+		break;
+	default:
+		$mintime = 20;
+		break;
+}
+
+//Band decay
+switch ($banddecayval) {
+	case 1:
+		$banddecay = 0.25;
+		break;
+	case 2:
+		$banddecay = 0.1;
+		break;
+	case 3:
+		$banddecay = 0;
+		break;
+	case 4:
+		$banddecay = 0.5;
+		break;
+	default:
+		$banddecay = 0.25;
+		break;
+}
+
+//Thirstiness
+switch ($thirstinessval) {
+	case 1:
+		$thirstiness = 0.04;
+		break;
+	case 2:
+		$thirstiness = 0;
+		break;
+	case 3:
+		$thirstiness = 0.1;
+		break;
+	default:
+		$thirstiness = 0.04;
+		break;
+}
+
+//Travel time-day
+switch ($daytraveltimeval) {
+	case 1:
+		$daytraveltime = 1;
+		break;
+	case 2:
+		$daytraveltime = 2;
+		break;
+	case 3:
+		$daytraveltime = 3;
+		break;
+	case 4:
+		$daytraveltime = 4;
+		break;
+	default:
+		$daytraveltime = 1;
+		break;
+}
+
+//Travel time-night
+switch ($nighttraveltimeval) {
+	case 1:
+		$nighttraveltime = 2;
+		break;
+	case 2:
+		$nighttraveltime = 1;
+		break;
+	case 3:
+		$nighttraveltime = 3;
+		break;
+	case 4:
+		$nighttraveltime = 4;
+		break;
+	case 5:
+		$nighttraveltime = 5;
+		break;
+	default:
+		$nighttraveltime = 2;
+		break;
+}
+
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
 pathfinder($row['id'], $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
 echo "alert(\"Paths complete!\");";
