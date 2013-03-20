@@ -145,7 +145,7 @@ $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
-	If(empty($currentshow) && $travelling==0) {
+	If(empty($currentbest) && $travelling==0) {
 			If(isset($bestpath[$k+600]))  {
 				//Find the best 10 min band
 				$tenmin['score']=-10;
