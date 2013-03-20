@@ -256,8 +256,12 @@ If(empty($targetset)) $target['score']=-10;
 				
 			}
 		}
-		If(($looking ==1 || $moving ==1) && $travelling==1) {
+		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0) {
 			If($beertent['score'] > $target['score']) $target = $beertent;
+			
+		}
+		If($looking ==1 && $travelling==0 && $thirstiness >0) {
+			If($beertent['score'] > $currentbest['score']) $target = $beertent;
 			
 		}
 	};
