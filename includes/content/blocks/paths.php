@@ -155,19 +155,91 @@ $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
-	If(isset($bestpath[$k+600])) foreach($bestpath[$k+600] as $v) {
-		If (!empty($v) && ($looking ==1 || $moving ==1)) {
+	If(isset($bestpath[$k+600]))  {
+		//Find the best 10 min band
+		$tenmin = $beertent;
+		foreach($bestpath[$k+600] as $v) {
+			If($v['score'] > $tenmin['score']) $tenmin = $v;
+		}
+		//Find the best 20 min band
+		$twentymin = $beertent;
+		foreach($bestpath[$k+1200] as $v) {
+		 	If($v['score'] > $twentymin['score']) $twentymin = $v;
+		}
+		//Find the best 30 min band
+		$thirtymin = $beertent;
+		foreach($bestpath[$k+1800] as $v) {
+			If($v['score'] > $thirtymin['score']) $thirtymin = $v;
+		}
+		//Find the best 40 min band
+		$fortymin = $beertent;
+		foreach($bestpath[$k+2400] as $v) {
+			If($v['score'] > $fortymin['score']) $fortymin = $v;
+		}
+		//Find the best 50 min band
+		$fiftymin = $beertent;
+		foreach($bestpath[$k+3000] as $v) {
+			If($v['score'] > $fiftymin['score']) $fiftymin = $v;
+		}
+		//Find the best 60 min band
+		$sixtymin = $beertent;
+		foreach($bestpath[$k+3600] as $v) {
+			If($v['score'] > $sixtymin['score']) $sixtymin = $v;
+		}
+		//Find the best 70 min band
+		$seventymin = $beertent;
+		foreach($bestpath[$k+4200] as $v) {
+			If($v['score'] > $seventymin['score']) $seventymin = $v;
+		}
+		If ($looking ==1 || $moving ==1) {
 			If($looking == 1) {
+				/* Old looking logic
 				If(($v['score'] > $currentbest['score'] ) && ($v['score'] > $target['score'] ) && ( $v['name'] != $currentbest['name'])) {				
 					$target = $v;
 					$travelling=1;
 					$targetset=1;
 				}
-			}
+				 */
+				If($tenmin['name'] != $currentbest['name'] && $tenmin==$thirtymin && $tenmin['score'] >= $currentbest['score'] && !($tenmin != $twentymin && $twentymin == $fortymin)) {
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
+				}
 			If($moving == 1){
+					/* Old Moving Logic
 					If( $v['score'] > $target['score'] ) $target = $v;
 					$travelling=1;
 					$targetset=1;
+					 */
+				If($tenmin==$thirtymin) {
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
+				}
+				If($targetset !=1 && $tenmin['sec_end']>$k+1800) {
+					If ($tenmin==$twentymin) {
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
+				}
+					If ($twentymin==$thirtymin && $twentymin==$fortymin && $twentymin==$fiftymin && $twentymin==$sixtymin) {
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
+				}
+					If($targetset !=1) {
+					$target = $twentymin;
+					$travelling=1;
+					$targetset=1;
+					If($target['sec_start'] > $k+300) $traveltimeactual=($target['sec_start']-$k)/300; else $traveltimeactual=$traveltime;
+				}
+				If($travelling !=1 && $tenmin['sec_end']>$k+1800) {
+					
+				}
 			}
 		}
 		If(($looking ==1 || $moving ==1) && $travelling==1) {

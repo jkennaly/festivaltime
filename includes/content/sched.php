@@ -29,6 +29,7 @@ If(empty($_POST['landscape'])) {
 <script type="text/javascript">
 window.bestPath = function () {
 <?php
+echo "alert(\"Wait until you get the completion before scrolling the screen.\");";
 include $baseinstall."includes/content/blocks/paths.php";
 echo "alert(\"Paths complete!\");";
 ?>
