@@ -29,7 +29,6 @@ for ($i=1; $i<=$num["rows"]; $i++)
 	$arr[$i] = mysql_fetch_assoc($res);
 	$uscoreall[] = uscoref($i, $scoreuser, $avg_rating, $main);
   	$j=$i;
-	echo uscoref($i, $scoreuser, $avg_rating, $main);
   }
 
 
@@ -39,7 +38,7 @@ reset($uscoreall);
 
 for ($i=1; $i<=$j; $i++)
   {
-	If( $arr[(key($uscoreall))]["name"] ) {
+	If( !empty($arr[(key($uscoreall))]["name"]) ) {
 
 //	echo "<tr><th>$i</th><th><a href=\"".$basepage."?disp=view_band&band=".key($uscoreall)."\">".$arr[(key($uscoreall))]["name"]."</a></th><td>".current($uscoreall)."</td></tr>";
 	$bandscore[key($uscoreall)] = current($uscoreall);
