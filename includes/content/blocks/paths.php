@@ -160,7 +160,7 @@ If(empty($targetset)) $target['score']=-10;
 			If(isset($bestpath[$k+$tenminmod]))  {
 				//Find the best 10 min band
 				$tenmin['score']=-10;
-				foreach($bestpath[$k+$tenminmod as $v) {
+				foreach($bestpath[$k+$tenminmod] as $v) {
 					If($v['score'] > $tenmin['score']) {
 						$tenmin = $v;
 						$target = $tenmin;
