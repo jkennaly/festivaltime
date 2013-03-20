@@ -265,6 +265,7 @@ If(empty($targetset)) $target['score']=-10;
 				
 			}
 		}
+		If($targetset == 1 && $target = $tempband) $target = $tenmin;
 		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0 && $beertent['score'] > $target['score']) {
 			$target = $beertent;
 			
