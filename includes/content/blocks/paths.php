@@ -315,7 +315,7 @@ If(empty($targetset)) $target['score']=-10;
 	
 	If($minhere>$mintime) {
 		
-			If($currentbest['sec_end']>=$k+300) {
+			If($currentbest['sec_end']>$k+300) {
 				$status="Still the best option";
 				$currentbest['score']=$currentbest['score']-$banddecay;
 				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
