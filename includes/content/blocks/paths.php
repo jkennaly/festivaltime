@@ -98,7 +98,7 @@ $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 for($j=0;$j<mysql_num_rows($res);$j++) {
 	
 //Loop for each 5 min increment to collect band data
-for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+4200);$k=$k+300) {
+for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+$nighttraveltime*300+$mintime*180);$k=$k+300) {
 
 $band_end = $k+300;
 //See if a band is playing at the current time block and pull info if it does
@@ -147,7 +147,8 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 $beertent['score']=$beertent['score']+$thirstiness;
 If(empty($targetset)) $target['score']=-10;
 	If(empty($currentbest) && $travelling==0) {
-			If(isset($bestpath[$k+600]))  {
+			$tenminmod=$traveltime*300;
+			If(isset($bestpath[$k+$tenminmod]))  {
 				//Find the best 10 min band
 				$tenmin['score']=-10;
 				foreach($bestpath[$k+600] as $v) {
@@ -161,47 +162,54 @@ If(empty($targetset)) $target['score']=-10;
 				}
 			}
 	} else {
+			$tenminmod=$traveltime*300;
+			$twentyminmod=$traveltime*300+$mintime*30;
+			$thirtyminmod=$traveltime*300+$mintime*60;
+			$fortyminmod=$traveltime*300+$mintime*90;
+			$fiftyminmod=$traveltime*300+$mintime*120;
+			$sixtyminmod=$traveltime*300+$mintime*150;
+			$seventyminmod=$traveltime*300+$mintime*180;
 		//Find the best 10 min band
 		$tenmin = $beertent;
-		foreach($bestpath[$k+600] as $v) {
+		foreach($bestpath[$k+$tenminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*2;
-			If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+1800) $tenmin = $v;
+			If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $tenmin = $v;
 		}
 		//Find the best 20 min band
 		$twentymin = $beertent;
-		foreach($bestpath[$k+1200] as $v) {
+		foreach($bestpath[$k+$twentyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-		 	If($v['score'] > $twentymin['score'] && $v['sec_end'] >= $k+1800) $twentymin = $v;
+		 	If($v['score'] > $twentymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $twentymin = $v;
 		}
 		//Find the best 30 min band
 		$thirtymin = $beertent;
-		foreach($bestpath[$k+1800] as $v) {
+		foreach($bestpath[$k+$thirtyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-			If($v['score'] > $thirtymin['score'] && $v['sec_end'] >= $k+1800) $thirtymin = $v;
+			If($v['score'] > $thirtymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $thirtymin = $v;
 		}
 		//Find the best 40 min band
 		$fortymin = $beertent;
-		foreach($bestpath[$k+2400] as $v) {
+		foreach($bestpath[$k+$fortyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-			If($v['score'] > $fortymin['score'] && $v['sec_end'] >= $k+1800) $fortymin = $v;
+			If($v['score'] > $fortymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $fortymin = $v;
 		}
 		//Find the best 50 min band
 		$fiftymin = $beertent;
-		foreach($bestpath[$k+3000] as $v) {
+		foreach($bestpath[$k+$fiftyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-			If($v['score'] > $fiftymin['score'] && $v['sec_end'] >= $k+1800) $fiftymin = $v;
+			If($v['score'] > $fiftymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $fiftymin = $v;
 		}
 		//Find the best 60 min band
 		$sixtymin = $beertent;
-		foreach($bestpath[$k+3600] as $v) {
+		foreach($bestpath[$k+$sixtyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-			If($v['score'] > $sixtymin['score'] && $v['sec_end'] >= $k+1800) $sixtymin = $v;
+			If($v['score'] > $sixtymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $sixtymin = $v;
 		}
 		//Find the best 70 min band
 		$seventymin = $beertent;
-		foreach($bestpath[$k+4200] as $v) {
+		foreach($bestpath[$k+$seventyminmod] as $v) {
 			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
-			If($v['score'] > $seventymin['score'] && $v['sec_end'] >= $k+1800) $seventymin = $v;
+			If($v['score'] > $seventymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $seventymin = $v;
 		}
 		If ($looking ==1 || $moving ==1) {
 			If($looking == 1) {
@@ -231,7 +239,7 @@ If(empty($targetset)) $target['score']=-10;
 					$targetset=1;
 					$traveltimeactual=$traveltime;
 				}
-				If($targetset !=1 && $tenmin['sec_end']>$k+1800) {
+				If($targetset !=1 && $tenmin['sec_end']>$k+$thirtyminmod) {
 					If ($tenmin==$twentymin) {
 					$target = $tenmin;
 					$travelling=1;
@@ -248,7 +256,7 @@ If(empty($targetset)) $target['score']=-10;
 					$target = $twentymin;
 					$travelling=1;
 					$targetset=1;
-					If($target['sec_start'] > $k+300) $traveltimeactual=($target['sec_start']-$k)/300; else $traveltimeactual=$traveltime;
+					If($target['sec_start'] > $k+$tenminmod) $traveltimeactual=($target['sec_start']-$k)/300; else $traveltimeactual=$traveltime;
 					}
 				}
 			}
