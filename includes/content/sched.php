@@ -44,7 +44,7 @@ $mintime = 20; //$mintime is the minimum amount of time the user will stay at a 
 $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates	
 
 ?>
-<input background-color:<?php echo $color; ?> type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['username']; ?>'s Best Path" />
+<input style="background-color:#<?php echo $color; ?>" type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['username']; ?>'s Best Path" />
 
 <script type="text/javascript">
 window.bestPath<?php echo $row['id']; ?> = function () {
