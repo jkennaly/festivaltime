@@ -313,36 +313,31 @@ If(empty($targetset)) $target['score']=-10;
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>$mintime) {
-		
-			If($currentbest['sec_end']>$k+300) {
-				$status="Still the best option";
-				$currentbest['score']=$currentbest['score']-$banddecay;
-				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
-				$looking=1;
-				$moving=0;
-			} else {
-			$changing=1;
-			$status="Finishing up ".$currentbest['name'];
-			$looking=0;
-			$moving=1;
+	If($minhere>=$mintime) {
+		$status="Still the best option";
+		$currentbest['score']=$currentbest['score']-$banddecay;
+		If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
+		$looking=1;
+		$moving=0;
+	}
 			
-			}
 		
 	//First 20 min of show
-	}
-		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<=$mintime) {
+	
+		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
 				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
 			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
-		} elseif($currentbest['sec_end']<=$k+300) {
+		}
+		If($currentbest['sec_end']<=$k+300) {
+			$changing=1;
 			$status="Finishing up ".$currentbest['name'];
 			$looking=0;
 			$moving=1;
-			
 		}
+			
 		If($minhere == 0 && $status != "First show of the day") {
 				$currentshow = $currentbest['band'];
 				$currentshowstart = $currentbest['sec_start'];
