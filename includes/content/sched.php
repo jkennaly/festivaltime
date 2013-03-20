@@ -108,7 +108,7 @@ switch ($thirstinessval) {
 		$thirstiness = 0.04;
 		break;
 	case 2:
-		$thirstiness = 0;
+		$thirstiness = -10;
 		break;
 	case 3:
 		$thirstiness = 0.1;

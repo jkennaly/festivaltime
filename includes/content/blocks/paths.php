@@ -132,7 +132,7 @@ $travelling=0;
 $looking=0;
 $moving=1;
 $beertent['band']=-1;
-$beertent['score']=0;
+$beertent['score']=$thirstiness;
 $beertent['rating']=0;
 $beertent['name']="Beer Tent";
 $beertent['sec_end']=$fest_end_time_sec;
@@ -213,13 +213,6 @@ If(empty($targetset)) $target['score']=-10;
 		}
 		If ($looking ==1 || $moving ==1) {
 			If($looking == 1) {
-				/* Old looking logic
-				If(($v['score'] > $currentbest['score'] ) && ($v['score'] > $target['score'] ) && ( $v['name'] != $currentbest['name'])) {				
-					$target = $v;
-					$travelling=1;
-					$targetset=1;
-				}
-				 */
 				If($tenmin['name'] != $currentbest['name'] && $tenmin['score'] >= $currentbest['score']) {
 					$target = $tenmin;
 					$travelling=1;
@@ -228,11 +221,6 @@ If(empty($targetset)) $target['score']=-10;
 				}
 			}
 			If($moving == 1 && !empty($currentshow)){
-					/* Old Moving Logic
-					If( $v['score'] > $target['score'] ) $target = $v;
-					$travelling=1;
-					$targetset=1;
-					 */
 				If($tenmin==$thirtymin) {
 					$target = $tenmin;
 					$travelling=1;
@@ -313,7 +301,7 @@ If(empty($targetset)) $target['score']=-10;
 	
 	//Been at the show more than 20 min
 	
-	If($minhere>=$mintime) {
+	If($minhere>=$mintime || ($minhere>=15 && $currentbest['name']=="Beer Tent")) {
 		$status="Still the best option";
 		$currentbest['score']=$currentbest['score']-$banddecay;
 		If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
