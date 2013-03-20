@@ -258,13 +258,14 @@ If(empty($targetset)) $target['score']=-10;
 				
 			}
 		}
-echo "alert(\"$thirstiness is thirstiness\");";
 		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0 && $beertent['score'] > $target['score']) {
 			$target = $beertent;
+echo "alert(\"$thirstiness is thirstiness\");";
 			
 		}
 		If($looking ==1 && $travelling==0 && $thirstiness >0 && $beertent['score'] > $currentbest['score']) {
 			$target = $beertent;
+echo "alert(\"thirstiness is $thirstiness\");";
 			
 		}
 	};
