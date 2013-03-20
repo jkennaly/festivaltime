@@ -27,7 +27,7 @@ for ($i=1; $i<=$num["rows"]; $i++)
 	$sql="select name from bands where id='$i'";
 	$res = mysql_query($sql, $main);
 	$arr[$i] = mysql_fetch_assoc($res);
-	$uscoreall[] = uscoref($i, $scoreuser, $avg_rating, $main);
+	$uscoreall[$i] = uscoref($i, $scoreuser, $avg_rating, $main);
   	$j=$i;
   }
 
