@@ -27,11 +27,14 @@ If(empty($_POST['landscape'])) {
 <?php
 $usersql="select id, username from Users";
 $userres=mysql_query($usersql, $master);
+
+include $baseinstall."includes/content/blocks/paths.php";
+	
+
 while($row=mysql_fetch_array($userres)) {
 	
 	
-include $baseinstall."includes/content/blocks/paths.php";
-	
+
 
 //Set some variables for use
 $banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
