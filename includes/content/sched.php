@@ -56,7 +56,7 @@ $settings_res = mysql_query($setting_sql, $master);
 while($row=mysql_fetch_array($settings_res)) {
 	If($row['item'] == "Minimum time at a band") $mintimeval = $row['value'];
 	If($row['item'] == "Travel Time-night") $nighttraveltimeval = $row['value'];
-	If($row['item'] == "Travel Time-day") $daytraveltimeval = $row['value'];
+	If($row['item'] == "Travel time-day") $daytraveltimeval = $row['value'];
 	If($row['item'] == "Thirstiness") $thirstinessval = $row['value'];
 	If($row['item'] == "Band boredom") $banddecayval = $row['value'];
 }
