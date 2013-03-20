@@ -331,13 +331,13 @@ If(empty($targetset)) $target['score']=-10;
 		
 	//First 20 min of show
 	}
-		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
+		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<=$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
 				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
 			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
-		} elseif($currentbest['sec_end']<=$k+300 && $minhere>0 && $minhere<$mintime) {
+		} elseif($currentbest['sec_end']<=$k+300) {
 			$status="Finishing up ".$currentbest['name'];
 			$looking=0;
 			$moving=1;
