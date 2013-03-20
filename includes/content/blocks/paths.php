@@ -11,8 +11,7 @@ $thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumul
 
 $uscoreall[] = NULL;
 
-If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
-If(empty($_POST['user'])) $scoreuser = $user;
+If(empty($jsuser)) $scoreuser = $user;
 If(!empty($jsuser)) $scoreuser = $jsuser;
 
 $sql="select max(id) as rows from bands";
