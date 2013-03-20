@@ -4,7 +4,7 @@
 
 function pathfinder($scoreuser, $banddecay, $color, $daytraveltime, $nighttraveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
 
-echo "alert(\"$thirstiness is thirstiness\");";
+
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
@@ -258,12 +258,13 @@ If(empty($targetset)) $target['score']=-10;
 				
 			}
 		}
-		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0) {
-			If($beertent['score'] > $target['score']) $target = $beertent;
+echo "alert(\"$thirstiness is thirstiness\");";
+		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0 && $beertent['score'] > $target['score']) {
+			$target = $beertent;
 			
 		}
-		If($looking ==1 && $travelling==0 && $thirstiness >0) {
-			If($beertent['score'] > $currentbest['score']) $target = $beertent;
+		If($looking ==1 && $travelling==0 && $thirstiness >0 && $beertent['score'] > $currentbest['score']) {
+			$target = $beertent;
 			
 		}
 	};
