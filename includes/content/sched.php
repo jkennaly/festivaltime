@@ -50,7 +50,7 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
 $jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
-pathfinder($row['id'], $banddecay, $traveltime, $mintime, $thirstiness, $main, $master);
+pathfinder($row['id'], $banddecay, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating);
 echo "alert(\"Paths complete!\");";
 ?>
 }

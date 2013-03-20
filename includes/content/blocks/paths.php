@@ -2,7 +2,7 @@
 <?php
 
 
-function pathfinder($scoreuser, $banddecay, $traveltime, $mintime, $thirstiness, $main, $master) {
+function pathfinder($scoreuser, $banddecay, $traveltime, $mintime, $thirstiness, $main, $master, $avg_rating) {
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
