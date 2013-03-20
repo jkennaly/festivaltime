@@ -33,6 +33,29 @@ $uscore = 0;
 return $uscore;
 }
 
+function uscoref2($band, $user, $avg_rating, $mysql_link) {
+
+$sql1 = "SELECT rating as score FROM ratings WHERE band='$band' and user='$user'";
+
+$res = mysql_query($sql1, $mysql_link);
+If(!empty($res)) {
+	$arr = mysql_fetch_assoc($res);
+	$uscore = $arr['score'];
+} else {
+	$sql_curr_avg = "select avg(rating) as average from ratings where band='$band'";
+
+	$res = mysql_query($sql_curr_avg, $mysql_link);
+	If(mysql_num_rows($res)>0) {
+		$curr_avg_rate = mysql_fetch_assoc($res);
+		$uscore = $curr_avg_rate['average'];
+	} else $uscore = $avg_rating;
+	
+	
+}
+
+return $uscore;
+}
+
 function count_digit($number) {
 return strlen((string) $number);
 }
