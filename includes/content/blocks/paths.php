@@ -1,18 +1,8 @@
 
 <?php
 
-//Set some variables for use
-$banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
-$traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
-$mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
-$thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates
 
-
-
-$uscoreall[] = NULL;
-
-If(empty($jsuser)) $scoreuser = $user;
-If(!empty($jsuser)) $scoreuser = $jsuser;
+function pathfinder($scoreuser, $banddecay, $traveltime, $mintime, $thirstiness, $main, $master) {
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
@@ -370,4 +360,5 @@ If(empty($targetset)) $target['score']=-10;
 
 echo $conline;
 
+}
 }

@@ -29,6 +29,15 @@ $usersql="select id, username from Users";
 $userres=mysql_query($usersql, $master);
 while($row=mysql_fetch_array($userres)) {
 	
+	
+include $baseinstall."includes/content/blocks/paths.php";
+	
+
+//Set some variables for use
+$banddecay=0.25; //$banddecay is the rate at which the score drops for a band you are at; there is no decay for the last 5 min
+$traveltime = 2; //Traveltime is the number of 5min blocks it takes to go from one placeto another
+$mintime = 20; //$mintime is the minimum amount of time the user will stay at a show once committing
+$thirstiness = 0.04; //$thristiness affects how fast score for beer tent accumulates	
 
 ?>
 <input type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['username']; ?>'s Best Path" />
@@ -38,8 +47,7 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 <?php
 $jsuser = $row['id'];
 echo "alert(\"Wait until you get the completion before scrolling the screen.\");\n";
-echo "alert(\"Adding line for user ".$row['username'].".\");";
-include $baseinstall."includes/content/blocks/paths.php";
+pathfinder($row['id'], $banddecay, $traveltime, $mintime, $thirstiness, $main, $master);
 echo "alert(\"Paths complete!\");";
 ?>
 }
