@@ -45,6 +45,7 @@ echo "alert(\"Paths complete!\");";
 ?>
 }
 </script>
+</input>
 
 <?php
 }
