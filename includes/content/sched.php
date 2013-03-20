@@ -105,7 +105,7 @@ switch ($banddecayval) {
 //Thirstiness
 switch ($thirstinessval) {
 	case 1:
-		$thirstiness = 0.04;
+		$thirstiness = 0.01;
 		break;
 	case 2:
 		$thirstiness = -10;
@@ -114,7 +114,7 @@ switch ($thirstinessval) {
 		$thirstiness = 0.1;
 		break;
 	default:
-		$thirstiness = 0.04;
+		$thirstiness = 0.01;
 		break;
 }
 

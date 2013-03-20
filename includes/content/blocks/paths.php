@@ -181,44 +181,44 @@ If(empty($targetset)) $target['score']=-10;
 		//Find the best 10 min band
 		$tenmin = $tempband;
 		foreach($bestpath[$k+$tenminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*2;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+$twentyminmod) $tenmin = $v;
 //			echo "alert(\"v score is ".$v['score']." and tenmin score is ".$tenmin['score']."\");";
 		}
 		//Find the best 20 min band
 		$twentymin = $tempband;
 		foreach($bestpath[$k+$twentyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 		 	If($v['score'] > $twentymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $twentymin = $v;
 		}
 		//Find the best 30 min band
 		$thirtymin = $tempband;
 		foreach($bestpath[$k+$thirtyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $thirtymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $thirtymin = $v;
 		}
 		//Find the best 40 min band
 		$fortymin = $tempband;
 		foreach($bestpath[$k+$fortyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $fortymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $fortymin = $v;
 		}
 		//Find the best 50 min band
 		$fiftymin = $tempband;
 		foreach($bestpath[$k+$fiftyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $fiftymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $fiftymin = $v;
 		}
 		//Find the best 60 min band
 		$sixtymin = $tempband;
 		foreach($bestpath[$k+$sixtyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $sixtymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $sixtymin = $v;
 		}
 		//Find the best 70 min band
 		$seventymin = $tempband;
 		foreach($bestpath[$k+$seventyminmod] as $v) {
-			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score']-$banddecay*4;
+			If($currentbest['name'] == $v['name']) $v['score'] = $currentbest['score'];
 			If($v['score'] > $seventymin['score'] && $v['sec_end'] >= $k+$thirtyminmod) $seventymin = $v;
 		}
 		If ($looking ==1 || $moving ==1) {
