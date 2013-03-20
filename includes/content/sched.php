@@ -31,7 +31,7 @@ while($row=mysql_fetch_array($userres)) {
 	
 
 ?>
-<input type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['name']; ?>'s Best Path" />
+<input type="button" onclick="bestPath<?php echo $row['id']; ?>();" value="Show <?php echo $row['username']; ?>'s Best Path" />
 
 <script type="text/javascript">
 window.bestPath<?php echo $row['id']; ?> = function () {
