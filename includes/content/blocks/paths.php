@@ -151,6 +151,10 @@ If(empty($targetset)) $target['score']=-10;
 				$tenmin = $beertent;
 				foreach($bestpath[$k+600] as $v) {
 					If($v['score'] > $tenmin['score'] && $v['sec_end'] >= $k+1800) $tenmin = $v;
+					$target = $tenmin;
+					$travelling=1;
+					$targetset=1;
+					$traveltimeactual=$traveltime;
 				}
 			}
 	} else {
