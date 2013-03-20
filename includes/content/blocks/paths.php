@@ -160,13 +160,14 @@ If(empty($targetset)) $target['score']=-10;
 			If(isset($bestpath[$k+$tenminmod]))  {
 				//Find the best 10 min band
 				$tenmin['score']=-10;
-				foreach($bestpath[$k+600] as $v) {
+				foreach($bestpath[$k+$tenminmod as $v) {
 					If($v['score'] > $tenmin['score']) {
 						$tenmin = $v;
 						$target = $tenmin;
 						$travelling=1;
 						$targetset=1;
 						$traveltimeactual=$traveltime;
+						echo "alert(\"Found a band: ".$target['name']."\");";
 					}
 				}
 			}
