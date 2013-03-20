@@ -54,8 +54,6 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 		</li>
 		<li><a href="#">Stats</a>
 			<ul><li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
-			<li><a href="<?php echo $basepage; ?>?disp=best_path">Best Path</a></li></ul>
-						
 		</li>
 		<li><a href="#">Development</a>
 		
