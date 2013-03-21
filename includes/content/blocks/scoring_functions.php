@@ -40,19 +40,16 @@ $sql1 = "SELECT rating as score FROM ratings WHERE band='$band' and user='$user'
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
 $res = mysql_query($sql1, $mysql_link);
-If(!empty($res)) {
+If(mysql_num_rows($res)>0) {
 	$arr = mysql_fetch_assoc($res);
 	$uscore = $arr['score'];
 } else {
 	$sql_curr_avg = "select avg(rating) as average from ratings where band='$band'";
-
-	$res = mysql_query($sql_curr_avg, $mysql_link);
-	If(mysql_num_rows($res)>0) {
-		$curr_avg_rate = mysql_fetch_assoc($res);
+	$res1 = mysql_query($sql_curr_avg, $mysql_link);
+	If(mysql_num_rows($res1)>0) {
+		$curr_avg_rate = mysql_fetch_assoc($res1);
 		$uscore = $curr_avg_rate['average'];
 	} else $uscore = $avg_rating;
-	
-	
 }
 
 return $uscore;
