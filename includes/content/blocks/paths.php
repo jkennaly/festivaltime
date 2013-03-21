@@ -318,7 +318,7 @@ If(empty($targetset)) $target['score']=-10;
 	If($minhere>=$mintime || ($minhere>=15 && $currentbest['name']=="Beer Tent")) {
 		$status="Still the best option";
 		$currentbest['score']=$currentbest['score']-$banddecay;
-		If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
+		If($currentbest['name']=="Beer Tent") $beertent['score']=1;
 		$looking=1;
 		$moving=0;
 	}
@@ -329,7 +329,7 @@ If(empty($targetset)) $target['score']=-10;
 		If($currentbest['sec_end']>$k+300 && $minhere>0 && $minhere<$mintime) {
 			$status="Still at ".$currentbest['name'];
 			$currentbest['score']=$currentbest['score']-$banddecay;
-				If($currentbest['name']=="Beer Tent") $beertent['score']=$thirstiness;
+				If($currentbest['name']=="Beer Tent") $beertent['score']=1;
 			If($minhere==($mintime-5)) $looking=1; else $looking=0;
 			$moving=0;
 		}
