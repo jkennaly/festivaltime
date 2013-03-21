@@ -268,13 +268,11 @@ If(empty($targetset)) $target['score']=-10;
 			}
 		}
 		If($targetset == 1 && $target = $tempband) $target = $tenmin;
-		If(($looking ==1 || $moving ==1) && $travelling==1 && $thirstiness >0 && $beertent['score'] > $target['score']) {
+		If(($looking ==1 || $moving ==1) && $travelling==1 && $beertent['score'] > $target['score']) {
 			$target = $beertent;
-			
 		}
-		If($looking ==1 && $travelling==0 && $thirstiness >0 && $beertent['score'] > $currentbest['score']) {
+		If($looking ==1 && $travelling==0 && $$beertent['score'] > $currentbest['score']) {
 			$target = $beertent;
-			
 		}
 	};
 	If(isset($currentshow)) $pcgone=round(($k-$currentshowstart)*100/($currentshowend-$currentshowstart), 2);
