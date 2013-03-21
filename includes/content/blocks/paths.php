@@ -153,7 +153,8 @@ $showday=$day[$i]['id'];
 $curpc=0;
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+300) {
 	If(strftime("%H", $k) >= 19 || strftime("%H", $k) < 6) $traveltime=$nighttraveltime; else $traveltime=$daytraveltime;
-$beertent['score']=$beertent['score']+$thirstiness;
+If(!empty($currentbest))$beertent['score']=$beertent['score']+$thirstiness;
+If($beertent['score'] > 3.5)$beertent['score']=3.5;
 If(empty($targetset)) $target['score']=-10;
 	If(empty($currentbest) && $travelling==0) {
 			$tenminmod=$traveltime*300;
@@ -267,7 +268,7 @@ If(empty($targetset)) $target['score']=-10;
 				
 			}
 		}
-		If($targetset == 1 && $target = $tempband) $target = $tenmin;
+		If($targetset == 1 && $target == $tempband) $target = $tenmin;
 		If(($looking ==1 || $moving ==1) && $travelling==1 && $beertent['score'] > $target['score']) {
 			$target = $beertent;
 		}
