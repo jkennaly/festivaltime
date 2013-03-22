@@ -39,8 +39,9 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 		}
 	}
 	
-	If(!empty($_POST["new_acl"])){
-		$sql = "UPDATE Users WHERE id = '".$_POST["acl"]."' SET level='".$_POST["new_acl"]."'";
+	If(!empty($_POST["acl_radio"])){
+		$usermoded="new_acl".$_POST["acl"];
+		$sql = "UPDATE Users WHERE id = '".$_POST["acl"]."' SET level='".$_POST[$usermoded]."'";
 		$upd = mysql_query($sql, $master);
 	}
 
@@ -91,7 +92,7 @@ while($row_allgroups = mysql_fetch_array($query_groups)) {
 while($row = mysql_fetch_array($mem_result)) {
 	$g=str_replace("--", " ", $row["group"]);
 	$g_exp = explode(" ", $g);
-	echo "<tr><td>".$row["username"]."</td><td><select name=\"new_acl\">";
+	echo "<tr><td>".$row["username"]."</td><td><select name=\"new_acl".$row["id"]."\">";
 	while($acl_row = mysql_fetch_array($acl_res)) {
 		If($acl_row['value'] == $row["level"]) echo "<option selected=\"selected\" value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
 		else echo "<option value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
