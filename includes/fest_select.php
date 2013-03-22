@@ -29,4 +29,13 @@ while($row = mysql_fetch_array($result)) {
 }
 echo "</ul>";
 
+$right_required = "AddFest";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+?>
+<h3>The following link will allow you to add a new show.</h3>
+
+<a href="<?php echo $basepage; ?>?disp=add_fest">Add new festival or concert</a>
+
+<?php
+}
 ?>
