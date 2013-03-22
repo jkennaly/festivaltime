@@ -4,7 +4,7 @@ include("../../../variables/variables.php");
 
 include('../../../variables/fest_variables.php');
 
-$main = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
 @mysql_select_db($dbname, $main) or die( "Unable to select main database");
 
 $band=$_GET['band'];

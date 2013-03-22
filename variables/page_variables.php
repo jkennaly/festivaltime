@@ -19,9 +19,9 @@ include $baseinstall."includes/content/blocks/search_selection_function.php";
 
 
 $query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";
-echo $query;
+//echo $query;
 $query_user = mysql_query($query, $master);
-echo mysql_error();
+//echo mysql_error();
 $user_row = mysql_fetch_assoc($query_user);
 $user = $user_row['id'];
 
