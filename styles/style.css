@@ -217,9 +217,8 @@ margin-bottom:.1em;
     padding:0px;
     white-space:nowrap;
  /*   position:absolute; */
-    position:static;
+    position:relative;
 /*    right:160px;*/
-	float:right;
     bottom:0px;
     width:640px;
 }
