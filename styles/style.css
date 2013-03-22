@@ -238,7 +238,7 @@ margin-bottom:.1em;
 }
 
 #nav li ul li:hover ul li{
-    display:block;
+    display:inline-block;
 }
 /* Third set of menus-displays vertically down from prior item */
 
