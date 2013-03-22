@@ -182,7 +182,7 @@ margin-bottom:.1em;
 }
 /* First set of menus-displays vertically down from prior item */
 #nav li ul {
-    width:160px;
+    width:10em;
     margin:0px;
     padding:0px;
     white-space:nowrap;
