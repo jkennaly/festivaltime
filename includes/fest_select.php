@@ -9,8 +9,8 @@ $result = mysql_query($sql, $master);
 echo "<ul id=\"festlist\">";
 while($row = mysql_fetch_array($result)) {
 	$sql = "select * from ".$row['0'];
-	$result = mysql_query($sql, $master);
-	while($row1 = mysql_fetch_array($result)) {
+	$res = mysql_query($sql, $master);
+	while($row1 = mysql_fetch_array($res)) {
 		switch($row1['item']) {
 			case "Festival id":
 				$fest=$row1['value'];
