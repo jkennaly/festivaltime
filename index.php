@@ -65,7 +65,7 @@ If(!empty($_SESSION['fest'])){
 
 	include('includes/content.php'); 
 
-} else include('includes/fest_select.php');
+} else include('includes/unselected.php');
 
  include('includes/footer.php'); ?>
 
