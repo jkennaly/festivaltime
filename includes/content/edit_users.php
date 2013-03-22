@@ -93,6 +93,7 @@ while($row = mysql_fetch_array($mem_result)) {
 	$g=str_replace("--", " ", $row["group"]);
 	$g_exp = explode(" ", $g);
 	echo "<tr><td>".$row["username"]."</td><td><select name=\"new_acl".$row["id"]."\">";
+	mysql_data_seek($acl_res);
 	while($acl_row = mysql_fetch_array($acl_res)) {
 		If($acl_row['value'] == $row["level"]) echo "<option selected=\"selected\" value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
 		else echo "<option value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
