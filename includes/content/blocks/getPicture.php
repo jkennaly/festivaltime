@@ -22,7 +22,7 @@ $picData = $pic['pic'];
 //echo "Content-type: ".$pic['type'];
 //echo "Content-descrip: ".$pic['descrip'];
 
-//header("Content-type: ".$pic['type']);
+header("Content-type: ".$pic['type']);
 echo $picData;
 
 mysql_close($main);
