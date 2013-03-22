@@ -217,7 +217,8 @@ margin-bottom:.1em;
     padding:0px;
     white-space:nowrap;
     position:absolute;
-    right:160px;
+/*    right:160px;*/
+	float:right;
     bottom:0px;
     width:640px;
 }
@@ -236,7 +237,7 @@ margin-bottom:.1em;
 }
 
 #nav li ul li:hover ul li{
-    display:inline-block;
+    display:block;
 }
 /* Third set of menus-displays vertically down from prior item */
 
