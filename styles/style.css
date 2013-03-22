@@ -216,7 +216,8 @@ margin-bottom:.1em;
     margin:0px;
     padding:0px;
     white-space:nowrap;
-    position:absolute;
+ /*   position:absolute; */
+    position:relative;
 /*    right:160px;*/
 	float:right;
     bottom:0px;
