@@ -41,8 +41,8 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 	
 	If(!empty($_POST["acl_radio"])){
 		$usermoded="new_acl".$_POST["acl_radio"];
-		$sql = "UPDATE Users WHERE id = '".$_POST["acl_radio"]."' SET level='".$_POST[$usermoded]."'";
-		echo $sql;
+		$sql = "UPDATE Users SET level='".$_POST[$usermoded]."' WHERE id = '".$_POST["acl_radio"]."'";
+//		echo $sql;
 		$upd = mysql_query($sql, $master);
 	}
 
