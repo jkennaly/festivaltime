@@ -15,19 +15,34 @@
 <link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
 <?php
 
+session_start(); 
+
 include('variables/variables.php');
 
-$main = mysql_connect($dbhost,$dbuser,$dbpw);
 $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
-@mysql_select_db($dbname, $main) or die( "Unable to select main database");
 @mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
+function isInteger($input){
+    return(ctype_digit(strval($input)));
+}
 
- session_start(); 
+If(isInteger($_GET['fest'])) {
+	$_SESSION['fest'] = $_GET['fest'];
+}
+
+If(!empty($_SESSION['fest'])){
+
+include('variables/fest_variables.php');
+
+$main = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+
+
  include('variables/page_variables.php');  
  include('includes/check_rights.php');   
  include('includes/content/blocks/database_functions.php'); 
 
+}
 
 ?>
 
@@ -38,15 +53,19 @@ $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 	<body>
 
 		<div id="wrapper">
-<?php // var_dump($_SESSION); ?>
+<?php // var_dump($_SESSION); 
 
-<?php include('includes/header.php'); ?>
+ include('includes/header.php'); 
 
-<?php include('includes/nav.php'); ?>
+ include('includes/nav.php'); 
 
-<?php include('includes/content.php'); ?>
+If(!empty($_SESSION['fest'])){
 
-<?php include('includes/footer.php'); ?>
+	include('includes/content.php'); 
+
+} else include('includes/fest_select.php');
+
+ include('includes/footer.php'); ?>
 
 		</div> <!-- End #wrapper -->
 
