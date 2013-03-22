@@ -3,10 +3,10 @@ session_start();
 
 
 
-$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
-@mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
 include("../../../variables/variables.php");
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
 include('../../../variables/fest_variables.php');
 
