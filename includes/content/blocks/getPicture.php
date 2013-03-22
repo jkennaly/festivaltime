@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+echo $_SESSION['fest'];
+
 include("../../../variables/variables.php");
 
 include('../../../variables/fest_variables.php');
