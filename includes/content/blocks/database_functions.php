@@ -123,5 +123,12 @@ return $sname;
 
 }
 
+function groupMatch($user1, $user2, $master){
+//This function returns true if the two users have at least one group in common
+
+return true;
+
+}
+
 
 ?>

@@ -38,20 +38,18 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			$upd = mysql_query($query, $master);
 		}
 	}
-
-
-
-
-
-
-
+	
+	If(!empty($_POST["new_acl"])){
+		$sql = "UPDATE Users WHERE id = '".$_POST["acl"]."' SET level='".$_POST["new_acl"]."'";
+		$upd = mysql_query($sql, $master);
+	}
 
 	$query="SELECT id, username, level, `group` FROM Users ORDER BY level ASC";
 	$mem_result = mysql_query($query, $master);
 	$query="SELECT id, name FROM groups ORDER BY id ASC";
 	$query_groups = mysql_query($query, $master);
-	
-	
+	$acl_sql="select * from access_levels";
+	$acl_res=mysql_query($acl_sql, $master);
 ?>
 <p>
 
@@ -66,7 +64,10 @@ This page shows all users who currently have access to the site, except for the 
 <input type="radio" name="add_group" value="0" checked="checked">Do not add any users to group</p>
 <p>
 <input type="radio" name="rmv_group" value="0" checked="checked">Do not remove any users from a group</p>
+<p>
+<input type="radio" name="acl" value="0" checked="checked">Do not change any user access levels</p>
 <select name="group">
+
 <?php 
 while($row_allgroups = mysql_fetch_array($query_groups)) {
 	echo "<option value=".$row_allgroups['id'].">".$row_allgroups['name']."</option>";
@@ -78,6 +79,7 @@ while($row_allgroups = mysql_fetch_array($query_groups)) {
 <tr>
 <th>username</th>
 <th>access level</th>
+<th>Change user access level</th>
 <th>groups</th>
 <th>Add user to selected group</th>
 <th>Remove user from selected group</th>
@@ -89,14 +91,19 @@ while($row_allgroups = mysql_fetch_array($query_groups)) {
 while($row = mysql_fetch_array($mem_result)) {
 	$g=str_replace("--", " ", $row["group"]);
 	$g_exp = explode(" ", $g);
-	echo "<tr><td>".$row["username"]."</td><td>".$row["level"]."</td>";
-	echo "<td>";
+	echo "<tr><td>".$row["username"]."</td><td><select name=\"new_acl\">";
+	while($acl_row = mysql_fetch_array($acl_res)) {
+		If($acl_row['value'] == $row["level"]) echo "<option selected=\"selected\" value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
+		else echo "<option value=\"".$acl_row['value']."\">".$acl_row['name']."</option>";
+	}
+
+	echo "</td><td><input type=radio name=\"acl_radio\" value=".$row["id"]."></td><td>";
 	foreach($g_exp as $g) {
 	$sql_group = "select name from groups where id='$g'";
 	$res_group = mysql_query($sql_group, $master);
 	while($rowc = mysql_fetch_array($res_group))	echo $rowc["name"]."/";
 	}
-	echo "</td>";
+	echo "</select></td>";
 	echo "<td><input type=radio name=\"add_group\" value=".$row["id"]."></td>";
 	echo "<td><input type=radio name=\"rmv_group\" value=".$row["id"]."></td>";
 	If($row["username"] != $_SESSION['user']) {
