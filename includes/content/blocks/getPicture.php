@@ -1,10 +1,11 @@
 <?php
+session_start();
 
 include("../../../variables/variables.php");
 
 include('../../../variables/fest_variables.php');
 
-echo "dbhost = $dbhost,dbuser = $dbuser,dbpw = $dbpw";
+//echo "dbhost = $dbhost,dbuser = $dbuser,dbpw = $dbpw, dbname=$dbname";
 
 $main = mysql_connect($dbhost,$dbuser,$dbpw);
 @mysql_select_db($dbname, $main) or die( "Unable to select main database");
