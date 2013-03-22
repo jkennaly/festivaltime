@@ -8,6 +8,7 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 <ul id="nav">
 
 	<li><a href="<?php echo $basepage; ?>?disp=home">Home</a></li>
+		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site Home</a></li></ul>
 	<li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
 	<li><a href="<?php echo $basepage; ?>?disp=guide">Site Guide</a></li>
 	<li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>

@@ -26,7 +26,7 @@ function isInteger($input){
     return(ctype_digit(strval($input)));
 }
 
-If(!empty($_GET['fest']) && isInteger($_GET['fest'])) {
+If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
  include('includes/check_rights.php');   
