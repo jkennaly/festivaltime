@@ -19,7 +19,7 @@ while($row=mysql_fetch_array($res)) {
 }
 for ($j=0;$j<3;$j++) {
 	$picband=$pics[array_rand($pics)];
-	echo "<a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$picband."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=$picband\" alt=\"band pic\" /></a>";
+	echo "<a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$picband."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=$picband&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a>";
 }
 
 

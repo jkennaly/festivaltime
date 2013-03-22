@@ -1,14 +1,13 @@
 <?php
-session_start();
-
-
 
 
 include("../../../variables/variables.php");
 $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 @mysql_select_db($master_db, $master) or die( "Unable to select master database");
+$fest=$_GET['fest'];
 
 include('../../../variables/fest_variables.php');
+
 
 //echo "dbhost = $dbhost,dbuser = $dbuser,dbpw = $dbpw, dbname=$dbname";
 $main = mysql_connect($dbhost,$dbuser,$dbpw);
@@ -26,5 +25,6 @@ header("Content-type: ".$pic['type']);
 echo $picData;
 
 mysql_close($main);
+mysql_close($master);
 
 ?>

@@ -11,7 +11,7 @@
 
 //	echo "Clicking the band name will take you to the details page for that band.";
 ?>
-<img src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>" alt="band pic" />
+<img src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="band pic" />
 <table class="bandinfotable">
 <tr>
 <th>band name</th>

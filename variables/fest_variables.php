@@ -1,8 +1,8 @@
 
 <?php
 //This page pulls the fest-specific data from the appropriate info table
-If(!empty($_SESSION['fest'])){
-	$sql="select * from info_".$_SESSION['fest'];
+If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
+	$sql="select * from info_".$fest;
 	$result = mysql_query($sql, $master);
 	while($row=mysql_fetch_array($result)) {
 		switch($row['item']) {
@@ -14,5 +14,4 @@ If(!empty($_SESSION['fest'])){
 				break;
 		}
 	}
-}
 ?>
