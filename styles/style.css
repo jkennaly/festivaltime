@@ -221,6 +221,7 @@ margin-bottom:.1em;
 /*    right:160px;*/
     bottom:0px;
     width:640px;
+    display:inline-block;
 }
 
 #nav li ul li ul li{
