@@ -1,18 +1,15 @@
 <?php
 
-$sitename='Coachella 2013 Bands';
+$sitename='Festival Time';
 $dbhost='localhost';
-$dbname='festival_coachella_2013';
-$dbuser='coachella_2013';
-$dbpw='';
-$basepage='https://www.festivaltime.us/festival/coachella/2013/';
-$baseinstall="/var/www/festival/coachella/2013/";
+$basepage='https://www.festivaltime.us/festival/';
+$baseinstall="/var/www/festival/";
 $forumbase="https://www.festivaltime.us/festival/forum/";
 $install_ok='No';
-//If $use_master_for_access is 'Yes', then the system will authenticate users through the specified master directory rather than the local user directory
-$use_master_for_access='No';
 $master_db='';
 $master_dbuser='';
 $master_dbpw='';
+//This is the email that address that email from the site will come from
+$sitemail='';
 
 ?>
