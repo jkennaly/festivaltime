@@ -36,7 +36,7 @@ If(!empty($_SESSION['fest'])){
 include('variables/fest_variables.php');
 //	echo "host=$dbhost user=$master_dbuser pw=$master_dbpw dbname=$dbname sitename =$sitename<br />";
 
-$main = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+$main = mysql_connect($dbhost,$master_dbuser2,$master_dbpw2);
 @mysql_select_db($dbname, $main) or die( "Unable to select main database");
 
 
