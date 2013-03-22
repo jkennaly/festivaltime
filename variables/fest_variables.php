@@ -1,4 +1,3 @@
-
 <?php
 //This page pulls the fest-specific data from the appropriate info table
 If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
