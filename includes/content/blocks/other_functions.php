@@ -1,7 +1,5 @@
 <?php
 
-echo "OtherFuncrions entered.<br />";
-
 function formatOffset($offset) {
         $hours = $offset / 3600;
         $remainder = $offset % 3600;

@@ -41,10 +41,10 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 
  include('variables/page_variables.php'); 
- include('includes/content/blocks/database_functions.php'); 
- include('includes/content/blocks/other_functions.php'); 
 
 }
+ include('includes/content/blocks/database_functions.php'); 
+ include('includes/content/blocks/other_functions.php'); 
 
 ?>
 
