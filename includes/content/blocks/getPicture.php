@@ -19,11 +19,11 @@ $sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$band' order
 $res = mysql_query($sql, $main);
 $pic = mysql_fetch_array($res);
 $picData = $pic['pic'];
-echo "Content-type: ".$pic['type'];
+//echo "Content-type: ".$pic['type'];
 //echo "Content-descrip: ".$pic['descrip'];
 
-//header("Content-type: ".$pic['type']);
-//echo $picData;
+header("Content-type: ".$pic['type']);
+echo $picData;
 
 mysql_close($main);
 mysql_close($master);
