@@ -70,7 +70,7 @@ echo '</select>';
 	$result=mysql_query($query, $master);
 	//Get the id for the festival
 	$query="select id from festivals where dbname='$newdb'";
-	echo $query;
+//	echo $query;
 	$result=mysql_query($query, $master);
 	$row=mysql_fetch_array($result);
 	$fest=$row['id'];
@@ -108,8 +108,11 @@ echo '</select>';
 	$main = mysql_connect($dbhost,$dbuser,$dbpw);
 	$query="CREATE DATABASE $newdb";
 	$result=mysql_query($query, $main);
+	$query="GRANT ALL ON $newdb TO `$dbuser`@`localhost`";
+//	echo $query."<br />";
+	$result=mysql_query($query, $main);
 	$query="GRANT ALL ON $newdb TO `$master_dbuser`@`localhost`";
-	echo $query."<br />";
+//	echo $query."<br />";
 	$result=mysql_query($query, $main);
 	//Populate the tables into the new database
 	$command = "mysql -u$dbuser -p$dbpw " . "-h $dbhost -D $newdb < ".$baseinstall."install/festival_template.sql";
