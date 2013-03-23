@@ -48,10 +48,12 @@ echo '</select>';
 	$feststart=$_POST['start'];
 	$festlen=mysql_real_escape_string($_POST['length']);
 	$festname=mysql_real_escape_string($_POST['festname']);
-	$festyear=mysql_real_escape_string($_POST['$festyear']);
+	$festyear=mysql_real_escape_string($_POST['festyear']);
 	$festnamelower=trim(strtolower($festname));
 	$festyearlower=trim(strtolower($festyear));
-	$newdb="festival_$festnamelower_$festyearlower";
+	$newdb="festival_".$festnamelower."_".$festyearlower;
+	$prefest = "";
+	$postfest = "";
 	for($i=0;$i<=2;$i++){
 		$prefest .= randLetter();
 	}
