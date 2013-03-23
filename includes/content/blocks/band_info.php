@@ -17,11 +17,14 @@ else $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$nam
 ?>
 <h1 id="bandtitle">
 <?php 
-echo $bandlink; 
+echo $bandlink; ?></h1>
+<div id="iconrow">
+<?php
 echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage, $post_target); 
 echo "<a href=\"".$basepage."?disp=comment_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
 echo "<a href=\"".$basepage."?disp=link_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
-?></h1>
+?>
+</div><!--End #iconrow -->
 <a href="<?php echo $basepage."?disp=pic_band&band=".$band; ?>"><img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="click to add a picture of the band" /></a>
 
 
