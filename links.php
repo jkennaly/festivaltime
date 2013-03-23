@@ -7,9 +7,19 @@ $right_required = "FollowLink";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 $link = htmlspecialchars($_GET["linkid"]);
+	If(!empty($_SESSION['fest'])){
 
-	$main=mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname, $main) or die( "Unable to select database");
+include('variables/fest_variables.php');
+//	echo "host=$dbhost user=$master_dbuser2 pw=$master_dbpw2 dbname=$dbname sitename =$sitename<br />";
+
+$main = mysql_connect($dbhost,$dbuser,$dbpw);
+@mysql_select_db($dbname, $main) or die( "Unable to select main database");
+
+
+ include('variables/page_variables.php'); 
+
+}
+
 
 
 	$query="SELECT * FROM links WHERE id='$link'";
