@@ -26,7 +26,6 @@ If(!empty($_POST['rmvfest'])) {
 <p>
 <input type="radio" name="rmvfest" value="0" checked="checked">Do not delete any fests
 </p>
-?>
 
 <table border="1">
 <tr>
@@ -39,6 +38,8 @@ while($row = mysql_fetch_array($mem_result)) {
 }
 ?>
 </table>
+<input type="submit">
+</form>
 <?php
 }
 
