@@ -65,9 +65,9 @@ default:
 
 
 
-echo $link;
 
-return 1;
+
+return $link;
 }
 
 ?>
