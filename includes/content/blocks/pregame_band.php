@@ -15,7 +15,7 @@ If(!empty($band)) {
 If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	include $baseinstall."includes/content/blocks/band_info.php";
 	$priors = getFestivals($band, $main, $master);
-	If(count($priors)>1) {
+	If(count($priors)>2) {
 		echo "This band has appeared in the following other shows: <br />";
 		foreach($priors as $v) {
 			$priorname=getFname($master, $v['fest']);
