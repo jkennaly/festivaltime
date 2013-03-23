@@ -74,7 +74,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 		$table[$i] .= $comment_row['name'];
 
 		If( $comment_row['username'] == $_SESSION['user'] ) {	
-			$table[$i] .= "</td></tr><tr><th><a href=\"".$basepage."?disp=rate_band&band=".$band."\">Rating:</a></th><td>";
+			$table[$i] .= "</td></tr><tr><th>>Rating:></th><td>";
 		} else {
 			$table[$i] .= "</td></tr><tr><th>Rating:</th><td>";
 		} //Closes else If( $comment_row['username']...
@@ -82,7 +82,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 		$table[$i] .= $comment_row['rating'];
 
 		If( $comment_row['username'] == $_SESSION['user'] ) {	
-			$table[$i] .= "</td></tr><tr><th><a href=\"".$basepage."?disp=link_band&band=".$band."\">Link:</a></th><td>";
+			$table[$i] .= "</td></tr><tr><th>Link:/th><td>";
 		} else {
 			$table[$i] .= "</td></tr><tr><th>Link:</th><td>";
 		} //Closes else If( $comment_row['username']...
@@ -91,7 +91,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 
 
 		If( $comment_row['username'] == $_SESSION['user'] ) {	
-			$table[$i] .= "</td></tr><tr><th colspan=2 class=\"commentrow\"><a href=\"".$basepage."?disp=comment_band&band=".$band."\">Comment:</a></th></tr><tr><td colspan=2>";
+			$table[$i] .= "</td></tr><tr><th colspan=2 class=\"commentrow\">Comment:</th></tr><tr><td colspan=2>";
 		} else {
 			$table[$i] .= "</td></tr><tr><th colspan=2 class=\"commentrow\">Comment:</th></tr><tr><td colspan=2>";
 		} //Closes else If( $comment_row['username']...
@@ -126,9 +126,6 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 If(!isset($i_ret)){
 //Execute this logic if the user has not rated, commented or linked the band	
 
-	echo "<br><a href=\"".$basepage."?disp=rate_band&band=".$band."\">Click here to rate the band.</a>";
-	echo "<br><a href=\"".$basepage."?disp=comment_band&band=".$band."\">Click here to comment on the band.</a>";
-	echo "<br><a href=\"".$basepage."?disp=link_band&band=".$band."\">Click here to a link to the band.</a>";
 
 	If(!empty($table)) {
 		foreach ($table as $val) {
