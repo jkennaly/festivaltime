@@ -14,12 +14,34 @@ function formatOffset($offset) {
 
 }
 
-function randLetter()
-{
+function randLetter() {
     $int = rand(0,51);
     $a_z = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $rand_letter = $a_z[$int];
     return $rand_letter;
+}
+
+function ratingStars($band, $user, $main, $class, $imgpath, $basepage) {
+//This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
+    $sql = "select rating from `ratings` where band='$band' and user='$user'";
+	$res = mysql_query($sql, $main);
+	$rate="";
+	If(mysql_num_rows($res) == 0) {
+		for($i=1;$i<=5;$i++){
+			$rate.="<a href=\"$basepage?disp=rate_band&band=$band\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
+		}
+	} else {
+		$row=mysql_fetch_array($res);
+		$empty=5-$row['rating'];
+		$filled=$row['rating'];
+		for($i=1;$i<=$filled;$i++){
+			$rate.="<a href=\"$basepage?disp=rate_band&band=$band\"><img class=\"$class\" src=\"$imgpath/fstar.jpg\"></a>";
+		}
+		for($i=1;$i<=$empty;$i++){
+			$rate.="<a href=\"$basepage?disp=rate_band&band=$band\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
+		}
+	}	
+	return $rate;
 }
 
 ?>

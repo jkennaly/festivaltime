@@ -128,7 +128,7 @@ font-size:200%;
 padding:0px;
 margin:0px;
 white-space:nowrap;
-overflow:hidden;  !important
+overflow:hidden  !important;
 float:clear;
 }
 
@@ -288,7 +288,7 @@ color:white;
 padding:0px;
 margin:0px;
 white-space:nowrap;
-overflow:hidden; !important
+overflow:hidden !important;
 }
 
 .details dd:after {
@@ -358,6 +358,6 @@ h2 {
    top: 0; 
    left: 0; 
    white-space:nowrap;
-   overflow:hidden; !important
+   overflow:hidden !important;
 }
 
