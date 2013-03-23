@@ -22,7 +22,7 @@ echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includ
 echo "<a href=\"".$basepage."?disp=comment_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
 echo "<a href=\"".$basepage."?disp=link_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
 ?></h1>
-<a href="<?php echo $basepage."disp=pic_band&band=".$band; ?>"></a><img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="click to add a picture of the band" /></a>
+<a href="<?php echo $basepage."disp=pic_band&band=".$band; ?>"><img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="click to add a picture of the band" /></a>
 
 
 <p class="band_info"><?php echo $dayname; ?></p>
