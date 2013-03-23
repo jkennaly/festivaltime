@@ -150,7 +150,7 @@ foreach($working as $v) {
 		$i++;
 	} else {
 		$temp = substr( $v, 3);
-		$final[$i]['band'] = substr( $v, 0, -3);
+		$final[$i]['band'] = substr( $temp, 0, -3);
 	}
 }
 
