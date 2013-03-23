@@ -110,10 +110,10 @@ echo '</select>';
 	$result=mysql_query($query, $main);
 	$query="GRANT ALL ON $newdb TO `$master_dbuser`@`localhost`";
 	$result=mysql_query($query, $main);
-	@mysql_select_db($newdb, $main) or die( "Unable to select main database");
 	//Populate the tables into the new database
 	$command = "mysql -u$dbuser -p$dbpw " . "-h $dbhost -D $newdb < ".$baseinstall."install/festival_template.sql";
 	$output = shell_exec($command);
+	@mysql_select_db($newdb, $main) or die( "Unable to select main database");
 	//Fill in the info table
 	$query="insert into `info` (item, value) VALUES ('timezone', '$timezone')";
 	$result=mysql_query($query, $main);
