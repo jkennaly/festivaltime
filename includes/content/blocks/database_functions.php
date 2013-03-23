@@ -147,10 +147,10 @@ $i=0;
 foreach($working as $v) {
 	If(isInteger($v)) {
 		$final[$i]['fest']=$v;
-		$i++;
 	} else {
 		$temp = substr( $v, 3);
 		$final[$i]['band'] = substr( $temp, 0, -3);
+		$i++;
 	}
 }
 
