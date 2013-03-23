@@ -1,15 +1,17 @@
 <?php
 
 session_start(); 
+ include('includes/check_rights.php');  
+ 
+include('variables/variables.php');
+
+$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
+@mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
 $right_required = "FollowLink";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 
-include('variables/variables.php');
-
-$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
-@mysql_select_db($master_db, $master) or die( "Unable to select master database");
 
 function isInteger($input){
     return(ctype_digit(strval($input)));
@@ -18,8 +20,7 @@ function isInteger($input){
 If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
- echo $_SESSION['fest']."<br />";
- include('includes/check_rights.php');   
+// echo $_SESSION['fest']."<br />"; 
  
 
 If(!empty($_SESSION['fest'])){
@@ -47,9 +48,9 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 	$clicker = "UPDATE links SET clicks=clicks+1 WHERE id='$link'";
 	$query = mysql_query($clicker, $main);
 	
-	echo $destination;
+//	echo $destination;
 
-//	header("Location: $destination");
+	header("Location: $destination");
 
 }
 
