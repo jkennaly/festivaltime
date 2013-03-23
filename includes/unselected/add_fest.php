@@ -4,13 +4,13 @@
 $right_required = "AddFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-If(empty($_POST['new_fest'])) {
+If(empty($_POST['newfest'])) {
 	
 $utc = new DateTimeZone('UTC');
 $dt = new DateTime('now', $utc);
 $post_target=$basepage."?disp=add_fest";
 
-echo "<form id=\"new_fest\" action=\".$post_target.\" method=\"post\"";
+echo "<form id=\"new_fest\" action=\".$post_target.\" method=\"post\">";
 ?>
 <h3>Please enter the following information to start with:</h3>
 
