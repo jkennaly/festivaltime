@@ -579,4 +579,8 @@ max-height:155px;
 max-width:220px;
 }
 
+.searchratingstars {
+	max-height:100%;
+}
+
 
