@@ -12,6 +12,7 @@ If(!empty($_GET['rateband'])){
 	//Find out if an exisiting rating is in
 	$query="SELECT rating FROM Users, ratings WHERE band='$band' AND ratings.user=Users.id AND Users.username='".$_SESSION['user']."'";
 	$query_rating = mysql_query($query, $main);
+	echo mysql_error();
 	$rating_row = mysql_fetch_assoc($query_rating);
 
 	If (!isset($rating_row['rating']) ) {
