@@ -4,7 +4,7 @@
 $right_required = "AddFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-If(empty($_POST['newfest'])) {
+If(empty($_POST['new_fest'])) {
 	
 $utc = new DateTimeZone('UTC');
 $dt = new DateTime('now', $utc);
