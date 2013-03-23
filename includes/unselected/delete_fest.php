@@ -9,6 +9,7 @@ If(!empty($_POST['rmvfest'])) {
 	$result = mysql_query($query, $master);
 	$dropping=mysql_fetch_array($result);
 	$query="DROP DATABASE `".$dropping['dbname']."`";
+	echo $query;
 	$result = mysql_query($query, $main);
 	$sql = "DELETE FROM festivals WHERE id = '".$_POST["rmvfest"]."'";
 	$upd = mysql_query($sql, $master);
