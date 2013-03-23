@@ -61,7 +61,7 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
  include('includes/nav.php'); 
 
-If(!empty($_SESSION['fest'])){
+If(!empty($_SESSION['fest']) && $_SESSION['fest']>0){
 
 	include('includes/content.php'); 
 
