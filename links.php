@@ -18,6 +18,8 @@ If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
  include('includes/check_rights.php');   
+ 
+ echo $_SESSION['fest']."<br />";
 
 If(!empty($_SESSION['fest'])){
 
@@ -45,9 +47,8 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 	$query = mysql_query($clicker, $main);
 	
 	echo $destination;
-	echo "test";
 
-//	header("Location: $destination");
+	header("Location: $destination");
 
 }
 
