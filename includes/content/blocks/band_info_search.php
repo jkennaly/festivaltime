@@ -13,7 +13,7 @@
 
 //	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
 ?>
-<h1><?php searchlink($band, $user, $main, $master); echo " ".ratingStars($band, $user, $main, "searchratingstars", $baseinstall."includes/images", $basepage); ?></h1>
+<h1><?php searchlink($band, $user, $main, $master); echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage); ?></h1>
 <img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="band pic" />
 
 
