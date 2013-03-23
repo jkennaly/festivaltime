@@ -13,7 +13,7 @@ $post_target = $basepage."?disp=view_band&band=$band";
 If(!empty($band)) {
 
 If(empty($_POST['edit']) && empty($_POST['edits']))	{
-	include $baseinstall."includes/content/blocks/band_info_search.php";
+	include $baseinstall."includes/content/blocks/band_info.php";
 ?>
 
 <form id="edit_band_button" action="<?php echo $basepage."?disp=view_band&band=$band"; ?>" method="post">
@@ -35,13 +35,7 @@ If(!empty($_POST['edit']) || !empty($_POST['edits']))	{
 } //Closes If(!empty($_POST['edit']))
 	//query to pull basic data
 
-UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
 
-
-
-	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link, comments.id as comid FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";
-	
-	$query_comment = mysql_query($query, $main);
 
 	//If the page viewer was referred by a recommendation, set it to followed
 	If(!empty($_GET["recomm"])) {
@@ -54,6 +48,12 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 	include "includes/content/blocks/recommendations.php";
 
 	include "includes/content/blocks/liveranked.php";
+	
+	UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
+
+	$query="SELECT Users.username AS username, Users.username AS name, rating, comment, descrip, links.id as link, comments.id as comid FROM Users LEFT JOIN ratings ON Users.id=ratings.user AND ratings.band='$band' LEFT JOIN comments ON Users.id=comments.user AND comments.band='$band' LEFT JOIN links ON Users.id=links.user AND links.band='$band' GROUP BY Users.id";
+	
+	$query_comment = mysql_query($query, $main);
 
 	$i = 1;
 	while ($comment_row = mysql_fetch_assoc($query_comment)) {

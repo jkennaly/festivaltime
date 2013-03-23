@@ -16,6 +16,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $temp_right)){
 	$query_users = mysql_query($query, $master);
 ?>
 <form action="index.php?disp=view_band&band=<?php echo $band; ?>" method="post">
+<input type="submit" value="Recommend this band to...">
 <select name="recommend">
 <?php 
 while($row = mysql_fetch_array($query_users)) {
@@ -24,7 +25,6 @@ while($row = mysql_fetch_array($query_users)) {
 	
 ?>
 </select>
-<input type="submit" value="Recommend this band to user">
 <a class="helplink" href="<?php echo $basepage."?disp=about&band=$band#recommending"; ?>">Click here for help with this section</a>
 </form>
 <?php

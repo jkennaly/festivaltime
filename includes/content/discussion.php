@@ -10,7 +10,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 
 	$post_target = "index.php?disp=discussion&comment=".$comment;
 
-	include $baseinstall."includes/content/blocks/band_info_home.php";
+	include $baseinstall."includes/content/blocks/band_info.php";
 
 //Get comment info
 $sql = "select comment, username as commenter from comments left join Users on comments.user=Users.id where comments.id='$comment'";

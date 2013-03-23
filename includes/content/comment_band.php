@@ -77,7 +77,7 @@ This page allows for making comments.
 
 
 
-	include $baseinstall."includes/content/blocks/band_info_home.php";
+	include $baseinstall."includes/content/blocks/band_info.php";
 
 If(isset($comment_row['comment'])) {
 	echo "Your current comment for this band is ".$comment_row['comment']."<br>";

@@ -42,7 +42,7 @@ This page allows for adding a picture of a band.
 
 <?php
 
-include $baseinstall."includes/content/blocks/band_info_home.php";
+include $baseinstall."includes/content/blocks/band_info.php";
 
 ?>
 <form action="<?php echo $basepage."?disp=pic_band&band=".$band; ?>" method="post"
