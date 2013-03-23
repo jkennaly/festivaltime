@@ -125,7 +125,7 @@ while ($comment_row1 = mysql_fetch_assoc($query_comment1)) {
 
 
 	If( $comment_row1['username'] == $_SESSION['user'] ) {	
-		$table[$i] .= "</td></tr><tr><th><a href=\"".$basepage."?disp=rate_band&band=".$band."\">Rating:</a></th><td>";
+		$table[$i] .= "</td></tr><tr><th>Rating:</th><td>";
 	} else {
 		$table[$i] .= "</td></tr><tr><th>Rating:</th><td>";
 	}
@@ -134,7 +134,7 @@ while ($comment_row1 = mysql_fetch_assoc($query_comment1)) {
 
 
 	If( $comment_row1['username'] == $_SESSION['user'] ) {	
-		$table[$i] .= "</td></tr><tr><th><a href=\"".$basepage."?disp=link_band&band=".$band."\">Link:</a></th><td>";
+		$table[$i] .= "</td></tr><tr><th>Link:</th><td>";
 	} else {
 		$table[$i] .= "</td></tr><tr><th>Link:</th><td>";
 	}
@@ -144,7 +144,7 @@ while ($comment_row1 = mysql_fetch_assoc($query_comment1)) {
 
 
 	If( $comment_row1['username'] == $_SESSION['user'] ) {	
-		$table[$i] .= "</td></tr><tr><th colspan=2><a href=\"".$basepage."?disp=comment_band&band=".$band."\">Comment:</a></th></tr><tr><td colspan=2>";
+		$table[$i] .= "</td></tr><tr><th colspan=2>Comment:</th></tr><tr><td colspan=2>";
 	} else {
 		$table[$i] .= "</td></tr><tr><th colspan=2>Comment:</th></tr><tr><td colspan=2>";
 	}
@@ -162,9 +162,6 @@ $i = $i +1;
 
 If(!isset($i_ret)){
 	
-	echo "<br><a href=\"".$basepage."?disp=rate_band&band=".$band."\">Click here to rate the band.</a>";
-	echo "<br><a href=\"".$basepage."?disp=comment_band&band=".$band."\">Click here to comment on the band.</a>";
-
 	foreach ($table as $val) {
 		echo "<br>".$val."<br>";
 	}

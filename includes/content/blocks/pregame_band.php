@@ -74,7 +74,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 		$table[$i] .= $comment_row['name'];
 
 		If( $comment_row['username'] == $_SESSION['user'] ) {	
-			$table[$i] .= "</td></tr><tr><th>>Rating:></th><td>";
+			$table[$i] .= "</td></tr><tr><th>Rating:</th><td>";
 		} else {
 			$table[$i] .= "</td></tr><tr><th>Rating:</th><td>";
 		} //Closes else If( $comment_row['username']...
@@ -82,7 +82,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 		$table[$i] .= $comment_row['rating'];
 
 		If( $comment_row['username'] == $_SESSION['user'] ) {	
-			$table[$i] .= "</td></tr><tr><th>Link:/th><td>";
+			$table[$i] .= "</td></tr><tr><th>Link:</th><td>";
 		} else {
 			$table[$i] .= "</td></tr><tr><th>Link:</th><td>";
 		} //Closes else If( $comment_row['username']...
