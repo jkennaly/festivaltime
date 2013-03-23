@@ -43,6 +43,8 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 	$clicker = "UPDATE links SET clicks=clicks+1 WHERE id='$link'";
 	$query = mysql_query($clicker, $main);
+	
+	echo $destination;
 
 	header("Location: $destination");
 
