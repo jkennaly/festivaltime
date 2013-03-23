@@ -6,7 +6,7 @@
 
 //Get format for link
 
-
+include('includes/content/blocks/accept_rating.php');
 
 	$starttime=substr($stime, 11, 5);
 	$endtime=substr($etime, 11, 5);
