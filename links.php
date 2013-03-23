@@ -1,9 +1,11 @@
 <?php
 
+session_start(); 
+
+ echo $_SESSION['fest']."<br />";
 $right_required = "FollowLink";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-session_start(); 
 
 include('variables/variables.php');
 
@@ -19,7 +21,6 @@ If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 } 
  include('includes/check_rights.php');   
  
- echo $_SESSION['fest']."<br />";
 
 If(!empty($_SESSION['fest'])){
 
@@ -48,7 +49,7 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 	
 	echo $destination;
 
-	header("Location: $destination");
+//	header("Location: $destination");
 
 }
 
