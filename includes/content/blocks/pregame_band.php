@@ -121,8 +121,6 @@ If(!empty($_POST['edit']) || !empty($_POST['edits']))	{
 //echo "<br>User comments, ratings, and links for this band:<a class=\"helplink\" href=\"$basepage?disp=about&band=$band#commenting\">Click here for help with this section</a><br>";
 
 
-	echo "<br><a href=\"".$basepage."?disp=pic_band&band=".$band."\">Click here to share a pic of the band.</a>";
-
 If(!isset($i_ret)){
 //Execute this logic if the user has not rated, commented or linked the band	
 

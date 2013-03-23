@@ -25,7 +25,6 @@ while($row = mysql_fetch_array($query_users)) {
 	
 ?>
 </select>
-<a class="helplink" href="<?php echo $basepage."?disp=about&band=$band#recommending"; ?>">Click here for help with this section</a>
 </form>
 <?php
 } //Closes If(isset($_SESSION['level'])...
