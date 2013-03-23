@@ -22,7 +22,7 @@ If(!empty($_POST['rmvfest'])) {
 	$mem_result = mysql_query($query, $master);
 ?>	
 	</p>
-<form action="index.php?disp=edit_users" method="post">
+<form action="index.php?disp=delete_fest" method="post">
 <p>
 <input type="radio" name="rmvfest" value="0" checked="checked">Do not delete any fests
 </p>
