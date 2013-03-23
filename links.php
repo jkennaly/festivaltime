@@ -2,7 +2,6 @@
 
 session_start(); 
 
- echo $_SESSION['fest']."<br />";
 $right_required = "FollowLink";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
@@ -19,6 +18,7 @@ function isInteger($input){
 If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
+ echo $_SESSION['fest']."<br />";
  include('includes/check_rights.php');   
  
 
