@@ -45,8 +45,9 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 	$query = mysql_query($clicker, $main);
 	
 	echo $destination;
+	echo "test";
 
-	header("Location: $destination");
+//	header("Location: $destination");
 
 }
 
