@@ -6,6 +6,7 @@
 
 
 
+$post_target = $basepage."?disp=view_band&band=$band";
 
 // Collect data display comments, etc.
 //If $band is defined
@@ -23,7 +24,6 @@ If(empty($_POST['edit']) && empty($_POST['edits']))	{
 } //Closes If(empty($_POST['edit']))
 
 If(!empty($_POST['edit']) || !empty($_POST['edits']))	{
-	$post_target = $basepage."?disp=view_band&band=$band";
 	include $baseinstall."includes/content/blocks/band_info_edit.php";
 ?>
 
