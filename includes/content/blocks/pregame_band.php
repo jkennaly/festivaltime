@@ -19,7 +19,7 @@ If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	foreach($priors as $v) {
 		$priorname=getFname($master, $v['fest']);
 		$priorband=$v['band'];
-		If( $v['fest'] != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."\">".$priorname."</a><br />";
+		If( $v['fest'] != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."&fest=".$v['fest']."\">".$priorname."</a><br />";
 	}
 	
 ?>
