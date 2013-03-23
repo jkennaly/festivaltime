@@ -14,4 +14,12 @@ function formatOffset($offset) {
 
 }
 
+function randLetter()
+{
+    $int = rand(0,51);
+    $a_z = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $rand_letter = $a_z[$int];
+    return $rand_letter;
+}
+
 ?>

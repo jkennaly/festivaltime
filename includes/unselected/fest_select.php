@@ -38,4 +38,14 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 <?php
 }
+
+$right_required = "SiteAdmin";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+?>
+<h3>The following link will allow you to delete a show.</h3>
+
+<a href="<?php echo $basepage; ?>?disp=delete_fest">Delete festival or concert</a>
+
+<?php
+}
 ?>
