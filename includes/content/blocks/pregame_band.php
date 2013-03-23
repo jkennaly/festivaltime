@@ -14,6 +14,7 @@ If(!empty($band)) {
 
 If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	include $baseinstall."includes/content/blocks/band_info.php";
+	echo "This band has appeared in the following shows: ".var_dump(getFestivals($band, $main, $master))."<br />";
 ?>
 
 <form id="edit_band_button" action="<?php echo $basepage."?disp=view_band&band=$band"; ?>" method="post">

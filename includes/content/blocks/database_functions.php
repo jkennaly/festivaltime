@@ -131,4 +131,30 @@ return true;
 }
 
 
+function getFestivals($band, $main, $master){
+//This function returns an array containing the id of each festival the band is registered for
+$sql="select master_id from bands where id='$band'";
+$res = mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+$master_id = $row['master_id'];
+
+$sql="select festivals from bands where id='$master_id'";
+$res = mysql_query($sql, $master);
+$row=mysql_fetch_array($res);
+$raw = $row['festivals'];
+$working = explode ("--", $raw);
+$i=0;
+foreach($working as $v) {
+	If(isInteger($v)) {
+		$final[$i]=$v;
+		$i++;
+	}
+}
+
+
+
+If(isset($final)) return $final; else return false;
+
+}
+
 ?>
