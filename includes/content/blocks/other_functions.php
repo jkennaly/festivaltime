@@ -38,7 +38,7 @@ function ratingStars($band, $user, $main, $class, $imgpath, $basepage, $rate_tar
 			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" src=\"$imgpath/fstar.jpg\"></a>";
 		}
 		for($j=1;$j<=$empty;$j++){
-			$k=$i+$j;
+			$k=$i+$j-1;
 			$rate.="<a href=\"$rate_target&rateband=$k\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
 		}
 	}	
