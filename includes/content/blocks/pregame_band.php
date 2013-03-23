@@ -15,13 +15,14 @@ If(!empty($band)) {
 If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	include $baseinstall."includes/content/blocks/band_info.php";
 	$priors = getFestivals($band, $main, $master);
-	echo "This band has appeared in the following other shows: <br />";
-	foreach($priors as $v) {
-		$priorname=getFname($master, $v['fest']);
-		$priorband=$v['band'];
-		If( $v['fest'] != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."&fest=".$v['fest']."\">".$priorname."</a><br />";
+	If(!empty($priors)) {
+		echo "This band has appeared in the following other shows: <br />";
+		foreach($priors as $v) {
+			$priorname=getFname($master, $v['fest']);
+			$priorband=$v['band'];
+			If( $v['fest'] != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."&fest=".$v['fest']."\">".$priorname."</a><br />";
+		}
 	}
-	
 ?>
 
 <form id="edit_band_button" action="<?php echo $basepage."?disp=view_band&band=$band"; ?>" method="post">
