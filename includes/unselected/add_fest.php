@@ -61,11 +61,16 @@ echo '</select>';
 		$postfest .= randLetter();
 	}
 	$newsite=$festname." ".$festyear;
+	//Verify that the dbname is unique
+	$query="select id from festivals where dbname='$newdb'";
+	$result=mysql_query($query, $master);
+	If(mysql_num_rows($result) != 0) die;
 	//Add the festival into the main table
 	$query="insert into festivals (name, year, dbname) VALUES ('$festname', '$festyear', '$newdb')";
 	$result=mysql_query($query, $master);
 	//Get the id for the festival
-	$query="select id from festivals where name='$festname' and year='$festyear' and dbname='$newdb'";
+	$query="select id from festivals where dbname='$newdb'";
+	echo $query;
 	$result=mysql_query($query, $master);
 	$row=mysql_fetch_array($result);
 	$fest=$row['id'];
