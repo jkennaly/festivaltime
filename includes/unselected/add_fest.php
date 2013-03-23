@@ -109,6 +109,7 @@ echo '</select>';
 	$query="CREATE DATABASE $newdb";
 	$result=mysql_query($query, $main);
 	$query="GRANT ALL ON $newdb TO `$master_dbuser`@`localhost`";
+	echo $query."<br />";
 	$result=mysql_query($query, $main);
 	//Populate the tables into the new database
 	$command = "mysql -u$dbuser -p$dbpw " . "-h $dbhost -D $newdb < ".$baseinstall."install/festival_template.sql";
