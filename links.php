@@ -38,7 +38,7 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
  include('includes/content/blocks/database_functions.php'); 
  include('includes/content/blocks/other_functions.php'); 
 
-$link=$_GET['link'];
+$link=$_GET['linkid'];
 
 	$query="SELECT * FROM links WHERE id='$link'";
 	$query_link = mysql_query($query, $main);
