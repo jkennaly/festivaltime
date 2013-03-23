@@ -111,9 +111,11 @@ echo '</select>';
 	$query="GRANT ALL ON $newdb TO `$dbuser`@`localhost`";
 //	echo $query."<br />";
 	$result=mysql_query($query, $main);
+	echo mysql_error();
 	$query="GRANT ALL ON $newdb TO `$master_dbuser`@`localhost`";
 //	echo $query."<br />";
 	$result=mysql_query($query, $main);
+	echo mysql_error();
 	//Populate the tables into the new database
 	$command = "mysql -u$dbuser -p$dbpw " . "-h $dbhost -D $newdb < ".$baseinstall."install/festival_template.sql";
 	$output = shell_exec($command);
