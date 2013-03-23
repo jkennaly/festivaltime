@@ -583,4 +583,10 @@ max-width:220px;
 	max-height:100%;
 }
 
+#bandtitle {
+	font-size: 2em;
+	font-weight: bold;
+	height:2.5em;
+}
+
 
