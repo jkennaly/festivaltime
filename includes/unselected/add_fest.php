@@ -65,7 +65,7 @@ echo '</select>';
 	$query="insert into festivals (name, year, dbname) VALUES ('$festname', '$festyear', '$newdb')";
 	$result=mysql_query($query, $master);
 	//Get the id for the festival
-	$query="select id from festivals where name='$festname' and year='$festyear' and dbanme='$newdb'";
+	$query="select id from festivals where name='$festname' and year='$festyear' and dbname='$newdb'";
 	$result=mysql_query($query, $master);
 	$row=mysql_fetch_array($result);
 	$fest=$row['id'];
