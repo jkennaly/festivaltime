@@ -13,7 +13,10 @@ include('includes/content/blocks/accept_rating.php');
 
 //	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
 ?>
-<h1 id="bandtitle"><?php searchlink($band, $user, $main, $master); echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage, $post_target); ?></h1>
+<h1 id="bandtitle"><?php searchlink($band, $user, $main, $master); echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage, $post_target); 
+echo "<a href=\"".$basepage."?disp=comment_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
+echo "<a href=\"".$basepage."?disp=link_band&band=".$band."\"><img class=\"searchratingstars\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
+?></h1>
 <img id="band_pic_home" src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="band pic" />
 
 
