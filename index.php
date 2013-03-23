@@ -61,7 +61,7 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
  include('includes/nav.php'); 
  
- echo "Session fest is $_SESSION['fest']<br />";
+ echo "Session fest is ".$_SESSION['fest']."<br />";
 
 If(!empty($_SESSION['fest']) && $_SESSION['fest']>0){
 
