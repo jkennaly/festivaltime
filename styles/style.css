@@ -591,7 +591,7 @@ max-width:220px;
 }
 
 #iconrow {
-	
+	clear:both;
 	height:3em;
 }
 
