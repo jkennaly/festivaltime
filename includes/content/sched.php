@@ -249,10 +249,10 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+900) {
 			If($ticked[$j]>0 ) $ticked[$j] = $ticked[$j] +1;
 			If(empty($band_current[$j])) $band_current[$j]=0;
 			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
-If(    (   ($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
+			If((($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
 			If($ticked[$j] == 1 ) echo "<td id=\"band".$row_band['id']."\" class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getGname($master, $row_band['genre'])."</a></td>";
 			If($ticked[$j] == 0 ) echo "<td></td>";
-			$band_current_prev[$j] = $band_current[$stageid[$j-1]['id']];
+			$band_current_prev[$j] = $band_current[$j];
 			$band_name_prev[$j] = $row_band['name'];
 		} // Closes for ($j=1;$j<=$i;$j++)
 		IF($k_temp==$fest_start_time_sec) {$totalrows=($fest_start_time_sec-$fest_end_time_sec)/(-300);echo "<td id=\"bandbeer".$day['id']."\" rowspan=\"$totalrows\"></td></tr>";} else echo "</tr>";
