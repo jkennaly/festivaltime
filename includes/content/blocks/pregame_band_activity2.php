@@ -14,7 +14,7 @@ If(mysql_num_rows($res)>0) {
 	//IF the user is not current on this discussion
 	If(mysql_num_rows($resultcurrent) == 0){
 		$stat = "New discussion!";
-	} else $stat = "Show discussion!";	
+	} else $stat = "Show discussion";	
 	
 	
 	$discuss_table= "discussion_".$row['id'];
@@ -43,7 +43,6 @@ If(mysql_num_rows($res)>0) {
 
 
 //Get all other user comments
-//Get current users comment, if they have one
 $sql = "select id, comment, user from comments where user!='$user' and band='$band'";
 $res=mysql_query($sql, $main);
 
@@ -81,9 +80,9 @@ If(mysql_num_rows($res)>0) {
 			$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 			$discuss="";
 		}
-	}
 	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
 	echo $discuss;
+	}
 }
 
 ?>
