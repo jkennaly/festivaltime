@@ -14,7 +14,7 @@ If(!empty($band)) {
 
 
 	include $baseinstall."includes/content/blocks/pregame_band_vitals.php";
-	include $baseinstall."includes/content/blocks/pregame_band_activity.php";
+	include $baseinstall."includes/content/blocks/pregame_band_activity2.php";
 
 } else { //closes If(!empty($band))
 	echo "Band is empty.<br>";
