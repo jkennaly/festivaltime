@@ -13,11 +13,11 @@ If(mysql_num_rows($res)>0) {
 	If(mysql_num_rows($res1)>0) {
 		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."');return false;\">show discussion</a>";
 		$rightcell = "<h3>".$row['comment']."</h3>";
-		$dicuss ="<div id=\"toggleText$user\" style=\"display: none;\">";
+		$discuss ="<div id=\"toggleText$user\" style=\"display: none;\">";
 		while($row1 = mysql_fetch_array($res1)) {
-			$dicuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
+			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
-		$dicuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
+		$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
 	} else {
 		$rightcell = "<div><h3>".$row['comment']."</h3>";
 		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
