@@ -9,17 +9,21 @@ If(mysql_num_rows($res)>0) {
 	$discuss_table= "discussion_".$row['id'];
 	$sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
 	$res1 = mysql_query($sql, $main);
-	echo "<h2>".getUname($master, $row['user'])."</h2>";
+	$leftcell= "<h2>".getUname($master, $row['user'])."</h2>";
 	If(mysql_num_rows($res1)>0) {
-		echo"<h3><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText$user\" style=\"display: none;\">";
+		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."');return false;\">show discussion</a>";
+		$rightcell = "<h3>".$row['comment']."</h3>";
+		$leftcell.="<div id=\"toggleText$user\" style=\"display: none;\">";
+		$dicuss = "";
 		while($row1 = mysql_fetch_array($res1)) {
-			echo "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
+			$dicuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
-		echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
+		$dicuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
 	} else {
-		echo "<div><h3>".$row['comment']."</h3>";
-		echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
+		$rightcell = "<div><h3>".$row['comment']."</h3>";
+		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 	}
+	echo "<table id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>$discuss";
 }
 //Get user comments from group members
 
