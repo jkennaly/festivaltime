@@ -595,4 +595,8 @@ max-width:220px;
 	height:3em;
 }
 
+.clearfloat {
+	clear:both;
+}
+
 
