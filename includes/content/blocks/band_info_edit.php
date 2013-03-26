@@ -40,7 +40,7 @@ $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 
 //Once the information is submitted, store it in the database
 If(!empty($_POST['edits'])){
-echo "Edits logic entered<br>";
+//echo "Edits logic entered<br>";
 
 //Escape entered info
 
@@ -95,9 +95,9 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 		
 		$gsql="select id from bandgenres where band='$band_master_id' and user='$user'";
 		$gres = mysql_query($gsql, $master);
-		If(mysql_num_rows($gres)>0) $query = "update genrebands set genre='".$_POST['genre']."' where band='$band_master_id' and user='$user'";
-		else $query = "insert into genrebands (band, genre, user) values ('$band_master_id', '$user', '".$_POST['genre']."')";
-		echo $query."<br />";
+		If(mysql_num_rows($gres)>0) $query = "update bandgenres set genre='".$_POST['genre']."' where band='$band_master_id' and user='$user'";
+		else $query = "insert into bandgenres (band, genre, user) values ('$band_master_id', '$user', '".$_POST['genre']."')";
+//		echo $query."<br />";
 		$gupd = mysql_query($query, $master);
 		$genre=$_POST['genre'];
 		} //Closes If(!empty($i)
