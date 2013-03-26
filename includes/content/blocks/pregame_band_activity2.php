@@ -14,7 +14,7 @@ If(mysql_num_rows($res)>0) {
 		while($row = mysql_fetch_array($res1)) {
 			echo "<p class=\"responder\">".getUname($master, $row['user'])." at ".$row['time']."<p><p id=\"reply\">".$row['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
-		echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\"</div>";
+		echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
 	} else echo "<h3>".$row['comment']."</h3>";
 }
 //Get user comments from group members
@@ -39,7 +39,7 @@ If(mysql_num_rows($res)>0) {
 				echo "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
-			echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\"</div>";
+			echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
 		} else echo "<h3>".$row['comment']."</h3>";
 	}
 }
