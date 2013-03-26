@@ -604,7 +604,7 @@ max-width:220px;
 }
 
 .commentstable {
-	width:40em;
+	width:750px;
 	border:0px;
 }
 
@@ -616,7 +616,7 @@ max-width:220px;
 
 .commentstable td{
 	border:0px;
-	
+	font-size:175%;
 }
 
 
