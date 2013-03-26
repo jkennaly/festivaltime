@@ -77,7 +77,7 @@ This page allows for making comments.
 
 
 
-	$post_taget = $basepage."index.php?disp=link_band";
+	$post_target = $basepage."index.php?disp=link_band";
 	include $baseinstall."includes/content/blocks/band_info.php";
 
 If(isset($comment_row['comment'])) {
