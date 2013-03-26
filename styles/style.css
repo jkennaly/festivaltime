@@ -603,6 +603,10 @@ max-width:220px;
 	height:1em;
 }
 
+.commentstable table{
+	width:100%;
+}
+
 .commentstable th{
 	width:25%;
 }
