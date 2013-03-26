@@ -6,7 +6,7 @@ $res=mysql_query($sql, $main);
 
 If(mysql_num_rows($res)>0) {
 	$row=mysql_fetch_array($res); 
-	$discusstable= "discuss_".$row['id'];
+	$discuss_table= "discuss_".$row['id'];
 	echo"<h3><a id=\"displayText\" href=\"javascript:toggle(toggleText, displayText);\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText\" style=\"display: none\">";
 	$sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
 	$res = mysql_query($sql, $main);
