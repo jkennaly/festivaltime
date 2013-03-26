@@ -193,15 +193,15 @@ $fest_length = $row['value'];
 //fest length must be specified in hours
 //$fest_length = 15;
 
-//Get the list of stages
-$sql = "select name as stagename, id from stages where name!='Undetermined'";
-$res = mysql_query($sql, $main);
-
 $sql="select min(id) as minid, max(id) as maxid from stages where name!='Undetermined'";
 $res = mysql_query($sql, $main);
 $row=mysql_fetch_array($res);
 $minid = $row['minid'];
 $maxid = $row['maxid'];
+
+//Get the list of stages
+$sql = "select name as stagename, id from stages where name!='Undetermined'";
+$res = mysql_query($sql, $main);
 
 
 //Get list of days
