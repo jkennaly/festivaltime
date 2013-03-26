@@ -24,7 +24,7 @@ If(mysql_num_rows($res)>0) {
 
 //Get all other user comments
 //Get current users comment, if they have one
-$sql = "select id, comment from comments where user!='$user' and band='$band'";
+$sql = "select id, comment, user from comments where user!='$user' and band='$band'";
 $res=mysql_query($sql, $main);
 
 If(mysql_num_rows($res)>0) {
@@ -35,7 +35,7 @@ If(mysql_num_rows($res)>0) {
 		If(mysql_num_rows($res1)>0) {
 			$i=0;
 			while($row1 = mysql_fetch_array($res1)) {
-				If($i==0) echo"<h3><a id=\"displayText".$row1['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row1['user']."', 'displayText".$row1['user']."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText".$row1['user']."\" style=\"display: none;\">";
+				If($i==0) echo"<h3><a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
 				echo "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
