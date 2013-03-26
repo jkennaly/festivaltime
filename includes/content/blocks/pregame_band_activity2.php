@@ -7,7 +7,7 @@ $res=mysql_query($sql, $main);
 If(mysql_num_rows($res)>0) {
 	$row=mysql_fetch_array($res); 
 	$discuss_table= "discussion_".$row['id'];
-	echo"<h3><a id=\"displayText\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle(toggleText, displayText);return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText\" style=\"display: none;\">";
+	echo"<h3><a id=\"displayText\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText', 'displayText');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText\" style=\"display: none;\">";
 	$sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
 	$res = mysql_query($sql, $main);
 while($row = mysql_fetch_array($res)) {
