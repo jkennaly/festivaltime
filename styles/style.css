@@ -603,8 +603,8 @@ max-width:220px;
 	height:1em;
 }
 
-table.commentstable {
-	max-width:500px !important;
+commentstable {
+	width:30em;
 	border:0px;
 }
 
@@ -617,6 +617,8 @@ table.commentstable {
 .commentstable td{
 	border:0px;
 	font-size:145%;
+	width:75%;
+	
 }
 
 
