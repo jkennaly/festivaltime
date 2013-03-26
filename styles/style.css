@@ -603,8 +603,8 @@ max-width:220px;
 	height:1em;
 }
 
-.commentstable table{
-	width:720px !important;
+.commentstable {
+	width:500px !important;
 	border:0px;
 }
 
