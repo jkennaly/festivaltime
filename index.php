@@ -29,7 +29,9 @@ function isInteger($input){
 If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
- include('includes/check_rights.php');   
+ include('includes/check_rights.php');
+ include('includes/content/blocks/database_functions.php'); 
+include('includes/content/blocks/other_functions.php'); 
 
 If(!empty($_SESSION['fest'])){
 
@@ -40,12 +42,10 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 @mysql_select_db($dbname, $main) or die( "Unable to select main database");
 
 
+
  include('variables/page_variables.php'); 
 
 }
- include('includes/content/blocks/database_functions.php'); 
- include('includes/content/blocks/other_functions.php'); 
-
 ?>
 
 <title><?php echo $sitename ?></title>
