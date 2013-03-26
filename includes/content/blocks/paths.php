@@ -104,7 +104,7 @@ for ($k=$fest_start_time_sec;$k<($fest_end_time_sec+$nighttraveltime*300+$mintim
 
 $band_end = $k+300;
 //See if a band is playing at the current time block and pull info if it does
-$sql_band = "select id, name, sec_start, sec_end, start, end, stage, genre from bands where sec_end>'$band_end' AND sec_start<='$k' AND stage='".$stage[$j]['id']."'";
+$sql_band = "select id, name, sec_start, sec_end, start, end, stage from bands where sec_end>'$band_end' AND sec_start<='$k' AND stage='".$stage[$j]['id']."'";
 $res_band = mysql_query($sql_band, $main);
 If(mysql_num_rows($res_band)>0) {
 	$band_row=mysql_fetch_array($res_band);
@@ -115,7 +115,6 @@ If(mysql_num_rows($res_band)>0) {
 	$res_rat = mysql_query($rat_sql, $main);
 	$rat_row=mysql_fetch_array($res_rat);
 	//Lay down the band name
-//	echo "<td class=\"rating".$rat_row['rating']."\">"."<a href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\">".$band_row['name']."\n".getGname($master, $band_row['genre'])."\n".$bandscore[$band_row['id']]."</a></td>";
 	$bestpath[$k][$stage[$j]['id']]['band']=$band_row['id'];
 	$bestpath[$k][$stage[$j]['id']]['score']=$bandscore[$band_row['id']];
 	$bestpath[$k][$stage[$j]['id']]['rating']=$rat_row['rating'];

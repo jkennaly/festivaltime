@@ -78,10 +78,7 @@ $dayname = $arr['dayname'];
 $stagename = $arr['stagename'];
 $band_master_id = $arr['master_id'];
 
-$sql_genre = "SELECT name as genrename FROM genres WHERE id='$genre'"; 
-$res_genre = mysql_query($sql_genre, $master);
-$arr2 = mysql_fetch_assoc($res_genre);
-$genrename = $arr2['genrename'];
+$genrename = getBandGenre($main, $master, $band, $user);
 
 
 

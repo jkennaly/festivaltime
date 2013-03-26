@@ -15,7 +15,9 @@ $uscoreall[] = NULL;
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
 If(empty($_POST['user'])) $scoreuser = $user;
 
+
 //Genre-based averages
+/*
 
 $sql_user_genre = "select avg(ruser.rating) as useraverage, count(ruser.rating) as usercount, genre from bands left join ratings as ruser on bands.id=ruser.band and user='$scoreuser' group by genre order by useraverage desc";
 
@@ -45,9 +47,10 @@ while($row=mysql_fetch_array($res_all_genre)) {
 
 <?php
 while($row=mysql_fetch_array($res_user_genre)) {
-echo "<tr><td>".getGname($master, $row['genre'])."</td><td>".$all_genre[$row['genre']]['avg']."</td><td>".$all_genre[$row['genre']]['cnt']."</td><td>".$row['useraverage']."</td><td>".$row['usercount']."</td></tr>";
+echo "<tr><td>".getBandGenre($main, $master, $band, $user)getGname($master, $row['genre'])."</td><td>".$all_genre[$row['genre']]['avg']."</td><td>".$all_genre[$row['genre']]['cnt']."</td><td>".$row['useraverage']."</td><td>".$row['usercount']."</td></tr>";
 }
 echo "</table>";
+*/
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
