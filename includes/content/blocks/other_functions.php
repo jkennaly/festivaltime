@@ -28,14 +28,14 @@ function ratingStars($band, $user, $main, $class, $imgpath, $basepage, $rate_tar
 	$rate="";
 	If(mysql_num_rows($res) == 0) {
 		for($i=1;$i<=5;$i++){
-			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
+			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/estar.jpg\"></a>";
 		}
 	} else {
 		$row=mysql_fetch_array($res);
 		$empty=5-$row['rating'];
 		$filled=$row['rating'];
 		for($i=1;$i<=$filled;$i++){
-			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" src=\"$imgpath/fstar.jpg\"></a>";
+			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/fstar.jpg\"></a>";
 		}
 		for($j=1;$j<=$empty;$j++){
 			$k=$i+$j-1;
