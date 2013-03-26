@@ -11,7 +11,7 @@ If(mysql_num_rows($res)>0) {
 	$res1 = mysql_query($sql, $main);
 	$leftcell= "<h2>".getUname($master, $row['user'])."</h2>";
 	If(mysql_num_rows($res1)>0) {
-		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."');return false;\">show discussion</a>";
+		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', $user, ".$row['comment'].");return false;\">show discussion</a>";
 		$rightcell = "<h3>".$row['comment']."</h3>";
 		$discuss ="<div id=\"toggleText$user\" style=\"display: none;\">";
 		while($row1 = mysql_fetch_array($res1)) {
@@ -46,7 +46,7 @@ If(mysql_num_rows($res)>0) {
 			$i=0;
 			while($row1 = mysql_fetch_array($res1)) {
 				If($i==0) {
-					echo"<h3><a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
+					echo"<h3><a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '".$row['user']."', '".$row['comment']."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
 				}
 				echo "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;

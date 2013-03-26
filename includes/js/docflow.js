@@ -1,4 +1,4 @@
-function toggle(divid, aid) {
+function toggle(divid, aid, user, comment) {
 	var ele = document.getElementById(divid);
 	var text = document.getElementById(aid);
 	if(ele.style.display == "block") {
@@ -9,4 +9,5 @@ function toggle(divid, aid) {
 		ele.style.display = "block";
 		text.innerHTML = "hide";
 	}
+	$.post("includes/php/update_discussion.php", { user: user, comment: comment });
 }
