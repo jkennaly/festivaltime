@@ -9,6 +9,7 @@ If(empty($_POST['newfest'])) {
 $utc = new DateTimeZone('UTC');
 $dt = new DateTime('now', $utc);
 $post_target=$basepage."?disp=add_fest";
+$outlawcharacters = array(" ", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "|", "\\", "[", "]", ":", ";", "\"", "'", "<", ">", "?", ",", ".", "/");
 
 echo "<form id=\"new_fest\" action=\"".$post_target."\" method=\"post\">";
 ?>
@@ -49,8 +50,8 @@ echo '</select>';
 	$festlen=mysql_real_escape_string($_POST['length']);
 	$festname=mysql_real_escape_string($_POST['festname']);
 	$festyear=mysql_real_escape_string($_POST['festyear']);
-	$festnamelower=str_replace(" ", "", strtolower($festname));
-	$festyearlower=str_replace(" ", "", strtolower($festyear));
+	$festnamelower=str_replace($outlawcharacters, "", strtolower($festname));
+	$festyearlower=str_replace($outlawcharacters, "", strtolower($festyear));
 	$newdb="festival_".$festnamelower."_".$festyearlower;
 	$prefest = "";
 	$postfest = "";
