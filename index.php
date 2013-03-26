@@ -33,6 +33,7 @@ If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
  include('includes/content/blocks/database_functions.php'); 
 include('includes/content/blocks/other_functions.php'); 
 
+
 If(!empty($_SESSION['fest'])){
 
 include('variables/fest_variables.php');
@@ -49,6 +50,8 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 ?>
 
 <title><?php echo $sitename ?></title>
+
+<script type="text/javascript" src="includes/js/docflow.js"></script>
 
 </head>
 
