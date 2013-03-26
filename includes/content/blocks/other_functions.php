@@ -57,7 +57,7 @@ function displayStars($band, $user, $main, $class, $imgpath) {
 		$empty=5-$row['rating'];
 		$filled=$row['rating'];
 		for($i=1;$i<=$filled;$i++){
-			$rate.="<img src=\"$imgpath/fstar.jpg\">";
+			$rate.="<img class=\"$class\" src=\"$imgpath/fstar.jpg\">";
 		}
 	}	
 	return $rate;
