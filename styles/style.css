@@ -604,12 +604,19 @@ max-width:220px;
 }
 
 .commentstable {
-	width:100%;
+	width:40em;
 	border:0px;
 }
 
 .commentstable th{
 	width:25%;
+	border:0px;
+	
+}
+
+.commentstable td{
+	border:0px;
+	
 }
 
 
