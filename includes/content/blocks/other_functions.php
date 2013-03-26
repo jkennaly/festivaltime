@@ -45,4 +45,22 @@ function ratingStars($band, $user, $main, $class, $imgpath, $basepage, $rate_tar
 	return $rate;
 }
 
+function displayStars($band, $user, $main, $class, $imgpath) {
+//This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
+    $sql = "select rating from `ratings` where band='$band' and user='$user'";
+	$res = mysql_query($sql, $main);
+	$rate="";
+	If(mysql_num_rows($res) == 0) {
+		
+	} else {
+		$row=mysql_fetch_array($res);
+		$empty=5-$row['rating'];
+		$filled=$row['rating'];
+		for($i=1;$i<=$filled;$i++){
+			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/fstar.jpg\"></a>";
+		}
+	}	
+	return $rate;
+}
+
 ?>

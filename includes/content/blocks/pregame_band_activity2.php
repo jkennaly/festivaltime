@@ -37,11 +37,11 @@ If(mysql_num_rows($res)>0) {
 		$discuss_table= "discussion_".$row['id'];
 		$sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
 		$res1 = mysql_query($sql, $main);
+					echo "<h2>".getUname($master, $row['user'])." ".displayStars($band, $row['user'], $main, "displaystars", $basepage."includes/images")."</h2>";
 		If(mysql_num_rows($res1)>0) {
 			$i=0;
 			while($row1 = mysql_fetch_array($res1)) {
 				If($i==0) {
-					echo "<h2>".getUname($master, $row['user'])."</h2>";
 					echo"<h3><a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."');return false;\">show discussion</a>".$row['comment']."</h3><div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
 				}
 				echo "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
@@ -49,7 +49,6 @@ If(mysql_num_rows($res)>0) {
 			} //Closes while($row = mysql_fetch_array($res))
 			echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
 		} else  {
-			echo "<h2>".getUname($master, $row['user'])."</h2>";
 			echo "<h3>".$row['comment']."</h3>";
 			echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 		}
