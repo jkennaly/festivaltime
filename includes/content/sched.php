@@ -54,11 +54,11 @@ window.bestPath<?php echo $row['id']; ?> = function () {
 $setting_sql = "select * from user_settings_".$row['id'];
 $settings_res = mysql_query($setting_sql, $master);
 while($row2=mysql_fetch_array($settings_res)) {
-	If($row2['item'] == "Minimum time at a band") $mintimeval = $row['value'];
-	If($row2['item'] == "Travel Time-night") $nighttraveltimeval = $row['value'];
-	If($row2['item'] == "Travel time-day") $daytraveltimeval = $row['value'];
-	If($row2['item'] == "Thirstiness") $thirstinessval = $row['value'];
-	If($row2['item'] == "Band boredom") $banddecayval = $row['value'];
+	If($row2['item'] == "Minimum time at a band") $mintimeval = $row2['value'];
+	If($row2['item'] == "Travel Time-night") $nighttraveltimeval = $row2['value'];
+	If($row2['item'] == "Travel time-day") $daytraveltimeval = $row2['value'];
+	If($row2['item'] == "Thirstiness") $thirstinessval = $row2['value'];
+	If($row2['item'] == "Band boredom") $banddecayval = $row2['value'];
 }
 
 //Minimum Time
