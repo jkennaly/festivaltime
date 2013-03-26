@@ -23,7 +23,8 @@ If(mysql_num_rows($res)>0) {
 		$rightcell = "<div><h3>".$row['comment']."</h3>";
 		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 	}
-	echo "<table id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>$discuss";
+	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
+	echo $discuss;
 }
 //Get user comments from group members
 
