@@ -19,7 +19,7 @@ If(mysql_num_rows($res)>0) {
 	} else {
 		echo "<h2>".getUname($master, $row['user'])."</h2>";
 		echo "<h3>".$row['comment']."</h3>";
-		echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
+		echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 	}
 }
 //Get user comments from group members
@@ -51,7 +51,7 @@ If(mysql_num_rows($res)>0) {
 		} else  {
 			echo "<h2>".getUname($master, $row['user'])."</h2>";
 			echo "<h3>".$row['comment']."</h3>";
-			echo "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
+			echo "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a></div>";
 		}
 	}
 }
