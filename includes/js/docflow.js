@@ -9,5 +9,5 @@ function toggle(divid, aid, user, comment) {
 		ele.style.display = "block";
 		text.innerHTML = "hide";
 	}
-	$.post("includes/php/update_discussion.php", { user: user, comment: comment });
+//	$.post("includes/php/update_discussion.php", { user: user, comment: comment });
 }

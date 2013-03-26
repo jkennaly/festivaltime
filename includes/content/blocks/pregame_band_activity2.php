@@ -56,7 +56,7 @@ If(mysql_num_rows($res)>0) {
 	//IF the user is not current on this discussion
 	If(mysql_num_rows($resultcurrent) == 0){
 		$stat = "New discussion!";
-	} else $stat = "Show discussion!";
+	} else $stat = "Show discussion";
 
  
 		$discuss_table= "discussion_".$row['id'];
