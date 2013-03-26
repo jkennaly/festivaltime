@@ -109,6 +109,34 @@ return $gname;
 
 }
 
+function getBandGenre($main, $master, $band, $user){
+//This function gets the name of a genre for a given user and band
+
+//Get the band master_id
+$sql="select master_id from bands where id=$band";
+$res = mysql_query($sql, $main);
+$mrow = mysql_fetch_array($res);
+
+//If the user has an entry in the genre table for that band, return that genre
+$sql="select genre from bandgenres where band='".$mrow['master_id']."' and user='$user'";
+$res = mysql_query($sql, $master);
+If(mysql_num_rows($res)>0) {
+	$row = mysql_fetch_array($res);
+	$gid = $row['genre'];
+} else {
+	//If the user has no entry, return the genre with the highest count
+	$sql1="select genre, count(user) as num from bandgenres where band='".$mrow['master_id']."' group by genre order by num desc limit 1";
+	$res1 = mysql_query($sql1, $master);
+	If(mysql_num_rows($res1)>0) {
+		$row1 = mysql_fetch_array($res1);
+		$gid = $row1['genre'];
+	} else $gid = 0;	
+}
+$gname = getGname($master, $gid);
+
+return $gname;
+}
+
 function getSname($source, $stageid){
 //This function checks $source table stages for the name of $stageid
 

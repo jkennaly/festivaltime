@@ -14,7 +14,7 @@ echo "</div><!-- End #discusswrapper -->";
 //If(empty($discuss_pics)) include "includes/content/blocks/pic_row.php";
 
 echo "<div id=\"genreswrapper\">";
-include "includes/content/blocks/genres.php";
+include "includes/content/blocks/initial.php";
 echo "</div><!-- End #genreswrapper -->";
 
 /*
