@@ -604,12 +604,12 @@ max-width:220px;
 }
 
 .commentstable {
-	width:30em;
+	width:720px;
 	border:0px;
 }
 
 .commentstable th{
-	width:25%;
+	width:180px;
 	border:0px;
 	
 }
@@ -617,7 +617,7 @@ max-width:220px;
 .commentstable td{
 	border:0px;
 	font-size:145%;
-	width:75%;
+	width:540px;
 	
 }
 
