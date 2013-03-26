@@ -26,7 +26,9 @@ function isInteger($input){
 If(!empty($_GET['fest']) && isInteger($_GET['fest'])) {
 	$_SESSION['fest'] = $_GET['fest'];
 } 
- include('../includes/check_rights.php');   
+ include('includes/check_rights.php');
+ include('includes/content/blocks/database_functions.php'); 
+include('includes/content/blocks/other_functions.php');  
 
 If(!empty($_SESSION['fest'])){
 
@@ -38,7 +40,6 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 
  include('../variables/page_variables.php'); 
- include('../includes/content/blocks/database_functions.php'); 
 }
 
 ?>
