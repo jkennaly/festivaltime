@@ -14,6 +14,7 @@ This page allows for creating a link to the band.
 </p>
 
 <?php
+		$post_taget = $basepage."index.php?disp=link_band";
 		include $baseinstall."includes/content/blocks/band_info.php";
 
 UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $master_db, $dbuser, $dbpw, $dbhost, $dbname, $baseinstall);
