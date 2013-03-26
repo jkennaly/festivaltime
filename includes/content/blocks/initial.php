@@ -23,7 +23,7 @@ $res=mysql_query($sql, $main);
 $j=0;
 
 while($row=mysql_fetch_array($res)) {
-	$genredisp .= "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />".getBandGenre($main, $master, $row['id'], $user)."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
+	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />".getBandGenre($main, $master, $row['id'], $user)."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
 	
 	echo $genredisp;
 } //Closes while($row=mysql_fetch_array($res))
