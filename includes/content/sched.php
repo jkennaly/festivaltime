@@ -195,6 +195,14 @@ $fest_length = $row['value'];
 
 //Get the list of stages
 $sql = "select name as stagename, id from stages where name!='Undetermined'";
+$res = mysql_query($sql, $main);
+
+$sql="select min(id) as minid, max(id) as maxid from stages where name!='Undetermined'";
+$res = mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+$minid = $row['minid'];
+$maxid = $row['maxid'];
+
 
 //Get list of days
 $sql1 = "select name as dayname, date as daydate, id from days where name!='Undetermined'";
@@ -203,28 +211,27 @@ $res1 = mysql_query($sql1, $main);
 //Index is incremented in 5 min increments to draw the table
 
 while($day = mysql_fetch_array($res1)){
-$res = mysql_query($sql, $main);
-$i=0;
-$fest_start_time_sec = strtotime($day['daydate']." ".$fest_start_time);
-echo "<br> Day date is ".$day['daydate']." and fest start time is ".$fest_start_time;
-echo "<h3 id=\"day".$day['id']."\">".$day['dayname']."</h3>";
-$fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
+	mysql_data_seek($res, 0);
+	$fest_start_time_sec = strtotime($day['daydate']." ".$fest_start_time);
+	echo "<br> Day date is ".$day['daydate']." and fest start time is ".$fest_start_time;
+	echo "<h3 id=\"day".$day['id']."\">".$day['dayname']."</h3>";
+	$fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 
-//Draw first row of stage names
-echo "<table class=\"schedtable\"><tr><th>Time</th>";
-while($row = mysql_fetch_array($res)) {
-echo "<th>".$row['stagename']."</th>";
-$i=$i+1;
-$stageid[]=$row;
-} // Closes while($row = my_sql_fetch_array($res)) 
-echo "<th>Beer Tent</th></tr>";
+	//Draw first row of stage names
+	echo "<table class=\"schedtable\"><tr><th>Time</th>";
+	
+	while($row = mysql_fetch_array($res)) {
+		echo "<th>".$row['stagename']."</th>";
+		$stageid[]=$row;
+	} // Closes while($row = my_sql_fetch_array($res)) 
+	echo "<th>Beer Tent</th></tr>";
 
 //Draw a row with i columns every 5 min from start time for fest length
 for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+900) {
 	echo "<tr><th rowspan=\"3\">".strftime("%I:%M %p", $k)."</th>";
 	for ($l=0;$l<3;$l++) {
 		If($l!=0) echo "<tr>";
-		for ($j=1;$j<=$i;$j++) {
+		for ($j=$minid;$j<=$maxid;$j++) {
 			If(empty($ticked[$j])) $ticked[$j] = 0;
 			If(empty($ticks[$j])) $ticks[$j] = 0;
 			If(empty($band_name_prev[$j])) $band_name_prev[$j] = 0;
