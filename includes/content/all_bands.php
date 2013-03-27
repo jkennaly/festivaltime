@@ -26,7 +26,7 @@ while($row=mysql_fetch_array($res)) {
 for($i=0;$i<=max($bandgenreid);$i++){
     foreach($bandgenreid as $k=>$v) {
         If($i == $v){
-            $genreheading[$i] = "<h2>".$bandgenrename['$k']."</h2>";
+            $genreheading[$i] = "<h2>".$bandgenrename[$k]."</h2>";
             $banddisplayname[$i][] = $bandname[$k];
             $banddisplayscore[$i][] = $bandscore[$k]; 
             $banddisplayid[$i][] = $bandid[$k];          
