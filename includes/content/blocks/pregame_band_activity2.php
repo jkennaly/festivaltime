@@ -1,5 +1,8 @@
 <?php
 
+include "includes/content/blocks/accept_discuss_reply.php";
+$post_target=$basepage."?disp=view_band&band=".$band;
+
 //Get current users comment, if they have one
 $sql = "select id, comment, user from comments where user='$user' and band='$band'";
 $res=mysql_query($sql, $main);
@@ -74,7 +77,8 @@ If(mysql_num_rows($res)>0) {
 				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
-			$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\" id=\"reply".$row['id']."\">Reply to this discussion</a></div>";
+			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"16\" cols=\"64\" name=\"new_reply\"></textarea>";
+			$discuss .= "<input type=\"submit\" value=\"Send response\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form></div>";
 		} else  {
 			$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 			$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";

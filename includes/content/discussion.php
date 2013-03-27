@@ -98,7 +98,7 @@ If(mysql_num_rows($result) == 0){
 	$upd = mysql_query($query, $main);
 } //Closes If(mysql_num_rows($result) == 0)
 
-
+/*
 //now that discussion table exists, display comment first
 
 $row = mysql_fetch_array($comment_res);
@@ -110,7 +110,7 @@ $res = mysql_query($sql, $main);
 while($row = mysql_fetch_array($res)) {
 	echo "<p class=\"responder\">".$row['uname']." at ".$row['time']."<p><p id=\"reply\">".$row['reply']."</p>";
 } //Closes while($row = mysql_fetch_array($res))
-
+*/
 //Now show pin/unpin and ignore/unignore buttons and a textarea for leaving a new response if there are any responses
 If(!empty($comment_row)) {
 
