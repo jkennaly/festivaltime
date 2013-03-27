@@ -46,7 +46,7 @@ $commententry .="</form></div>";
 
 $sql="select link, descrip from links where band='$band' and user='$user'";
 $res=mysql_query($sql, $main);
-If(mysql_num_rows($res)>0) {$row=mysql_fetch_array($res); $deflink=$row['link']; $defdescrip=$row['descrip'];} else {$deflink=""; $defdescrip="";}
+If(mysql_num_rows($res)>0) {$row=mysql_fetch_array($res); $deflink=$row['link']; $defdescrip=$row['descrip'];} else {$deflink="Link here"; $defdescrip="Description here";}
 $linkentry ="<div id=\"linkentry\" style=\"display: none;\">";
 $linkentry .="<form action=\"index.php?disp=view_band&band=$band\" method=\"post\">";
 $linkentry .="<textarea rows=\"4\" cols=\"64\" name=\"new_link\">$deflink</textarea>";
