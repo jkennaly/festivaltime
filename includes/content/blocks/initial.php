@@ -15,7 +15,7 @@ $genrecount=0;
 while($row=mysql_fetch_array($res)) {
     $bandgenre[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
     $bandscore[$row['id']] = uscoref2($row['id'], $user, $muavg_rating, $master);
-    echo "user avergae rating: $muavg_rating genre: ".$bandgenre[$row['id']]." score: ".$bandscore[$row['id']]." band: ".$row['name']."<br />";
+    echo "genre: ".$bandgenre[$row['id']]."-".getBandGenre($main, $master, $row['id'], $user)."" score: ".$bandscore[$row['id']]." band: ".$row['name']."<br />";
     $test = $bandgenre[$row['id']];
     $used = 0;
     
