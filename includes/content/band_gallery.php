@@ -5,14 +5,14 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
     
 If(!empty($_POST['flagpic'])){
     $clicker = "UPDATE pics SET clicks=clicks+1 WHERE id='".$_POST['pic']."'";
-    $query = mysql_query($clicker, $main);
+    $query = mysql_query($clicker, $master);
 }
 
 $temp_right = "EditFest";
 If(CheckRights($_SESSION['level'], $temp_right) && !empty($_POST['delpic'])){
 //    echo "Del logic entered band_gallery<br />";
     $sql = "DELETE FROM pics WHERE id = '".$_POST['pic']."'";
-    $upd = mysql_query($sql, $main);
+    $upd = mysql_query($sql, $master);
 }
 
 $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</a>";
