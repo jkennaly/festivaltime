@@ -16,6 +16,7 @@ $where = ExternalExcludeFilter("id", "bands", "band", "ratings", "user", $userid
 
 
 $sql="select id, name from bands where $where order by rand() limit 9";
+echo $where;
 $res=mysql_query($sql, $main);
 
 //For each genre, find 3 bands to display
