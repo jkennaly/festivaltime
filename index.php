@@ -51,8 +51,8 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 <title><?php echo $sitename ?></title>
 
-<script type="text/javascript" src="includes/js/docflow.js"></script>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="includes/js/docflow.js"></script>
 
 </head>
 
