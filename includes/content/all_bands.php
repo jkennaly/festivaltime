@@ -35,6 +35,7 @@ for($i=0;$i<=max($bandgenreid);$i++){
 }
 
 foreach($genreheading as $k=>$v) {
+    echo "<div class=\"clearfloat\"></div>";
     echo $v;
     foreach($banddisplayname[$k] as $key=>$name){
         $genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$name;
