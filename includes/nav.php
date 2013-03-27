@@ -11,7 +11,8 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site Home</a></li></ul></li>
 	<li><a href="<?php echo $basepage; ?>?disp=about">About</a>
 		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Site Guide</a></li></ul></li>
-	<li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
+	<li><a href="<?php echo $basepage; ?>?disp=all_bands">The Bands</a></li>
+        <ul><li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li></ul></li>
 	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Gametime</a></li>
 	<li><a href="<?php echo $forumbase; ?>">Forum</a></li>
 

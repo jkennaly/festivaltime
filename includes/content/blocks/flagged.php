@@ -8,7 +8,7 @@ $temp_right = "EditFest";
 If(isset($_SESSION['level']) && !empty($user) && CheckRights($_SESSION['level'], $temp_right)){
 
 $query="select * from pics where clicks>0";
-$result = mysql_query($query, $main);
+$result = mysql_query($query, $master);
 If(mysql_num_rows($result)>0){
     echo "<h2>The following pictures have been flagged for removal:</h2>";
     while($row=mysql_fetch_array($result)){

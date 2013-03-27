@@ -16,7 +16,7 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 $picid=$_GET['picid'];
 $sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `id` = '$picid'";
-$res = mysql_query($sql, $main);
+$res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
 $picData = $pic['pic'];
 //echo "Content-type: ".$pic['type'];

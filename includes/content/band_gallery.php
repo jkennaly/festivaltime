@@ -27,8 +27,12 @@ $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</
 <?php
 
 //Get all the pics of the band
-$query="select id, clicks from pics where band='$band'";
-$result = mysql_query($query, $main);
+$bandsql="select master_id from bands where id='$band'";
+$bandres=mysql_query($bandsql, $main);
+$row=mysql_fetch_array($bandres);
+$mband=$row['mas_id'];
+$query="select id, clicks from pics where mas_id='$mband'";
+$result = mysql_query($query, $master);
 If(mysql_num_rows($result)>0){
 	while($row=mysql_fetch_array($result)){
 	    $temp_right = "EditFest";
