@@ -36,6 +36,7 @@ function toggle(divid, aid, user, comment, scrollid) {
 		text.innerHTML = "hide";
 	}
 //	post_to_url("includes/php/update_discussion.php", { user: user, comment: comment }, 'post');
+	alert("user "+user+" comment "+comment);
   $.ajax({
     type: "POST",
     url: "includes/php/update_discussion.php",
