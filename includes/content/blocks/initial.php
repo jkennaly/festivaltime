@@ -60,6 +60,12 @@ If(empty($where)) $where = "1=1";
 $sql="select id, name from bands where $where order by rand()";
 $res=mysql_query($sql, $main);
 
+If(mysql_num_rows($res) == 0) {
+    $where = "1=1";
+    $sql="select id, name from bands where $where order by rand()";
+    $res=mysql_query($sql, $main);
+}
+
 
 //$j is how many genres have been displayed
 $j=1;
