@@ -33,7 +33,7 @@ If(!empty($_POST)){
     		$upd = mysql_query($query, $main);
     	}
     }
-    If(isset($_POST['existing'])){
+    If(isset($_POST['existing']) && empty($_POST['new_band'])){
         $query="select * from bands where id='".$_POST['existing']."'";
         $res_master = mysql_query($query, $master);
         $num1 = mysql_num_rows($res_master);
@@ -81,7 +81,7 @@ If(!empty($_POST)){
 ?>
 <p>
 
-This page allows for adding bands to the festival.
+This page allows for adding bands to the festival. You can either select a band from the list of bands already entered, or enter a new band.
 
 </p>
 <form action="index.php?disp=add_bands" method="post">
@@ -94,7 +94,8 @@ while($row = mysql_fetch_array($query_band)) {
 </select>
 
 
-<input type="Add to festival">
+<input type="text" name="new_band"></input>
+<input type="submit" value="Add to festival"></input>
 </form>
 <?php
 
