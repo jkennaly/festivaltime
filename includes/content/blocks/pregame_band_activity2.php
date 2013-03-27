@@ -47,7 +47,7 @@ If(mysql_num_rows($res)>0) {
             $upd = mysql_query($query, $main);
         }
 		$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
+		$leftcell.= "New Comment!<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 		$discuss="";
 	}
 	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
@@ -102,7 +102,7 @@ If(mysql_num_rows($res)>0) {
                 $upd = mysql_query($query, $main);
 		    }
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-			$leftcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
+			$leftcell .= "New Comment!<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 			$discuss="";
 		}
 	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
