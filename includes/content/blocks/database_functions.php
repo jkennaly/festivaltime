@@ -112,10 +112,12 @@ return $gname;
 function getBandGenre($main, $master, $band, $user){
 //This function gets the name of a genre for a given user and band
 
+If($main == $master) { $mrow['master_id'] = $band;} else {
 //Get the band master_id
 $sql="select master_id from bands where id=$band";
 $res = mysql_query($sql, $main);
 $mrow = mysql_fetch_array($res);
+}
 
 //If the user has an entry in the genre table for that band, return that genre
 $sql="select genre from bandgenres where band='".$mrow['master_id']."' and user='$user'";
