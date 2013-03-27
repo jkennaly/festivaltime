@@ -16,7 +16,7 @@ $result = mysql_query($query, $main);
 If(mysql_num_rows($result)>0){
 	while($row=mysql_fetch_array($result)){
 		?>
-		<img class="gallery_pic" src="includes/content/blocks/getSpecPic.php?band=<?php echo $row['id']; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="gallery pic" />
+		<img class="gallery_pic" src="includes/content/blocks/getSpecPic.php?picid=<?php echo $row['id']; ?>&fest=<?php echo $_SESSION['fest']; ?>" alt="gallery pic" />
 		<?php
 	}
 }
