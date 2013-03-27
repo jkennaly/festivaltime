@@ -6,6 +6,9 @@
 *  
 */
 
+echo "<div id=\"flagwrapper\">";
+include "includes/content/blocks/flagged.php";
+echo "</div><!-- End #flagwrapper -->";
 
 echo "<div id=\"discusswrapper\">";
 include "includes/content/blocks/discussed.php";
