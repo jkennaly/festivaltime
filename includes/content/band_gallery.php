@@ -30,7 +30,7 @@ $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</
 $bandsql="select master_id from bands where id='$band'";
 $bandres=mysql_query($bandsql, $main);
 $row=mysql_fetch_array($bandres);
-$mband=$row['mas_id'];
+$mband=$row['master_id'];
 $query="select id, clicks from pics where mas_id='$mband'";
 $result = mysql_query($query, $master);
 If(mysql_num_rows($result)>0){

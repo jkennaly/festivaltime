@@ -19,7 +19,7 @@ $band=$_GET['band'];
 $bandsql="select master_id from bands where id='$band'";
 $bandres=mysql_query($bandsql, $main);
 $row=mysql_fetch_array($bandres);
-$mband=$row['mas_id'];
+$mband=$row['master_id'];
 $sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `mas_id` = '$mband' order by rand() limit 1";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
