@@ -81,7 +81,7 @@ for($i=1;$i<=3;$i++){
         	$genredisp .= $row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
         	
         	echo $genredisp;
-        	If($j % 3 == 0) echo "<div class=\"clearfloat\"></div>";
+        	If(($n + 1) % 3 == 0) echo "<div class=\"clearfloat\"></div>";
         	$j++;
             $n++;
         }
