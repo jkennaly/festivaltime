@@ -37,7 +37,7 @@ If(!empty($_POST['upd'])) {
 	} // Closes foreach($_POST as $k => $v)
 } // Closes If(!empty($_POST['upd']))
 
-
+/*
 $ttable = "info_".$fest_id;
 
 If(!empty($_POST['info_upd'])) {
@@ -69,7 +69,7 @@ If(checkTable($main, $master, "info", $ttable)) {
 <?php 
 } //Closes eles If(checkTable($ma...
 
-
+*/
 
 
 
