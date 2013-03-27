@@ -36,6 +36,7 @@ return $uscore;
 function uscoref2($band, $user, $avg_rating, $mysql_link) {
 
 $sql1 = "SELECT avg(rating) as score FROM ratings WHERE band='$band' and user='$user'";
+echo $sql1."<br />";
 
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
