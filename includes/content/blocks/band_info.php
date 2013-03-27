@@ -8,6 +8,7 @@
 
 include('includes/content/blocks/accept_rating.php');
 include('includes/content/blocks/accept_comment.php');
+include('includes/content/blocks/accept_link.php');
 
 $starttime=substr($stime, 11, 5);
 $endtime=substr($etime, 11, 5);
@@ -33,17 +34,29 @@ echo $bandlink; ?></h1>
 </div> <!-- end #bandvitals -->
 <div id="iconrow">
 <?php
+
 $sql="select comment from comments where band='$band' and user='$user'";
 $res=mysql_query($sql, $main);
 If(mysql_num_rows($res)>0) {$row=mysql_fetch_array($res); $defcomment=$row['comment'];} else $defcomment="";
 $commententry ="<div id=\"commententry\" style=\"display: none;\">";
 $commententry .="<form action=\"index.php?disp=view_band&band=$band\" method=\"post\">";
 $commententry .="<textarea rows=\"16\" cols=\"64\" name=\"new_comment\">$defcomment</textarea>";
-$commententry .="<input type=\"submit\" value=\"Save comment\">";
+$commententry .="<input type=\"submit\" value=\"Save comment\"></input>";
 $commententry .="</form></div>";
+
+$sql="select link, descrip from links where band='$band' and user='$user'";
+$res=mysql_query($sql, $main);
+If(mysql_num_rows($res)>0) {$row=mysql_fetch_array($res); $deflink=$row['link']; $defdescrip=$row['descrip'];} else {$deflink=""; $defdescrip="";}
+$linkentry ="<div id=\"linkentry\" style=\"display: none;\">";
+$linkentry .="<form action=\"index.php?disp=view_band&band=$band\" method=\"post\">";
+$linkentry .="<textarea rows=\"4\" cols=\"64\" name=\"new_link\">$deflink</textarea>";
+$linkentry .="<input type=\"text\" maxlength=\"25\" name=\"new_descrip\" value =\"$defdescrip\"></input>";
+$linkentry .="<input type=\"submit\" value=\"Save link\"></input>";
+$linkentry .="</form></div>";
+
 echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage, $post_target); 
 echo "<a href=\"#\" onclick=\"simpleToggle('commententry', 'commententry');return false;\"><img class=\"searchratingstars\" title=\"Comment on the band\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
-echo "<a href=\"".$basepage."?disp=link_band&band=".$band."\"><img class=\"searchratingstars\" title=\"Provide a link to the band\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
+echo "<a href=\"#\" onclick=\"simpleToggle('linkentry', 'linkentry');return false;\"><img class=\"searchratingstars\" title=\"Provide a link to the band\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
 
 
 echo "</div><!--End #iconrow -->";
