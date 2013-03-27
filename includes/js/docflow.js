@@ -1,4 +1,4 @@
-function toggle(divid, aid, user, comment) {
+function toggle(divid, aid, user, comment, scrollid) {
 	var ele = document.getElementById(divid);
 	var text = document.getElementById(aid);
 	if(ele.style.display == "block") {
@@ -10,4 +10,5 @@ function toggle(divid, aid, user, comment) {
 		text.innerHTML = "hide";
 	}
 	$.post("includes/php/update_discussion.php", { user: user, comment: comment });
+	document.getElementById(scrollid).scrollIntoView();
 }

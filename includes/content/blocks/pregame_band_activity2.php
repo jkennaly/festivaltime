@@ -22,13 +22,13 @@ If(mysql_num_rows($res)>0) {
 	$res1 = mysql_query($sql, $main);
 	$leftcell= "<h2>".getUname($master, $row['user'])."</h2>";
 	If(mysql_num_rows($res1)>0) {
-		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."');return false;\">$stat</a>";
+		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
 		$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 		$discuss ="<div id=\"toggleText$user\" style=\"display: none;\">";
 		while($row1 = mysql_fetch_array($res1)) {
 			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
-		$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
+		$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\" id=\"reply".$row['id']."\">Reply to this discussion</a></div>";
 	} else {
 		$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
@@ -67,14 +67,14 @@ If(mysql_num_rows($res)>0) {
 			$i=0;
 			while($row1 = mysql_fetch_array($res1)) {
 				If($i==0) {
-					$leftcell.="<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '".$row['user']."', '".$row['id']."');return false;\">$stat</a>";
+					$leftcell.="<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '".$row['user']."', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
 					$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 					$discuss = "<div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
 				}
 				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
-			$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Reply to this discussion</a></div>";
+			$discuss .= "<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\" id=\"reply".$row['id']."\">Reply to this discussion</a></div>";
 		} else  {
 			$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 			$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
