@@ -47,3 +47,15 @@ function toggle(divid, aid, user, comment, scrollid) {
 	
 	document.getElementById(scrollid).scrollIntoView();
 }
+
+function simpleToggle(divid, scrollid) {
+	var ele = document.getElementById(divid);
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+  	}
+	else {
+		ele.style.display = "block";
+	}
+	
+	document.getElementById(scrollid).scrollIntoView();
+}

@@ -7,6 +7,7 @@
 //Get format for link
 
 include('includes/content/blocks/accept_rating.php');
+include('includes/content/blocks/accept_comment.php');
 
 $starttime=substr($stime, 11, 5);
 $endtime=substr($etime, 11, 5);
@@ -32,8 +33,14 @@ echo $bandlink; ?></h1>
 </div> <!-- end #bandvitals -->
 <div id="iconrow">
 <?php
+$commententry ="<div id=\"commententry\" style=\"display: none;\">";
+$commententry .="<form action=\"index.php?disp=view_band&band=$band\" method=\"post\">";
+$commententry .="<textarea rows=\"16\" cols=\"64\" name=\"new_comment\"></textarea>";
+$commententry .="<input type=\"submit\" value=\"Save comment\">";
+$commententry .="</form></div>";
 echo " ".ratingStars($band, $user, $main, "searchratingstars", $basepage."includes/images", $basepage, $post_target); 
-echo "<a href=\"".$basepage."?disp=comment_band&band=".$band."\"><img class=\"searchratingstars\" title=\"Comment on the band\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
+echo "<a href=\"#\" onclick=\"simpleToggle(\"commententry\", \"commententry\");return false;\"><img class=\"searchratingstars\" title=\"Comment on the band\" src=\"".$basepage."includes/images/comments.jpg\"></a>";
 echo "<a href=\"".$basepage."?disp=link_band&band=".$band."\"><img class=\"searchratingstars\" title=\"Provide a link to the band\" src=\"".$basepage."includes/images/link.jpg\"></a>";  
+echo $commententry;
 ?>
 </div><!--End #iconrow -->
