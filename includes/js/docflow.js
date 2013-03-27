@@ -1,3 +1,4 @@
+
 function post_to_url(path, params, method) {
     method = method || "post"; // Set method to post by default, if not specified.
 
@@ -20,6 +21,7 @@ function post_to_url(path, params, method) {
 
     document.body.appendChild(form);
     form.submit();
+    return false;
 }
 
 function toggle(divid, aid, user, comment, scrollid) {
