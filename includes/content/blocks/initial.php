@@ -75,7 +75,9 @@ $topten = $toptenrow['score'];
 //$j is how many genres have been displayed
 $j=1;
 $n = 0;
-for($i=1;$i<=3;$i++){
+$i=1;
+while($i<=3){
+    $i_prev=$i;
     while($row=mysql_fetch_array($res)) {
         If($i==1) {
             If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) ) $bandpasses = 1; else $bandpasses = 0;
@@ -97,10 +99,11 @@ for($i=1;$i<=3;$i++){
         	$j++;
             $n++;
         }
-        If($j==4 && $i<3) {$j=1; $i++;}
+        If($j==4) {$j=1; $i++;}
         If($n >= 9) break;
     } //Closes while($row=mysql_fetch_array($res))
     $j=1;
+    If($i == $i_prev) $i++;
     If($n >= 9) break;
     mysql_data_seek($res, 0);
 }
