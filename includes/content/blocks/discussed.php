@@ -35,7 +35,7 @@ while($row = mysql_fetch_array($result)) {
 		$band_query = "select name from bands where id='".$comment_row['band']."'";
 		$band_res = mysql_query($band_query, $main);
 		$band_row = mysql_fetch_array($band_res);
-		echo "<table class=\"bandcap\"><caption align=\"bottom\">Discuss ".$band_row['name']."</caption><tr><td><a class=\"pic_row_pic\" href=\"".$basepage."?disp=discussion&comment=".$comment."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$comment_row['band']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
+		echo "<table class=\"bandcap\"><caption align=\"bottom\">Discuss ".$band_row['name']."</caption><tr><td><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band=".$comment_row['band']."#displayText".$comment_row['user']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$comment_row['band']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
 //		echo "<p class=\"discussionindex\"><a href=\"$basepage?disp=discussion&comment=".$comment."\">Discuss ".$user_row['username']."'s comment regarding ".$band_row['name']."</a></p>";
 		If(!strpos($comment_row['pinned'], "-$user--")) $i=$i+1;
 		$j = $j+1;
