@@ -140,7 +140,7 @@ return $gname;
 function getBandGenreID($main, $master, $band, $user){
 //This function gets the id of a genre for a given user and band
 
-If($main == $master) { $mrow['master_id'] == $band} else {
+If($main == $master) { $mrow['master_id'] = $band;} else {
 //Get the band master_id
 $sql="select master_id from bands where id=$band";
 $res = mysql_query($sql, $main);
