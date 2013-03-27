@@ -33,7 +33,7 @@ echo $bandlink; ?></h1>
 </div> <!-- end #bandvitals -->
 <div id="iconrow">
 <?php
-$sql="select comment from comments where band='$band and user='$user'";
+$sql="select comment from comments where band='$band' and user='$user'";
 $res=mysql_query($sql, $main);
 If(mysql_num_rows($res)>0) {$row=mysql_fetch_array($res); $defcomment=$row['comment'];} else $defcomment="";
 $commententry ="<div id=\"commententry\" style=\"display: none;\">";
