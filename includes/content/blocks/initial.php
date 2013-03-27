@@ -80,13 +80,13 @@ while($i<=3){
     $i_prev=$i;
     while($row=mysql_fetch_array($res)) {
         If($i==1) {
-            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) ) $bandpasses = 1; else $bandpasses = 0;
+            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) ) {$bandpasses = 1; $bandused[] = $row['id'];} else $bandpasses = 0;
         }
         If($i==2) {
-            If(uscoref2($row['id'], $user, $avg_rating, $main)>= $topten && !in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove)) $bandpasses = 1; else $bandpasses = 0;
+            If(uscoref2($row['id'], $user, $avg_rating, $main)>= $topten && !in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove)) {$bandpasses = 1; $bandused[] = $row['id'];} else $bandpasses = 0;
         }
         If($i==3) {
-            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) || uscoref2($row['id'], $user, $avg_rating, $main)>= $topten) $bandpasses = 0; else $bandpasses = 1;
+            If(!in_array($row['id'], $bandused ) )$bandpasses = 1; else $bandpasses = 0;
         }
         If($bandpasses == 1) {
         	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />";
