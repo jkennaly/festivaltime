@@ -10,9 +10,9 @@ If(!empty($_POST['flagpic'])){
 
 $temp_right = "EditFest";
 If(CheckRights($_SESSION['level'], $temp_right) && !empty($_POST['delpic'])){
-    echo "Del logic entered band_gallery<br />";
+//    echo "Del logic entered band_gallery<br />";
     $sql = "DELETE FROM pics WHERE id = '".$_POST['pic']."'";
-    $upd = mysql_query($sql, $master);
+    $upd = mysql_query($sql, $main);
 }
 
 $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</a>";
