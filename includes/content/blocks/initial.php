@@ -66,6 +66,11 @@ If(mysql_num_rows($res) == 0) {
     $res=mysql_query($sql, $main);
 }
 
+$toptensql="select avg(rating) as score, band from ratings group by band order by score desc limit 10,1";
+$toptenres=mysql_query($toptensql, $main);
+$toptenrow=mysql_fetch_array($toptenres);
+$topten = $toptenrow['score'];
+
 
 //$j is how many genres have been displayed
 $j=1;
@@ -76,10 +81,10 @@ for($i=1;$i<=3;$i++){
             If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) ) $bandpasses = 1; else $bandpasses = 0;
         }
         If($i==2) {
-            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelike) ) $bandpasses = 1; else $bandpasses = 0;
+            If(uscoref2($row['id'], $user, $avg_rating, $main)>= $topten ) $bandpasses = 1; else $bandpasses = 0;
         }
         If($i==3) {
-            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelike) || in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove)) $bandpasses = 0; else $bandpasses = 1;
+            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelike) || uscoref2($row['id'], $user, $avg_rating, $main)>= $topten) $bandpasses = 0; else $bandpasses = 1;
         }
         If($bandpasses == 1) {
         	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />";
