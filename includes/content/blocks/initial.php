@@ -41,8 +41,8 @@ foreach($genresused as $k=>$v) {
         }
     }
     $genrescore[$k] = $total/$count;
-    If($genrescore[$k] >= 4) {$genrelove[] = $v; echo "loved genre: $v<br ?>";}
-    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) {$genrelike[] = $v; echo "liked genre: $v<br ?>";}
+    If($genrescore[$k] >= 4) {$genrelove[] = $v; echo "loved genre: ".getGname($master, $v)."<br />";}
+    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) {$genrelike[] = $v; echo "liked genre: ".getGname($master, $v)."<br />";}
 }
 
 //Rank genres by score: >=4 love, >=3 and <4 like,
