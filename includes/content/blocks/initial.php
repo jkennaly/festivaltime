@@ -85,10 +85,10 @@ for($i=1;$i<=3;$i++){
         	$j++;
             $n++;
         }
-        If(($j==4 && $i<3) || $n >= 8) break;
-        $j=1;
+        If(($j==4 && $i<3) || $n >= 9) break;
     } //Closes while($row=mysql_fetch_array($res))
-    If($n >= 8) break;
+    $j=1;
+    If($n >= 9) break;
     mysql_data_seek($res, 0);
 }
 
