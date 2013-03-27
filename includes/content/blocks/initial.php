@@ -15,7 +15,7 @@ $genrecount=0;
 while($row=mysql_fetch_array($res)) {
     $bandgenre[$row['id']] = getBandGenreID($master, $master, $row['id'], $user);
     $bandscore[$row['id']] = uscoref2($row['id'], $user, $muavg_rating, $master);
-    echo "genre: ".$bandgenre[$row['id']]."-".getBandGenre($master, $master, $row['id'], $user)." score: ".$bandscore[$row['id']]." band: ".$row['name']."<br />";
+ //   echo "genre: ".$bandgenre[$row['id']]."-".getBandGenre($master, $master, $row['id'], $user)." score: ".$bandscore[$row['id']]." band: ".$row['name']."<br />";
     $test = $bandgenre[$row['id']];
     $used = 0;
     
@@ -42,8 +42,8 @@ foreach($genresused as $k=>$v) {
         }
     }
     $genrescore[$k] = $total/$count;
-    If($genrescore[$k] >= 4) {$genrelove[] = $v; echo "loved genre $v: with score $genrescore[$k] ".getGname($master, $v)."<br />";}
-    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) {$genrelike[] = $v; echo "liked genre: with score $genrescore[$k] ".getGname($master, $v)."<br />";}
+    If($genrescore[$k] >= 4) {$genrelove[] = $v; }
+    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) {$genrelike[] = $v; }
 }
 
 //Rank genres by score: >=4 love, >=3 and <4 like,
@@ -76,7 +76,7 @@ for($i=1;$i<=3;$i++){
             $bandpasses = 1;
         }
         If($bandpasses == 1) {
-        	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">i: $i j: $j n: $n<br />".$row['name']."<br />";
+        	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />";
         	$genredisp .= getBandGenre($main, $master, $row['id'], $user)."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"";
         	$genredisp .= $basepage."?disp=view_band&band=".$row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=";
         	$genredisp .= $row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
