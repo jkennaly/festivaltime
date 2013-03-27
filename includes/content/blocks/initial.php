@@ -9,12 +9,13 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 *  
 */
 //Find genre of every band in master
-$sql="select id from bands";
+$sql="select id, name from bands";
 $res=mysql_query($sql, $master);
 $genrecount=0;
 while($row=mysql_fetch_array($res)) {
     $bandgenre[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
     $bandscore[$row['id']] = uscoref2($row['id'], $user, $muavg_rating, $master);
+    echo "genre: ".$bandgenre[$row['id']]." score: ".$bandscore[$row['id']]." band: ".$row['band'];
     $test = $bandgenre[$row['id']];
     $used = 0;
     
