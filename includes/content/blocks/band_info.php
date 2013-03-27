@@ -61,4 +61,5 @@ echo "<a href=\"#\" onclick=\"simpleToggle('linkentry', 'linkentry');return fals
 
 echo "</div><!--End #iconrow -->";
 echo $commententry;
+echo $linkentry;
 ?>
