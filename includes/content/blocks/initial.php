@@ -13,7 +13,7 @@ $sql="select id, name from bands";
 $res=mysql_query($sql, $master);
 $genrecount=0;
 while($row=mysql_fetch_array($res)) {
-    $bandgenre[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
+    $bandgenre[$row['id']] = getBandGenreID($master, $master, $row['id'], $user);
     $bandscore[$row['id']] = uscoref2($row['id'], $user, $muavg_rating, $master);
     echo "genre: ".$bandgenre[$row['id']]."-".getBandGenre($main, $master, $row['id'], $user)." score: ".$bandscore[$row['id']]." band: ".$row['name']."<br />";
     $test = $bandgenre[$row['id']];
