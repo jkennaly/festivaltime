@@ -45,9 +45,10 @@ If(mysql_num_rows($res)>0) {
         If($stat == "New discussion!") {      
             $query = "UPDATE comments SET discuss_current=CONCAT(discuss_current,'--$user--') where id='".$row['id']."'";
             $upd = mysql_query($query, $main);
+            $leftcell .= "New Comment!<br />";
         }
 		$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-		$leftcell.= "New Comment!<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
+		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 		$discuss="";
 	}
 	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
@@ -100,9 +101,10 @@ If(mysql_num_rows($res)>0) {
 		    If($stat == "New discussion!") {      
                 $query = "UPDATE comments SET discuss_current=CONCAT(discuss_current,'--$user--') where id='".$row['id']."'";
                 $upd = mysql_query($query, $main);
+                $leftcell .= "New Comment!<br />";
 		    }
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-			$leftcell .= "New Comment!<br /><a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
+			$leftcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 			$discuss="";
 		}
 	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
