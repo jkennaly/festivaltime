@@ -41,6 +41,21 @@ $curr_avg_rate = mysql_fetch_assoc($res);
 $uavg_rating = $curr_avg_rate['average'];
 
 
+//Gets the current average rating of all ratings and the current user
+$sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
+
+$res = mysql_query($sql_curr_avg, $master);
+$mcurr_avg_rate = mysql_fetch_assoc($res);
+$mavg_rating = $mcurr_avg_rate['average'];
+If(empty($mavg_rating)) $mavg_rating = "0.0";
+
+$sql_curr_avg = "select avg(rating) as average from ratings where ratings.user='$user'";
+
+$res = mysql_query($sql_curr_avg, $master);
+$mcurr_avg_rate = mysql_fetch_assoc($res);
+$muavg_rating = $mcurr_avg_rate['average'];
+
+
 If( !empty($_REQUEST['band']) || !empty($_REQUEST['comment']) ) {
 
 //If the comment parameter is passed, get the band info from that comment

@@ -14,7 +14,7 @@ $res=mysql_query($sql, $master);
 $genrecount=0;
 while($row=mysql_fetch_array($res)) {
     $bandgenre[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
-    $bandscore[$row['id']] = uscoref2($row['id'], $user, $avg_rating, $master);
+    $bandscore[$row['id']] = uscoref2($row['id'], $user, $muavg_rating, $master);
     $test = $bandgenre[$row['id']];
     $used = 0;
     
@@ -41,8 +41,8 @@ foreach($genresused as $k=>$v) {
         }
     }
     $genrescore[$k] = $total/$count;
-    If($genrescore[$k] >= 4) $genrelove[] = $v;
-    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) $genrelike[] = $v;
+    If($genrescore[$k] >= 4) {$genrelove[] = $v; echo "loved genre: $v<br ?>";}
+    If($genrescore[$k] < 4 && $genrescore[$k] >= 3) {$genrelike[] = $v; echo "liked genre: $v<br ?>";}
 }
 
 //Rank genres by score: >=4 love, >=3 and <4 like,
