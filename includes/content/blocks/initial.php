@@ -75,7 +75,7 @@ for($i=1;$i<=3;$i++){
             $bandpasses = 1;
         }
         If($bandpasses == 1) {
-        	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />";
+        	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">i: $i j: $j n: $n<br />".$row['name']."<br />";
         	$genredisp .= getBandGenre($main, $master, $row['id'], $user)."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"";
         	$genredisp .= $basepage."?disp=view_band&band=".$row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=";
         	$genredisp .= $row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
