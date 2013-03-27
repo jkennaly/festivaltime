@@ -79,7 +79,7 @@ for($i=1;$i<=3;$i++){
             If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelike) ) $bandpasses = 1; else $bandpasses = 0;
         }
         If($i==3) {
-            $bandpasses = 1;
+            If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelike) || in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove)) $bandpasses = 0; else $bandpasses = 1;
         }
         If($bandpasses == 1) {
         	$genredisp = "<table class=\"bandcap\"><caption align=\"bottom\">".$row['name']."<br />";
