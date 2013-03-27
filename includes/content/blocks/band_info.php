@@ -16,8 +16,8 @@ $endtime=substr($etime, 11, 5);
 If($_GET['disp']=="view_band") $bandlink = searchlink($band, $user, $main, $master); 
 else $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</a>";
 
-If($_GET['disp']=="pic_band") $piclink = "<a href=\"".$basepage."?disp=band_gallery&band=".$band."\">".$name."</a>";
-else $piclink = "<a href=\"".$basepage."?disp=pic_band&band=".$band."\">".$name."</a>";
+If($_GET['disp']=="pic_band") $piclink = $basepage."?disp=band_gallery&band=".$band;
+else $piclink = $basepage."?disp=pic_band&band=".$band;
 
 //	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
 ?>
