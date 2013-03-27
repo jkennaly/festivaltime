@@ -1,4 +1,4 @@
-<<?php
+<?php
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 ?>
@@ -13,7 +13,7 @@ include "includes/content/blocks/filter_functions.php";
 $post_target=$basepage."?disp=home";
 
 //Find genre of every band in main
-$sql="select id, name from bands sort by id asc";
+$sql="select id, name from bands order by id asc";
 $res=mysql_query($sql, $main);
 while($row=mysql_fetch_array($res)) {
     $bandgenreid[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
