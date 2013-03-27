@@ -41,6 +41,11 @@ If(mysql_num_rows($res)>0) {
 			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"16\" cols=\"64\" name=\"new_reply\"></textarea>";
 			$discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form></div>";
 	} else {
+        //Check to see if the current user is current on the comment
+        If($stat == "New discussion!") {      
+            $query = "UPDATE comments SET discuss_current=CONCAT(discuss_current,'--$user--') where id='".$row['id']."'";
+            $upd = mysql_query($query, $main);
+        }
 		$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
 		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 		$discuss="";
@@ -91,6 +96,11 @@ If(mysql_num_rows($res)>0) {
 			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"16\" cols=\"64\" name=\"new_reply\"></textarea>";
 			$discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form></div>";
 		} else  {
+		    //Check to see if the current user is current on the comment
+		    If($stat == "New discussion!") {      
+                $query = "UPDATE comments SET discuss_current=CONCAT(discuss_current,'--$user--') where id='".$row['id']."'";
+                $upd = mysql_query($query, $main);
+		    }
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
 			$leftcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 			$discuss="";
