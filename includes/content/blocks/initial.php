@@ -88,7 +88,7 @@ for($i=1;$i<=3;$i++){
         If(($j==4 && $i<3) || $n >= 8) break;
         $j=1;
     } //Closes while($row=mysql_fetch_array($res))
-    If($n >= 9) break;
+    If($n >= 8) break;
     mysql_data_seek($res, 0);
 }
 
