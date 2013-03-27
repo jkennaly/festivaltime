@@ -58,6 +58,12 @@ If(mysql_num_rows($result)>0){
 
 ?>
 </div> <!-- end #bandgallery -->
+<script>
+   document.getElementById('content').style.width = screen.width; 
+    
+</script>
+
+
 <?php
 } else{
 echo "This page requires a higher level access than you currently have.";
