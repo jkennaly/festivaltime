@@ -35,8 +35,14 @@ function toggle(divid, aid, user, comment, scrollid) {
 		ele.style.display = "block";
 		text.innerHTML = "hide";
 	}
-	post_to_url("includes/php/update_discussion.php", { user: user, comment: comment }, 'post');
+//	post_to_url("includes/php/update_discussion.php", { user: user, comment: comment }, 'post');
+  $.ajax({
+    type: "POST",
+    url: "includes/php/update_discussion.php",
+    data: { user: user, comment: comment },
+    success: function() {
+    }
+  });
 	
 	document.getElementById(scrollid).scrollIntoView();
-    return false;
 }
