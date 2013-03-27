@@ -67,7 +67,7 @@ If(mysql_num_rows($res)>0) {
 			$i=0;
 			while($row1 = mysql_fetch_array($res1)) {
 				If($i==0) {
-					$leftcell.="<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '".$row['user']."', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
+					$leftcell.="<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
 					$rightcell = "<div class=\"commentdisplay\">".$row['comment']."</div>";
 					$discuss = "<div id=\"toggleText".$row['user']."\" style=\"display: none;\">";
 				}
