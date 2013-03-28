@@ -630,12 +630,13 @@ max-width:220px;
 	margin:1em 0em 0em 0em;
 }
 
+
 .discussionreply {
-	width:540px;
-	float:right;
+/*	width:540px;
+	float:right; */
 }
 
 .discussionreply after{
-	clear:both;
+/*	clear:both; */
 }
 

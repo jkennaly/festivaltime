@@ -51,8 +51,8 @@ If(mysql_num_rows($res)>0) {
 		$leftcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 		$discuss="";
 	}
-	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
-	echo $discuss;
+	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
+//	echo $discuss;
 }
 //Get user comments from group members
 
@@ -107,8 +107,8 @@ If(mysql_num_rows($res)>0) {
 			$leftcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 			$discuss="";
 		}
-	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell</td></tr></table>";
-	echo $discuss;
+	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
+//	echo $discuss;
 	}
 }
 
