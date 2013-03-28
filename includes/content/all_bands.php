@@ -60,7 +60,7 @@ foreach($genreheading as $k=>$v) {
 </div> <!-- end #content -->
 <script type="text/javascript">
    $(function() {
-  screenWidth('wrapper');
+  screenWidth('content');
 });
 </script>
 <?php
