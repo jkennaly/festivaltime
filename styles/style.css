@@ -640,7 +640,7 @@ max-width:220px;
 }
 p.reply {
 	max-width:540px;
-	font-size:16pt;
+	font-size:12pt;
 }
 
 .discussionreply after{
@@ -649,7 +649,7 @@ p.reply {
 
 p.responder {
 	margin:2em 0em 0em 0em;
-	font-size:20pt;
+	font-size:16pt;
 	font-style:italic;
 }
 
