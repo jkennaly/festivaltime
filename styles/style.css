@@ -647,7 +647,8 @@ p.reply {
 }
 
 p.responder {
-	margin:1em 0em 0em 0em;
+	margin:2em 0em 0em 0em;
 	font-size:20pt;
+	font-style:italic;
 }
 
