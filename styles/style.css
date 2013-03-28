@@ -627,11 +627,6 @@ max-width:220px;
 	padding:10px;
 }
 
-.responder p{
-	margin:1em 0em 0em 0em;
-	font-size:20pt;
-}
-
 
 .discussionreply {
 	max-width:540px;
@@ -650,5 +645,10 @@ max-width:220px;
 
 .discussionreply after{
 	clear:both; 
+}
+
+.responder p{
+	margin:1em 0em 0em 0em;
+	font-size:20pt;
 }
 
