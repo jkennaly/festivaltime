@@ -34,7 +34,7 @@ If(mysql_num_rows($res)>0) {
 		$leftcell.="<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
 
-				$discuss ="<div id=\"toggleText$user\" class=\"disscussionreply\" style=\"display: none;\">";
+				$discuss ="<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
 		while($row1 = mysql_fetch_array($res1)) {
 			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p id=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
@@ -89,7 +89,7 @@ If(mysql_num_rows($res)>0) {
 				If($i==0) {
 					$leftcell.="<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">$stat</a>";
 					$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-					$discuss = "<div id=\"toggleText".$row['user']."\" class=\"disscussionreply\" style=\"display: none;\">";
+					$discuss = "<div id=\"toggleText".$row['user']."\" class=\"discussionreply\" style=\"display: none;\">";
 				}
 				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
 				$i++;
