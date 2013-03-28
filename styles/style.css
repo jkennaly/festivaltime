@@ -74,6 +74,9 @@ table.bandcap {
 float:left;
 margin-right:1em;
 display:inline-block;
+min-height:10em;
+max-height:10em;
+
 }
 
 p.band_info {
