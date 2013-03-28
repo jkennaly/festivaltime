@@ -108,7 +108,7 @@ If(mysql_num_rows($res)>0) {
 		    }
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
 			$rightcell .= "<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Start a discussion</a>";
-			$discuss ="<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
+			$discuss ="<div id=\"toggleText".$row['user']."\" class=\"discussionreply\" style=\"display: none;\">";
             $discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
             $discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
  
