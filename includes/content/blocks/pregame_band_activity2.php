@@ -38,7 +38,7 @@ If(mysql_num_rows($res)>0) {
 		while($row1 = mysql_fetch_array($res1)) {
 			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."</p><p class=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
-			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"2\" cols=\"64\" name=\"new_reply\"></textarea>";
+			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
 			$discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
 	} else {
         //Check to see if the current user is current on the comment
@@ -48,8 +48,11 @@ If(mysql_num_rows($res)>0) {
             $leftcell .= "New Comment!<br />";
         }
 		$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-		$rightcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
-		$discuss="";
+		$rightcell.= "<a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Start a discussion</a>";
+		$discuss ="<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
+        $discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
+        $discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
+        
 	}
 	$tablerow[$row['user']]= "<tr id=\"comment".$row['user']."\"><th>$leftcell</th><td>$rightcell$discuss</td></tr>";
 //	echo $discuss;
@@ -94,7 +97,7 @@ If(mysql_num_rows($res)>0) {
 				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."</p><p class=\"reply\">".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
-			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"2\" cols=\"64\" name=\"new_reply\"></textarea>";
+			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
 			$discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
 		} else  {
 		    //Check to see if the current user is current on the comment
@@ -104,8 +107,11 @@ If(mysql_num_rows($res)>0) {
                 $leftcell .= "New Comment!<br />";
 		    }
 			$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
-			$rightcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
-			$discuss="";
+			$rightcell .= "<a id=\"displayText".$row['user']."\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$row['user']."', 'displayText".$row['user']."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Start a discussion</a>";
+			$discuss ="<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
+            $discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
+            $discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
+ 
 		}
     $tablerow[$row['user']]= "<tr id=\"comment".$row['user']."\"><th>$leftcell</th><td>$rightcell$discuss</td></tr>";
 //	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
