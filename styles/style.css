@@ -643,6 +643,10 @@ max-width:220px;
 	max-width:540px;
 	font-size:16pt;
 }
+.reply p{
+	max-width:540px;
+	font-size:16pt;
+}
 
 .discussionreply after{
 	clear:both; 
