@@ -65,7 +65,7 @@ margin-bottom:0.1em;
 
 #band_pic_home {
 float:left;
-margin-right:1em;
+margin:0.75em;
 min-height:10em;
 max-width:50% !important;
 }
@@ -622,7 +622,20 @@ max-width:220px;
 	border:0px;
 	font-size:145%;
 	max-width:540px;
-	
+	text-align:justify;
+	padding:10px;
 }
 
+.responder p{
+	margin:1em 0em 0em 0em;
+}
+
+.discussionreply {
+	width:540px;
+	float:right;
+}
+
+.discussionreply after{
+	clear:both;
+}
 
