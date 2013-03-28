@@ -62,7 +62,14 @@ function simpleToggle(divid, scrollid) {
 
 function screenWidth(divid) {
 	var ele = document.getElementById(divid);
-	ele.style.width = window.innerWidth + "px"; 
+	ele.style.width = window.innerWidth*0.9 + "px"; 
 	
-	alert("el width is "+ele.style.width);
+//	alert("el width is "+ele.style.width);
+}
+
+function leftMargin(divid) {
+	var ele = document.getElementById(divid);
+	ele.style.margin = 0 + "px"; 
+	
+//	alert("el width is "+ele.style.width);
 }

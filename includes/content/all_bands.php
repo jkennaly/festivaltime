@@ -61,6 +61,8 @@ foreach($genreheading as $k=>$v) {
 <script type="text/javascript">
    $(function() {
   screenWidth('content');
+  leftMargin('wrapper');
+  leftMargin('header');
 });
 </script>
 <?php
