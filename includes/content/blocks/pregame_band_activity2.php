@@ -36,7 +36,7 @@ If(mysql_num_rows($res)>0) {
 
 				$discuss ="<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
 		while($row1 = mysql_fetch_array($res1)) {
-			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."</p><p id=\"reply".$row['id']."\">".$row1['reply']."</p>";
+			$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."</p><p class=\"reply\">".$row1['reply']."</p>";
 		} //Closes while($row = mysql_fetch_array($res))
 			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"16\" cols=\"64\" name=\"new_reply\"></textarea>";
 			$discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply".$row['id']."\"><input type=\"hidden\" name=\"comment\" value=\"".$row['id']."\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText".$user."', 'displayText".$user."', '$user', '".$row['id']."', 'reply".$row['id']."');return false;\">Hide Discussion</a></div>";
