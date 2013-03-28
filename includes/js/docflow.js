@@ -61,7 +61,7 @@ function simpleToggle(divid, scrollid) {
 }
 
 function screenWidth(divid) {
-	alert("Fucking js");
+	alert("screen width is "+screen.width);
 	var ele = document.getElementById(divid);
 	ele.style.width = screen.width; 
 }
