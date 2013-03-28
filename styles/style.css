@@ -637,6 +637,9 @@ max-width:220px;
 	float:right; 
 	font-size:100%;
 	
+}.discussionreply p{
+	max-width:540px;
+	
 }
 
 .discussionreply after{
