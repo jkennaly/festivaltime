@@ -58,11 +58,7 @@ If(mysql_num_rows($result)>0){
 
 ?>
 </div> <!-- end #bandgallery -->
-<script>
-   $(function() {
-  screenWidth('content');
-});
-</script>
+
 
 
 <?php

@@ -58,6 +58,11 @@ foreach($genreheading as $k=>$v) {
     
 ?>
 </div> <!-- end #content -->
+<script>
+   $(function() {
+  screenWidth('content');
+});
+</script>
 <?php
 }
 else{
