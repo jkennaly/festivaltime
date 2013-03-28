@@ -91,7 +91,7 @@ If(mysql_num_rows($res)>0) {
 					$rightcell .= "<div class=\"commentdisplay\">".$row['comment']."</div>";
 					$discuss = "<div id=\"toggleText".$row['user']."\" class=\"discussionreply\" style=\"display: none;\">";
 				}
-				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."<p><p>".$row1['reply']."</p>";
+				$discuss .= "<p class=\"responder\">".getUname($master, $row1['user'])." at ".$row1['time']."</p><p>".$row1['reply']."</p>";
 				$i++;
 			} //Closes while($row = mysql_fetch_array($res))
 			$discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"16\" cols=\"64\" name=\"new_reply\"></textarea>";
