@@ -629,6 +629,7 @@ max-width:220px;
 
 .responder p{
 	margin:1em 0em 0em 0em;
+	font-size:20pt;
 }
 
 
@@ -640,7 +641,7 @@ max-width:220px;
 }
 .discussionreply p{
 	max-width:540px;
-	font-size:12pt;
+	font-size:16pt;
 }
 
 .discussionreply after{
