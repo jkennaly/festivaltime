@@ -633,7 +633,7 @@ max-width:220px;
 
 
 .discussionreply {
-	width:540px;
+	max-width:540px;
 	float:right; 
 	font-size:100%;
 	
