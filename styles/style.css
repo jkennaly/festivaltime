@@ -615,7 +615,7 @@ max-width:220px;
 .commentstable th{
 	max-width:180px;
 	border:0px;
-	
+	vertical-align:top;
 }
 
 .commentstable td{
@@ -632,11 +632,13 @@ max-width:220px;
 
 
 .discussionreply {
-/*	width:540px;
-	float:right; */
+	width:540px;
+	float:right; 
+	font-size:100%;
+	
 }
 
 .discussionreply after{
-/*	clear:both; */
+	clear:both; 
 }
 
