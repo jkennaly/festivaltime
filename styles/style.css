@@ -637,9 +637,10 @@ max-width:220px;
 	float:right; 
 	font-size:100%;
 	
-}.discussionreply p{
+}
+.discussionreply p{
 	max-width:540px;
-	
+	font-size:12pt;
 }
 
 .discussionreply after{
