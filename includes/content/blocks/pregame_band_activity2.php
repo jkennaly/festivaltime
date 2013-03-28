@@ -51,7 +51,7 @@ If(mysql_num_rows($res)>0) {
 		$rightcell.= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 		$discuss="";
 	}
-	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
+	$tablerow[$row['user']]= "<tr id=\"comment".$row['user']."\"><th>$leftcell</th><td>$rightcell$discuss</td></tr>";
 //	echo $discuss;
 }
 //Get user comments from group members
@@ -107,9 +107,13 @@ If(mysql_num_rows($res)>0) {
 			$rightcell .= "<a href=\"$basepage?disp=discussion&comment=".$row['id']."\">Start a discussion</a>";
 			$discuss="";
 		}
-	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
+    $tablerow[$row['user']]= "<tr id=\"comment".$row['user']."\"><th>$leftcell</th><td>$rightcell$discuss</td></tr>";
+//	echo "<table class=\"commentstable\" id=\"comment".$row['user']."\"><tr><th>$leftcell</th><td>$rightcell$discuss</td></tr></table>";
 //	echo $discuss;
 	}
 }
+echo "<table class=\"commentstable\">";
+foreach($tablerow as $v) echo $v;
+echo "</table>";
 
 ?>
