@@ -636,9 +636,8 @@ max-width:220px;
 }
 .discussionreply p{
 	max-width:540px;
-	font-size:16pt;
 }
-.reply p{
+p.reply {
 	max-width:540px;
 	font-size:16pt;
 }
@@ -647,7 +646,7 @@ max-width:220px;
 	clear:both; 
 }
 
-.responder p{
+p.responder {
 	margin:1em 0em 0em 0em;
 	font-size:20pt;
 }
