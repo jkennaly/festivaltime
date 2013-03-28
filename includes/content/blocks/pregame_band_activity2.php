@@ -21,7 +21,7 @@ If(mysql_num_rows($res)>0) {
 	$discuss_table= "discussion_".$row['id'];
 	$sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
 	$res1 = mysql_query($sql, $main);
-	$leftcell= "<h2>".getUname($master, $row['user'])."</h2>";
+	$leftcell= "<h2>".getUname($master, $row['user'])."<br />".displayStars($band, $row['user'], $main, "displaystars", $basepage."includes/images")."</h2>";
 	
 	$linksql="select id as link, descrip from links where band='$band' and user='".$row['user']."'";
 	$linkres=mysql_query($linksql, $main);
