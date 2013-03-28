@@ -391,6 +391,7 @@ display:inline-block;
 .responder {
 border:1px;
 display:block;
+margin:2em 0em 0em 0em;
 }
 
 .responsebutton {
