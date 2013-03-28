@@ -62,6 +62,6 @@ function simpleToggle(divid, scrollid) {
 
 function screenWidth(divid) {
 	var ele = document.getElementById(divid);
-	alert("el width is "+ele.style.padding);
+	alert("el width is "+ele.style.offsetWidth);
 	ele.style.width = window.innerWidth; 
 }
