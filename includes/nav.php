@@ -61,6 +61,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 		
 			<ul>
 				<li><a href="<?php echo $basepage; ?>?disp=liverank">Live Ranking</a></li>
+                <li><a href="<?php echo $basepage; ?>?disp=email_test">Email Test</a></li>
 			</ul>
 		</li>
 		</ul>
