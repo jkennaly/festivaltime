@@ -29,7 +29,7 @@ $sort_active = 0;
 <p>
 Filters:<a class="helplink" href="<?php echo $basepage; ?>?disp=about#filters">Click here for help with this section</a>
 </p>
-<form name="filters" action="<? echo $post_target; ?>" method="post">
+<form name="filters" action="<?php echo $post_target; ?>" method="post">
 <div id="filterday" class="filtersection">
 <p>
 Filter by day:
