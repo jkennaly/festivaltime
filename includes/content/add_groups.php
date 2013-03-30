@@ -24,6 +24,7 @@ If(!empty($_POST)){
 //Escape entered info
 
 	$escapedgroup = mysql_real_escape_string($_POST['group']);
+    $groupType = $_POST['grouptype'];
 
 //Verify that the group name is not already taken
 
@@ -36,7 +37,7 @@ If(!empty($_POST)){
 	}
 	else{
 
-		$query = "insert into groups (name, creator) values ('$escapedgroup', $user); ";
+		$query = "insert into groups (name, creator, type) values ('$escapedgroup', $user, $groupType); ";
 		$upd = mysql_query($query, $master);
 
 		
@@ -45,10 +46,10 @@ If(!empty($_POST)){
 }
 
 //First, find all current days
-
-mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
-	$query="SELECT name FROM groups ORDER BY name ASC";
+    
+    $groupt_sql = "select id, name from `grouptypes`";
+    $groupt_res = mysql_query($groupt_sql, $master);
+	$query="SELECT g.name as name, t.name as type FROM groups as g LEFT JOIN grouptypes as t on g.type=t.id ORDER BY name ASC";
 	$mem_result = mysql_query($query, $master);
 
 ?>
@@ -61,10 +62,23 @@ This page allows for adding new groups to FestivalTime.
 <table border="1">
 <tr>
 <th>group</th>
+<th>group type</th>
 </tr>
 <tr>
 <td>
 <input type="text" name="group" maxlength="100" size ="100">
+</td>
+<td>
+<select name="grouptype">
+<?php 
+while($row = mysql_fetch_array($groupt_res)) {
+    echo "<option ";
+//    If($row['value']=="public") echo "selected=\"SELECTED\" ";
+    echo "value=".$row['id'].">".$row['name']."</option>";
+}
+
+?>
+</select>
 </td>
 </tr>
 </table>
@@ -78,11 +92,12 @@ The following groups have been added for this festival.
 <table border="1">
 <tr>
 <th>group</th>
+<th>grouptype</th>
 </tr>
 
 <?php 
 while($row = mysql_fetch_array($mem_result)) {
-	echo "<tr><td>".$row["name"]."</td></tr>";
+	echo "<tr><td>".$row["name"]."</td><td>".$row["type"]."</td></tr>";
 
 }
 ?>
