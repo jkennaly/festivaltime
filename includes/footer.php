@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div id="footer">
 
 <p>Copyright &copy 2013 Jason Kennaly</p>

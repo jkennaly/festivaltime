@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <html>
 <?php //phpinfo() ?>
 <h1>System requirements</h1>

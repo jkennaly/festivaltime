@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div id="content">
 
 <?php

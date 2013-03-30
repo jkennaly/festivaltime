@@ -1,3 +1,7 @@
+<?php
+
+?>
+
 <div id="pic_row">
 
 <?php

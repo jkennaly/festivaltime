@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 
 if(!empty($_POST)){ session_destroy(); Login($master);}

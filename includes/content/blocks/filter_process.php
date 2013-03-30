@@ -1,4 +1,3 @@
-
 <?php
 If(!empty($_POST['new']) || !empty($_POST['all_bands'])) {
 unset($_SESSION['filter']);
