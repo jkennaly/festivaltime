@@ -135,7 +135,7 @@ $sql = "select id, n";
 } else{
 echo "This page requires a higher level access than you currently have.";
 
-include "login.php";
+include $baseinstall."includes/site/login.php";
 }
 
 ?>

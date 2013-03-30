@@ -74,7 +74,7 @@ enctype="multipart/form-data">
 }else{
 echo "This page requires a higher level access than you currently have.";
 
-include "login.php";
+include $baseinstall."includes/site/login.php";
 }
 
 ?>
