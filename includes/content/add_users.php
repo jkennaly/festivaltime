@@ -138,8 +138,6 @@ while($row = mysql_fetch_array($group_res)) {
 <?php
 
 
-
-mysql_close();
 }
 else{
 echo "This page requires a higher level access than you currently have.";

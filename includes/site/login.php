@@ -29,6 +29,7 @@ else{
 <input type='submit' name='Submit' value='Submit' />
 </fieldset>
 </form>
+<p>Or <a href="<?php echo $basepage; ?>?disp=register">Register</a></p>
 </div> <!-- end #content -->
 
 <?php	echo "No user is currently logged in.";
