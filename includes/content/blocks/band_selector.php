@@ -10,8 +10,6 @@
 */ 
 
 
-*/
-
 	$query="select name, id from bands order by name asc";
 	$query_band = mysql_query($query, $main);
 ?>

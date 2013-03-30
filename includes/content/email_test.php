@@ -9,7 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
-
+/*
  $headers = 'From: Festival Time <festivaltime.us@gmail.com>' . "\r\n" . "Cc: jkennaly@gmail.com";
  $subject = "Email Test";
  $body = "This is a test. Please begin to panic now.";
