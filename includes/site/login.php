@@ -13,7 +13,7 @@
 if(!empty($_POST)){ session_destroy(); Login($master);}
 if(!empty($_SESSION['user'])){
 if(empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user."; 
-include "home.php";
+include "../unselected/fest_select.php";
 }
 else{
 ?>
