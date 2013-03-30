@@ -9,7 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
-
+/*
 *  This block requires the following variables: $userid (must contain 
 *  the id of the currently logged in user).
 */
