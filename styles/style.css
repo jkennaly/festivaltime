@@ -1,3 +1,14 @@
+/*
+Copyright (c) 2013 Jason Kennaly.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/agpl.html
+
+Contributors:
+    Jason Kennaly - initial API and implementation
+*/
+
+
 body {
 background-color:#f1f1f1;
 font-family: georgia,sans-serif;
@@ -65,14 +76,18 @@ margin-bottom:0.1em;
 
 #band_pic_home {
 float:left;
-margin-right:1em;
+margin:0em 0.75em 0.75em 0em;
 min-height:10em;
+max-width:50% !important;
 }
 
 table.bandcap {
 float:left;
 margin-right:1em;
 display:inline-block;
+min-height:12em;
+max-height:12em;
+margin-top:2em;
 }
 
 p.band_info {
@@ -162,7 +177,7 @@ margin-bottom:.1em;
 #nav li{
     list-style:none;
     float:left;
-    margin-left:15px;
+    margin-left:10px;
     position:relative;
     z-index:1;
 
@@ -182,7 +197,7 @@ margin-bottom:.1em;
 }
 /* First set of menus-displays vertically down from prior item */
 #nav li ul {
-    width:160px;
+    width:8em;
     margin:0px;
     padding:0px;
     white-space:nowrap;
@@ -216,10 +231,14 @@ margin-bottom:.1em;
     margin:0px;
     padding:0px;
     white-space:nowrap;
-    position:absolute;
-    right:160px;
+ /*   position:absolute; */
+    position:relative;
+/*    right:160px;*/
     bottom:0px;
     width:640px;
+    right:640px;
+    bottom:30px;
+    display:inline-block;
 }
 
 #nav li ul li ul li{
@@ -251,6 +270,7 @@ margin-bottom:.1em;
     white-space:nowrap;
     position:relative;
     right:0px;
+    top:0px;
 }
 
 #nav li ul li ul li ul li{
@@ -382,6 +402,7 @@ display:inline-block;
 .responder {
 border:1px;
 display:block;
+margin:2em 0em 0em 0em;
 }
 
 .responsebutton {
@@ -574,4 +595,72 @@ max-height:155px;
 max-width:220px;
 }
 
+.searchratingstars {
+	max-height:100%;
+}
+
+#bandtitle {
+	font-size: 2em;
+	font-weight: bold;
+	height:1.5em;
+}
+
+#iconrow {
+	clear:both;
+	height:3em;
+}
+
+.clearfloat {
+	clear:both;
+}
+
+.displaystars {
+	height:1em;
+}
+
+.commentstable {
+	margin-top:15px;
+	max-width:720px;
+	border:0px;
+}
+
+.commentstable th{
+	max-width:180px;
+	border:0px;
+	vertical-align:top;
+	text-align:left;
+}
+
+.commentstable td{
+	border:0px;
+	font-size:145%;
+	max-width:540px;
+	text-align:justify;
+	padding:10px;
+}
+
+
+.discussionreply {
+	max-width:540px;
+	float:right; 
+	font-size:100%;
+	
+}
+.discussionreply p{
+	max-width:540px;
+}
+p.reply {
+	max-width:540px;
+	font-size:12pt;
+}
+
+.discussionreply after{
+	clear:both; 
+}
+
+p.responder {
+	margin:2em 0em 0em 0em;
+	font-size:16pt;
+	font-style:italic;
+}
 

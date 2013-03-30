@@ -1,7 +1,15 @@
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
 
-/* This block displays links to the bands with active recommendations.
-*  If the user has no currently active recommendations, nothing is displayed.
+/*
 *  This block requires the following variables: $userid (must contain 
 *  the id of the currently logged in user).
 */

@@ -1,13 +1,19 @@
-
-
-
-
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
 
 if(!empty($_POST)){ session_destroy(); Login($master);}
 if(!empty($_SESSION['user'])){
 if(empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user."; 
-include "home.php";
+include $baseinstall."includes/unselected/fest_select.php";
 }
 else{
 ?>
@@ -23,6 +29,7 @@ else{
 <input type='submit' name='Submit' value='Submit' />
 </fieldset>
 </form>
+<p>Or <a href="<?php echo $basepage; ?>?disp=register">Register</a></p>
 </div> <!-- end #content -->
 
 <?php	echo "No user is currently logged in.";

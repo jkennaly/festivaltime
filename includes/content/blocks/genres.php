@@ -1,3 +1,17 @@
+<?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
+
+?>
+
 <div id="genrebands">
 
 <?php
@@ -34,7 +48,7 @@ while($row=mysql_fetch_array($res)) {
 		$rated_res=mysql_query($rated_sql, $main);
 		//Only display bands that have not been rated
 		If(mysql_num_rows($rated_res)==0) {
-			$genredisp .= "<table class=\"bandcap\"><caption align=\"bottom\">".$band_row['name']."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$band_row['id']."\" alt=\"band pic\" /></a></td></tr></table>";
+			$genredisp .= "<table class=\"bandcap\"><caption align=\"bottom\">".$band_row['name']."</caption><tr><td class=\"pic_cell\"><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$band_row['id']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
 			If($i>1) break;
 			$i++;
 			If($i==1) {$j++; $k=1;}

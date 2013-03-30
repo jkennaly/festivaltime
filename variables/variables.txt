@@ -1,18 +1,26 @@
+#-------------------------------------------------------------------------------
+# Copyright (c) 2013 Jason Kennaly.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+# http://www.gnu.org/licenses/agpl.html
+# 
+# Contributors:
+#     Jason Kennaly - initial API and implementation
+#-------------------------------------------------------------------------------
 <?php
 
-$sitename='Coachella 2013 Bands';
+$sitename='Festival Time';
 $dbhost='localhost';
-$dbname='festival_coachella_2013';
-$dbuser='coachella_2013';
-$dbpw='';
-$basepage='https://www.festivaltime.us/festival/coachella/2013/';
-$baseinstall="/var/www/festival/coachella/2013/";
+$basepage='https://www.festivaltime.us/festival/';
+$baseinstall="/var/www/festival/";
 $forumbase="https://www.festivaltime.us/festival/forum/";
 $install_ok='No';
-//If $use_master_for_access is 'Yes', then the system will authenticate users through the specified master directory rather than the local user directory
-$use_master_for_access='No';
 $master_db='';
 $master_dbuser='';
 $master_dbpw='';
+$master_dbuser2='';
+$master_dbpw2='';
+//This is the email that address that email from the site will come from
+$sitemail='';
 
 ?>

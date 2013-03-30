@@ -1,8 +1,15 @@
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
 
-/* This block displays links to the bands with nine most recent comments.
-*  This block requires the following variables: none
-*/
+
 
 $temp_right = "CreateNotes";
 If(isset($_SESSION['level']) && !empty($user) && CheckRights($_SESSION['level'], $temp_right)){
@@ -35,7 +42,7 @@ while($row = mysql_fetch_array($result)) {
 		$band_query = "select name from bands where id='".$comment_row['band']."'";
 		$band_res = mysql_query($band_query, $main);
 		$band_row = mysql_fetch_array($band_res);
-		echo "<table class=\"bandcap\"><caption align=\"bottom\">Discuss ".$band_row['name']."</caption><tr><td><a class=\"pic_row_pic\" href=\"".$basepage."?disp=discussion&comment=".$comment."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$comment_row['band']."\" alt=\"band pic\" /></a></td></tr></table>";
+		echo "<table class=\"bandcap\"><caption align=\"bottom\">Discuss ".$band_row['name']."</caption><tr><td><a class=\"pic_row_pic\" href=\"".$basepage."?disp=view_band&band=".$comment_row['band']."#displayText".$comment_row['user']."\"><img src=\"".$basepage."includes/content/blocks/getPicture.php?band=".$comment_row['band']."&fest=".$_SESSION['fest']."\" alt=\"band pic\" /></a></td></tr></table>";
 //		echo "<p class=\"discussionindex\"><a href=\"$basepage?disp=discussion&comment=".$comment."\">Discuss ".$user_row['username']."'s comment regarding ".$band_row['name']."</a></p>";
 		If(!strpos($comment_row['pinned'], "-$user--")) $i=$i+1;
 		$j = $j+1;

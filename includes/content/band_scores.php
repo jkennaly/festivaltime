@@ -1,3 +1,17 @@
+<?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
+
+?>
+
 <div id="content">
 
 <?php
@@ -15,7 +29,9 @@ $uscoreall[] = NULL;
 If(!empty($_POST['user'])) $scoreuser = $_POST['user'];
 If(empty($_POST['user'])) $scoreuser = $user;
 
+
 //Genre-based averages
+/*
 
 $sql_user_genre = "select avg(ruser.rating) as useraverage, count(ruser.rating) as usercount, genre from bands left join ratings as ruser on bands.id=ruser.band and user='$scoreuser' group by genre order by useraverage desc";
 
@@ -45,9 +61,10 @@ while($row=mysql_fetch_array($res_all_genre)) {
 
 <?php
 while($row=mysql_fetch_array($res_user_genre)) {
-echo "<tr><td>".getGname($master, $row['genre'])."</td><td>".$all_genre[$row['genre']]['avg']."</td><td>".$all_genre[$row['genre']]['cnt']."</td><td>".$row['useraverage']."</td><td>".$row['usercount']."</td></tr>";
+echo "<tr><td>".getBandGenre($main, $master, $band, $user)getGname($master, $row['genre'])."</td><td>".$all_genre[$row['genre']]['avg']."</td><td>".$all_genre[$row['genre']]['cnt']."</td><td>".$row['useraverage']."</td><td>".$row['usercount']."</td></tr>";
 }
 echo "</table>";
+*/
 
 $sql="select max(id) as rows from bands";
 $res = mysql_query($sql, $main);
@@ -102,7 +119,7 @@ mysql_close();
 else{
 echo "This page requires a higher level access than you currently have.";
 
-include "login.php";
+include $baseinstall."includes/site/login.php";
 }
 
 ?>

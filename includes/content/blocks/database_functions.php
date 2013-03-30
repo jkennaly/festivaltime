@@ -1,4 +1,14 @@
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
 
 function UpdateTable($source, $target, $table, $sourceuser, $sourcepassword, $sourcehost, $sourcedb, $targetuser, $targetpassword, $targethost, $targetdb, $path){
 //This function will copy table $table from $source database to $target, where $source and $target are the resource links to the databases. If $table already exists at $target, it will be wiped out
@@ -109,6 +119,65 @@ return $gname;
 
 }
 
+function getBandGenre($main, $master, $band, $user){
+//This function gets the name of a genre for a given user and band
+
+If($main == $master) { $mrow['master_id'] = $band;} else {
+//Get the band master_id
+$sql="select master_id from bands where id=$band";
+$res = mysql_query($sql, $main);
+$mrow = mysql_fetch_array($res);
+}
+
+//If the user has an entry in the genre table for that band, return that genre
+$sql="select genre from bandgenres where band='".$mrow['master_id']."' and user='$user'";
+$res = mysql_query($sql, $master);
+If(mysql_num_rows($res)>0) {
+	$row = mysql_fetch_array($res);
+	$gid = $row['genre'];
+} else {
+	//If the user has no entry, return the genre with the highest count
+	$sql1="select genre, count(user) as num from bandgenres where band='".$mrow['master_id']."' group by genre order by num desc limit 1";
+	$res1 = mysql_query($sql1, $master);
+	If(mysql_num_rows($res1)>0) {
+		$row1 = mysql_fetch_array($res1);
+		$gid = $row1['genre'];
+	} else $gid = 0;	
+}
+$gname = getGname($master, $gid);
+
+return $gname;
+}
+
+function getBandGenreID($main, $master, $band, $user){
+//This function gets the id of a genre for a given user and band
+
+If($main == $master) { $mrow['master_id'] = $band;} else {
+//Get the band master_id
+$sql="select master_id from bands where id=$band";
+$res = mysql_query($sql, $main);
+$mrow = mysql_fetch_array($res);
+}
+
+//If the user has an entry in the genre table for that band, return that genre
+$sql="select genre from bandgenres where band='".$mrow['master_id']."' and user='$user'";
+$res = mysql_query($sql, $master);
+If(mysql_num_rows($res)>0) {
+	$row = mysql_fetch_array($res);
+	$gid = $row['genre'];
+} else {
+	//If the user has no entry, return the genre with the highest count
+	$sql1="select genre, count(user) as num from bandgenres where band='".$mrow['master_id']."' group by genre order by num desc limit 1";
+	$res1 = mysql_query($sql1, $master);
+	If(mysql_num_rows($res1)>0) {
+		$row1 = mysql_fetch_array($res1);
+		$gid = $row1['genre'];
+	} else $gid = 0;	
+}
+
+return $gid;
+}
+
 function getSname($source, $stageid){
 //This function checks $source table stages for the name of $stageid
 
@@ -123,5 +192,41 @@ return $sname;
 
 }
 
+function groupMatch($user1, $user2, $master){
+//This function returns true if the two users have at least one group in common
+
+return true;
+
+}
+
+
+function getFestivals($band, $main, $master){
+//This function returns an array containing the id of each festival the band is registered for
+$sql="select master_id from bands where id='$band'";
+$res = mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+$master_id = $row['master_id'];
+
+$sql="select festivals from bands where id='$master_id'";
+$res = mysql_query($sql, $master);
+$row=mysql_fetch_array($res);
+$raw = $row['festivals'];
+$working = explode ("--", $raw);
+$i=0;
+foreach($working as $v) {
+	If(isInteger($v)) {
+		$final[$i]['fest']=$v;
+	} else {
+		$temp = substr( $v, 3);
+		$final[$i]['band'] = substr( $temp, 0, -3);
+		$i++;
+	}
+}
+
+
+
+If(isset($final)) return $final; else return false;
+
+}
 
 ?>

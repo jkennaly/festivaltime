@@ -1,45 +1,14 @@
-/* Reset body padding and margins */
-body {
-background-color:black;
-font-family: georgia,sans-serif;
-color:#333;
-margin:0;
-padding:0;
-}
-
-/* Make Header Sticky */
-
-#header_container {
-background:#eee;
-border:1px solid #666;
-height:60px;
-left:0;
-position:fixed;
-width:100%;
-top:0;
-}
-
-#header{
-line-height:60px;
-margin:0 auto;
-width:940px;
-text-align:center;
-font-size:250%;
-}
-
-/* CSS for the content of page. I am giving top and bottom padding of 80px to make sure the header and footer do not overlap the content.*/
-#container {
-margin:0 auto;
-overflow:auto;
-padding:80px 0;
-width:940px; }
 /*
-table, td, th{
-color:white;
-margin:0 auto;
-font-size:150%;
-}
+Copyright (c) 2013 Jason Kennaly.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/agpl.html
+
+Contributors:
+    Jason Kennaly - initial API and implementation
 */
+
+
 #band_details{
 margin:120px;
 color:white;
@@ -128,7 +97,7 @@ font-size:200%;
 padding:0px;
 margin:0px;
 white-space:nowrap;
-overflow:hidden;  !important
+overflow:hidden  !important;
 float:clear;
 }
 
@@ -288,7 +257,7 @@ color:white;
 padding:0px;
 margin:0px;
 white-space:nowrap;
-overflow:hidden; !important
+overflow:hidden !important;
 }
 
 .details dd:after {
@@ -358,6 +327,6 @@ h2 {
    top: 0; 
    left: 0; 
    white-space:nowrap;
-   overflow:hidden; !important
+   overflow:hidden !important;
 }
 

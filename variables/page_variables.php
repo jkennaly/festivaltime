@@ -1,10 +1,13 @@
 <?php
-
-
-/* These variables are available on every page in the festival site.
-*  To ensure they are not stale, they are requested every time a content page
-*  is loaded.
-*/
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
 
 
 
@@ -19,7 +22,9 @@ include $baseinstall."includes/content/blocks/search_selection_function.php";
 
 
 $query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";
+//echo $query;
 $query_user = mysql_query($query, $master);
+//echo mysql_error();
 $user_row = mysql_fetch_assoc($query_user);
 $user = $user_row['id'];
 
@@ -39,6 +44,21 @@ $curr_avg_rate = mysql_fetch_assoc($res);
 $uavg_rating = $curr_avg_rate['average'];
 
 
+//Gets the current average rating of all ratings and the current user
+$sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
+
+$res = mysql_query($sql_curr_avg, $master);
+$mcurr_avg_rate = mysql_fetch_assoc($res);
+$mavg_rating = $mcurr_avg_rate['average'];
+If(empty($mavg_rating)) $mavg_rating = "0.0";
+
+$sql_curr_avg = "select avg(rating) as average from ratings where ratings.user='$user'";
+
+$res = mysql_query($sql_curr_avg, $master);
+$mcurr_avg_rate = mysql_fetch_assoc($res);
+$muavg_rating = $mcurr_avg_rate['average'];
+
+
 If( !empty($_REQUEST['band']) || !empty($_REQUEST['comment']) ) {
 
 //If the comment parameter is passed, get the band info from that comment
@@ -55,7 +75,7 @@ If(!empty($_REQUEST['band'])) {
 $band = $_REQUEST['band'];
 } // Closes If(!empty($_REQUEST['band']))
 
-$sql = "SELECT d.name as dayname, s.name as stagename, sec_start as stimes, sec_end as etimes, bands.master_id as master_id, bands.day as day, bands.genre as genre, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-".$avg_rating.") as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id WHERE bands.id='$band'";
+$sql = "SELECT d.name as dayname, s.name as stagename, sec_start as stimes, sec_end as etimes, bands.master_id as master_id, bands.day as day, bands.stage as stage, bands.id as id, bands.name as name, bands.start as stime, bands.end as etime, avg(r1.rating) as rating, ((count(r1.rating)-1)*.05+1)*(avg(r1.rating)-".$avg_rating.") as score FROM `bands` LEFT JOIN ratings as r1 ON bands.id=r1.band  LEFT JOIN ratings as r2 ON bands.id=r2.band  LEFT JOIN days as d ON bands.day=d.id LEFT JOIN stages as s ON bands.stage=s.id WHERE bands.id='$band'";
 
 
 $res = mysql_query($sql, $main);
@@ -66,7 +86,6 @@ $stimes = $arr['stimes'];
 $etimes = $arr['etimes'];
 $day = $arr['day'];
 $stage = $arr['stage'];
-$genre = $arr['genre'];
 $name = $arr['name'];
 $stime = $arr['stime'];
 $etime = $arr['etime'];
@@ -76,10 +95,8 @@ $dayname = $arr['dayname'];
 $stagename = $arr['stagename'];
 $band_master_id = $arr['master_id'];
 
-$sql_genre = "SELECT name as genrename FROM genres WHERE id='$genre'"; 
-$res_genre = mysql_query($sql_genre, $master);
-$arr2 = mysql_fetch_assoc($res_genre);
-$genrename = $arr2['genrename'];
+$genrename = getBandGenre($main, $master, $band, $user);
+$genre = getBandGenreID($main, $master, $band, $user);
 
 
 

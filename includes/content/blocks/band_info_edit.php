@@ -1,4 +1,14 @@
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
 
 $right_required = "AddBands";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
@@ -83,14 +93,23 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 				
 
 		If(empty($i)){
-		$query = "update bands set name='$escapedName', start='$escapedStart', end='$escapedEnd', day='".$_POST['day']."', stage='".$_POST['stage']."', genre='".$_POST['genre']."', sec_start='$band_start_time_sec', sec_end='$band_end_time_sec', start='$band_start', end='$band_end' where id=$band";
+		$query = "update bands set name='$escapedName', start='$escapedStart', end='$escapedEnd', day='".$_POST['day']."', stage='".$_POST['stage']."', sec_start='$band_start_time_sec', sec_end='$band_end_time_sec', start='$band_start', end='$band_end' where id=$band";
 		$upd = mysql_query($query, $main);
 		$name = $escapedName;
 		$day=$_POST['day'];
 		$stage=$_POST['stage'];
-		$genre=$_POST['genre'];
 		$stime=$band_start;
 		$etime=$band_end;
+		
+		//handle genres
+		
+		$gsql="select id from bandgenres where band='$band_master_id' and user='$user'";
+		$gres = mysql_query($gsql, $master);
+		If(mysql_num_rows($gres)>0) $query = "update bandgenres set genre='".$_POST['genre']."' where band='$band_master_id' and user='$user'";
+		else $query = "insert into bandgenres (band, user, genre) values ('$band_master_id', '$user', '".$_POST['genre']."')";
+//		echo $query."<br />";
+		$gupd = mysql_query($query, $master);
+		$genre=$_POST['genre'];
 		} //Closes If(!empty($i)
 		
 	} //If($num) else

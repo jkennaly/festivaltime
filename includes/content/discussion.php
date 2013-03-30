@@ -1,3 +1,17 @@
+<?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
+
+?>
+
 <div id="content">
 
 <?php
@@ -10,7 +24,7 @@ UpdateTable($master, $main, "Users", $master_dbuser, $master_dbpw, $dbhost, $mas
 
 	$post_target = "index.php?disp=discussion&comment=".$comment;
 
-	include $baseinstall."includes/content/blocks/band_info_home.php";
+	include $baseinstall."includes/content/blocks/band_info.php";
 
 //Get comment info
 $sql = "select comment, username as commenter from comments left join Users on comments.user=Users.id where comments.id='$comment'";
@@ -98,7 +112,7 @@ If(mysql_num_rows($result) == 0){
 	$upd = mysql_query($query, $main);
 } //Closes If(mysql_num_rows($result) == 0)
 
-
+/*
 //now that discussion table exists, display comment first
 
 $row = mysql_fetch_array($comment_res);
@@ -110,7 +124,7 @@ $res = mysql_query($sql, $main);
 while($row = mysql_fetch_array($res)) {
 	echo "<p class=\"responder\">".$row['uname']." at ".$row['time']."<p><p id=\"reply\">".$row['reply']."</p>";
 } //Closes while($row = mysql_fetch_array($res))
-
+*/
 //Now show pin/unpin and ignore/unignore buttons and a textarea for leaving a new response if there are any responses
 If(!empty($comment_row)) {
 
@@ -189,7 +203,7 @@ rmTable($main, "Users");
 else{
 echo "This page requires a higher level access than you currently have.";
 
-include "login.php";
+include $baseinstall."includes/site/login.php";
 
 }
 
