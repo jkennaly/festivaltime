@@ -23,7 +23,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 *  
 */
 //Find genre of every band in master
-$sql="select id, name from bands sort by id asc";
+$sql="select id, name from bands order by id asc";
 $res=mysql_query($sql, $master);
 $genrecount=0;
 while($row=mysql_fetch_array($res)) {
