@@ -1,4 +1,14 @@
 <?php
+/*
+//Copyright (c) 2013 Jason Kennaly.
+//All rights reserved. This program and the accompanying materials
+//are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+//http://www.gnu.org/licenses/agpl.html
+//
+//Contributors:
+//    Jason Kennaly - initial API and implementation
+*/ 
+
 
 function UpdateTable($source, $target, $table, $sourceuser, $sourcepassword, $sourcehost, $sourcedb, $targetuser, $targetpassword, $targethost, $targetdb, $path){
 //This function will copy table $table from $source database to $target, where $source and $target are the resource links to the databases. If $table already exists at $target, it will be wiped out
