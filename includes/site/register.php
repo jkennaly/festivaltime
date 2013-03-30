@@ -44,7 +44,9 @@ If($_POST){
 
         $hashedPW = hash('sha256', $saltedPW);
 
-        $query = "insert into Users (username, hashedpw, salt, level) values ('$escapedName', '$hashedPW', '$salt', 'public',); ";
+        $query = "insert into Users (username, hashedpw, salt, level) values ('$escapedName', '$hashedPW', '$salt', 'public'); ";
+        echo $query;
+        echo mysql_error();
         $upd = mysql_query($query, $master);
 //Get the id for the new user
         $query = "select max(id) as id from Users";

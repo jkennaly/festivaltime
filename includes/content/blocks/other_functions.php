@@ -31,6 +31,13 @@ function randLetter() {
     return $rand_letter;
 }
 
+function randAlphaNum() {
+    $int = rand(0,35);
+    $a_z = "012345679ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $rand_letter = $a_z[$int];
+    return $rand_letter;
+}
+
 function ratingStars($band, $user, $main, $class, $imgpath, $basepage, $rate_target) {
 //This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
     $sql = "select rating from `ratings` where band='$band' and user='$user'";
