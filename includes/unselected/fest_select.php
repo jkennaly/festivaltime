@@ -63,6 +63,6 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 } else {
     echo "This page requires a higher level access than you currently have.";
 
-include "../content/login.php";
+include "../site/login.php";
 }
 ?>
