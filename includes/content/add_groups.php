@@ -36,8 +36,11 @@ If(!empty($_POST)){
 		echo "That group name is not unique. group not created.";
 	}
 	else{
-
-		$query = "insert into groups (name, creator, type) values ('$escapedgroup', $user, $groupType); ";
+	    $key="";
+        for ($i=0; $i < 10; $i++) { 
+            $key .= randAlphaNum();
+        }
+		$query = "insert into groups (name, creator, type, key) values ('$escapedgroup', $user, $groupType, $key); ";
 		$upd = mysql_query($query, $master);
 
 		
@@ -66,7 +69,7 @@ This page allows for adding new groups to FestivalTime.
 </tr>
 <tr>
 <td>
-<input type="text" name="group" maxlength="100" size ="100">
+<input type="text" name="group" maxlength="100" size ="30">
 </td>
 <td>
 <select name="grouptype">
