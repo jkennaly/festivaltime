@@ -9,6 +9,8 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+$right_required = "ViewNotes";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 echo "<h3>Select the festival you are looking for</h3>";
 
@@ -57,5 +59,10 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 <a href="<?php echo $basepage; ?>?disp=delete_fest">Delete festival or concert</a>
 
 <?php
+}
+} else {
+    echo "This page requires a higher level access than you currently have.";
+
+include "../content/login.php";
 }
 ?>
