@@ -19,8 +19,6 @@ If(empty($_POST['newfest'])) {
 $utc = new DateTimeZone('UTC');
 $dt = new DateTime('now', $utc);
 $post_target=$basepage."?disp=add_fest";
-$outlawcharacters = array(" ", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "|", "\\", "[", "]", ":", ";", "\"", "'", "<", ">", "?", ",", ".", "/");
-
 echo "<form id=\"new_fest\" action=\"".$post_target."\" method=\"post\">";
 ?>
 <h3>Please enter the following information to start with:</h3>

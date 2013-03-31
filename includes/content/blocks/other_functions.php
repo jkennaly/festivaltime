@@ -80,4 +80,17 @@ function displayStars($band, $user, $main, $class, $imgpath) {
 	return $rate;
 }
 
+function in_string($needle, $haystack) {
+    $i=0;
+        echo "Testing $needle with $haystack<br />";
+  if(is_array($needle)) {
+    foreach ($needle as $n) {
+        echo "Testing $n with $haystack<br />";
+      if (strpos($haystack, $n) != false) $i=1;
+    }
+  }
+  else If (strpos($needle, $haystack) != false) $i=1;
+} 
+  If($i !== 0) return true; return false;
+
 ?>

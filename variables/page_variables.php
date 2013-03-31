@@ -10,6 +10,9 @@
 */ 
 
 
+$outlawcharacters = array(" ", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "|", "\\", "[", "]", ":", ";", "\"", "'", "<", ">", "?", ",", ".", "/");
+echo $outlawcharacters."In page varialbes<br />";
+
 
 //This query collects data about the current band, if one is specified
 If(!empty($_SESSION['user'])) {
@@ -19,6 +22,7 @@ $uname = $_SESSION['user'];
 
 include $baseinstall."includes/content/blocks/scoring_functions.php";
 include $baseinstall."includes/content/blocks/search_selection_function.php";
+
 
 
 $query="SELECT id FROM `Users` WHERE username='".$_SESSION['user']."'";

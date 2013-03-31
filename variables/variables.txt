@@ -22,5 +22,7 @@ $master_dbuser2='';
 $master_dbpw2='';
 //This is the email that address that email from the site will come from
 $sitemail='';
+$outlawcharacters = array(" ", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "|", "\\", "[", "]", ":", ";", "\"", "'", "<", ">", "?", ",", ".", "/");
+
 
 ?>

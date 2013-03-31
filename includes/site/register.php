@@ -24,17 +24,34 @@ If($_POST){
 
     $escapedName = mysql_real_escape_string($_POST['username']);
     $escapedPW = mysql_real_escape_string($_POST['password']);
+    $escapedEmail = mysql_real_escape_string($_POST['email']);
 
 //Verify that the username is not already taken
 
-    $query = "select * from Users where username='$escapedName'";
+    $query = "select * from Users where username='$escapedName' OR '$escapedEmail'";
     $pwq = mysql_query($query, $master);
     $num = mysql_num_rows($pwq);
-
-    If($num){
-        echo "That username is not unique. User not created.";
+    
+//Validation
+    If($num != 0){
+        echo "That username or email address is not unique. User not created.";
+        break;
     }
-    else{
+    If(strlen($escapedName) < 4){
+        echo "Please choose a username that is at least 4 characters.";
+        break;
+    }
+    If(strlen($escapedPW) < 4){
+        echo "Please choose a password that is at least 4 characters.";
+        break;
+    }
+    echo "$outlawcharacters are outlawed<br />";
+    If(in_string($outlawcharacters, $escapedName)) {
+        echo "You may not use special characters in your username.";
+        break;        
+    }
+    
+
 // generate a random salt to use for this account
         $salt = bin2hex(mcrypt_create_iv(32, MCRYPT_DEV_URANDOM));
 
@@ -44,14 +61,18 @@ If($_POST){
 
         $hashedPW = hash('sha256', $saltedPW);
 
-        $query = "insert into Users (username, hashedpw, salt, level) values ('$escapedName', '$hashedPW', '$salt', 'public'); ";
-        echo $query;
-        echo mysql_error();
+        $query = "insert into Users (username, hashedpw, salt, level, email) values ('$escapedName', '$hashedPW', '$salt', 'public', '$escapedEmail'); ";
         $upd = mysql_query($query, $master);
 //Get the id for the new user
         $query = "select max(id) as id from Users";
         $res = mysql_query($query, $master);
         $max = mysql_fetch_array($res);
+//Verify that theu ser was created
+
+        $query = "select username from Users where id='".$max['id']."'";
+        $res = mysql_query($query, $master);
+        $name = mysql_fetch_array($res);
+        If($name['username'] != $escapedName) die("User not created");
 
 //Create a settings table for the user
 
@@ -65,7 +86,7 @@ $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_t
         echo mysql_error()."<br>";
     }
 
-}
+
 
 ?>
 
@@ -77,7 +98,17 @@ $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_t
 
 <tr>
 <td>
-<input type="text" name="username" maxlength="30" size ="30">
+<input type="text" name="username" maxlength="60" size ="30">
+</td>
+</tr>
+
+<tr>
+<th>email</th>
+</tr>
+
+<tr>
+<td>
+<input type="text" name="email" maxlength="100" size ="45">
 </td>
 </tr>
 
