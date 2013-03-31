@@ -62,6 +62,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 				<ul>
 					<li><a href="<?php echo $basepage; ?>?disp=add_groups">Add Groups</a></li>
                     <li><a href="<?php echo $basepage; ?>?disp=add_grouptypes">Add Group Types</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_special_key">Add Special Keys</a></li>
 				</ul>
 			</li></ul>
 			

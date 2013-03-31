@@ -40,7 +40,7 @@ If(!empty($_POST)){
         for ($i=0; $i < 10; $i++) { 
             $key .= randAlphaNum();
         }
-		$query = "insert into groups (name, creator, type, key, cap) values ('$escapedgroup', '$user', '$groupType', '$key', '20'); ";
+		$query = "insert into groups (name, creator, type, `key`, cap) values ('$escapedgroup', '$user', '$groupType', '$key', '20'); ";
 		$upd = mysql_query($query, $master);
 
 		
@@ -50,7 +50,7 @@ If(!empty($_POST)){
 
 //First, find all current days
     
-    $groupt_sql = "select id, name from `grouptypes`";
+    $groupt_sql = "select id, name from `grouptypes` where name like 'Admin%'";
     $groupt_res = mysql_query($groupt_sql, $master);
 	$query="SELECT g.name as name, t.name as type FROM groups as g LEFT JOIN grouptypes as t on g.type=t.id ORDER BY name ASC";
 	$mem_result = mysql_query($query, $master);

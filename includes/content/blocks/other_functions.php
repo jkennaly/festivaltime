@@ -131,7 +131,7 @@ function avail_public_groups($master) {
             $key .= randAlphaNum();
         }
         
-        $query = "insert into groups (name, creator, type, key, cap) values ('$publicname', 'system', '4', '$key', '20'); ";
+        $query = "insert into groups (name, creator, type, `key`, cap) values ('$publicname', 'system', '4', '$key', '20'); ";
         $upd = mysql_query($query, $master);
         $groups=avail_public_groups($master);
     }
