@@ -11,6 +11,7 @@
 
 
 //This query collects data about the current band, if one is specified
+//echo "Here we go page variables<br />";
 If(!empty($_SESSION['user'])) {
 $uname = $_SESSION['user'];
 
@@ -28,6 +29,11 @@ $query_user = mysql_query($query, $master);
 $user_row = mysql_fetch_assoc($query_user);
 $user = $user_row['id'];
 
+}
+
+date_default_timezone_set("America/Los_Angeles");
+
+If(!empty($_SESSION['fest'])){
 
 //Gets the current average rating of all ratings and the current user
 $sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";

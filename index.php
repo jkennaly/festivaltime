@@ -58,9 +58,11 @@ $main = mysql_connect($dbhost,$dbuser,$dbpw);
 
 
 
- include('variables/page_variables.php'); 
+ 
 
 }
+
+include('variables/page_variables.php'); 
 ?>
 
 <title><?php echo $sitename ?></title>

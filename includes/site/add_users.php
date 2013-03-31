@@ -44,8 +44,16 @@ If($_POST){
 		$saltedPW =  $escapedPW . $salt;
 
 		$hashedPW = hash('sha256', $saltedPW);
+        $pubkey="";
+        for ($i=0; $i < 10; $i++) { 
+            $key .= randAlphaNum();
+        }
+        $prikey="";
+        for ($i=0; $i < 10; $i++) { 
+            $key .= randAlphaNum();
+        }
 
-		$query = "insert into Users (username, hashedpw, salt, level, `group`) values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."' ); ";
+		$query = "insert into Users (username, hashedpw, salt, level, `group`, public_key, private_key) values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."', '$pubkey', '$prikey' ); ";
 		$upd = mysql_query($query, $master);
 //Get the id for the new user
 		$query = "select max(id) as id from Users";
