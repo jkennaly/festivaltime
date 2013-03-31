@@ -10,6 +10,9 @@
 */ 
 
 
+$right_required = "CreateNotes";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+    
 If(!empty($_POST['new_reply'])){
     $comment=$_POST['comment'];
     $discuss_table=$_POST['discuss_table'];
@@ -21,4 +24,5 @@ If(!empty($_POST['new_reply'])){
 	$query = "UPDATE comments SET discuss_current='--$user--' where id=$comment";
 	$upd = mysql_query($query, $main);
 } //Closes If($_POST['new_reply'])
+}
 ?>
