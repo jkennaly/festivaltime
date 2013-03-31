@@ -40,7 +40,7 @@ If(!empty($_POST)){
         for ($i=0; $i < 10; $i++) { 
             $key .= randAlphaNum();
         }
-		$query = "insert into groups (name, creator, type, key) values ('$escapedgroup', $user, $groupType, $key); ";
+		$query = "insert into groups (name, creator, type, key, cap) values ('$escapedgroup', '$user', '$groupType', '$key', '20'); ";
 		$upd = mysql_query($query, $master);
 
 		

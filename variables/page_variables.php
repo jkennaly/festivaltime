@@ -10,10 +10,6 @@
 */ 
 
 
-$outlawcharacters = array(" ", "`", "~", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "}", "|", "\\", "[", "]", ":", ";", "\"", "'", "<", ">", "?", ",", ".", "/");
-echo $outlawcharacters."In page varialbes<br />";
-
-
 //This query collects data about the current band, if one is specified
 If(!empty($_SESSION['user'])) {
 $uname = $_SESSION['user'];

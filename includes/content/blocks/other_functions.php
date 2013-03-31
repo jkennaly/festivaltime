@@ -82,15 +82,61 @@ function displayStars($band, $user, $main, $class, $imgpath) {
 
 function in_string($needle, $haystack) {
     $i=0;
-        echo "Testing $needle with $haystack<br />";
   if(is_array($needle)) {
     foreach ($needle as $n) {
-        echo "Testing $n with $haystack<br />";
-      if (strpos($haystack, $n) != false) $i=1;
+      if (strpos($haystack, $n) !== false) {$i=1; break;}
     }
   }
-  else If (strpos($needle, $haystack) != false) $i=1;
+  else If (strpos($needle, $haystack) !== false) $i=1;
+  return $i;
 } 
-  If($i !== 0) return true; return false;
+
+function email_bad($email) {
+    $i=0;
+    $atloc = strpos($email, '@');
+    $dotloc = strpos($email, '.', $atloc);
+    If( $atloc < 1) {$i=1; echo $atloc."at loc<br />";}
+    If( $dotloc < $atloc + 1) {$i=1; echo $dotloc."dot loc<br />";}
+    If( strlen($email) < 6) {$i=1; echo 3;}
+    
+  return $i;
+}  
+
+function group_count($groupid, $master) {
+    //Counts the number of people in the given group
+    
+    $query="select count(id) as users from `Users` where `group` like '%--$groupid--%'";
+    $result = mysql_query($query, $master);
+    $row=mysql_fetch_array($result);
+    $i=$row['users'];
+    return $i;
+}
+
+function avail_public_groups($master) {
+    //This function returns an array of all the available public groups.
+    //If there are no groups available, it will create one and retunr that one
+    
+    $query="select g.id as id, g.cap as cap, g.name as name from `groups` as g join `grouptypes` as t on g.type=t.id where t.access='public'";
+    $result = mysql_query($query, $master);
+    If(mysql_num_rows($result) > 2) {
+        while($row=mysql_fetch_array($result)){
+            If(group_count($row['id'], $master) < $row['cap']) $groups[]=$row;
+        }
+    }
+    else {
+        $int = rand(10000,99999);
+        $publicname = "public".$int;
+        $key="";
+        for ($i=0; $i < 10; $i++) { 
+            $key .= randAlphaNum();
+        }
+        
+        $query = "insert into groups (name, creator, type, key, cap) values ('$publicname', 'system', '4', '$key', '20'); ";
+        $upd = mysql_query($query, $master);
+        $groups=avail_public_groups($master);
+    }
+    
+    return $groups;
+} 
 
 ?>

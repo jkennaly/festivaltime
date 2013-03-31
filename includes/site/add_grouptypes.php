@@ -24,6 +24,7 @@ If(!empty($_POST)){
 //Escape entered info
 
 	$escapedGroupType = mysql_real_escape_string($_POST['grouptype']);
+    $escapedGroupAccess = mysql_real_escape_string($_POST['access']);
 
 //Verify that the genre name is not already taken
 
@@ -36,7 +37,7 @@ If(!empty($_POST)){
 	}
 	else{
 
-		$query = "insert into grouptypes (name) values ('$escapedGroupType'); ";
+		$query = "insert into grouptypes (name, access) values ('$escapedGroupType', '$escapedGroupAccess'); ";
 		$upd = mysql_query($query, $master);
 
 		
@@ -46,7 +47,7 @@ If(!empty($_POST)){
 
 //First, find all current days
 
-	$query="SELECT name FROM grouptypes ORDER BY name ASC";
+	$query="SELECT name, access FROM grouptypes ORDER BY name ASC";
 	$mem_result = mysql_query($query, $master);
 
 ?>
@@ -54,11 +55,15 @@ If(!empty($_POST)){
 <form action="index.php?disp=add_grouptypes" method="post">
 <table border="1">
 <tr>
-<th>grouptype</th>
+<th>grouptype</th><th>access</th>
 </tr>
 <tr>
 <td>
 <input type="text" name="grouptype" maxlength="100" size ="100">
+</td>
+
+<td>
+<input type="text" name="access" maxlength="20" size ="20">
 </td>
 </tr>
 </table>
@@ -77,6 +82,16 @@ The following grouptypes have been added for this festival.
 <?php 
 while($row = mysql_fetch_array($mem_result)) {
 	echo "<tr><td>".$row["name"]."</td></tr>";
+
+}
+?>
+<tr>
+<th>access</th>
+</tr>
+
+<?php 
+while($row = mysql_fetch_array($mem_result)) {
+    echo "<tr><td>".$row["name"]."</td></tr>";
 
 }
 ?>
