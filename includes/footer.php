@@ -15,6 +15,7 @@
 <div id="footer">
 
 <p>Copyright &copy 2013 Jason Kennaly</p>
+<p>This software operating this site is licensed under the AGPL v3. <br /><a href="<?php echo $basepage; ?>?disp=license">Click here for more information on copyright and licensing.</a></p>
 <p><?php
 if(session_id() && !empty($_SESSION['user'])){
 	echo "User ".$_SESSION['user']." is currently logged in.<br>";
