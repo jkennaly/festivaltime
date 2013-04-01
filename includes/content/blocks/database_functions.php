@@ -192,6 +192,20 @@ return $sname;
 
 }
 
+function getGroupname($source, $groupid){
+//This function checks $source table stages for the name of $stageid
+
+$sql = "select name from `groups` where id=$sgroupid";
+$res = mysql_query($sql, $source);
+
+
+$srow = mysql_fetch_array($res);
+$sname = $srow['name'];
+
+return $sname;
+
+}
+
 function groupMatch($user1, $user2, $master){
 //This function returns true if the two users have at least one group in common
 

@@ -25,6 +25,7 @@ If(!empty($_POST)){
 
 	$escapedDescrip = mysql_real_escape_string($_POST['descrip']);
     $cap = $_POST['cap'];
+    $credit = $_POST['credit'];
     $effective = $_POST['effective'];
     $duration = $_POST['duration'];
 
@@ -32,7 +33,7 @@ If(!empty($_POST)){
     for ($i=0; $i < 10; $i++) { 
         $key .= randAlphaNum();
     }
-	$query = "insert into special_keys (descrip, creator, `key`, cap, effective, duration) values ('$escapedDescrip', '$user', '$key', '$cap', '$effective', '$duration'); ";
+	$query = "insert into special_keys (descrip, creator, `key`, cap, effective, duration, credit) values ('$escapedDescrip', '$user', '$key', '$cap', '$effective', '$duration', '$credit'); ";
 //    echo $query;
 	$upd = mysql_query($query, $master);
 
@@ -60,6 +61,23 @@ In order for a special key to work, it will have to be programmed into the site 
 <tr>
 <td>
 <input type="text" name="descrip" maxlength="100" size ="30">
+</td>
+</tr>
+<tr>
+<th>credited user</th>
+</tr>
+<tr>
+<td>
+<select name="credit">
+    <?php
+       $query = "select id, username as name from Users";
+       $result = mysql_query($query, $master);
+       while($row=mysql_fetch_array($result)){
+            If($row['id'] == $user) echo "<option value=\"".$row['id']."\" selected=\"selected\">".$row['name']."</option>";
+            else echo "<option value=\"".$row['id']."\">".$row['name']."</option>";
+       }
+    ?>
+</select>
 </td>
 </tr>
 <tr>
@@ -99,6 +117,7 @@ The following special keys have been defined.
 <th>key</th>
 <th>description</th>
 <th>creator</th>
+<th>credited to</th>
 <th>cap</th>
 <th>used</th>
 <th>effective</th>
@@ -107,7 +126,7 @@ The following special keys have been defined.
 
 <?php 
 while($row = mysql_fetch_array($groupt_res)) {
-	echo "<tr><td>".$row["key"]."</td><td>".$row["descrip"]."</td><td>".getUname($master, $row["creator"])."</td>";
+	echo "<tr><td>".$row["key"]."</td><td>".$row["descrip"]."</td><td>".getUname($master, $row["creator"])."</td><td>".getUname($master, $row["credit"])."</td>";
 	echo "<td>".$row["cap"]."</td><td>".$row["used"]."</td><td>".$row["effective"]."</td><td>".$row["duration"]."</td></tr>";
 
 }

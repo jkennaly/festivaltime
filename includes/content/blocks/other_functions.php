@@ -137,6 +137,15 @@ function avail_public_groups($master) {
     }
     
     return $groups;
-} 
+}  
+
+function in_group($groupid, $userid, $master) {
+    //CChecks to see if $userid is in $groupid
+    
+    $query="select id from `Users` where `group` like '%--$groupid--%' and id='$userid'";
+    $result = mysql_query($query, $master);
+    $i=mysql_num_rows($result);
+    return $i;
+}
 
 ?>

@@ -53,7 +53,8 @@ If($_POST){
             $key .= randAlphaNum();
         }
 
-		$query = "insert into Users (username, hashedpw, salt, level, `group`, public_key, private_key) values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."', '$pubkey', '$prikey' ); ";
+		$query = "insert into Users (username, hashedpw, salt, level, `group`, public_key, private_key, credited) ";
+		$query .= "values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."', '$pubkey', '$prikey', '$user' ); ";
 		$upd = mysql_query($query, $master);
 //Get the id for the new user
 		$query = "select max(id) as id from Users";
@@ -71,7 +72,6 @@ $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_t
 		$res = mysql_query($sql2, $master);
 		echo mysql_error()."<br>";
 	}
-
 }
 
 $access_sql = "select value, name from access_levels";
