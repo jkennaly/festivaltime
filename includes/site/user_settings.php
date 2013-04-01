@@ -10,7 +10,7 @@
 */ 
 
 
-$right_required = "EditSelf";
+$right_required = "ModifySelf";
 If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 If (empty($_POST['user']) || $_POST['user'] == $user){
 ?>
