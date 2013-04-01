@@ -628,17 +628,16 @@ max-width:220px;
 	max-width:180px;
 	border:0px;
 	vertical-align:top;
-	text-align:left;
+	text-align:right;
 }
 
 .commentstable td{
 	border:0px;
 	font-size:145%;
 	max-width:540px;
-	text-align:justify;
+	text-align:left;
 	padding:10px;
 }
-
 
 .discussionreply {
 	max-width:540px;
