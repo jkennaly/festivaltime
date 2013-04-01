@@ -29,6 +29,7 @@ If($_POST){
     $escapedEmail = mysql_real_escape_string($_POST['email']);
     $escapedRegCode = mysql_real_escape_string($_POST['regcode']);
     $credited="NULL";
+    $credentials_version = "1"; //Credentials v1 is the first version to incorporate keys and the credited field
 
 //Verify that the username is not already taken
 
@@ -44,7 +45,7 @@ else {
     $usepublic=1;
     //Now we will check through all the possible key types until we find it
     //Check user-specific public and private keys
-    $query = "select `id`, `group`, `public_key`, `private_key` from `Users` where `private_key`='$escapedRegCode'";
+    $query = "select `id`, `group`, `public_key`, `private_key` from `Users` where `private_key`='$escapedRegCode' OR `public_key`='$escapedRegCode'";
 //        echo $query."<br />";
     $result = mysql_query($query, $master);
     If(mysql_num_rows($result)== 1){
@@ -91,8 +92,8 @@ else {
             $row=mysql_fetch_array($result);
             $credited = $row['creator'];
             If(group_count($row['id'], $master) < $row['cap']) {
-                $usermessage = "You have been assigned to the group called ".getGroupname($master, $row['id'])."<br />";
-                $groupchosen = $v;
+                $usermessage = "You have been assigned to the group called ".$row['name']."<br />";
+                $groupchosen = $row['id'];
                 $usepublic = 0;
             }
         }
@@ -170,7 +171,7 @@ else {
 
         $query = "insert into Users (username, hashedpw, salt, level, email, used_key, `group`, public_key, private_key, credited)";
         $query .= " values ('$escapedName', '$hashedPW', '$salt', 'public', '$escapedEmail', '$escapedRegCode', '--$groupchosen--', '$pubkey', '$prikey', '$credited'); ";
-        echo $query;
+//        echo $query;
         $upd = mysql_query($query, $master);
 //Get the id for the new user
         $query = "select max(id) as id from Users";
