@@ -37,9 +37,9 @@ else
  // you migh want to escape it just in case
  $data = mysql_real_escape_string(file_get_contents($file)); 
  // Insert into database
- $sql = "INSERT INTO pics (`pic`, `user`, `band`, `name`, `type`, `size`) VALUES ('$data', '$user', '$band', '".$_FILES["file"]["name"]."', '".$_FILES["file"]["type"]."', '".($_FILES["file"]["size"] / 1024)."');";
+ $sql = "INSERT INTO pics (`pic`, `user`, `band`, `name`, `type`, `size`) VALUES ('$data', '$user', '$band_master_id', '".$_FILES["file"]["name"]."', '".$_FILES["file"]["type"]."', '".($_FILES["file"]["size"] / 1024)."');";
 
- $upd = mysql_query($sql, $main);
+ $upd = mysql_query($sql, $master);
 //echo "<br>".$sql."<br>";
 echo mysql_error(); 
 
