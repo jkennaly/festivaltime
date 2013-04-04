@@ -12,7 +12,20 @@
 
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+    $discuss_table=$_POST['discuss_table'];
+        
+If(!empty($_POST['discuss_table'])){
     
+    $query = "show tables like '$discuss_table'";
+    $result = mysql_query($query, $main);
+
+    If((mysql_num_rows($result) == 0)) {
+//table did not exist, so create it
+        $sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
+        $res = mysql_query($sql, $main);
+    }
+}
+
 If(!empty($_POST['new_reply'])){
     $comment=$_POST['comment'];
     $discuss_table=$_POST['discuss_table'];
