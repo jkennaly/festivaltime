@@ -29,11 +29,13 @@ $bandsql="select master_id from bands where id='$band'";
 $bandres=mysql_query($bandsql, $main);
 $row=mysql_fetch_array($bandres);
 $mband=$row['master_id'];
-$sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `mas_id` = '$mband' order by rand() limit 1";
+$sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$mband' order by rand() limit 1";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
 $picData = $pic['pic'];
 //echo "Content-type: ".$pic['type'];
+//echo "test";
+//echo $sql;
 //echo "Content-descrip: ".$pic['descrip'];
 
 header("Content-type: ".$pic['type']);

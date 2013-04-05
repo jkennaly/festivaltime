@@ -12,9 +12,9 @@
 
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
-    $discuss_table=$_POST['discuss_table'];
         
 If(!empty($_POST['discuss_table'])){
+    $discuss_table=$_POST['discuss_table'];
     
     $query = "show tables like '$discuss_table'";
     $result = mysql_query($query, $main);
