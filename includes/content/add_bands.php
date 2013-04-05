@@ -17,10 +17,9 @@
 <?php
 $right_required = "AddBands";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+    
+    $post_target=$basepage."?disp=add_bands";
 
-//Get data to make the pick lists
-	$query="select name, id from bands order by name asc";
-	$query_band = mysql_query($query, $master);
 
 
 //Once the information is submitted, store it in the database
@@ -30,11 +29,12 @@ If(!empty($_POST)){
 
     //Escape entered info
     
-    	$escapedName = mysql_real_escape_string($_POST['name']);
+    	$escapedName = mysql_real_escape_string($_POST['new_band']);
     
     //Verify that the band name is not already taken
     
     	$query = "select * from bands where name='$escapedName'";
+        echo $query;
     	$pwq = mysql_query($query, $main);
     	$num = mysql_num_rows($pwq);
     
@@ -45,6 +45,7 @@ If(!empty($_POST)){
     
     		$query = "insert into bands (name) values ('$escapedName'); ";
     		$upd = mysql_query($query, $main);
+            echo mysql_error();
     	}
     }
     If(isset($_POST['existing']) && empty($_POST['new_band'])){
@@ -91,6 +92,11 @@ If(!empty($_POST)){
         }
     }
 }
+
+
+//Get data to make the pick lists
+    $query="select name, id from bands order by name asc";
+    $query_band = mysql_query($query, $master);
 
 ?>
 <p>

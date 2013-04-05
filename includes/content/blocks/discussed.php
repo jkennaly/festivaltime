@@ -51,7 +51,7 @@ while($row = mysql_fetch_array($result)) {
 	
 	If($i>3) break;
 } //Closes while($row = mysql_fetch_array($result))
-If($j>0) echo "<br /></div><!-- End #discussions -->";
+//If($j>0) echo "<br /></div><!-- End #discussions -->";
 
 //End of active discussions
 }

@@ -13,6 +13,8 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
     
+
+    
 If(!empty($_POST['flagpic'])){
     $clicker = "UPDATE pics SET clicks=clicks+1 WHERE id='".$_POST['pic']."'";
     $query = mysql_query($clicker, $master);
@@ -30,18 +32,18 @@ $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</
 
 
 ?>
+
+<div id="content">
+
 <h1 id="bandtitle"><?php echo $bandlink; ?></h1>
 
-<div id=bandgallery">
+<div id="bandgallery">
 
 <?php
 
 //Get all the pics of the band
-$bandsql="select master_id from bands where id='$band'";
-$bandres=mysql_query($bandsql, $main);
-$row=mysql_fetch_array($bandres);
-$mband=$row['master_id'];
-$query="select id, clicks from pics where mas_id='$mband'";
+
+$query="select id, clicks from pics where band='$band_master_id'";
 $result = mysql_query($query, $master);
 If(mysql_num_rows($result)>0){
 	while($row=mysql_fetch_array($result)){
@@ -68,7 +70,7 @@ If(mysql_num_rows($result)>0){
 
 ?>
 </div> <!-- end #bandgallery -->
-
+</div> <!-- end #content -->
 
 
 <?php
