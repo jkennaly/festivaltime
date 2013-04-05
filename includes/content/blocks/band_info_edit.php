@@ -52,22 +52,15 @@ $fest_end_time_sec = $fest_start_time_sec + $fest_length * 3600;
 If(!empty($_POST['edits'])){
 //echo "Edits logic entered<br>";
 
+
 //Escape entered info
+    $skip_entry=0;
 
-	$escapedName = mysql_real_escape_string($_POST['name']);
-	$escapedStart = mysql_real_escape_string($_POST['start']);
-	$escapedEnd = mysql_real_escape_string($_POST['end']);
+    $escapedName = mysql_real_escape_string($_POST['name']);
+    $escapedStart = mysql_real_escape_string($_POST['start']);
+    $escapedEnd = mysql_real_escape_string($_POST['end']);
 
-//Verify that the band name is not already taken
-
-	$query = "select * from bands where name='$escapedName' AND id!='$band'";
-	$pwq = mysql_query($query, $main);
-	$num = mysql_num_rows($pwq);
-
-	If(!empty($num)){
-		echo "That band name is not unique. Band not edited.";
-	} else{
-		//If either time is less than the fest start, roll it forward one day
+        //If either time is less than the fest start, roll it forward one day
 $band_start = $fest_day_date." ".$_POST['start'];
 $band_start_time_sec = strtotime($band_start);
 $fest_start_time_sec = strtotime($fest_start_time);
@@ -82,17 +75,47 @@ $fest_start_time_sec = strtotime($fest_start_time);
 If($band_end_time_sec < $fest_start_time_sec) $band_end_time_sec = $band_end_time_sec+24*3600;
 $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 
-		
+        
 
-		If($band_start_time_sec > $band_end_time_sec) {
-			echo "Ends before it starts. Try entering again.";
-			$i=1;
-		}
-		
-		
-				
+        If($band_start_time_sec > $band_end_time_sec) {
+            echo "Ends before it starts. Try entering again.";
+            $skip_entry=1;
+        }
+        
 
-		If(empty($i)){
+
+//Verify that the band name is not already taken
+
+	$query = "select id from bands where name='$escapedName' AND id!='$band'";
+	$pwq = mysql_query($query, $main);
+	$num = mysql_num_rows($pwq);
+
+	If(!empty($num)){
+		echo "That band name is not unique. Band not edited.";
+        $skip_entry=1;
+	}
+    
+//Verify that the time/stage is not taken (unless stage is undetermined)
+//First find id of Undetemrined stage
+$query = "select id from stages where name='Undetermined'";
+$result = mysql_query($query, $main);
+$row=mysql_fetch_array($result);
+$unstage = $row['id'];
+
+$query = "select id, name from bands where (stage='".$_POST['stage']."' and ( ('$band_start_time_sec' <= sec_start and '$band_end_time_sec' >= sec_end)";
+$query .= " or ('$band_start_time_sec' <= sec_start and '$band_end_time_sec' > sec_start)";
+$query .= " or ('$band_start_time_sec' <= sec_end and '$band_end_time_sec' > sec_end)";
+$query .= " or ('$band_start_time_sec' >= sec_start and '$band_end_time_sec' <= sec_end) ) ) and '".$_POST['stage']."'!='$unstage'";
+$result = mysql_query($query, $main);
+while($row=mysql_fetch_array($result)){
+    echo "That time/stage combo conflicts with <a href=\"$baselocation?disp=view_band&band=".$row['id']."\">".$row['name']."</a>. If you set the stage to Undetermined, you can set any time.<br />";
+    $skip_entry = 1;
+}
+
+
+
+	If($skip_entry==0){
+
 		$query = "update bands set name='$escapedName', start='$escapedStart', end='$escapedEnd', day='".$_POST['day']."', stage='".$_POST['stage']."', sec_start='$band_start_time_sec', sec_end='$band_end_time_sec', start='$band_start', end='$band_end' where id=$band";
 		$upd = mysql_query($query, $main);
 		$name = $escapedName;
@@ -111,8 +134,7 @@ $band_end = strftime("%Y-%m-%d %H:%M", $band_end_time_sec);
 		$gupd = mysql_query($query, $master);
 		$genre=$_POST['genre'];
 		} //Closes If(!empty($i)
-		
-	} //If($num) else
+
 
 } //If($_POST['edits'])
 

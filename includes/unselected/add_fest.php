@@ -141,6 +141,9 @@ echo '</select>';
 	$result=mysql_query($query, $main);
 	$query="insert into `info` (item, value) VALUES ('Festival Identifier End', '$postfest')";
 	$result=mysql_query($query, $main);
+    
+        $query = "insert into stages (name) values ('Undetermined'); ";
+        $upd = mysql_query($query, $main);
 }
 
 }
