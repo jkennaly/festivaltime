@@ -34,7 +34,7 @@ If(!empty($_POST)){
     //Verify that the band name is not already taken
     
     	$query = "select * from bands where name='$escapedName'";
-        echo $query;
+//        echo $query;
     	$pwq = mysql_query($query, $main);
     	$num = mysql_num_rows($pwq);
     
