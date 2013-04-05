@@ -56,6 +56,8 @@ This page allows for adding a picture of a band.
 
 <?php
 
+$post_target=$basepage."?disp=view_band&band=".$band;
+
 include $baseinstall."includes/content/blocks/band_info.php";
 
 echo "<a href=\"http://www.google.com/search?q=".str_replace(" ", "%20", $name)."&tbm=isch\" target=\"_blank\">Search Google for band pics</a>";

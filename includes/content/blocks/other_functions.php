@@ -146,6 +146,21 @@ function in_group($groupid, $userid, $master) {
     $result = mysql_query($query, $master);
     $i=mysql_num_rows($result);
     return $i;
+}  
+
+function in_groups($userid, $master) {
+    //Returns an array conating all the groups the user is a member of
+    $query="SELECT id, name FROM groups ORDER BY id ASC";
+    $query_groups = mysql_query($query, $master);
+    while($row=mysql_fetch_array($query_groups)) {
+        If(in_group($row['id'], $userid, $master)) {
+            $g[] = array(
+    "id" => $row['id'],
+    "name" => $row['name'],
+);
+        } 
+    }
+    return $g;
 }
 
 ?>

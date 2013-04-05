@@ -12,6 +12,7 @@
 
 If(!empty($_GET["disp"])) $disp =  htmlspecialchars($_GET["disp"]);
 If(empty($_GET["disp"])) $disp = "home";
+If(!empty($_GET['regcode'])) {$disp="register";}
 
 //Find all content files that can be displayed
 $old_path = getcwd();

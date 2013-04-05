@@ -39,7 +39,6 @@ If($_POST){
     
 //If the user is registering without a registration code, assign A1A1A1A1A1
 If($escapedRegCode == "") {$escapedRegCode = "A1A1A1A1A1"; $credited = "NULL";}
-else {
     //If the registration code is not blank, try to find it's source
     //We will use the $usepublic variable to track success-if we find a better group, the user will go there
     $usepublic=1;
@@ -51,6 +50,7 @@ else {
     If(mysql_num_rows($result)== 1){
         $row=mysql_fetch_array($result);
         $credited = $row['id'];
+//        echo "sign up credited to $credited<br />";
         If($row['private_key'] == $escapedRegCode) {
             //If the user has registered with another user's private key, find the granter's private group
             //Start by getting the types of groups that are private
@@ -127,7 +127,7 @@ else {
     
     //If the key has not resulted in being assigned to any group, use the group the user picked
     If($usepublic == 1) {$groupchosen = $_POST['group']; }
-}
+
     
 //Validation
     If($num != 0){
