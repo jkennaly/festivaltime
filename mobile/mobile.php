@@ -317,7 +317,7 @@ If($stage_display == 1) {
 
 	unset($uscoreall);
 	//Get all the stages
-	$stages_display_sql="select id from stages";
+	$stages_display_sql="select id from stages where name!='Undetermined'";
 	$stages_display_res=mysql_query($stages_display_sql, $main);
 	while($row=mysql_fetch_array($stages_display_res)) {
 		$stage_select_sql="select id from bands where stage='".$row['id']."' and sec_end>$basetime_s order by sec_start asc limit 1";
@@ -393,6 +393,9 @@ for ($i=1; $i<=$elements; $i++)
 		case "5":
 		$gametime_band[$i]['img3'] = "../includes/images/sahara.png";
 		break;
+        case "7":
+        $gametime_band[$i]['img3'] = "../includes/images/yuma.png";
+        break;
 		default:
 		$gametime_band[$i]['img3'] = "../includes/images/black.png";
 		break;
