@@ -34,10 +34,19 @@ If(empty($_POST['landscape'])) {
 <form action="<?php echo $post_target; ?>" method="post">
 <input type="submit" name="landscape" value="Flip orientation">
 </form>
+<?php
+$post_target=$basepage;
+?>
+<form action="<?php echo $post_target; ?>" method="get">
+<input type="submit" name="best_paths" value="Show Best Paths">
+<input type="hidden" name="disp" value="sched">
+</form>
 
 <?php
 $usersql="select id, username from Users";
 $userres=mysql_query($usersql, $master);
+
+If(!empty($_GET['best_paths'])){
 
 include $baseinstall."includes/content/blocks/paths.php";
 	
@@ -179,6 +188,7 @@ echo "alert(\"Paths complete!\");";
 </input>
 
 <?php
+}
 }
 ?>
 
