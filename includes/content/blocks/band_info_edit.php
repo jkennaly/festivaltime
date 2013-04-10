@@ -102,7 +102,7 @@ $result = mysql_query($query, $main);
 $row=mysql_fetch_array($result);
 $unstage = $row['id'];
 
-$query = "select id, name from bands where (stage='".$_POST['stage']."' and ( ('$band_start_time_sec' <= sec_start and '$band_end_time_sec' >= sec_end)";
+$query = "select id, name from bands where (stage='".$_POST['stage']."' and id!='$band' ( ('$band_start_time_sec' <= sec_start and '$band_end_time_sec' >= sec_end)";
 $query .= " or ('$band_start_time_sec' <= sec_start and '$band_end_time_sec' > sec_start)";
 $query .= " or ('$band_start_time_sec' <= sec_end and '$band_end_time_sec' > sec_end)";
 $query .= " or ('$band_start_time_sec' >= sec_start and '$band_end_time_sec' <= sec_end) ) ) and '".$_POST['stage']."'!='$unstage'";
