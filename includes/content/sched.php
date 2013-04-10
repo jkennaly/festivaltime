@@ -210,6 +210,11 @@ $row=mysql_fetch_array($res);
 $minid = $row['minid'];
 $maxid = $row['maxid'];
 
+$sql="select id from stages where name='Undetermined'";
+$res = mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+$nonstage = $row['id'];
+
 //Get the list of stages
 $sql = "select name as stagename, id from stages where name!='Undetermined'";
 $res = mysql_query($sql, $main);
@@ -243,28 +248,30 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+900) {
 	for ($l=0;$l<3;$l++) {
 		If($l!=0) echo "<tr>";
 		for ($j=$minid;$j<=$maxid;$j++) {
-			If(empty($ticked[$j])) $ticked[$j] = 0;
-			If(empty($ticks[$j])) $ticks[$j] = 0;
-			If(empty($band_name_prev[$j])) $band_name_prev[$j] = 0;
-			$k_temp=$k+300*$l;
-			$sql_band = "select id, name, sec_start, sec_end, start, end, stage, genre from bands where sec_start<='$k_temp' AND sec_end >'$k_temp' AND stage='$j'";
-			$res_band = mysql_query($sql_band, $main);
-			$row_band = mysql_fetch_array($res_band);
-			If(!empty($row_band['name'])) {
-				$band_current[$j]=1;
-				$rat_sql = "select rating from ratings where user='$user' and band='".$row_band['id']."'";
-				$res_rat = mysql_query($rat_sql, $main);
-				$rat_row=mysql_fetch_array($res_rat);
-			}
-			If(empty($row_band['name'])){ $band_current[$j]=0; $ticks[$j]=0;  $ticked[$j]=0; }
-			If($ticked[$j]>0 ) $ticked[$j] = $ticked[$j] +1;
-			If(empty($band_current[$j])) $band_current[$j]=0;
-			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
-			If((($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
-			If($ticked[$j] == 1 ) echo "<td id=\"band".$row_band['id']."\" class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getBandGenre($main, $master, $row_band['id'], $user)."</a></td>";
-			If($ticked[$j] == 0 ) echo "<td></td>";
-			$band_current_prev[$j] = $band_current[$j];
-			$band_name_prev[$j] = $row_band['name'];
+		    If($j != $nonstage) {
+    			If(empty($ticked[$j])) $ticked[$j] = 0;
+    			If(empty($ticks[$j])) $ticks[$j] = 0;
+    			If(empty($band_name_prev[$j])) $band_name_prev[$j] = 0;
+    			$k_temp=$k+300*$l;
+    			$sql_band = "select id, name, sec_start, sec_end, start, end, stage, genre from bands where sec_start<='$k_temp' AND sec_end >'$k_temp' AND stage='$j'";
+    			$res_band = mysql_query($sql_band, $main);
+    			$row_band = mysql_fetch_array($res_band);
+    			If(!empty($row_band['name'])) {
+    				$band_current[$j]=1;
+    				$rat_sql = "select rating from ratings where user='$user' and band='".$row_band['id']."'";
+    				$res_rat = mysql_query($rat_sql, $main);
+    				$rat_row=mysql_fetch_array($res_rat);
+    			}
+    			If(empty($row_band['name'])){ $band_current[$j]=0; $ticks[$j]=0;  $ticked[$j]=0; }
+    			If($ticked[$j]>0 ) $ticked[$j] = $ticked[$j] +1;
+    			If(empty($band_current[$j])) $band_current[$j]=0;
+    			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
+    			If((($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
+    			If($ticked[$j] == 1 ) echo "<td id=\"band".$row_band['id']."\" class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getBandGenre($main, $master, $row_band['id'], $user)."</a></td>";
+    			If($ticked[$j] == 0 ) echo "<td></td>";
+    			$band_current_prev[$j] = $band_current[$j];
+    			$band_name_prev[$j] = $row_band['name'];
+    		}
 		} // Closes for ($j=1;$j<=$i;$j++)
 		IF($k_temp==$fest_start_time_sec) {$totalrows=($fest_start_time_sec-$fest_end_time_sec)/(-300);echo "<td id=\"bandbeer".$day['id']."\" rowspan=\"$totalrows\"></td></tr>";} else echo "</tr>";
 	} // Closes for ($l=0;$l<3;$l++)
