@@ -72,5 +72,15 @@ function count_digit($number) {
 return strlen((string) $number);
 }
 
+function act_rating($band, $user, $main) {
+//This function returns the rating for a given user for a given band in a given fest, or 0 if unrated
+$sql = "SELECT rating FROM ratings WHERE band='$band' and user='$user'";
+$res=mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+If(!empty($row['rating'])) $rate = $row['rating'];
+else $rate = 0;
+return $rate;
+}
+
 ?>
 

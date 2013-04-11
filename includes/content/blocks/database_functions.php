@@ -195,7 +195,8 @@ return $sname;
 function getGroupname($source, $groupid){
 //This function checks $source table stages for the name of $stageid
 
-$sql = "select name from `groups` where id=$sgroupid";
+$sql = "select name from `groups` where id='$groupid'";
+echo $sql;
 $res = mysql_query($sql, $source);
 
 
@@ -240,6 +241,34 @@ foreach($working as $v) {
 
 
 If(isset($final)) return $final; else return false;
+
+}
+
+function genreList($main, $master, $user){
+//This function returns the genre for each band in main
+    $sql = "select id from bands";
+    $res = mysql_query($sql, $main);
+    $i=0;
+    while($row=mysql_fetch_array($res)) {
+        $ret_genre[$i]['id'] = getBandGenreID($main, $master, $row['id'], $user);
+        $ret_genre[$i]['name'] = getBandGenre($main, $master, $row['id'], $user);
+        $ret_genre[$i]['bands'] = 1;
+        $ret_genre[$i]['rating_total'] = act_rating($row['id'], $user, $main);
+        If( $ret_genre[$i]['rating_total'] == 0) $ret_genre[$i]['rated'] = 0; else $ret_genre[$i]['rated'] = 1;
+        
+        $i_minus=0;
+        for($j=0;$j<$i;$j++) {
+            If($ret_genre[$j]['id'] == $ret_genre[$i]['id']) {
+                $i_minus=1;
+                $ret_genre[$j]['bands'] = $ret_genre[$j]['bands'] + 1;
+                $ret_genre[$j]['rated'] = $ret_genre[$j]['rated'] + $ret_genre[$i]['rated'];
+                $ret_genre[$j]['rating_total'] = $ret_genre[$j]['rating_total'] + $ret_genre[$i]['rating_total'];
+        }
+        }
+        If($i_minus == 0 ) $i++;
+    
+    }
+    return $ret_genre;
 
 }
 

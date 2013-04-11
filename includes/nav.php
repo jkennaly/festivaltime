@@ -71,16 +71,11 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			<ul><li><a href="<?php echo $basepage; ?>?disp=discuss_index">Discussion Index</a></li></ul>
 		</li>
 		<li><a href="#">Stats</a>
-			<ul><li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
-		</li>
-		<li><a href="#">Development</a>
-		
 			<ul>
-				<li><a href="<?php echo $basepage; ?>?disp=liverank">Live Ranking</a></li>
-                <li><a href="<?php echo $basepage; ?>?disp=email_test">Email Test</a></li>
-			</ul>
-		</li>
-		</ul>
+			      <li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
+		          <li><a href="<?php echo $basepage; ?>?disp=user_stats">User Stats</a></li>
+                  <li><a href="<?php echo $basepage; ?>?disp=group_stats">Group Stats</a></li>
+		    </ul>
 	</li>
 <?php
 }

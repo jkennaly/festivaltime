@@ -146,7 +146,19 @@ function in_group($groupid, $userid, $master) {
     $result = mysql_query($query, $master);
     $i=mysql_num_rows($result);
     return $i;
-}  
+}    
+
+function group_members($groupid, $master) {
+    //CChecks to see if $userid is in $groupid
+    
+    $query="select id, username as name from `Users` where `group` like '%--$groupid--%'";
+    $result = mysql_query($query, $master);
+    while($row=mysql_fetch_array($result)){
+        $guser[]=$row;
+    }
+    If(empty($guser)) {$guser['id']="";$guser['name']="";}
+    return $guser;
+}
 
 function in_groups($userid, $master) {
     //Returns an array conating all the groups the user is a member of
@@ -161,6 +173,23 @@ function in_groups($userid, $master) {
         } 
     }
     return $g;
+}
+
+function total_ratings($user, $main) {
+    $sql="select count(id) as total from ratings where user='$user'";
+//    echo $sql;
+    $result = mysql_query($sql, $main);
+    $row=mysql_fetch_array($result);
+    return $row['total'];
+}
+
+function rating_count($user, $rating, $main) {
+    $sql="select count(id) as total from ratings where user='$user' and rating='$rating'";
+//    echo $sql;
+    $result = mysql_query($sql, $main);
+    $row=mysql_fetch_array($result);
+    If(empty($row['total'])) $row['total'] = 0;
+    return $row['total'];
 }
 
 ?>
