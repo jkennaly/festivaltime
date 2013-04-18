@@ -1,4 +1,5 @@
-<div id="content">
+
+    <?php
 /*
 //Copyright (c) 2013 Jason Kennaly.
 //All rights reserved. This program and the accompanying materials
@@ -10,17 +11,19 @@
 */ 
 
 
-<?php
+
 $right_required = "SiteAdmin";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
 If(!empty($_POST['rmvfest'])) {
-	$query="select dbname from festivals where id = '".$_POST["rmvfest"];
+	$query="select dbname from festivals where id = '".$_POST["rmvfest"]."'";
 	$result = mysql_query($query, $master);
 	$dropping=mysql_fetch_array($result);
-	$query="DROP DATABASE `".$dropping['dbname']."`";
-	echo $query;
-	$result = mysql_query($query, $main);
+	$query="DROP DATABASE ".$dropping['dbname'];
+	$result = mysql_query($query, $master);
+    if (!$result) {
+        die('Invalid query: <br />'.$query.'<br />' . mysql_error());
+    }
 	$sql = "DELETE FROM festivals WHERE id = '".$_POST["rmvfest"]."'";
 	$upd = mysql_query($sql, $master);
 	$sql2 = "DROP TABLE info_".$_POST["rmvfest"]."";
@@ -32,6 +35,7 @@ If(!empty($_POST['rmvfest'])) {
 	$query="SELECT id, CONCAT(name, ' ', year) as name FROM festivals ORDER BY id ASC";
 	$mem_result = mysql_query($query, $master);
 ?>	
+<div id="content">
 	</p>
 <form action="index.php?disp=delete_fest" method="post">
 <p>

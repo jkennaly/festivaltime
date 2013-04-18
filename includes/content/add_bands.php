@@ -15,7 +15,11 @@
 <div id="content">
 
 <?php
-$right_required = "AddBands";
+If( $festtype = 1) $right_required = "AddBands";
+If( $festtype = 2 && $user == $festcreator) $right_required = "SimFest";
+If( $festtype = 3 && in_group($simfestgroup, $user, $master)) $right_required = "SimFest";
+If( $festtype = 4) $right_required = "SimFest";
+If(empty($right_required)) $right_required = "Admin";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
     
     $post_target=$basepage."?disp=add_bands";
@@ -25,7 +29,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 //Once the information is submitted, store it in the database
 If(!empty($_POST)){
     
-    If(isset($_POST['new_band'])){
+    If(isset($_POST['new_band']) && $right_required == "AddBands"){
 
     //Escape entered info
     
@@ -50,8 +54,10 @@ If(!empty($_POST)){
     }
     If(isset($_POST['existing']) && empty($_POST['new_band'])){
         $query="select * from bands where id='".$_POST['existing']."'";
-        $res_master = mysql_query($query, $master);
-        $num1 = mysql_num_rows($res_master);
+        echo $query;
+        $result_master = mysql_query($query, $master);
+        $res_master=mysql_fetch_array($result_master);
+        $num1 = mysql_num_rows($result_master);
         
         If($num1 > 0){
             $query = "select * from bands where name='".$res_master['name']."'";
@@ -85,7 +91,7 @@ If(!empty($_POST)){
                 $row=mysql_fetch_array($main_res);
                 $feststring="--".$festaddid."--".$festprefix.$row['id'].$festsuffix;
                 
-                $query = "update bands set festivals='$feststring' ";
+                $query = "update bands set festivals='$feststring' where id='".$res_master['id']."'";
                 $upd = mysql_query($query, $master);
                 
             }
@@ -113,8 +119,13 @@ while($row = mysql_fetch_array($query_band)) {
 ?>
 </select>
 
-
+<?php
+If($right_required == "AddBands"){
+?>
 <input type="text" name="new_band"></input>
+<?php
+}
+?>
 <input type="submit" value="Add to festival"></input>
 </form>
 <?php

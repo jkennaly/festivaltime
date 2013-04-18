@@ -1,4 +1,3 @@
-
 <?php
 /*
 //Copyright (c) 2013 Jason Kennaly.
@@ -11,6 +10,7 @@
 */ 
 
 
+
 $right_required = "AddFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
@@ -18,7 +18,7 @@ If(empty($_POST['newfest'])) {
 	
 $utc = new DateTimeZone('UTC');
 $dt = new DateTime('now', $utc);
-$post_target=$basepage."?disp=add_fest";
+$post_target=$basepage."?disp=add_simfest";
 echo "<form id=\"new_fest\" action=\"".$post_target."\" method=\"post\">";
 ?>
 <div id="content">
@@ -41,29 +41,90 @@ echo '</select>';
 ?>
 </p>
 
-<p>Festival Start Time (make sure this includes the start of the show. Earlier is fine, but it cannot be later than the first band.)
-<input type="time" name="start" ></input></p>
-<p>Festival Length (The number of hours between the start time and when the last band walks off stage. Longer is OK.)
-<input type="number" name="length" min="1" max="24"></input></p>
+<p>SimFest Type:
+<?php
+
+//Get All Available simfest types
+$personalexists = 0;
+$siteexists = 0;
+$usergroups = in_groups($user, $master);
+foreach($usergroups as $v) {
+    $groupexists[$v['id']]['check'] = 0;
+    $groupexists[$v['id']]['name'] = $v['name'];
+}
+$query = "SELECT * FROM `festtypes` where name like '%simfest%'";
+$result = mysql_query($query, $master);
+If(mysql_num_rows($result) != 3) echo "Unknown changes made to fest types..."; else{
+    
+    $sql = "SHOW TABLES LIKE 'info_%'";
+    $result = mysql_query($sql, $master);
+    
+    while($row = mysql_fetch_array($result)) {
+        $sql = "select * from ".$row['0'];
+        $res = mysql_query($sql, $master);
+        while($row1 = mysql_fetch_array($res)) {
+            switch($row1['item']) {
+                case "festtype":
+                    $festtype=$row1['value'];
+                    break;
+                case "creator":
+                    $festcreator=$row1['value'];
+                    break;
+                case "simgroup":
+                    $simgroup=$row1['value'];
+                    break;
+            }
+        }
+        If($festtype==2 && $festcreator == $user) $personalexists = 1;
+        If($festtype==4) $siteexists = 1;
+        If($festtype==3) {
+            foreach ($usergroups as $v){
+                If($simgroup == $v) $groupexists[$v] = 1;
+            }
+        }
+    }
+    echo '<select name="festtype">';
+    If($personalexists == 0) echo "<option value=\"personal\">Personal</option>";
+    If($siteexists == 0) echo "<option value=\"site\">Site</option>";
+    foreach($groupexists as $k => $v){
+        If($v['check'] == 0)  echo "<option value=\"$k\">Group ".$v['name']."</option>";
+    }
+    echo '</select>';
+}
+?>
+</p>
+
 <p>Festival Name (e.g., Bonnaroo)
 <input type="text" name="festname"></input></p>
-<p>Festival Year (e.g., 2013)
-<input type="text" name="festyear"></input></p>
 <input type="submit" value="Create Show" name="newfest"></input>
 </form>
 <?php
 } else {
 	echo "Attempting to add festival...";
 	$timezone=$_POST['userTimeZone'];
-	$feststart=$_POST['start'];
-	$festlen=mysql_real_escape_string($_POST['length']);
+	$feststart="10:00";
+	$festlen=15;
 	$festname=mysql_real_escape_string($_POST['festname']);
-	$festyear=mysql_real_escape_string($_POST['festyear']);
+	$festyear="";
 	$festnamelower=str_replace($outlawcharacters, "", strtolower($festname));
-	$festyearlower=str_replace($outlawcharacters, "", strtolower($festyear));
+	$festyearlower="";
 	$newdb="festival_".$festnamelower."_".$festyearlower;
 	$prefest = "";
 	$postfest = "";
+    switch($_POST['festtype']) {
+        case "personal":
+            $festtype = 2;
+            $simgroup = "NA";
+            break;
+        case "site":
+            $festtype = 4;
+            $simgroup = "NA";
+            break;
+        default:
+            $festtype = 3;
+            $simgroup = $_POST['festtype'];
+            break;            
+    }
 	for($i=0;$i<=2;$i++){
 		$prefest .= randLetter();
 	}
@@ -115,7 +176,9 @@ echo '</select>';
 	$result=mysql_query($query, $master);
     $query="insert into `info_$fest` (item, value) VALUES ('creator', '$user')";
     $result=mysql_query($query, $master);
-    $query="insert into `info_$fest` (item, value) VALUES ('festtype', '1')";
+    $query="insert into `info_$fest` (item, value) VALUES ('festtype', '$festtype')";
+    $result=mysql_query($query, $master);
+    $query="insert into `info_$fest` (item, value) VALUES ('simgroup', '$simgroup')";
     $result=mysql_query($query, $master);
 	
 	//Create the database
@@ -123,11 +186,12 @@ echo '</select>';
 	$query="CREATE DATABASE $newdb";
 	$result=mysql_query($query, $main);
 	@mysql_select_db($newdb, $main) or die( "Unable to select main database");
-	$query="GRANT ALL ON $newdb TO `$dbuser`@`localhost`";
+	$query="GRANT ALL ON $newdb TO `$master_dbuser`@`localhost`";
 //	echo $query."<br />";
 	$result=mysql_query($query, $main);
 	//Populate the tables into the new database
 	$command = "mysql -u$dbuser -p$dbpw " . "-h $dbhost -D $newdb < ".$baseinstall."install/festival_template.sql";
+//    echo $command;
 	$output = shell_exec($command);
 	//Fill in the info table
 	$query="insert into `info` (item, value) VALUES ('timezone', '$timezone')";

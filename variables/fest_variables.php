@@ -23,6 +23,15 @@ If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
 			case "dbname":
 				$dbname=$row['value'];
 				break;
+            case "festtype":
+                $festtype=$row['value'];
+                break;
+            case "festcreator":
+                $festcreator=$row['value'];
+                break;
+            case "simfestgroup":
+                $simfestgroup=$row['value'];
+                break;
 		}
 	}
 ?>

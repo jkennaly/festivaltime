@@ -31,9 +31,11 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 	<li><a href="<?php echo $forumbase; ?>">Forum</a></li>
 
 <?php
+/*
 //Restricts the other menu to users that have the CreateNotes right.
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+*/
 ?>
 	<li><a href="#">Other</a>
 		<ul><li><a href="#">Manage</a>
@@ -63,6 +65,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 					<li><a href="<?php echo $basepage; ?>?disp=add_groups">Add Groups</a></li>
                     <li><a href="<?php echo $basepage; ?>?disp=add_grouptypes">Add Group Types</a></li>
                     <li><a href="<?php echo $basepage; ?>?disp=add_special_key">Add Special Keys</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_festtypes">Add Fest Types</a></li>
 				</ul>
 			</li></ul>
 			
@@ -78,7 +81,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 		    </ul>
 	</li>
 <?php
-}
+//}
 ?>
 
 </ul> <!-- end #nav -->

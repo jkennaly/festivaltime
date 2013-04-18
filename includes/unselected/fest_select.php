@@ -12,13 +12,13 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
-echo "<h3>Select the festival you are looking for</h3>";
+
 
 //Find all festivals registered in the master database
 
 $sql = "SHOW TABLES LIKE 'info_%'";
 $result = mysql_query($sql, $master);
-echo "<ul id=\"festlist\">";
+
 while($row = mysql_fetch_array($result)) {
 	$sql = "select * from ".$row['0'];
 	$res = mysql_query($sql, $master);
@@ -33,13 +33,42 @@ while($row = mysql_fetch_array($result)) {
 			case "Festival Year":
 				$festyear=$row1['value'];
 				break;
+            case "festtype":
+                $festtype=$row1['value'];
+                break;
 		}
 	}
-?>
-<li><a href="<?php echo $basepage; ?>?disp=home&fest=<?php echo $fest; ?>"><?php echo $festname." ".$festyear; ?></a></li>
-<?php
+
+$linetext = "<li><a href=\"".$basepage."?disp=home&fest=".$fest."\">".$festname." ".$festyear."</a></li>";
+$lineitem[] = array(
+                        "text" => $linetext,
+                        "type" => $festtype,
+);
+}
+
+echo "<h3>Select a multiple-day festival</h3>";
+echo "<ul id=\"festlist\">";
+foreach ($lineitem as $v){
+    If($v['type'] == "1")     echo $v['text'];
 }
 echo "</ul>";
+
+echo "<h3>Select a SimFest</h3>";
+echo "<ul id=\"simfestlist\">";
+foreach ($lineitem as $v){
+    If($v['type'] == "2" || $v['type'] == "3" || $v['type'] == "4")     echo $v['text'];
+}
+echo "</ul>";
+
+$right_required = "SimFest";
+If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+?>
+<h3>The following link will allow you to add a new simulated festival.</h3>
+
+<a href="<?php echo $basepage; ?>?disp=add_simfest">Add new SimFest</a>
+
+<?php
+}
 
 $right_required = "AddFest";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
