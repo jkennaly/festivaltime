@@ -22,12 +22,17 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 <ul id="nav">
 
 	<li><a href="<?php echo $basepage; ?>?disp=home">Home</a>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site Home</a></li></ul></li>
-	<li><a href="<?php echo $basepage; ?>?disp=about">About</a>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Site Guide</a></li></ul></li>
-	<li><a href="<?php echo $basepage; ?>?disp=all_bands">Bands</a></li>
+		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site</a></li></ul></li>
+	<li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
+<!--		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Guide</a></li></ul></li> -->
+	<li><a href="<?php echo $basepage; ?>?disp=all_bands">Bands</a>  
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=comment_xfer">Comments</a></li>
+                </ul>
+                </li> 
+	
         <ul><li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li></ul></li>
-	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Gametime</a></li>
+	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Mobile</a></li>
 	<li><a href="<?php echo $forumbase; ?>">Forum</a></li>
 
 <?php
