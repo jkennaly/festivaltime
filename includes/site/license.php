@@ -24,6 +24,8 @@
     an picture on the site that is infinging.</p>
     
 <p>This site uses jQuery which is provided under the MIT license. See <a href="https://jquery.org/license/">here</a> for more information on the jQuery license.</p>
+    
+<p>This site uses the jQuery Longclick add in which is provided under the MIT license and the GPL. See <a href="https://github.com/pisi/Longclick/blob/master/README.markdown">here</a> for more information on the license.</p>
 
 
 

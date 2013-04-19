@@ -23,6 +23,7 @@
 
 <meta name="author" content="" />
 
+
 <link rel="stylesheet" type="text/css" href="../styles/mobile2.css" media="screen" />
 
 <?php 
@@ -86,10 +87,26 @@ If($_POST['s'] == "Confirm") {
 		$query = "insert into comms (displayed, fromuser, band, commtype) values ( '0', '$fromuser', '$band', '2' ); ";
 		$upd = mysql_query($query, $main);
 	} //Closes If(mysql_num_rows($check) == 
+	//Check to see if the user has already rated this band
+	$query = "select from live_rating where user='$fromuser' and band='$band'";
+    $res = mysql_query($query, $main);
+    If(mysql_num_rows($res) == 0) {
 		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band' ); ";
 		$upd = mysql_query($query, $main);
-		$query = "insert into live_rating (comment, rating, user, band, festival) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id' ); ";
-		$upd = mysql_query($query, $master);
+        //Only insert into master if it's an actual fest
+        If($festtype == 1){
+    		$query = "insert into live_rating (comment, rating, user, band, festival) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id' ); ";
+    		$upd = mysql_query($query, $master);
+        }
+    } else {
+        $query = "update live_rating set comment='$rate_comment', rating='$rating' where user='$fromuser' and band='$band'";
+        $upd = mysql_query($query, $main);
+        //Only insert into master if it's an actual fest
+        If($festtype == 1){
+            $query = "update live_rating set comment='$rate_comment', rating='$rating' where user='$fromuser' and band='$band_master_id' and festival='$fest_id'";
+            $upd = mysql_query($query, $master);
+        }
+    }
 	} // Closes If($commtype == 3)
 } // Closes If($_POST['s'] == "Confirm")
 }// Closes If(!empty($_POST) 
@@ -102,9 +119,7 @@ If($_POST['s'] == "Confirm") {
 *
 *****************************************************************/
 
-//Determine whether to use real time or fake time. If within one day plus or minus of any festival day, use real time. Otherwise create a fake date to use
-
-//Find the max and min php time asscosated with the dates in the days table
+//For SimFests, use fake time. For real fests, display nothing until one day before the fest
 
 $sql = "select date from days";
 $res = mysql_query($sql, $main);
@@ -132,14 +147,16 @@ If(time()>$fest_pre && time()<$fest_post) {
 	$basetime = strftime("%Y-%m-%d %H:%M");
 	$basetime_s = time();
 	$time_is_simmed = 0;
+    $hidedisplay = 0;
 } else {
 	//Calculate a simulated elapsed time since fest started, plus correction to make simulated times convenient
-	$correction = 67*3600; //+67 hours
+	$correction = 68*3600; //+68 hours
 	$basetime_s = (time()+ $correction) % ($fest_span) + $fest_date_min ;
 	//Comment the following line to unfreeze time
 //	$basetime_s = 1365979398;
 	$basetime = strftime("%a %Y-%m-%d %H:%M", $basetime_s);
 	$time_is_simmed = 1;
+    If($festtype == 1) $hidedisplay = 1; else $hidedisplay = 0;
 } //Closes If($time()>$fest_pre && $time()<$fest_post)
 
 /***************************************************************
@@ -149,6 +166,8 @@ If(time()>$fest_pre && time()<$fest_post) {
 *****************************************************************/
 
 //End determination of fake or real time
+
+If($hidedisplay == 0){
 
 $min_percent = 50;
 $max_min = 30;
@@ -447,6 +466,12 @@ for ($i=1; $i<=$elements; $i++)
 ?>
 <title>Gametime</title>
 
+
+<script type="text/javascript" src="../includes/js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="../includes/js/jquery.long-click-min.js"></script>
+
+
+
 </head>
 <body>
 
@@ -461,8 +486,29 @@ for ($i=1; $i<=$elements; $i++)
 If(!empty($i)) {
 
 for($i=1;$i<=$elements;$i++) {
+    $bandlink = "mobile_detail.php?band=".$gametime_band[$i]['id']."&time=$basetime_s";
+    
+?>
 
-	echo "<a href=\"mobile_detail.php?band=".$gametime_band[$i]['id']."&time=$basetime_s\"><div class=\"band$i band\"><p class=\"bandname\">".$gametime_band[$i]['name']."</p>";
+<script>
+$( document ).ready(function() {
+$("#link<?php echo $i ?>").dblclick(function(){
+//    preventDefault();
+    window.open("http://www.google.com", "_self");
+});
+$("#link<?php echo $i ?>").click(function(){
+    window.open("<?php echo $bandlink ?>", "_self");
+});
+});
+</script>
+
+
+<?php
+    
+
+//	echo "<a href=\"mobile_detail.php?band=".$gametime_band[$i]['id']."&time=$basetime_s\"><div class=\"band$i band\"><p class=\"bandname\">".$gametime_band[$i]['name']."</p>";
+
+    echo "<div id=\"link".$i."\"><div class=\"band$i band\"><p class=\"bandname\">".$gametime_band[$i]['name']."</p>";
 
 	echo "<div class=\"rate_image\"><img src=\"".$gametime_band[$i]['img1']."\" alt=\"".$gametime_band[$i]['rating']."\" >";
 
@@ -489,7 +535,7 @@ for($i=1;$i<=$elements;$i++) {
 
 //	echo "</dl></p>";
 
-	echo "</div></a>";
+	echo "</div></div>";
 }
 
 } // Closes If(!empty($i)
@@ -553,6 +599,18 @@ while($row = mysql_fetch_array($result)) {
 </body>
 
 <?php
+} else {
+   ?>
+
+
+<h1 class="error">This festival is not currently running. You can change to a SimFest at the main site to experiment with Gametime when a fest is not running.</h1>
+<p>
+<a class="loginlink" href="<?php echo $basepage; ?>?disp=home&fest=0">Main Site</a>
+
+</p>
+
+<?php  
+}
 
 }
 else{

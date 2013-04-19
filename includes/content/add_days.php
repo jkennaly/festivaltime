@@ -30,6 +30,16 @@ If($_POST){
 
 	$escapedDay = mysql_real_escape_string($_POST['day']);
 	$escapedDate = mysql_real_escape_string($_POST['date']);
+    $simcapped = 0;
+    If($right_required == "SimFest") {
+        $query="SELECT name, date FROM days ORDER BY date ASC";
+        $mem_result = mysql_query($query, $main);
+        $num = mysql_num_rows($mem_result);
+        $dayofmonth=1+$num;
+        
+        If($num>9) $simcapped = 1;
+        $escapedDate = "2010-01-".$dayofmonth;
+    }
 
 //Verify that the day name is not already taken
 
@@ -37,8 +47,8 @@ If($_POST){
 	$pwq = mysql_query($query, $main);
 	$num = mysql_num_rows($pwq);
 
-	If($num){
-		echo "That day name is not unique. Day not created.";
+	If($num>0 || $simcapped == 1){
+		echo "That day name is not unique, or cap has been reached. Day not created.";
 	}
 	else{
 
@@ -52,8 +62,6 @@ If($_POST){
 
 //First, find all current days
 
-mysql_connect($dbhost,$dbuser,$dbpw);
-	@mysql_select_db($dbname) or die( "Unable to select database");
 	$query="SELECT name, date FROM days ORDER BY date ASC";
 	$mem_result = mysql_query($query, $main);
 

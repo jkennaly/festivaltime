@@ -54,7 +54,7 @@ If(!empty($_POST)){
     }
     If(isset($_POST['existing']) && empty($_POST['new_band'])){
         $query="select * from bands where id='".$_POST['existing']."'";
-        echo $query;
+//        echo $query;
         $result_master = mysql_query($query, $master);
         $res_master=mysql_fetch_array($result_master);
         $num1 = mysql_num_rows($result_master);
