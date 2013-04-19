@@ -71,6 +71,9 @@ If(!empty($_POST)){
         
                 $query = "insert into bands (name, master_id) values ('".$res_master['name']."', '".$res_master['id']."'); ";
                 $upd = mysql_query($query, $main);
+                $query = "select id from bands where name='".$res_master['name']."'";
+                $pwq = mysql_query($query, $main);
+                $id_row = mysql_fetch_array($pwq);
                 $info_sql = "select * from info";
                 $info_res= mysql_query($info_sql, $main);
                 while($row=mysql_fetch_array($info_res)){
@@ -89,7 +92,7 @@ If(!empty($_POST)){
                 $mainsql="select id from bands where name='".$res_master['name']."'";
                 $main_res= mysql_query($mainql, $main);
                 $row=mysql_fetch_array($main_res);
-                $feststring="--".$festaddid."--".$festprefix.$row['id'].$festsuffix;
+                $feststring="--".$festaddid."--".$festprefix.$id_row['id'].$festsuffix;
                 
                 $query = "update bands set festivals=CONCAT(festivals, '$feststring') where id='".$res_master['id']."'";
                 $upd = mysql_query($query, $master);
