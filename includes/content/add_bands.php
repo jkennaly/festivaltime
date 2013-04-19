@@ -91,7 +91,7 @@ If(!empty($_POST)){
                 $row=mysql_fetch_array($main_res);
                 $feststring="--".$festaddid."--".$festprefix.$row['id'].$festsuffix;
                 
-                $query = "update bands set festivals='$feststring' where id='".$res_master['id']."'";
+                $query = "update bands set festivals=CONCAT(festivals, '$feststring') where id='".$res_master['id']."'";
                 $upd = mysql_query($query, $master);
                 
             }
