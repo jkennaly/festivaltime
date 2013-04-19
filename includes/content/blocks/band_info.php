@@ -15,6 +15,7 @@
 include('includes/content/blocks/accept_rating.php');
 include('includes/content/blocks/accept_comment.php');
 include('includes/content/blocks/accept_link.php');
+include('includes/content/blocks/new_genre.php');
 
 $starttime=substr($stime, 11, 5);
 $endtime=substr($etime, 11, 5);
@@ -26,10 +27,16 @@ If($_GET['disp']=="pic_band") $piclink = $basepage."?disp=band_gallery&band=".$b
 else $piclink = $basepage."?disp=pic_band&band=".$band;
 
 //	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
+
+
+    $query="select name, id from genres order by name asc";
+    $query_genre = mysql_query($query, $master);
+
 ?>
 <h1 id="bandtitle">
 <?php 
-echo $bandlink; ?></h1>
+echo $bandlink; 
+?></h1>
 
 <div id=bandvitals">
 
@@ -38,7 +45,14 @@ echo $bandlink; ?></h1>
 
 <p class="band_info"><?php echo $dayname; ?></p>
 <p class="band_info"><?php echo $stagename; ?></p>
-<p class="band_info"><?php echo $genrename; ?></p>
+<p class="band_info"><form action="index.php?disp=view_band&band=<?php echo $band; ?>" method="post"><select name="genre">
+<?php 
+while($row = mysql_fetch_array($query_genre)) {
+    If ($genrename==$row["name"]) echo "<option selected=\"selected\" value=".$row["id"].">".$row["name"]."</option>";
+    If ($genrename!=$row["name"]) echo "<option value=".$row["id"].">".$row["name"]."</option>";
+}
+?>
+</select><input type="submit" value="Change Genre"></input></form></p>
 <p class="band_info"><?php echo "Group average rating: ".round($rating, 1); ?></p>
 <p class="band_info"><?php echo $starttime."-".$endtime; ?></p>
 </div> <!-- end #bandvitals -->
