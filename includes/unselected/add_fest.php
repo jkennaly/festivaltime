@@ -88,7 +88,7 @@ echo '</select>';
 	$query="CREATE TABLE IF NOT EXISTS `info_$fest` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `item` varchar(255) NOT NULL,
-  `value` varchar(1024) NOT NULL,
+  `value` varchar(1024) NOT NULL, `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;";
 	$result=mysql_query($query, $master);
