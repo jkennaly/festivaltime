@@ -102,6 +102,17 @@ function email_bad($email) {
   return $i;
 }  
 
+function email_bad2($email) {
+    $i=0;
+    $atloc = strpos($email, '@');
+    $dotloc = strpos($email, '.', $atloc);
+    If( $atloc < 1) {$i=1;}
+    If( $dotloc < $atloc + 1) {$i=1;}
+    If( strlen($email) < 6) {$i=1;}
+    
+  return $i;
+}  
+
 function group_count($groupid, $master) {
     //Counts the number of people in the given group
     
