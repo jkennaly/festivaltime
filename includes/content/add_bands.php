@@ -15,10 +15,12 @@
 <div id="content">
 
 <?php
-If( $festtype = 1) $right_required = "AddBands";
-If( $festtype = 2 && $user == $festcreator) $right_required = "SimFest";
-If( $festtype = 3 && in_group($simfestgroup, $user, $master)) $right_required = "SimFest";
-If( $festtype = 4) $right_required = "SimFest";
+If( $festtype == 1) $right_required = "AddBands"; else $right_required = "SimFest";
+/*
+If( $festtype == 2 && $user == $festcreator) $right_required = "SimFest";
+If( $festtype == 3 && in_group($simfestgroup, $user, $master)) $right_required = "SimFest";
+If( $festtype == 4) $right_required = "SimFest";
+*/
 If(empty($right_required)) $right_required = "Admin";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
     

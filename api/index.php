@@ -110,8 +110,8 @@ if ((isset($post['tag']) && $post['tag'] != '') &&
 
 
 
-	} else if(!$db->userAuthOK($uid, $auth_key, $master)) {
-		$response['error_msg'] = "Invalid UID or key: tag:'".$post['tag']."' username:'".$post['username']."' email:'".$post['email'];
+	} else if(!$db->userAuthOK($post['uid'], $post['auth_key'], $master)) {
+		$response['error_msg'] = "Invalid UID or key: tag:'".$post['tag']."' uid:'".$post['uid']."' auth_key:'".$post['auth_key'];
 		$response['error']= 1;
 		die( json_encode($response));
 	}
@@ -121,6 +121,8 @@ if ((isset($post['tag']) && $post['tag'] != '') &&
 	die( json_encode($response));
 }
 
+if(empty($post['db'])) $post['db'] = 0;
+
 if ($post['db'] > 0) {
 	$_SESSION['fest'] =  $post['db'];
 
@@ -128,11 +130,43 @@ if ($post['db'] > 0) {
 
 	$main = mysql_connect($dbhost,$dbuser,$dbpw);
 	@mysql_select_db($dbname, $main) or die( "Unable to select main database");
-
+	$user = $post['uid'];
 
 	include('../variables/page_variables.php');
 }
 
+$db->storeUserAccess($_SERVER['REMOTE_ADDR'], $post['claimedip'], $post['tag'], $master, $post['uid'], $post['auth_key'], $post['db']);
+
+switch ($post['tag']){
+	case "getFullMasterTable":
+		$response = $db->getFullTable($master, $master, $post['table'], $post['uid'] );
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		break;
+	case "getFullFestTable":
+		$response = $db->getFullTable($main, $master, $post['table'], $post['uid'] );
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		$response['table'] = $post['table'];
+		break;
+	case "getFestTableList":
+		$response = $db->getTableList($main);
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		break;
+		/*
+	case "getFullFestDB":
+		$response['tables'] = $db->getFullDB($main);
+		$response['festid'] = $post['db'];
+		if($response["error"] == 0) $response["success"] = 1;
+		break;
+		*/
+	default:
+		$response["error"] = 10;
+		$response["error_msg"] = "The tag could not be identified.";
+		break;
+}
 
 
+die( json_encode($response));
 ?>

@@ -24,7 +24,7 @@ If(!empty($_POST['rmvfest'])) {
     if (!$result) {
         die('Invalid query: <br />'.$query.'<br />' . mysql_error());
     }
-	$sql = "DELETE FROM festivals WHERE id = '".$_POST["rmvfest"]."'";
+	$sql = "UPDATE festivals SET deleteled='1' WHERE id = '".$_POST["rmvfest"]."'";
 	$upd = mysql_query($sql, $master);
 	$sql2 = "DROP TABLE info_".$_POST["rmvfest"]."";
 	$drop = mysql_query($sql2, $master);
@@ -32,7 +32,7 @@ If(!empty($_POST['rmvfest'])) {
 	$dropdb = mysql_query($sql3, $master);
 
 } else {
-	$query="SELECT id, CONCAT(name, ' ', year) as name FROM festivals ORDER BY id ASC";
+	$query="SELECT id, CONCAT(name, ' ', year) as name FROM festivals WHERE deleted!='1' ORDER BY id ASC";
 	$mem_result = mysql_query($query, $master);
 ?>	
 <div id="content">
