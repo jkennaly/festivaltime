@@ -13,8 +13,10 @@
 $right_required = "CreateNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
         
-If(!empty($_POST['discuss_table'])){
-    $discuss_table=$_POST['discuss_table'];
+If(!empty($_POST['discuss_table']) && !empty($_POST['new_reply']) && !empty($_POST['comment'])){
+	
+	acceptDiscussReply($main, $master, $user, $band, $fest_id, $_POST['discuss_table'], $_POST['new_reply'], $_POST['comment']);
+/*    $discuss_table=$_POST['discuss_table'];
     
     $query = "show tables like '$discuss_table'";
     $result = mysql_query($query, $main);
@@ -35,7 +37,10 @@ If(!empty($_POST['new_reply'])){
 	$result = mysql_query($sql, $main);
 //Update the tracking columns in the comment table to reflect the activity
 	$query = "UPDATE comments SET discuss_current='--$user--' where id=$comment";
+	
 	$upd = mysql_query($query, $main);
+	*/
 } //Closes If($_POST['new_reply'])
+
 }
 ?>

@@ -272,6 +272,104 @@ function genreList($main, $master, $user){
 
 }
 
+function acceptComment($main, $master, $user, $band, $fest_id, $comment){
+//This function returns the genre for each band in main
+    $sql = "select `master_id` from `bands` where `id`='$band'";
+    $res = mysql_query($sql, $main);
+    $mas_id = mysql_fetch_assoc($res);
+    $band_master_id = $mas_id['master_id'];
+    
+	$query="SELECT comment FROM comments WHERE band='$band' AND user='$user'";
+	$query_comment = mysql_query($query, $main);
+	$comment_row = mysql_fetch_assoc($query_comment);
+	
+	//New comments
+	If ( !isset($comment_row['comment']) ) {
+	$comment = mysql_real_escape_string($comment);
+	$sql = "INSERT INTO comments (band, user, comment, discuss_current) VALUES ('$band', '$user', '$comment', '--".$user."--')";
+	$sql_run = mysql_query($sql, $main);
+//	echo $sql;
+	$sql = "INSERT INTO comments (band, user, comment, festival) VALUES ('$band_master_id', '$user', '$comment', '$fest_id')";
+	$sql_run = mysql_query($sql, $master);	
+	//Get id for new comment
+	$sql = "select max(id) as disc from comments";
+	$sql_run = mysql_query($sql, $main);
+	$res = mysql_fetch_array($sql_run);
+	
+	//set $discuss_table for comment
+	$discuss_table = "discussion_".$res['disc'];
+
+	//Create a discussion table for the comment
+	$sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
+	$res = mysql_query($sql, $main);
+	}
+	
+	//Modified comments
+	If ( isset($comment_row['comment']) ) {
+	$comment = mysql_real_escape_string($_POST["new_comment"]);
+	$sql = "UPDATE comments SET comment='$comment' WHERE band='$band' AND user='$user'";
+	$sql_run = mysql_query($sql, $main);
+	$sql = "UPDATE comments SET comment='$comment' WHERE band='$band_master_id' AND user='$user'";
+	$sql_run = mysql_query($sql, $master);	
+	}
+}
+
+function acceptRating($main, $master, $user, $band, $fest_id, $rating){
+	$rating = mysql_real_escape_string($rating);
+	$sql = "select `master_id` from `bands` where `id`='$band'";
+	$res = mysql_query($sql, $main);
+	$mas_id = mysql_fetch_assoc($res);
+	$band_master_id = $mas_id['master_id'];
+	//Find out if an exisiting rating is in
+	$query="SELECT rating FROM ratings WHERE band='$band' AND user='$user'";
+	$query_rating = mysql_query($query, $main);
+//	echo mysql_error();
+	$rating_row = mysql_fetch_assoc($query_rating);
+
+	If (!isset($rating_row['rating']) ) {
+	$sql = "INSERT INTO ratings (band, user, rating) VALUES ('$band', '$user', '$rating')";
+	$sql_run = mysql_query($sql, $main);
+	$sql = "INSERT INTO ratings (band, user, rating, festival) VALUES ('$band_master_id', '$user', '$rating', '$fest_id')";
+	$sql_run = mysql_query($sql, $master);	
+	} else {
+//	echo "With rating logic entered<br>";
+	$sql = "UPDATE ratings SET rating='$rating' WHERE band='$band' AND user='$user'";
+	$sql_run = mysql_query($sql, $main);
+	$sql = "UPDATE ratings SET rating='$rating' WHERE band='$band_master_id' AND user='$user'";
+	$sql_run = mysql_query($sql, $master);	
+	}
+}
+
+function acceptDiscussReply($main, $master, $user, $band, $fest_id, $discuss_table, $escapedReply, $commentid){
+	$rating = mysql_real_escape_string($rating);
+	$sql = "select `master_id` from `bands` where `id`='$band'";
+	$res = mysql_query($sql, $main);
+	$mas_id = mysql_fetch_assoc($res);
+	$band_master_id = $mas_id['master_id'];
+	$escapedReply = mysql_real_escape_string($escapedReply);
+	//Find out if an exisiting rating is in
+    
+    $query = "show tables like '$discuss_table'";
+    $result = mysql_query($query, $main);
+
+    If((mysql_num_rows($result) == 0)) {
+//table did not exist, so create it
+        $sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
+        $res = mysql_query($sql, $main);
+    }
+
+
+    $comment=$commentid;
+    $discuss_table=$_POST['discuss_table'];
+	$escapedReply = mysql_real_escape_string($_POST['new_reply']);
+		
+	$sql = "INSERT INTO $discuss_table (user, response) VALUES ('$user', '$escapedReply')";
+	$result = mysql_query($sql, $main);
+//Update the tracking columns in the comment table to reflect the activity
+	$query = "UPDATE comments SET discuss_current='--$user--' where id=$comment";
+	$upd = mysql_query($query, $main);
+}
+
 
 
 ?>
