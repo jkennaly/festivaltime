@@ -91,19 +91,19 @@ If($_POST['s'] == "Confirm") {
 	$query = "select from live_rating where user='$fromuser' and band='$band'";
     $res = mysql_query($query, $main);
     If(mysql_num_rows($res) == 0) {
-		$query = "insert into live_rating (comment, rating, user, band) values ( '$rate_comment', '$rating', '$fromuser', '$band' ); ";
+		$query = "insert into live_rating (comment, rating, user, band, msgtime) values ( '$rate_comment', '$rating', '$fromuser', '$band', '".time()."' ); ";
 		$upd = mysql_query($query, $main);
         //Only insert into master if it's an actual fest
         If($festtype == 1){
-    		$query = "insert into live_rating (comment, rating, user, band, festival) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id' ); ";
+    		$query = "insert into live_rating (comment, rating, user, band, festival, msgtime) values ( '$rate_comment', '$rating', '$fromuser', '$band_master_id', '$fest_id', '".time()."' ); ";
     		$upd = mysql_query($query, $master);
         }
     } else {
-        $query = "update live_rating set comment='$rate_comment', rating='$rating' where user='$fromuser' and band='$band'";
+        $query = "update live_rating set comment='$rate_comment', rating='$rating', msgtime='".time()."' where user='$fromuser' and band='$band' ";
         $upd = mysql_query($query, $main);
         //Only insert into master if it's an actual fest
         If($festtype == 1){
-            $query = "update live_rating set comment='$rate_comment', rating='$rating' where user='$fromuser' and band='$band_master_id' and festival='$fest_id'";
+            $query = "update live_rating set comment='$rate_comment', rating='$rating', msgtime='".time()."' where user='$fromuser' and band='$band_master_id' and festival='$fest_id'";
             $upd = mysql_query($query, $master);
         }
     }

@@ -32,6 +32,9 @@ If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
             case "simfestgroup":
                 $simfestgroup=$row['value'];
                 break;
+            case "timezone":
+                $festtimezone=$row['value'];
+                break;
 		}
 	}
 ?>

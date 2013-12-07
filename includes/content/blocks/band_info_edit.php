@@ -12,7 +12,12 @@
 
 $right_required = "AddBands";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
-
+	$sql="select `value` from `info` where `item`='timezone'";
+	$res=mysql_query($sql, $main);
+	$row=mysql_fetch_array($res);
+	$timezone = new DateTimeZone($row['value']);
+	date_default_timezone_set($row['value']);	
+	
 If(!empty($_POST['day'])){
 //Get the date for the day
 		$sql="select date from days where id='".$_POST['day']."'";

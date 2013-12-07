@@ -161,6 +161,43 @@ switch ($post['tag']){
 		if($response["error"] == 0) $response["success"] = 1;
 		break;
 		*/
+	case "addComment":
+		/*
+		$response = $db->getTableList($main);
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		*/
+		acceptComment($main, $master, $post['uid'], $post['bandid'], $post['db'], $post['comment']);
+		$response["success"] = 1;
+		break;
+	case "addRating":
+		/*
+		$response = $db->getTableList($main);
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		*/
+		acceptRating($main, $master, $post['uid'], $post['bandid'], $post['db'], $post['rating']);
+		$response["success"] = 1;
+		break;
+	case "addDiscussionReply":
+		/*
+		$response = $db->getTableList($main);
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		*/
+		acceptDiscussReply($main, $master, $post['uid'], $post['bandid'], $post['db'], $post['discussTable'], $post['discussReply'], $post['commentID']);
+		$response["success"] = 1;
+		break;
+	case "submitPregame":
+		/*
+		$response = $db->getTableList($main);
+		if($response["error"] == 0) $response["success"] = 1;
+		$response['festid'] = $post['db'];
+		*/
+		$response['update'] = submitPregame($main, $master, $post);
+		$response["festid"] = $post['db'];
+		$response["success"] = 1;
+		break;
 	default:
 		$response["error"] = 10;
 		$response["error_msg"] = "The tag could not be identified.";

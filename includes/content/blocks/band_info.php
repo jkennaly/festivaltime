@@ -15,8 +15,10 @@
 
 include('includes/content/blocks/new_genre.php');
 
-$starttime=substr($stime, 11, 5);
-$endtime=substr($etime, 11, 5);
+date_default_timezone_set( $festtimezone );
+$format = "%I:%M %p";
+$starttime=strftime ( $format, $stimes );
+$endtime=strftime ( $format, $etimes );
 
 If($_GET['disp']=="view_band") $bandlink = searchlink($band, $user, $main, $master); 
 else $bandlink = "<a href=\"".$basepage."?disp=view_band&band=".$band."\">".$name."</a>";

@@ -17,6 +17,8 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 //Sets the target for all POST actions
 $post_target=$basepage."?disp=sched";
 
+date_default_timezone_set( $festtimezone );
+
 ?>
 
 <script type="text/javascript" src="includes/js/lines.js"></script>
