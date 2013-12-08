@@ -81,11 +81,15 @@ include('variables/page_variables.php');
 
  include('includes/nav.php'); 
 
+ include('includes/sidebar.php'); 
+
 If(!empty($_SESSION['fest']) && $_SESSION['fest']>0){
 
 	include('includes/content.php'); 
 
 } else include('includes/unselected.php');
+
+ include('includes/sidebar2.php'); 
 
  include('includes/footer.php'); ?>
 

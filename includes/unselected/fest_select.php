@@ -12,7 +12,10 @@
 $right_required = "ViewNotes";
 If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
 
+?>
+<div id="content">
 
+<?php
 
 //Find all festivals registered in the master database
 
@@ -95,3 +98,4 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 include $baseinstall."includes/site/login.php";
 }
 ?>
+</div> <!-- end #content -->
