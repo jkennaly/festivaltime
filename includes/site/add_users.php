@@ -44,17 +44,10 @@ If($_POST){
 		$saltedPW =  $escapedPW . $salt;
 
 		$hashedPW = hash('sha256', $saltedPW);
-        $pubkey="";
-        for ($i=0; $i < 10; $i++) { 
-            $key .= randAlphaNum();
-        }
-        $prikey="";
-        for ($i=0; $i < 10; $i++) { 
-            $key .= randAlphaNum();
-        }
+       
 
-		$query = "insert into Users (username, hashedpw, salt, level, `group`, public_key, private_key, credited) ";
-		$query .= "values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."', '".$_POST['group']."', '$pubkey', '$prikey', '$user' ); ";
+		$query = "insert into Users (username, hashedpw, salt, level) ";
+		$query .= "values ('$escapedName', '$hashedPW', '$salt', '".$_POST['access_level']."' ); ";
 		$upd = mysql_query($query, $master);
 //Get the id for the new user
 		$query = "select max(id) as id from Users";
@@ -76,8 +69,6 @@ $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_t
 
 $access_sql = "select value, name from access_levels";
 $res_sql = mysql_query($access_sql, $master);
-$group_sql = "select id, name from `groups`";
-$group_res = mysql_query($group_sql, $master);
 
 
 ?>
@@ -91,7 +82,6 @@ This page allows for creation of new users.
 <tr>
 <th>username</th>
 <th>access level</th>
-<th>group</th>
 </tr>
 
 <tr>
@@ -106,19 +96,6 @@ while($row = mysql_fetch_array($res_sql)) {
 	echo "<option ";
 	If($row['value']=="public") echo "selected=\"SELECTED\" ";
 	echo "value=".$row['value'].">".$row['name']."</option>";
-}
-
-?>
-</select>
-
-</td>
-<td>
-
-<select name="group">
-<?php 
-while($row = mysql_fetch_array($group_res)) {
-	echo "<option ";
-	echo "value=\"--".$row['id']."--\" >".$row['name']."</option>";
 }
 
 ?>

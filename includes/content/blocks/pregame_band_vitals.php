@@ -21,11 +21,11 @@ $post_target = $basepage."?disp=view_band&band=$band";
 If(empty($_POST['edit']) && empty($_POST['edits']))	{
 	include $baseinstall."includes/content/blocks/band_info.php";
 	$priors = getFestivals($band, $main, $master);
-	If(count($priors)>2) {
+	If(count($priors)>1) {
 		foreach($priors as $v) {
-			$priorname=getFname($master, $v['fest']);
-			$priorband=$v['band'];
-			If( $v['fest'] != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."&fest=".$v['fest']."\">".$priorname."</a><br />";
+			$priorname=getFname($master, $v);
+			$priorband=getFestBandIDFromMaster($band_master_id, $v, $master);
+			If( $v != $fest) echo "<a href=\"".$basepage."?disp=view_band&band=".$priorband."&fest=".$v."\">".$priorname."</a><br />";
 		}
 	}
 ?>

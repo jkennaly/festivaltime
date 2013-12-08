@@ -92,6 +92,7 @@ $n = 0;
 $i=1;
 while($i<=3){
     $i_prev=$i;
+    $bandused[] = -1;
     while($row=mysql_fetch_array($res)) {
         If($i==1) {
             If(in_array(getBandGenreID($main, $master, $row['id'], $user), $genrelove) ) {$bandpasses = 1; $bandused[] = $row['id'];} else $bandpasses = 0;

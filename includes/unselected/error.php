@@ -16,7 +16,7 @@
 
 <p>
 
-The requested page could not be loaded. Try returning to Site Home first.
+The requested page could not be loaded. Try selecting a festival first.
 
 </p>
 

@@ -23,7 +23,6 @@
 		<ul><li><a href="<?php echo $basepage; ?>?disp=logout">Log Out</a></li></ul>
 		<ul><li><a href="<?php echo $basepage; ?>?disp=change_password">Change Password</a></li></ul>
 		<ul><li><a href="<?php echo $basepage; ?>?disp=user_settings">User Settings</a></li></ul>
-        <ul><li><a href="<?php echo $basepage; ?>?disp=my_groups">My Groups</a></li></ul>
 	</li>
 
 </ul> <!-- end #headernav -->

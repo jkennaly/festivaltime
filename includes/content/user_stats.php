@@ -26,7 +26,7 @@ $post_target=$basepage."?disp=band_scores";
 //Find all users that share a group with the current user
 
 //First get all the groups the user is in
-$groups_in = in_groups($user, $master);
+$groups_in = followed_by($user, $master);
 
 //Find all the users in the system
 

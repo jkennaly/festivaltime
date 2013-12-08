@@ -79,6 +79,9 @@ If(!empty($_POST['search_query'])){
 		If(mysql_num_rows($result) > 0 ) {
 			while($row=mysql_fetch_array($result)) { //cycles every comment with a discussion
 				//Search through each discussion for the string
+				$tq = "SHOW TABLES LIKE 'discussion_".$row['id']."'";
+				$tres = mysql_query($tq, $main);
+				if(mysql_num_rows($tres) > 0) {
 				$query = "select username, response from discussion_".$row['id']." as d left join Users on d.user=Users.id where d.response like '%$escapedQuery%'";
 				$res = mysql_query($query, $main);
 				$i=0; //Used to indicate no results found in this discussion yet
@@ -90,6 +93,7 @@ If(!empty($_POST['search_query'])){
 					$i=$i + 1;
 					echo "<p>".$drow['username']." <a href=\"".$basepage."?disp=discussion&comment=".$row['id']."\">said</a>:<br>".$drow['response']."</p>";
 				} //Closes while($drow=mysql_fetch_array($res))
+				}
 			} //Closes while($row=mysql_fetch_array($result)) 
 			echo "</div><!-- end #discussionlist -->";
 		} // Closes If(mysql_num_rows($result) > 0 )

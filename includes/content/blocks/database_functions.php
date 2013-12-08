@@ -196,28 +196,6 @@ function getSname($source, $stageid){
 
 }
 
-function getGroupname($source, $groupid){
-	//This function checks $source table stages for the name of $stageid
-
-	$sql = "select name from `groups` where id='$groupid'";
-	echo $sql;
-	$res = mysql_query($sql, $source);
-
-
-	$srow = mysql_fetch_array($res);
-	$sname = $srow['name'];
-
-	return $sname;
-
-}
-
-function groupMatch($user1, $user2, $master){
-	//This function returns true if the two users have at least one group in common
-
-	return true;
-
-}
-
 
 function getFestivals($band, $main, $master){
 	//This function returns an array containing the id of each festival the band is registered for
@@ -230,22 +208,67 @@ function getFestivals($band, $main, $master){
 	$res = mysql_query($sql, $master);
 	$row=mysql_fetch_array($res);
 	$raw = $row['festivals'];
-	$working = explode ("--", $raw);
+	$working = explode ("-", $raw);
 	$i=0;
 	foreach($working as $v) {
 		If(isInteger($v)) {
-			$final[$i]['fest']=$v;
-		} else {
-			$temp = substr( $v, 3);
-			$final[$i]['band'] = substr( $temp, 0, -3);
-			$i++;
+			$final[$i]=$v;
 		}
+		$i++;
 	}
 
 
 
 	If(isset($final)) return $final; else return false;
 
+}
+
+
+function getFollowedBy($user, $master){
+	//This function returns an array containing the id of each festival the band is registered for
+	$sql="select follows from Users where id='$user'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$raw = $row['follows'];
+
+	$working = explode ("-", $raw);
+	$i=0;
+	foreach($working as $v) {
+		If(isInteger($v)) {
+			$final[$i]=$v;
+		}
+		$i++;
+	}
+
+
+
+	If(isset($final)) return $final; else return false;
+
+}
+
+function getFestBandIDFromMaster($band_master_id, $festid, $master) {
+    $sql="select festivals from bands where id='$band_master_id'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$festString = $row['festivals'];
+	
+    $sql = "select * from `info_$festid`";
+	$res = mysql_query($sql, $master);
+
+
+	while ($urow=mysql_fetch_array($res)) {
+		If($urow['item']== "Festival Identifier Begin") $fest_idb=$urow['value'];
+		If($urow['item']== "Festival Identifier End") $fest_ide=$urow['value'];
+	}
+//	echo "feststring: ".$festString."<br>";
+	$posb = strpos($festString, $fest_idb) + 3;
+	$pose = strpos($festString, $fest_ide);
+	$negpose = 0 - strlen($festString) + $pose;
+	$rest = substr($festString, 0, $negpose);
+//	echo "rest: ".$rest."<br>";
+	$final = substr($rest, $posb);
+//	echo "final: ".$final."<br>";
+	return $final;
 }
 
 function genreList($main, $master, $user){

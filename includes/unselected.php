@@ -31,7 +31,7 @@ chdir($old_path);
     }
 	//If a content file is requested that does not exist, return error
 	else{
-		include $baseinstall."includes/content/error.php";
+		include $baseinstall."includes/unselected/error.php";
 	}
 
 

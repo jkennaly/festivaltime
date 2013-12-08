@@ -25,11 +25,11 @@ $commententry ="<div id=\"commententry\" style=\"display: none;\">";
 
 $priors = getFestivals($band, $main, $master);
 $priorshown = 0;
-If(count($priors)>2) {
+If(count($priors)>1) {
     foreach($priors as $v) {
-        $sql = "select comment from comments where festival='".$v['fest']."' and user='".$user."' and band='".$band_master_id."' ";
+        $sql = "select comment from comments where festival='".$v."' and user='".$user."' and band='".$band_master_id."' ";
         $res = mysql_query($sql, $master);
-        $sqlr = "select rating from ratings where festival='".$v['fest']."' and user='".$user."' and band='".$band_master_id."' ";
+        $sqlr = "select rating from ratings where festival='".$v."' and user='".$user."' and band='".$band_master_id."' ";
         $resr = mysql_query($sqlr, $master);
         If(mysql_num_rows($res) > 0){
             If($priorshown == 0) $commententry .="Select a previous festival to copy the comment from that show.<br />";
@@ -41,11 +41,11 @@ If(count($priors)>2) {
                 $rateline = " (".$rate_row['rating']." Stars)";
             }
             
-            $priorname=getFname($master, $v['fest']);
+            $priorname=getFname($master, $v);
             $oldcomment = $priorname."$rateline: ".$comment_row['comment'];
-            $priorband=$v['band'];
-            $commententry .= "<div id=\"hid".$v['fest']."\" class=\"hiddentext\">$oldcomment</div>";
-            If( $v['fest'] != $fest) $commententry .= "<a href=\"#\" onclick=\"addText('commentarea', 'hid".$v['fest']."')\">".$priorname."</a><br />";
+            $priorband=getFestBandIDFromMaster($band_master_id, $v, $master);
+            $commententry .= "<div id=\"hid".$v."\" class=\"hiddentext\">$oldcomment</div>";
+            If( $v != $fest) $commententry .= "<a href=\"#\" onclick=\"addText('commentarea', 'hid".$v."')\">".$priorname."</a><br />";
         }
     }
 }

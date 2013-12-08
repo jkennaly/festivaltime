@@ -28,8 +28,10 @@ If(!empty($_POST['rmvfest'])) {
 	$upd = mysql_query($sql, $master);
 	$sql2 = "DROP TABLE info_".$_POST["rmvfest"]."";
 	$drop = mysql_query($sql2, $master);
-	$sql3 = "DROP TABLE info_".$_POST["rmvfest"]."";
-	$dropdb = mysql_query($sql3, $master);
+	$sql3 = "UPDATE bands SET festivals=REPLACE(festivals, '--".$_POST["rmvfest"]."--', '-') WHERE festivals like '%--".$_POST["rmvfest"]."--%'";
+//	echo "<br>".$sql3."<br>";
+	$upd3 = mysql_query($sql3, $master);
+	
 
 } else {
 	$query="SELECT id, CONCAT(name, ' ', year) as name FROM festivals ORDER BY id ASC";

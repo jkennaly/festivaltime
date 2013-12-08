@@ -21,7 +21,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 //First, find all users
 
-	$query="SELECT username, level, `group` FROM Users ORDER BY level ASC";
+	$query="SELECT username, level FROM Users ORDER BY level ASC";
 	$mem_result = mysql_query($query, $master);
 
 	
@@ -36,22 +36,12 @@ This page shows all users who currently have access to the site. If the user is 
 <tr>
 <th>username</th>
 <th>access level</th>
-<th>groups</th>
 </tr>
 
 <?php 
 
 while($row = mysql_fetch_array($mem_result)) {
-	$g=str_replace("--", " ", $row["group"]);
-	$g_exp = explode(" ", $g);
-	echo "<tr><td>".$row["username"]."</td><td>".$row["level"]."</td>";
-	echo "<td>";
-	foreach($g_exp as $g) {
-		$sql_group = "select name from groups where id='$g'";
-		$res_group = mysql_query($sql_group, $master);
-		while($rowc = mysql_fetch_array($res_group))	echo $rowc["name"]."/";
-	}// Closes foreach($g_exp as $g)
-	echo "</td></tr>";
+	echo "<tr><td>".$row["username"]."</td><td>".$row["level"]."</td></tr>";
 }  //Closes while($row = mysql_fetch_array($mem_result))
 ?>
 

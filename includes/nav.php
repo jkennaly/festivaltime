@@ -67,9 +67,6 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			<li><a href="#">Site</a>
 		
 				<ul>
-					<li><a href="<?php echo $basepage; ?>?disp=add_groups">Add Groups</a></li>
-                    <li><a href="<?php echo $basepage; ?>?disp=add_grouptypes">Add Group Types</a></li>
-                    <li><a href="<?php echo $basepage; ?>?disp=add_special_key">Add Special Keys</a></li>
                     <li><a href="<?php echo $basepage; ?>?disp=add_festtypes">Add Fest Types</a></li>
 				</ul>
 			</li></ul>
@@ -81,8 +78,6 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 		<li><a href="#">Stats</a>
 			<ul>
 			      <li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
-		          <li><a href="<?php echo $basepage; ?>?disp=user_stats">User Stats</a></li>
-                  <li><a href="<?php echo $basepage; ?>?disp=group_stats">Group Stats</a></li>
 		    </ul>
 	</li>
 <?php
