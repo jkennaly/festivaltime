@@ -224,8 +224,31 @@ function getFestivals($band, $main, $master){
 }
 
 
-function getFollowedBy($user, $master){
+function getFestivalsMaster($master_id, $master){
 	//This function returns an array containing the id of each festival the band is registered for
+	
+	$sql="select festivals from bands where id='$master_id'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$raw = $row['festivals'];
+	$working = explode ("-", $raw);
+	$i=0;
+	foreach($working as $v) {
+		If(isInteger($v)) {
+			$final[$i]=$v;
+		}
+		$i++;
+	}
+
+
+
+	If(isset($final)) return $final; else return false;
+
+}
+
+
+function getFollowedBy($user, $master){
+	//This function returns an array containing the id of each user the entered user is following
 	$sql="select follows from Users where id='$user'";
 	$res = mysql_query($sql, $master);
 	$row=mysql_fetch_array($res);
@@ -240,10 +263,55 @@ function getFollowedBy($user, $master){
 		$i++;
 	}
 
-
-
 	If(isset($final)) return $final; else return false;
+}
 
+function userIsPrivate($user, $master){
+	//This function returns true if the given user is private
+	$sql="select value from user_settings_$user where item='Privacy'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$privacy = $row['value'];
+
+	If($privacy == 1) return false; else return true;
+}
+
+function userFollowsUser($follower, $followee, $master){
+	//This function returns true if the follower follows the followee
+	$sql="select id from Users where id='$follower' AND follows like '%--$followee--%'";
+	$res = mysql_query($sql, $master);
+	$follows = mysql_num_rows($res);
+
+	If($follows > 0) return true; else return false;
+}
+
+function userBlocksUser($blocker, $blockee, $master){
+	//This function returns true if the blocker blocks the blockee
+	$sql="select id from Users where id='$blocker' AND blocks like '%--$blockee--%'";
+	$res = mysql_query($sql, $master);
+	$blocks = mysql_num_rows($res);
+
+	If($blocks > 0) return true; else return false;
+}
+
+function userVisibleToUser($looker, $lookee, $master){
+	//This function returns true if the lookee is visible to the looker
+
+	if(userBlocksUser($lookee, $looker, $master)) return false;
+	if(userIsPrivate($lookee, $master) && !userFollowsUser($lookee, $looker, $master)) return false;
+	
+	return true;
+}
+
+function getVisibleUsers($user, $master){
+	//This function returns an array containing the id and name of each user visible to the entered user
+	$sql="select id, username from Users";
+	$res = mysql_query($sql, $master);
+	while($row=mysql_fetch_array($res)){
+		if(userVisibleToUser($user, $row['id'], $master)) $visibleUsers[] = $row;
+	}
+	if(empty($visibleUsers)) return false;
+	return $visibleUsers;
 }
 
 function getFestBandIDFromMaster($band_master_id, $festid, $master) {

@@ -87,7 +87,7 @@ if(!$failedValidation){
 //Create a settings table for the user
 
 
-$sql = "CREATE TABLE user_settings_".$max['id']." (id int NOT NULL AUTO_INCREMENT, item varchar( 255 ) NOT NULL ,value varchar( 255 ) NOT NULL, `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP , PRIMARY KEY (id))";
+$sql = "CREATE TABLE user_settings_".$max['id']." (id int NOT NULL AUTO_INCREMENT, item varchar( 255 ) NOT NULL ,value varchar( 255 ) NOT NULL, `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL , PRIMARY KEY (id))";
 $sql2 =  "INSERT INTO user_settings_".$max['id']." SELECT * FROM user_settings_template;";
 
         $res = mysql_query($sql, $master);

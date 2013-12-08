@@ -9,6 +9,30 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+$bandActivitySQL= "SELECT * FROM( SELECT name, band as id, sum(hits) FROM(
+SELECT bands.name as name, band, count(band) as hits FROM `live_rating` left join bands on bands.id=live_rating.band group by band
+UNION ALL
+SELECT bands.name as name, band, count(band) as hits FROM `comments` left join bands on bands.id=comments.band group by band
+UNION ALL
+SELECT bands.name as name, band, count(band) as hits FROM `ratings` left join bands on bands.id=ratings.band group by band
+) as inter where band!='0' group by band order by sum(hits) desc limit 25) as intera order by rand() limit 3";
+
+$res = mysql_query($bandActivitySQL, $master);
+echo mysql_error($master);
+$maxi = mysql_num_rows($res);
+for($i = 0; $i < $maxi; $i++ ){
+    $row=mysql_fetch_array($res);
+    $bandl[$i] = $row;
+    $bandl[$i]["fest"] = max(getFestivalsMaster($bandl[$i]["id"], $master));
+    $bandl[$i]["id"] = getFestBandIDFromMaster($bandl[$i]["id"], $bandl[$i]["fest"], $master);
+}
+$bandList = "";
+foreach($bandl as $b){
+    $bandList .= '<li class="popular-item">';
+    $bandList .= '<a href="'.$basepage.'?disp=view_band&band='.$b["id"].'&fest='.$b["fest"].'" >'.$b["name"].'</a>';
+    $bandList .= '</li>'; 
+}
+
 
 ob_start();
 ?>   
@@ -19,7 +43,7 @@ ob_start();
 <aside id="popular-bands-widget" class="widget">
 <h3 class="wideget-title">Popular Bands</h3>
 <ul class="popular-list">
-<li class="popular-item">Nine Inch Nails</li>
+<?php echo $bandList; ?>
 </ul>
 </aside>
 

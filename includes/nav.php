@@ -73,7 +73,9 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			
 		</li>
 		<li><a href="#">Social</a>
-			<ul><li><a href="<?php echo $basepage; ?>?disp=discuss_index">Discussion Index</a></li></ul>
+			<ul><li><a href="<?php echo $basepage; ?>?disp=discuss_index">Discussion Index</a></li>
+			<li><a href="<?php echo $basepage; ?>?disp=view_user">User Profiles</a></li>
+			</ul>
 		</li>
 		<li><a href="#">Stats</a>
 			<ul>
