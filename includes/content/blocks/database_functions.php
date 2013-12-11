@@ -216,11 +216,7 @@ function getFestivals($band, $main, $master){
 		}
 		$i++;
 	}
-
-
-
 	If(isset($final)) return $final; else return false;
-
 }
 
 
@@ -239,13 +235,72 @@ function getFestivalsMaster($master_id, $master){
 		}
 		$i++;
 	}
-
-
-
 	If(isset($final)) return $final; else return false;
-
 }
 
+function getInterestingFactor($user, $main, $master, $fest){
+	//This function returns an array containing the id of each band in the fest, along with a rating on how interesting the band is
+	//First get all the bands
+	$bandlist = getAllBandsInFest($main);
+	foreach ($bandlist as $id){
+		$interfact[$id] = 0;
+	}
+	// Difference between pregame rating and live rating x20
+	foreach ( $interfact as $bandid => &$factor ){
+		$pregame = act_rating($bandid, $user, $main);
+		$gametime = act_live_rating($bandid, $user, $main);
+		$factor = $factor + abs($pregame - $gametime) * 20;
+//		echo "<br>pregame : $pregame gametime: $gametime factor: $factor band: $bandid";
+	}
+//	var_dump($interfact);
+	//Band with high live average you missed And with low live average ou missed
+	$missedBands = getAllBandsUserMissed($user, $main);
+	foreach ( $missedBands as $v ){
+		$avg = avg_live_rating_band ($main, $v);
+		if ($avg != 0 ) $interfact[$v] = $interfact[$v] + 20 * (abs(3 - $avg) ^ 2);
+	}
+	arsort($interfact);
+	return $interfact;
+	
+	
+	//If you have a postgame comment, IF is 0
+}
+
+function getAllBandsUserMissed($user, $main){
+	//This function returns an array containing the id of each band in the festival
+	$saw = getAllBandsUserSaw($user, $main);
+	$where = "WHERE deleted != '1'";
+	$i = 0;
+	foreach ($saw as $v){
+		$where .= " AND id != '$v'";
+	}
+	$sql="select id from bands ".$where;
+	$res = mysql_query($sql, $main);
+	while($row=mysql_fetch_array($res)){
+		$result[] = $row['id'];
+	}
+	return $result;
+}
+
+function getAllBandsUserSaw($user, $main){
+	//This function returns an array containing the id of each band in the festival
+	$sql = "select band from comms where fromuser= '$user'";
+	$res = mysql_query($sql, $main);
+	while($row=mysql_fetch_array($res)){
+		$result[] = $row['band'];
+	}
+	return $result;	
+}
+
+function getAllBandsInFest($main){
+	//This function returns an array containing the id of each band in the festival
+	$sql="select id from bands where deleted != '1'";
+	$res = mysql_query($sql, $main);
+	while($row=mysql_fetch_array($res)){
+		$result[] = $row['id'];
+	}
+	return $result;
+}
 
 function getFollowedBy($user, $master){
 	//This function returns an array containing the id of each user the entered user is following
@@ -262,7 +317,6 @@ function getFollowedBy($user, $master){
 		}
 		$i++;
 	}
-
 	If(isset($final)) return $final; else return false;
 }
 
@@ -312,6 +366,114 @@ function getVisibleUsers($user, $master){
 	}
 	if(empty($visibleUsers)) return false;
 	return $visibleUsers;
+}
+
+function festSoon($festid){
+	return true;
+}
+
+function getAllRegisteredFestivals($user, $master){
+	//This function returns an array containing the festivals acessible by user
+	$sql="select access from Users where id='$user'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$raw = $row['access'];
+	$working = explode ("-", $raw);
+	$i=0;
+	foreach($working as $v) {
+		If(isInteger($v)) {
+			$final[$i]=$v;
+		}
+		$i++;
+	}
+
+	if(isset($final)) return $final;
+	return false;
+}
+
+function getMasterBandIDFromFest($band, $main) {
+   $sql = "SELECT master_id FROM bands WHERE id = '$band'";
+	$res = mysql_query($sql, $main);
+	$row=mysql_fetch_array($res);
+	$master = $row['master_id'];
+	return $master;
+   
+}
+
+function doesBandHaveShape($band, $master, $shapeCode) {
+	$sql = "SELECT shape FROM pics WHERE band = '$band' GROUP BY shape";
+	$res = mysql_query($sql, $master);
+	$codeOK = 0;
+	while($row=mysql_fetch_array($res)){
+		switch ($shapeCode){
+			case 1: 
+				if($row['shape'] == "small_square") $codeOK = 1;
+				break;
+			case 3:
+				if($row['shape'] == "small_square") $codeOK = 1;
+				if($row['shape'] == "horizontal_rectangle") $codeOK = 1;
+				break;
+			case 5:
+				if($row['shape'] == "small_square") $codeOK = 1;
+				if($row['shape'] == "vertical_rectangle") $codeOK = 1;
+				break;
+			case 15: 
+				if($row['shape'] == "small_square") $codeOK = 1;
+				if($row['shape'] == "large_square") $codeOK = 1;
+				if($row['shape'] == "horizontal_rectangle") $codeOK = 1;
+				if($row['shape'] == "vertical_rectangle") $codeOK = 1;
+				break;
+			default:
+				break;
+		}
+	}
+   return $codeOK;
+}
+
+function getBandPicAndShape($intMaster, $master, $shapeCode) {
+	$sql = "SELECT id, shape FROM pics WHERE band = '$intMaster' ORDER BY RAND()";
+	$res = mysql_query($sql, $master);
+	$codeOK = 0;
+	while($row=mysql_fetch_array($res)){
+		switch ($shapeCode){
+			case 1: 
+				if($row['shape'] == "small_square"){
+					$codeOK = 1;
+					$picReturn[0] = $row['id'];
+					$picReturn[1] = $row['shape'];
+				}
+				break;
+			case 3:
+				if($row['shape'] == "small_square" || 
+				$row['shape'] == "horizontal_rectangle") {
+					$codeOK = 1;
+					$picReturn[0] = $row['id'];
+					$picReturn[1] = $row['shape'];
+				}
+				break;
+			case 5:
+				if($row['shape'] == "small_square" || 
+				$row['shape'] == "vertical_rectangle") {
+					$codeOK = 1;
+					$picReturn[0] = $row['id'];
+					$picReturn[1] = $row['shape'];
+				}
+				break;
+			case 15: 
+				if($row['shape'] == "small_square" || 
+				$row['shape'] == "large_square" || 
+				$row['shape'] == "horizontal_rectangle" || 
+				$row['shape'] == "vertical_rectangle") {
+					$codeOK = 1;
+					$picReturn[0] = $row['id'];
+					$picReturn[1] = $row['shape'];
+				}
+				break;
+			default:
+				break;
+		}
+	}
+   return $picReturn;
 }
 
 function getFestBandIDFromMaster($band_master_id, $festid, $master) {
@@ -459,6 +621,46 @@ function acceptDiscussReply($main, $master, $user, $band, $fest_id, $discuss_tab
 	//Update the tracking columns in the comment table to reflect the activity
 	$query = "UPDATE comments SET discuss_current='--$user--' where id=$comment";
 	$upd = mysql_query($query, $main);
+}
+
+function changeMode($main, $master, $festmode, $fest){
+	switch($festmode){
+		case "pregame":
+			break;
+		case "gametime":
+			break;
+		case "postgame":
+			$sql = "SELECT id FROM Users";
+			$res = mysql_query($sql, $master);
+			$userString = "";
+			while($row = mysql_fetch_array($res)){
+				$userString .= "--".$row['id']."--";
+			}
+			$sql = "SELECT max(id) as inc FROM comments";
+			$res = mysql_query($sql, $main);
+			$row = mysql_fetch_array($res);
+			$inc = $row['inc'] + 1000;
+			$query = "UPDATE comments SET discuss_current='$userString'";
+			$upd = mysql_query($query, $main);
+			$sql = "CREATE TABLE IF NOT EXISTS `postgame_comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `band` int(11) NOT NULL,
+  `user` int(11) NOT NULL,
+  `comment` varchar(1024) NOT NULL,
+  `discussed` varchar(4096) NOT NULL,
+  `discuss_current` varchar(4096) NOT NULL,
+  `pinned` varchar(4096) NOT NULL,
+  `ignored` varchar(4096) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=$inc ;";
+			$res = mysql_query($sql, $main);			
+			break;
+		default:
+			break;
+	}
+			$sql = "UPDATE festivals SET mode='$festmode' WHERE id='$fest'";
+			$res = mysql_query($sql, $master);
 }
 
 function submitPregame($main, $master, $submittedJSON){

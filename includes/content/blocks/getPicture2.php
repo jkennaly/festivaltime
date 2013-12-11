@@ -9,6 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+
 include("../../../variables/variables.php");
 $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
 @mysql_select_db($master_db, $master) or die( "Unable to select master database");
@@ -29,10 +30,10 @@ $bandsql="select master_id from bands where id='$band'";
 $bandres=mysql_query($bandsql, $main);
 $row=mysql_fetch_array($bandres);
 $mband=$row['master_id'];
-$sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$mband' order by rand() limit 1";
+$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$mband' order by rand() limit 1";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
-$picData = $pic['pic'];
+$picData = $pic['scaled_pic'];
 //echo "Content-type: ".$pic['type'];
 //echo "test";
 //echo $sql;

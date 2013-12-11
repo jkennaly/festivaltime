@@ -82,5 +82,65 @@ else $rate = 0;
 return $rate;
 }
 
+function act_live_rating($band, $user, $main) {
+//This function returns the gametime rating for a given user for a given band in a given fest, or 0 if unrated
+$sql = "SELECT rating, id FROM live_rating WHERE band='$band' and user='$user' ORDER BY id DESC LIMIT 1";
+$res=mysql_query($sql, $main);
+$row=mysql_fetch_array($res);
+If(!empty($row['rating'])) $rate = $row['rating'];
+else $rate = 0;
+return $rate;
+}
+
+function all_live_rating($main) {
+	//This function returns all gametime ratings for a given festival
+$sql = "SELECT lr.id as id, lr.user as user, lr.band as band, lr.rating as rating, lr.`comment` as comment, lr.`msgtime` as time
+FROM `live_rating` lr
+LEFT JOIN `live_rating` lr2 ON lr.user = lr2.user AND lr.band = lr2.band AND lr.id < lr2.id
+WHERE lr2.user IS NULL
+ORDER BY lr.id";
+$res=mysql_query($sql, $main);
+while($row=mysql_fetch_array($res)){
+	$result[] = $row;
+}
+return $result;
+}
+
+function avg_live_rating ($main){
+	//This function returns the average live rting for a given festival
+	$ratingArray = all_live_rating($main);
+	$i = 0;
+	$total = 0;
+	foreach ($ratingArray as $v){
+		$total = $total + $v['rating'];
+		$i++;
+	}
+	$avg = $total/$i;
+	return $avg;
+}
+
+function avg_live_rating_band ($main, $band){
+	//This function returns the average live rting for one band for a given festival
+	
+	$sql = "SELECT lr.id as id, lr.user as user, lr.band as band, lr.rating as rating, lr.`comment` as comment, lr.`msgtime` as time
+	FROM `live_rating` lr
+	LEFT JOIN `live_rating` lr2 ON lr.user = lr2.user AND lr.band = lr2.band AND lr.id < lr2.id
+	WHERE lr2.user IS NULL AND lr.band='$band'
+	ORDER BY lr.id";
+	
+	$res=mysql_query($sql, $main);
+	if (mysql_num_rows($res) !== 0) {
+	$i = 0;
+	$total = 0;
+	while($row=mysql_fetch_array($res)){
+		$total = $total + $row['rating'];
+		$i++;
+	}
+	$avg = $total/$i;
+	}
+	else return false;
+	return $avg;
+}
+
 ?>
 

@@ -46,6 +46,7 @@ If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
  include('includes/check_rights.php');
  include('includes/content/blocks/database_functions.php'); 
 include('includes/content/blocks/other_functions.php'); 
+include('includes/content/blocks/SimpleImage.php'); 
 
 
 If(!empty($_SESSION['fest'])){
@@ -56,7 +57,7 @@ include('variables/fest_variables.php');
 $main = mysql_connect($dbhost,$dbuser,$dbpw);
 @mysql_select_db($dbname, $main) or die( "Unable to select main database");
 
-
+if($modeChange == 1) changeMode($main, $master, $festmode, $fest);
 
  
 

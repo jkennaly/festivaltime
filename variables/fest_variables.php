@@ -37,4 +37,13 @@ If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
                 break;
 		}
 	}
+	$sql="select * from festivals where id='$fest'";
+	$result = mysql_query($sql, $master);
+	$row=mysql_fetch_array($result);
+	if(time() > $row['gametime_end'] && !($row['gametime_start'] == $row['gametime_end'])) $festmode = "postgame";
+	else if (time() > $row['gametime_start'] && time() < $row['gametime_end']) $festmode = "gametime";
+	else $festmode = "pregame";
+	if($row['mode'] != $festmode) $modeChange = 1;
+	else $modeChange = 0;
+	
 ?>

@@ -36,7 +36,8 @@ echo "<div class=\"clearfloat\"></div>";
 //If(empty($discuss_pics)) include "includes/content/blocks/pic_row.php";
 
 echo "<div id=\"genreswrapper\">";
-include "includes/content/blocks/initial.php";
+if ($festmode != "postgame" ) include "includes/content/blocks/initial.php";
+else include "includes/content/blocks/postgame.php";
 echo "</div><!-- End #genreswrapper -->";
 
 echo "<div class=\"clearfloat\"></div>";
