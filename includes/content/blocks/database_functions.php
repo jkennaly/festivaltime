@@ -196,6 +196,31 @@ function getSname($source, $stageid){
 
 }
 
+function getForumLink($master, $user, $mainforum, $forumblog){
+	//This function checks $source table stages for the name of $stageid
+
+	$sql = "select value from `user_settings_$user` where item='Forum Link'";
+	$res = mysql_query($sql, $master);
+
+
+	$srow = mysql_fetch_array($res);
+	$flink = $srow['value'];
+	switch($flink){
+		case 1:
+			return $forumblog;
+			break;
+		case 2:
+			return $mainforum;
+			break;
+		default:
+			break;
+				
+	}
+	
+	return $sname;
+
+}
+
 
 function getFestivals($band, $main, $master){
 	//This function returns an array containing the id of each festival the band is registered for

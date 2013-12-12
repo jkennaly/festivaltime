@@ -33,7 +33,7 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 	
         <ul><li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li></ul></li>
 	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Mobile</a></li>
-	<li><a href="<?php echo $forumbase; ?>">Forum</a></li>
+	<li><a href="<?php echo getForumLink($master, $user, $mainforum, $forumblog); ?>">Forum</a></li>
 
 <?php
 /*
