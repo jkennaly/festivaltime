@@ -27,6 +27,7 @@
 <meta name="author" content="" />
 
 <link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="styles/festival_style.css" media="screen" />
 <?php
 
 session_start(); 

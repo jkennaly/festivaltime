@@ -1,0 +1,36 @@
+/*
+Copyright (c) 2013 Jason Kennaly.
+All rights reserved. This program and the accompanying materials
+are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
+http://www.gnu.org/licenses/agpl.html
+
+Contributors:
+    Jason Kennaly - initial API and implementation
+*/
+
+div.bandsbygenre {
+	overflow: hidden;
+	width: 100%;
+}
+
+div.bandgridpicwrapper{
+	float:left; /* important */
+	position:relative; /* important(so we can absolutely position the description div */
+}
+div.bandgridpictitle{
+	position:absolute; /* absolute position (so we can position it where we want)*/
+	bottom:0px; /* position will be on bottom */
+	left:0px;
+	width:100%;
+	/* styling bellow */
+	background-color:black;
+	font-family: 'tahoma';
+	font-size:15px;
+	color:white;
+	opacity:0.6; /* transparency */
+	filter:alpha(opacity=60); /* IE transparency */
+}
+p.title_content{
+	padding:10px;
+	margin:0px;
+}

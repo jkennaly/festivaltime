@@ -27,7 +27,8 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 <!--		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Guide</a></li></ul></li> -->
 	<li><a href="<?php echo $basepage; ?>?disp=all_bands">Bands</a>  
                 <ul>
-                    <li><a href="<?php echo $basepage; ?>?disp=comment_xfer">Comments</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=comment_xfer">Comment Transfer</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
                 </ul>
                 </li> 
 	

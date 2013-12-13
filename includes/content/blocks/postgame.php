@@ -29,12 +29,10 @@ foreach ($interestingBands as $bandid => $if){
 }
 */
 $picArray = array(
-		array(0, 0, 0, 0),
 		array(0, 0, 0),
-);
-$completeArray = array(
-		array(1, 1, 1, 1),
-		array(1, 1, 1),
+			array(0, 0, 0),
+			array(0, 0, 0),
+			array(0, 0, 0),
 );
 
 $arrayComplete = false;
@@ -155,14 +153,15 @@ if($bandOK){
 		$picArray[$x][$y+1] = 1;
 	}
 	
-	
+	/*
 	$pgdisp =			"<a href=\"";
 	$pgdisp .= $basepage."?disp=view_band&band=".$chosen."\"><img title = \"".getBname($main, $chosen);
 	$pgdisp .= "\" class = \"bandgridpic\" src=\"".$basepage;
 	$pgdisp .= "includes/content/blocks/getPicture3.php?pic=";
 	$pgdisp .= $bandPicResult[0]."\" alt=\"band pic\" /></a>";
 	echo $pgdisp;
-	
+	*/
+	displayPic3($basepage, $chosen, $bandPicResult[0], $fest, getBname($main, $chosen) );
 	
 
 		while($picArray[$x][$y] == 1){

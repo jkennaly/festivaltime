@@ -501,6 +501,27 @@ function getBandPicAndShape($intMaster, $master, $shapeCode) {
    return $picReturn;
 }
 
+function displayPic4($basepage, $bandsFestID, $bandsMasterID, $fest, $title_content ){
+	$pgdisp =			"<div class=\"bandgridpicwrapper\" ><a href=\"";
+	$pgdisp .= $basepage."?disp=view_band&band=".$bandsFestID."&fest=".$fest."\"><img class = \"bandgridpic\" src=\"".$basepage;
+	$pgdisp .= "includes/content/blocks/getPicture4.php?band=".$bandsMasterID;
+	$pgdisp .= "\" alt=\"band pic\" /><div class=\"bandgridpictitle\">";
+	$pgdisp .= "<p class=\"title_content\">".$title_content."</p>";
+	$pgdisp .= "</div><!-- end .bandgridpictitle --></a></div><!-- end .bandgridpicwrapper -->";
+	echo $pgdisp;
+}
+
+function displayPic3($basepage, $bandsFestID, $bandsPicID, $fest, $title_content ){
+	$pgdisp = "<div class=\"bandgridpicwrapper\" ><a href=\"";
+	$pgdisp .= $basepage."?disp=view_band&band=".$bandsFestID."&fest=".$fest."\"><img ";
+	$pgdisp .= "class = \"bandgridpic\" src=\"".$basepage;
+	$pgdisp .= "includes/content/blocks/getPicture3.php?pic=";
+	$pgdisp .= $bandsPicID."\" alt=\"band pic\" /><div class=\"bandgridpictitle\">";
+	$pgdisp .= "<p class=\"title_content\">".$title_content."</p>";
+	$pgdisp .= "</div><!-- end .bandgridpictitle --></a></div><!-- end .bandgridpicwrapper -->";
+	echo $pgdisp;
+}
+
 function getFestBandIDFromMaster($band_master_id, $festid, $master) {
     $sql="select festivals from bands where id='$band_master_id'";
 	$res = mysql_query($sql, $master);
@@ -527,31 +548,52 @@ function getFestBandIDFromMaster($band_master_id, $festid, $master) {
 }
 
 function genreList($main, $master, $user){
-	//This function returns the genre for each band in main
-	$sql = "select id from bands";
-	$res = mysql_query($sql, $main);
-	$i=0;
-	while($row=mysql_fetch_array($res)) {
-		$ret_genre[$i]['id'] = getBandGenreID($main, $master, $row['id'], $user);
-		$ret_genre[$i]['name'] = getBandGenre($main, $master, $row['id'], $user);
-		$ret_genre[$i]['bands'] = 1;
-		$ret_genre[$i]['rating_total'] = act_rating($row['id'], $user, $main);
-		If( $ret_genre[$i]['rating_total'] == 0) $ret_genre[$i]['rated'] = 0; else $ret_genre[$i]['rated'] = 1;
+	//This function returns all the genres in main, with genreid, genrename, number of bands in genre, 
+	//number of rated bands in genre, and total rating points for all bands in genre
 
-		$i_minus=0;
-		for($j=0;$j<$i;$j++) {
-			If($ret_genre[$j]['id'] == $ret_genre[$i]['id']) {
-				$i_minus=1;
-				$ret_genre[$j]['bands'] = $ret_genre[$j]['bands'] + 1;
-				$ret_genre[$j]['rated'] = $ret_genre[$j]['rated'] + $ret_genre[$i]['rated'];
-				$ret_genre[$j]['rating_total'] = $ret_genre[$j]['rating_total'] + $ret_genre[$i]['rating_total'];
+		$sql = "select id from bands";
+		$res = mysql_query($sql, $main);
+		$ret_genre = array();
+	while($row=mysql_fetch_array($res)){
+		$test['genreid'] = getBandGenreID($main, $master, $row['id'], $user);
+		$test['rating'] = act_rating($row['id'], $user, $main);
+		$genreJustAdded = 0;
+		foreach ($ret_genre as &$g){
+			if($test['genreid'] == $g['id']){
+				$genreJustAdded = 1;
+				$g['bands'] = $g['bands'] + 1;
+				if($test['rating'] > 0){
+					$g['rated'] = $g['rated'] + 1;
+					$g['rating_total'] = $g['rating_total'] + $test['rating'];
+				}
 			}
 		}
-		If($i_minus == 0 ) $i++;
-
+		if($genreJustAdded == 0){
+			$new['id'] = $test['genreid'];
+			$new['name'] = getBandGenre($main, $master, $row['id'], $user);
+			$new['bands'] = 1;
+			$new['rating_total'] = act_rating($row['id'], $user, $main);
+			if( $new['rating_total'] == 0) $new['rated'] = 0; else $new['rated'] = 1;
+			$ret_genre[] = $new;
+		}
 	}
 	return $ret_genre;
+}
 
+function getGenresForAllBandsInFest ($main, $master, $fest, $user){
+	//Find genre of every band in main
+	$sql="select id, name from bands order by rand()";
+	$res=mysql_query($sql, $main);
+	if(mysql_num_rows($res) > 0){
+	while($row=mysql_fetch_array($res)) {
+		$result[$row['id']]['genreid'] = getBandGenreID($main, $master, $row['id'], $user);
+		$result[$row['id']]['genrename'] = getBandGenre($main, $master, $row['id'], $user);
+		$result[$row['id']]['bandname'] = $row['name'];
+		$result[$row['id']]['id'] = $row['id'];
+	}
+	return $result;
+	}
+	else return false;
 }
 
 function acceptComment($main, $master, $user, $band, $fest_id, $comment){
@@ -777,7 +819,5 @@ function submitPregame($main, $master, $submittedJSON){
 	      $response['debug'] = $debug;
 	return $response;
 }
-
-
 
 ?>
