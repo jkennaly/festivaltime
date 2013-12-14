@@ -327,6 +327,16 @@ function getAllBandsInFest($main){
 	return $result;
 }
 
+function getAllStageLayouts($user, $master){
+	//This function returns an array containing the id of each stage layout
+	$sql = "select id from stage_layouts where deleted != '1'";
+	$res = mysql_query($sql, $master);
+	while($row=mysql_fetch_array($res)){
+		$result[] = $row['id'];
+	}
+	return $result;	
+}
+
 function getFollowedBy($user, $master){
 	//This function returns an array containing the id of each user the entered user is following
 	$sql="select follows from Users where id='$user'";
@@ -499,6 +509,20 @@ function getBandPicAndShape($intMaster, $master, $shapeCode) {
 		}
 	}
    return $picReturn;
+}
+
+function displayStageLayoutPic($basepage, $layout, $master ){
+	$sql="select description from stage_layouts where id='$layout'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$title_content = $row['description'];
+	
+	$pgdisp =			"<div class=\"stagelayoutpicwrapper\" ><img class = \"stagelayoutpic\" src=\"".$basepage;
+	$pgdisp .= "includes/content/blocks/getPicStageLayout.php?layout=".$layout;
+	$pgdisp .= "\" alt=\"stage layout pic\" /><div class=\"stagelayoutpictitle\">";
+	$pgdisp .= "<p class=\"title_content\">".$title_content."</p>";
+	$pgdisp .= "</div><!-- end .stagelayoutpictitle --></div><!-- end .stagelayoutpicwrapper -->";
+	echo $pgdisp;
 }
 
 function displayPic4($basepage, $bandsFestID, $bandsMasterID, $fest, $title_content ){

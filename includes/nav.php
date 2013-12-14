@@ -31,8 +31,14 @@ include $baseinstall."includes/content/blocks/searchbox.php";
                     <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
                 </ul>
                 </li> 
+	<li><a href="<?php echo $basepage; ?>?disp=home">Stages</a>  
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_stage_layout">Add Stage Layout</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=view_stage_layouts">View Current Stage Layouts</a></li>
+                </ul>
+    </li> 
 	
-        <ul><li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li></ul></li>
+    <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
 	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Mobile</a></li>
 	<li><a href="<?php echo getForumLink($master, $user, $mainforum, $forumblog); ?>">Forum</a></li>
 
@@ -63,6 +69,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 					<li><a href="<?php echo $basepage; ?>?disp=edit_bands">Edit Bands</a></li>
 					<li><a href="<?php echo $basepage; ?>?disp=update_master">Update Master</a></li>
 					<li><a href="<?php echo $basepage; ?>?disp=add_locations">Add Locations</a></li>
+					<li><a href="<?php echo $basepage; ?>?disp=add_stage_layout">Add Stage Layout</a></li>
 				</ul>
 			</li>
 			<li><a href="#">Site</a>
@@ -83,6 +90,7 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 			      <li><a href="<?php echo $basepage; ?>?disp=band_scores">Band Scores</a></li>
 		    </ul>
 	</li>
+	</ul>
 <?php
 //}
 ?>
