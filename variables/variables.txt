@@ -8,6 +8,7 @@
 #     Jason Kennaly - initial API and implementation
 #-------------------------------------------------------------------------------
 <?php
+if($festivaltimeContext != 1) die('This page load was out of context');
 
 $sitename='Festival Time';
 $dbhost='localhost';

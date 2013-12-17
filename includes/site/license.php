@@ -26,6 +26,10 @@
 <p>This site uses jQuery which is provided under the MIT license. See <a href="https://jquery.org/license/">here</a> for more information on the jQuery license.</p>
     
 <p>This site uses the jQuery Longclick add in which is provided under the MIT license and the GPL. See <a href="https://github.com/pisi/Longclick/blob/master/README.markdown">here</a> for more information on the license.</p>
+    
+<p>This site uses the jQuery Thickbox add in which is provided under the MIT license and the GPL. See <a href="http://codylindley.com/thickbox/">here</a> for more information on the license.</p>
+
+<p>This site uses the github project offline-app-template at https://github.com/scottocorp/offline-app-template, which has been released to the public domain by its authors.</p>
 
 
 

@@ -9,6 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+$festivaltimeContext = 1;
 
 include("../../../variables/variables.php");
 $master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);

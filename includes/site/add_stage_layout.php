@@ -27,23 +27,13 @@ If(!empty($_POST)){
 		echo "Upload: " . $_FILES["file"]["name"] . "<br>";
 		echo "Type: " . $_FILES["file"]["type"] . "<br>";
 		echo "Stored in: " . $_FILES["file"]["tmp_name"];
-
-
 		$file= $_FILES["file"]["tmp_name"];
-		// shit don't work if it's not escaped
-		$data = mysql_real_escape_string(file_get_contents($file));
-		$name = mysql_real_escape_string($_POST['name']);
-		$descrip = mysql_real_escape_string($_POST['descrip']);
-
-
 		unlink($file);
 		// Insert into database
-		$sql = "INSERT INTO stage_layouts (`image`, `user`, `filename`, `type`, `description`)";
-		$sql .= " VALUES ('$data', '$user', '".$name."', '".$_FILES["file"]["type"]."', '$descrip')";
-		$upd = mysql_query($sql, $master);
-		//echo "<br>".$sql."<br>";
-		echo mysql_error();
-//		echo $sql;
+		$table = "stage_layouts";
+		$cols = array("image", "user", "filename", "type", "description");
+		$vals = array(file_get_contents($file), $user, $_POST['name'], $_FILES["file"]["type"], $_POST['descrip']);
+		insertRow($master, $table, $cols, $vals);
 
 	}
 
@@ -58,9 +48,9 @@ This page allows for adding a layout of a stage.
 
 <form action="<?php echo $basepage."?disp=add_stage_layout"; ?>" method="post" enctype="multipart/form-data">
 <label for="file">Filename:</label>
-<input type="file" name="file" id="file"><br>
-<input size="100" type="text" name="name" value="Replace this text with a name of the stage layout"><br>
-<input size="100" type="text" name="descrip" value="Replace this text with a description of the stage layout"><br>
+<input type="file" name="file" id="file"><br />
+<input size="100" type="text" name="name" value="Replace this text with a name of the stage layout"><br />
+<input size="100" type="text" name="descrip" value="Replace this text with a description of the stage layout"><br />
 <input type="submit" name="submit" value="Submit">
 </form>
 

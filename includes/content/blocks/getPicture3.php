@@ -7,7 +7,8 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/  
+$festivaltimeContext = 1;
 
 
 include("../../../variables/variables.php");

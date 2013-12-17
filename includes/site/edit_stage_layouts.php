@@ -34,9 +34,9 @@ This page displays the current stage layouts.
 
 
 <?php 
-$layouts = getAllStageLayouts($user, $master);
+$layouts = getAllStageLayouts($master);
 foreach($layouts as $l){
-	displayStageLayoutPic($basepage, $l, $master );
+	displayStageLayoutPic($basepage, $l['id'], $master );
 }
 ?>
 

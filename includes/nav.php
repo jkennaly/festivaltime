@@ -33,8 +33,11 @@ include $baseinstall."includes/content/blocks/searchbox.php";
                 </li> 
 	<li><a href="<?php echo $basepage; ?>?disp=home">Stages</a>  
                 <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_stage">Add Stage</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_stage_priority">Add Stage Priority</a></li>
                     <li><a href="<?php echo $basepage; ?>?disp=add_stage_layout">Add Stage Layout</a></li>
-                    <li><a href="<?php echo $basepage; ?>?disp=view_stage_layouts">View Current Stage Layouts</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=edit_stage_layouts">Edit Stage Layouts</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=edit_stages">Edit Stages</a></li>
                 </ul>
     </li> 
 	

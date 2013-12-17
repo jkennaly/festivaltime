@@ -9,7 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
-
+$festivaltimeContext = 1;
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -28,6 +28,7 @@
 
 <link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="styles/festival_style.css" media="screen" />
+<link rel="stylesheet" href="styles/thickbox.css" type="text/css" media="screen" />
 <?php
 
 session_start(); 

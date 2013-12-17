@@ -9,6 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+if($festivaltimeContext != 1) die('This page load was out of context');
 
 //This query collects data about the current band, if one is specified
 //echo "Here we go page variables<br />";

@@ -66,6 +66,50 @@ function checkTable($source, $target, $stable, $ttable){
 	return false;
 }
 
+function insertRow($source, $table, $cols, $vals){
+	$colString = "";
+	$i = 0;
+	foreach($cols as $col){
+		if($i == 0) $colString .= "`$col`";
+		else $colString .= ", `$col`";
+		$i++;
+	}
+	$valString = "";
+	$i = 0;
+	foreach($vals as $val){
+		if($i == 0) $valString .= "'".mysql_real_escape_string($val)."'";
+		else $valString .= ", '".mysql_real_escape_string($val)."'";
+		$i++;
+	}
+	$sql = "INSERT INTO `$table` ($colString)";
+	$sql .= " VALUES ($valString)";
+	$upd = mysql_query($sql, $source);
+//	echo "<br>".$sql."<br>";
+	if(mysql_error()){
+		echo mysql_error();
+		die ('Insert row failed with: '.$sql);
+	}
+	return true;
+}
+
+function updateRow($source, $table, $cols, $vals, $where){
+	$i = 0;
+	$valPair = "";
+	foreach($cols as $col){
+		if($i == 0) $valPair .= "`".$col."`='".mysql_real_escape_string($vals[$i])."'";
+		else $valPair .= ", `".$col."`='".mysql_real_escape_string($vals[$i])."' ";
+		$i++;
+	}
+	$sql = "UPDATE `$table` SET $valPair WHERE $where";
+	$upd = mysql_query($sql, $source);
+	//echo "<br>".$sql."<br>";
+	if(mysql_error()){
+		echo mysql_error();
+		die ('Update row failed with: '.$sql);
+	}
+	return true;
+}
+
 function getUname($source, $userid){
 	//This function checks $source table Users for the username of $userid
 
@@ -194,6 +238,100 @@ function getSname($source, $stageid){
 
 	return $sname;
 
+}
+
+function getAllStages($main){
+	//This function returns an array containing id, name, priority and layout for each stage in the festival
+
+	$sql = "select id, name, layout, priority from `stages` where deleted != '1'";
+	$res = mysql_query($sql, $main);
+	while($srow = mysql_fetch_array($res)){
+		$sname[] = $srow;
+	}
+	return $sname;
+}
+
+function getStageLayoutName($layout, $master ){
+	$sql="select description from stage_layouts where id='$layout'";
+//	echo $sql;
+	$res = mysql_query($sql, $master);
+	if (mysql_num_rows($res) > 0){
+		$row=mysql_fetch_array($res);
+		$slName = $row['description'];
+	} else{
+		$sql="select description from stage_layouts where `default`='1' LIMIT 1";
+		$res = mysql_query($sql, $master);
+		$row=mysql_fetch_array($res);
+		$slName = $row['description'];		
+	} 
+	echo $slName;
+}
+
+function getAllStageLayouts($master){
+	//This function returns an array containing the id of each stage layout
+	$sql = "select id, description from stage_layouts where deleted != '1'";
+	$res = mysql_query($sql, $master);
+	while($row=mysql_fetch_array($res)){
+		$result[] = $row;
+	}
+	return $result;	
+}
+
+function displayStageLayoutPic($basepage, $layout, $master ){
+	$sql="select description from stage_layouts where id='$layout'";
+	$res = mysql_query($sql, $master);
+	$row=mysql_fetch_array($res);
+	$title_content = $row['description'];
+	
+	$pgdisp =			"<div class=\"stagelayoutpicwrapper\" ><img class = \"stagelayoutpic\" src=\"".$basepage;
+	$pgdisp .= "includes/content/blocks/getPicStageLayout.php?layout=".$layout;
+	$pgdisp .= "\" alt=\"stage layout pic\" /><div class=\"stagelayoutpictitle\">";
+	$pgdisp .= "<p class=\"title_content\">".$title_content."</p>";
+	$pgdisp .= "</div><!-- end .stagelayoutpictitle --></div><!-- end .stagelayoutpicwrapper -->";
+	echo $pgdisp;
+}
+
+function getAvailableStagePriorities($master){
+	$sql="select level from stage_priorities";
+	$res = mysql_query($sql, $master);
+	$max_level = 0;
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$napriority[] = $row['level'];
+			if($row['level'] > $max_level) $max_level = $row['level'];
+		}
+		for($i = 1; $i < $max_level; $i++){
+			if(!in_array($i, $napriority)) $priority[] = $i;
+		}
+	}
+	for($i = 1; $i < 6; $i++){
+		$priority[] = $max_level + $i;
+	}
+	return $priority;
+}
+
+function getStagePriorities($master){
+	$sql="select `id`, `name`, `level`, `description`, `default` from `stage_priorities` where `deleted`!='1' order by `level` asc";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$priority[] = $row;
+		}
+	}
+	return $priority;
+}
+
+function getPriorityInfoFromID($master, $priorityid){
+	$sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `deleted`!='1' AND `id`='$priorityid'";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		$priority=mysql_fetch_array($res);
+	} else {
+		$sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `default`='1'";
+		$res = mysql_query($sql, $master);
+		$priority=mysql_fetch_array($res);
+	}
+	return $priority;
 }
 
 function getForumLink($master, $user, $mainforum, $forumblog){
@@ -325,16 +463,6 @@ function getAllBandsInFest($main){
 		$result[] = $row['id'];
 	}
 	return $result;
-}
-
-function getAllStageLayouts($user, $master){
-	//This function returns an array containing the id of each stage layout
-	$sql = "select id from stage_layouts where deleted != '1'";
-	$res = mysql_query($sql, $master);
-	while($row=mysql_fetch_array($res)){
-		$result[] = $row['id'];
-	}
-	return $result;	
 }
 
 function getFollowedBy($user, $master){
@@ -509,20 +637,6 @@ function getBandPicAndShape($intMaster, $master, $shapeCode) {
 		}
 	}
    return $picReturn;
-}
-
-function displayStageLayoutPic($basepage, $layout, $master ){
-	$sql="select description from stage_layouts where id='$layout'";
-	$res = mysql_query($sql, $master);
-	$row=mysql_fetch_array($res);
-	$title_content = $row['description'];
-	
-	$pgdisp =			"<div class=\"stagelayoutpicwrapper\" ><img class = \"stagelayoutpic\" src=\"".$basepage;
-	$pgdisp .= "includes/content/blocks/getPicStageLayout.php?layout=".$layout;
-	$pgdisp .= "\" alt=\"stage layout pic\" /><div class=\"stagelayoutpictitle\">";
-	$pgdisp .= "<p class=\"title_content\">".$title_content."</p>";
-	$pgdisp .= "</div><!-- end .stagelayoutpictitle --></div><!-- end .stagelayoutpicwrapper -->";
-	echo $pgdisp;
 }
 
 function displayPic4($basepage, $bandsFestID, $bandsMasterID, $fest, $title_content ){

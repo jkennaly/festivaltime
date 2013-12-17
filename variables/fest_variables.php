@@ -9,6 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */ 
 
+if($festivaltimeContext != 1) die('This page load was out of context');
 
 //This page pulls the fest-specific data from the appropriate info table
 If(!empty($_SESSION['fest'])){ $fest = $_SESSION['fest'];}
