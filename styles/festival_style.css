@@ -30,6 +30,9 @@ div.bandgridpictitle{
 	opacity:0.6; /* transparency */
 	filter:alpha(opacity=60); /* IE transparency */
 }
+div.messagecontextselector{
+	visibility:hidden;
+}
 p.title_content{
 	padding:10px;
 	margin:0px;

@@ -25,6 +25,11 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site</a></li></ul></li>
 	<li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
 <!--		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Guide</a></li></ul></li> -->
+	<li><a href="<?php echo $basepage; ?>??disp=home">Festivals</a>  
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_fest_series">Add Festival Series</a></li>
+                </ul>
+                </li> 
 	<li><a href="<?php echo $basepage; ?>?disp=all_bands">Bands</a>  
                 <ul>
                     <li><a href="<?php echo $basepage; ?>?disp=comment_xfer">Comment Transfer</a></li>
@@ -44,7 +49,12 @@ include $baseinstall."includes/content/blocks/searchbox.php";
     <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
 	<li><a href="<?php echo $basepage; ?>mobile/mobile.php">Mobile</a></li>
 	<li><a href="<?php echo getForumLink($master, $user, $mainforum, $forumblog); ?>">Forum</a></li>
-
+	<li><a href="<?php echo $basepage; ?>?disp=home">Messages</a>  
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=create_message">Create Message</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_message_privacy">Add Message Privacy</a></li>
+                </ul>
+    </li> 
 <?php
 /*
 //Restricts the other menu to users that have the CreateNotes right.

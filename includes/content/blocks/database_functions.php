@@ -240,6 +240,17 @@ function getSname($source, $stageid){
 
 }
 
+function getMessagePrivacies($master){
+	$sql="select `id`, `name`, `description` from `messages_privacy`";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$priority[] = $row;
+		}
+	}
+	return $priority;
+}
+
 function getAllStages($main){
 	//This function returns an array containing id, name, priority and layout for each stage in the festival
 
