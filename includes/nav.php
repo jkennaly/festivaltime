@@ -25,6 +25,12 @@ include $baseinstall."includes/content/blocks/searchbox.php";
 		<ul><li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Site</a></li></ul></li>
 	<li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
 <!--		<ul><li><a href="<?php echo $basepage; ?>?disp=guide">Guide</a></li></ul></li> -->
+	<li><a href="<?php echo $basepage; ?>?disp=home">Festivals</a>  
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_fest_series">Add Festival Series</a></li>
+                    <li><a href="<?php echo $basepage; ?>?disp=add_venue">Add Festival Venue</a></li>
+                </ul>
+                </li> 
 	<li><a href="<?php echo $basepage; ?>?disp=all_bands">Bands</a>  
                 <ul>
                     <li><a href="<?php echo $basepage; ?>?disp=comment_xfer">Comment Transfer</a></li>

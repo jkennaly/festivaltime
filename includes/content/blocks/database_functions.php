@@ -359,6 +359,29 @@ function getForumLink($master, $user, $mainforum, $forumblog){
 
 }
 
+function getFestVenues($master){
+	//This function returns an array containing each festival venue in FestivalTime
+	$sql="select `id`, `name`, `description`, `country`, `state`, `city`, `street_address` from `venues` where `deleted`!='1'";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
+
+function getFestSeries($master){
+	//This function returns an array containing each festival series in FestivalTime
+	$sql="select `id`, `name`, `description` from `festival_series` where `deleted`!='1'";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
 
 function getFestivals($band, $main, $master){
 	//This function returns an array containing the id of each festival the band is registered for
@@ -830,9 +853,9 @@ function acceptDiscussReply($main, $master, $user, $band, $fest_id, $discuss_tab
 
 function changeMode($main, $master, $festmode, $fest){
 	switch($festmode){
-		case "pregame":
+		case 1:
 			break;
-		case "gametime":
+		case 2:
 			break;
 		case "postgame":
 			$sql = "SELECT id FROM Users";
