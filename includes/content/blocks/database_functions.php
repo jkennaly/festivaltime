@@ -9,6 +9,8 @@
 //    Jason Kennaly - initial API and implementation
 */
 
+include('includes/content/blocks/create_festival_functions.php');
+
 
 function UpdateTable($source, $target, $table, $sourceuser, $sourcepassword, $sourcehost, $sourcedb, $targetuser, $targetpassword, $targethost, $targetdb, $path){
 	//This function will copy table $table from $source database to $target, where $source and $target are the resource links to the databases. If $table already exists at $target, it will be wiped out
@@ -359,9 +361,71 @@ function getForumLink($master, $user, $mainforum, $forumblog){
 
 }
 
+function getNewFestivals($master){
+	//This function returns an array containing three recently added festivals
+	$sql="select `id`, `sitename`, `description`, `website` from `festivals` where `deleted`!='1' ORDER BY `id` DESC LIMIT 3";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
+
+function getIncompleteFestivals($master){
+	//This function returns an array containing each festival that has had all its information completed
+	$sql="select `id`, `sitename`, `description`, `website`, ";
+	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
+	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
+	$sql .= " from `festivals` where `deleted`!='1' AND (`header`='0'";
+	$sql .= " OR `dates`='0' OR `days_venues`='0' OR `stages`='0' OR `band_list`='0' OR `band_stages`='0' OR `set_times`='0')";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
+
+function getCompletedFestivals($master){
+	//This function returns an array containing each festival that has had all its information completed and verified
+	$sql="select `id`, `sitename`, `description`, `website`, ";
+	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
+	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
+	$sql .= " from `festivals` where `deleted`!='1'";
+	$sql .= " AND `header`!='0' AND `dates`!='0' AND `days_venues`!='0' AND `stages`!='0' AND `band_list`!='0' AND `band_stages`!='0' AND `set_times`!='0'";
+	$sql .= " AND `header_v`!='0' AND `dates_v`!='0' AND `days_venues_v`!='0' AND `stages_v`!='0' AND `band_list_v`!='0' AND `band_stages_v`!='0' AND `set_times_v`!='0'";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
+
+function getVerifReqFestivals($master){
+	//This function returns an array containing each festival that has information needing verification
+	$sql="select `id`, `sitename`, `description`, `website`, ";
+	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
+	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
+	$sql .= " from `festivals` where `deleted`!='1'";
+	$sql .= " AND ( (`header`!='0' AND `header_v`='0' ) OR ( `dates`!='0' AND `dates_v`='0' ) OR ( `days_venues`!='0' AND `days_venues_v`='0' ) ";
+	$sql .= "OR ( `stages`!='0' AND `stages_v`='0' ) OR ( `band_list`!='0' AND `band_list_v`='0' ) OR ( `band_stages`!='0' AND `band_stages_v`='0' ) OR ( `set_times`!='0' AND `set_times_v`='0' ) )";
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		while($row=mysql_fetch_array($res)){
+			$series[] = $row;
+		}
+		return $series;
+	} else return false;
+}
+
 function getFestVenues($master){
 	//This function returns an array containing each festival venue in FestivalTime
-	$sql="select `id`, `name`, `description`, `country`, `state`, `city`, `street_address` from `venues` where `deleted`!='1'";
+	$sql="select `id`, `name`, `description`, `country`, `state`, `city`, `street_address`, `timezone` from `venues` where `deleted`!='1'";
 	$res = mysql_query($sql, $master);
 	if(mysql_num_rows($res) > 0){
 		while($row=mysql_fetch_array($res)){

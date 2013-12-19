@@ -33,7 +33,7 @@ foreach($bandl as $b){
     $bandList .= '</li>'; 
 }
 
-
+$newFests = getNewFestivals($master);
 ob_start();
 ?>   
 
@@ -54,10 +54,14 @@ ob_start();
 </ul>
 </aside>
 
-<aside id="popular-users-widget" class="widget">
-<h3 class="wideget-title">Popular Festivals</h3>
+<aside id="recent-fests-widget" class="widget">
+<h3 class="wideget-title">Newly Added Fests</h3>
 <ul class="popular-list">
-<li class="popular-item">Coachella Weekend 1 2014</li>
+<?php 
+foreach ($newFests as $c){
+	echo "<li class=\"popular-item\"><a href=\"".$c['website']."\">".$c['sitename']."</a></li>";
+}
+?>
 </ul>
 </aside>
 

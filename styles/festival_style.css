@@ -8,11 +8,38 @@ Contributors:
     Jason Kennaly - initial API and implementation
 */
 
+div#overlay_form{
+	visibility:hidden;
+	background-color: #eeeeee;
+	padding: 10px;
+}
 div.bandsbygenre {
 	overflow: hidden;
 	width: 100%;
 }
-
+div.feststatus {
+	padding:0.5em 0;
+	clear:both;
+}
+div.feststatususer {
+	margin:0 1em;
+	float: left;
+	width: 20%;
+}
+div.feststatusname {
+	margin:0 1em;
+	float: left;
+	width: 20%;
+}
+div.feststatusrow {
+	padding:0.1em 0;
+	overflow:auto;
+	border: 1px solid;
+	width: 80%;
+}
+div.festivalstatuswrapper{
+	display:none;
+}
 div.bandgridpicwrapper{
 	float:left; /* important */
 	position:relative; /* important(so we can absolutely position the description div */

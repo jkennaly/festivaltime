@@ -26,8 +26,8 @@ If(!empty($_POST)){
 
 		// Insert into database
 		$table = "venues";
-		$cols = array("user", "name", "description", "country", "state", "city", "street_address");
-		$vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address']);
+		$cols = array("user", "name", "description", "country", "state", "city", "street_address", "timezone");
+		$vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address'], $_POST['userTimeZone']);
 		insertRow($master, $table, $cols, $vals);
 
 }
@@ -60,6 +60,23 @@ foreach ($used as $u){
 	<?php echo $u['city'] ?>, <?php echo $u['state'] ?><br />
 	<?php echo $u['country'] ?><br />
 	</div> <!-- end .festvenueaddress -->
+	
+	<div class="festvenuetz">
+	Timezone: 
+	<select name="userTimeZone">
+<?php
+$timezone_identifiers = DateTimeZone::listIdentifiers();
+foreach($timezone_identifiers as $tz) {
+    $current_tz = new DateTimeZone($tz);
+    $offset =  $current_tz->getOffset($dt);
+    $transition =  $current_tz->getTransitions($dt->getTimestamp(), $dt->getTimestamp());
+    $abbr = $transition[0]['abbr'];
+
+    echo '<option value="' .$tz. '">' .$tz. ' [' .$abbr. ' '. formatOffset($offset). ']</option>';
+}
+?>
+</select>
+	</div> <!-- end .festvenuetz -->
 	
 </div> <!-- end .festvenuewrapper -->
 

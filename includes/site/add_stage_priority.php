@@ -89,8 +89,8 @@ foreach($availPrior as $a){
 }
 ?>
 </select>
-<input size="100" type="text" name="name" value="Replace this text with a name of the stage priority"><br>
-<input size="100" type="text" name="descrip" value="Replace this text with a description of the stage priority"><br>
+<input size="100" type="text" name="name" value="Replace this text with a name of the stage priority"><br />
+<input size="100" type="text" name="descrip" value="Replace this text with a description of the stage priority"><br />
 <input type="submit" name="submit" value="Submit">
 </form>
 
