@@ -36,9 +36,9 @@ function drawFestStatus($fest, $statustypes){
 	 <div class="feststatususer"></div><!-- end .feststatususer -->
 	 <?php
 	 }
-			if($fest[$st[0]] > 0 && $fest[$st[2]] > 0){
+			if($fest[$st[0]] > 0 || $fest[$st[2]] > 0){
 			?>
-			<button type="button" id="unlock-<?php echo $fest['id']."-".$st[0]; ?>">Unlock for edits</button>
+			<button type="button" class="unlockbutton" data-fest="<?php echo $fest['id']; ?>" data-field="<?php echo $st[0]; ?>">Unlock for edits</button>
 			<?php } ?>
 			</div><!-- end .feststatusrow -->
 	<?php

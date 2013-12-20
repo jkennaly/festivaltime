@@ -29,8 +29,8 @@ $verifreq = getVerifReqFestivals($master);
 <?php 
 $statustypes = array(
 				array('header', 'Header', 'header_v'), 
-				array('dates', 'Dates', 'dates_v'),
-				array('days_venues', 'Days and Venues', 'days_venues_v'),
+				array('dates', 'Dates and Venues', 'dates_v'),
+				array('days_venues', 'Days', 'days_venues_v'),
 				array('stages', 'Stages', 'stages_v'),
 				array('band_list', 'Band List', 'band_list_v'),
 				array('band_stages', 'Band Stages', 'band_stages_v'),

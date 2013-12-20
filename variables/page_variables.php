@@ -36,6 +36,7 @@ date_default_timezone_set("America/Los_Angeles");
 
 If(!empty($_SESSION['fest'])){
 
+	
 //Gets the current average rating of all ratings and the current user
 $sql_curr_avg = "select avg(rating) as average from ratings left join bands on ratings.band=bands.id";
 

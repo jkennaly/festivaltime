@@ -56,14 +56,13 @@ If(!empty($_SESSION['fest'])){
 include('variables/fest_variables.php');
 //	echo "host=$dbhost user=$master_dbuser2 pw=$master_dbpw2 dbname=$dbname sitename =$sitename<br />";
 
+/*
 $main = mysql_connect($dbhost,$dbuser,$dbpw);
 if(!@mysql_select_db($dbname, $main)) {
 	unset($_SESSION['fest']);
 }
+*/
 
-if($modeChange == 1) changeMode($main, $master, $festmode, $fest);
-
- 
 
 }
 
@@ -102,7 +101,6 @@ If(!empty($_SESSION['fest']) && $_SESSION['fest']>0){
 
 	</body>
 <?php
-If(!empty($main)) mysql_close($main);
 If(!empty($master)) mysql_close($master);
 ?>
 </html>

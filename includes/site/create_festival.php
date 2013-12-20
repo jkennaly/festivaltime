@@ -54,7 +54,7 @@ If(!empty($_POST['submitFestHeader'])){
 	<div id="content">
 	Festival basic info accepted.
 	
-	<br /><button id="festselectdates">Select Festival Dates</button>
+	<br /><button id="festcheckstatus">See Festival Status</button>
 	<br /><button id="stopfestcreation">Done working on this festival for now</button>
 	</div> <!-- end #content -->
 

@@ -105,7 +105,7 @@ Select Layout:
 	}
 	?>
 	</select>
-<input type="submit" name="submit" value="Submit">
+<input type="submit" name="submitNewStage" value="Submit">
 </form>
 
 <script src="includes/js/jquery-1.9.1.min.js"></script>

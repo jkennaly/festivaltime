@@ -68,7 +68,8 @@ function checkTable($source, $target, $stable, $ttable){
 	return false;
 }
 
-function insertRow($source, $table, $cols, $vals){
+function insertRow($table, $cols, $vals){
+	global $master;
 	$colString = "";
 	$i = 0;
 	foreach($cols as $col){
@@ -85,16 +86,17 @@ function insertRow($source, $table, $cols, $vals){
 	}
 	$sql = "INSERT INTO `$table` ($colString)";
 	$sql .= " VALUES ($valString)";
-	$upd = mysql_query($sql, $source);
+	$upd = mysql_query($sql, $master);
 //	echo "<br>".$sql."<br>";
-	if(mysql_error()){
+	if(!$upd){
 		echo mysql_error();
 		die ('Insert row failed with: '.$sql);
 	}
 	return true;
 }
 
-function updateRow($source, $table, $cols, $vals, $where){
+function updateRow($table, $cols, $vals, $where){
+	global $master;
 	$i = 0;
 	$valPair = "";
 	foreach($cols as $col){
@@ -103,12 +105,15 @@ function updateRow($source, $table, $cols, $vals, $where){
 		$i++;
 	}
 	$sql = "UPDATE `$table` SET $valPair WHERE $where";
-	$upd = mysql_query($sql, $source);
-	//echo "<br>".$sql."<br>";
-	if(mysql_error()){
+//	error_log(print_r($sql, TRUE)); 
+	$upd = mysql_query($sql, $master);
+
+//	echo "<br>".$sql."<br>";
+	if(!$upd){
 		echo mysql_error();
 		die ('Update row failed with: '.$sql);
 	}
+	
 	return true;
 }
 
@@ -242,18 +247,56 @@ function getSname($source, $stageid){
 
 }
 
-function getAllStages($main){
+function getSuggestedDays(){
 	//This function returns an array containing id, name, priority and layout for each stage in the festival
-
-	$sql = "select id, name, layout, priority from `stages` where deleted != '1'";
+	global $master, $fest, $festSeries;
+	$sql = "select `id`, `name`, `days_offset` from `days` where festival='$fest'";
 	$res = mysql_query($sql, $main);
+	if(mysql_num_rows($res) > 0){
+		while($srow = mysql_fetch_array($res)){
+			$sname[] = $srow;
+		}
+		return $sname;
+	}
+	else {
+		$sql = "select `name`, `days_offset` from `days` where festival_series='$festSeries' GROUP BY `days_offset` ORDER BY `days_offset` ASC";
+		$res = mysql_query($sql, $main);
+		if(mysql_num_rows($res) > 0){
+			while($srow = mysql_fetch_array($res)){
+				$sname[] = $srow;
+			}
+			return $sname;
+		}
+	}
+	return false;
+}
+
+function getAllDates(){
+	//This function returns an array containing id, name, priority and layout for each stage in the festival
+	global $master, $fest;
+	$sql = "select `id`, `name`, `venue`, `basedate`, `mode` from `dates` where deleted != '1' and festival='$fest'";
+	$res = mysql_query($sql, $master);
 	while($srow = mysql_fetch_array($res)){
 		$sname[] = $srow;
 	}
 	return $sname;
 }
 
-function getStageLayoutName($layout, $master ){
+function getAllStages(){
+	//This function returns an array containing id, name, priority and layout for each stage in the festival
+	global $master, $fest;
+	$sql = "select `id`, `name`, `layout`, `priority` from `places` where `deleted` != '1' and `type`='1' and `festival`='$fest'";
+	$res = mysql_query($sql, $master);
+	if (mysql_num_rows($res) > 0){
+		while($srow = mysql_fetch_array($res)){
+			$sname[] = $srow;
+		}
+		return $sname;
+	} else return false;
+}
+
+function getStageLayoutName($layout ){
+	global $master;
 	$sql="select description from stage_layouts where id='$layout'";
 //	echo $sql;
 	$res = mysql_query($sql, $master);
@@ -269,8 +312,9 @@ function getStageLayoutName($layout, $master ){
 	echo $slName;
 }
 
-function getAllStageLayouts($master){
+function getAllStageLayouts(){
 	//This function returns an array containing the id of each stage layout
+	global $master;
 	$sql = "select id, description from stage_layouts where deleted != '1'";
 	$res = mysql_query($sql, $master);
 	while($row=mysql_fetch_array($res)){
@@ -279,7 +323,8 @@ function getAllStageLayouts($master){
 	return $result;	
 }
 
-function displayStageLayoutPic($basepage, $layout, $master ){
+function displayStageLayoutPic($basepage, $layout){
+	global $master;
 	$sql="select description from stage_layouts where id='$layout'";
 	$res = mysql_query($sql, $master);
 	$row=mysql_fetch_array($res);
@@ -293,7 +338,8 @@ function displayStageLayoutPic($basepage, $layout, $master ){
 	echo $pgdisp;
 }
 
-function getAvailableStagePriorities($master){
+function getAvailableStagePriorities(){
+	global $master;
 	$sql="select level from stage_priorities";
 	$res = mysql_query($sql, $master);
 	$max_level = 0;
@@ -312,7 +358,8 @@ function getAvailableStagePriorities($master){
 	return $priority;
 }
 
-function getStagePriorities($master){
+function getStagePriorities(){
+	global $master;
 	$sql="select `id`, `name`, `level`, `description`, `default` from `stage_priorities` where `deleted`!='1' order by `level` asc";
 	$res = mysql_query($sql, $master);
 	if(mysql_num_rows($res) > 0){
@@ -323,7 +370,8 @@ function getStagePriorities($master){
 	return $priority;
 }
 
-function getPriorityInfoFromID($master, $priorityid){
+function getPriorityInfoFromID($priorityid){
+	global $master;
 	$sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `deleted`!='1' AND `id`='$priorityid'";
 	$res = mysql_query($sql, $master);
 	if(mysql_num_rows($res) > 0){
@@ -432,6 +480,21 @@ function getFestVenues($master){
 			$series[] = $row;
 		}
 		return $series;
+	} else return false;
+}
+
+function getFestHeader($fest){
+	//This function returns an array containing the header info for one festival
+	global $master;
+	$sql =  "select `id`, `name`, `year`, `dbname`, `series`, `sitename`,";
+	$sql .=	" `creator`, `start_time`, `length`, `website`, `description`, `cost`, `num_days`, `num_dates`, `header`";
+	$sql .=	" from `festivals` where `deleted`!='1' and `id`='$fest'";
+//	error_log(print_r($sql, TRUE));
+	$res = mysql_query($sql, $master);
+	if(mysql_num_rows($res) > 0){
+		$row=mysql_fetch_array($res);
+//		error_log(print_r("results received from header", TRUE));
+		return $row;
 	} else return false;
 }
 
