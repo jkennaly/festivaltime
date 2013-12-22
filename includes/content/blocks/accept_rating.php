@@ -7,15 +7,14 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
 $right_required = "CreateNotes";
-If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
 
-If(!empty($_GET['rateband'])){
-	$rating=$_GET['rateband'];
-acceptRating($main, $master, $user, $band, $fest_id, $rating);
+    If (!empty($_GET['rateband'])) {
+        $rating = $_GET['rateband'];
+        acceptRating($main, $master, $user, $band, $fest_id, $rating);
+    }
 }
-}
-?>

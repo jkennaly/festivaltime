@@ -15,26 +15,26 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 ?>
 <div id="content">
     <?php
-    if (!empty($_POST['submitBandStages']) || !empty($_POST['submitSingleBand'])) {
-        if (!empty($_POST['submitBandStages'])) {
-            foreach ($_POST['update'] as $setid => $stage) {
+    if (!empty($_POST['submitBandDays']) || !empty($_POST['submitSingleBand'])) {
+        if (!empty($_POST['submitBandDays'])) {
+            foreach ($_POST['update'] as $setid => $day) {
                 $table = "sets";
-                $cols = array("stage");
-                $vals = array($stage);
+                $cols = array("day");
+                $vals = array($day);
                 $where = "`id`='" . $setid . "'";
                 updateRow($table, $cols, $vals, $where);
             }
-            foreach ($_POST['insert'] as $bandd => $stage) {
+            foreach ($_POST['insert'] as $bandd => $day) {
                 $table = "sets";
-                $cols = array("festival", "festival_series", "band", "stage");
-                $vals = array($fest, $festSeries, $bandd, $stage);
+                $cols = array("festival", "festival_series", "band", "day");
+                $vals = array($fest, $festSeries, $bandd, $day);
                 insertRow($table, $cols, $vals);
             }
         }
         if (!empty($_POST['submitSingleBand'])) {
             $table = "sets";
-            $cols = array("festival", "festival_series", "band", "stage");
-            $vals = array($fest, $festSeries, $_POST['insertBandSetName'], $_POST['insertBandSetStage']);
+            $cols = array("festival", "festival_series", "band", "day");
+            $vals = array($fest, $festSeries, $_POST['insertBandSetName'], $_POST['insertBandSetDay']);
             insertRow($table, $cols, $vals);
         }
         ?>
@@ -42,7 +42,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         Festival band priorities accepted. You may continue editing priorities or press the complete button.
 
         <br/>
-        <button id="festbandstagescomplete" data-fest="<?php echo $fest; ?>">Band Stages Are Complete</button>
+        <button id="festbanddayscomplete" data-fest="<?php echo $fest; ?>">Band Days Are Complete</button>
         <br/>
         <button id="stopfestcreation">Done working on this festival for now</button>
     <?php
@@ -51,11 +51,11 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     ?>
 
     <form method="post" enctype="multipart/form-data">
-        <input type="submit" name="submitBandStages" value="Update All Band Stages"/><br/>
+        <input type="submit" name="submitBandDays" value="Update All Band Days"/><br/>
         <?php
         //Get each band in the festival, and the band's priority
         $bandPriorities = getAllBandPriorities();
-        $availStages = getAllStages();
+        $availDays = getAllDays();
         //For each band in the festival, get the number of sets currently registered
         foreach ($bandPriorities as $bandInList) {
             $setNum = getNumberOfSetsByBandInFest($bandInList['band']);
@@ -64,7 +64,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 <b><?php echo getBname($bandInList['band']); ?></b> Add new set
                 <select name="insert[<?php echo $bandInList['band']; ?>]">
                     <?php
-                    foreach ($availStages as $a) {
+                    foreach ($availDays as $a) {
                         echo "<option value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
                     }
                     ?>
@@ -79,8 +79,8 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                     <b><?php echo getBname($bandInList['band']); ?></b>
                     <select name="update[<?php echo $set['id']; ?>]">
                         <?php
-                        foreach ($availStages as $a) {
-                            if ($set['stage'] != $a['id']) echo "<option value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
+                        foreach ($availDays as $a) {
+                            if ($set['day'] != $a['id']) echo "<option value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
                             else echo "<option selected=\"selected\" value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
                         }
                         ?>
@@ -93,7 +93,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
 
         ?>
-        <input type="submit" name="submitBandStages" value="Update All Band Stages"/>
+        <input type="submit" name="submitBandDays" value="Update All Band Days"/>
     </form>
     <p>Use the form below to add another set for an entered band.</p>
 
@@ -106,9 +106,9 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
             }
             ?>
         </select>
-        <select name="insertBandSetStage">
+        <select name="insertBandSetDay">
             <?php
-            foreach ($availStages as $a) {
+            foreach ($availDays as $a) {
                 echo "<option value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
             }
             ?>

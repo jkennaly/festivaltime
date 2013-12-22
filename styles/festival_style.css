@@ -40,6 +40,41 @@ div.feststatusrow {
 div.festivalstatuswrapper{
 	display:none;
 }
+
+div.bandpriorityselectwrapper {
+    padding: 0.5em 0;
+    overflow: auto;
+    border: 1px solid;
+    width: 50%;
+}
+
+div.bandSource {
+    width: 50%;
+    float: left;
+}
+
+div.scheduleBand {
+    padding: 0.5em 0;
+
+}
+
+div.topform {
+    width: 100%;
+}
+
+table#scheduletable {
+    width: 50%;
+    float: left;
+}
+
+div.bandpriority {
+    float: left;
+}
+
+div.bandname {
+    float: left;
+}
+
 div.bandgridpicwrapper{
 	float:left; /* important */
 	position:relative; /* important(so we can absolutely position the description div */

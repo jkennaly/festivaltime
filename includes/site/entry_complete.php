@@ -14,7 +14,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 }
 
 $cols = array($_POST['field'], $_POST['field'] . "_v");
-$vals = array(0, 0);
+$vals = array($user, 0);
 $where = "`id`='" . $_POST['fest'] . "'";
 $table = "festivals";
 

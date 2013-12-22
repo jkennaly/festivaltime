@@ -12,6 +12,7 @@ $right_required = "EditFest";
 If(!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)){
 	die("You do not have rights to access this page. You can login or register here: <a href=\"".$basepage."\">FestivalTime</a>");
 }
+unset($_SESSION['setTimes']);
 $complete = getCompletedFestivals($master);
 $incomplete = getIncompleteFestivals($master);
 $verifreq = getVerifReqFestivals($master);
@@ -33,9 +34,11 @@ $statustypes = array(
 				array('days_venues', 'Days', 'days_venues_v'),
 				array('stages', 'Stages', 'stages_v'),
 				array('band_list', 'Band List', 'band_list_v'),
-				array('band_stages', 'Band Stages', 'band_stages_v'),
-				array('set_times', 'Set Times', 'set_times_v'),
-				);
+    array('band_priority', 'Band Priority', 'band_priority_v'),
+    array('band_days', 'Band Days', 'band_days_v'),
+    array('band_stages', 'Band Stages', 'band_stages_v'),
+    array('set_times', 'Set Times', 'set_times_v'),
+);
 foreach ($complete as $c){
 
 drawFestStatus($c, $statustypes);
@@ -61,6 +64,20 @@ drawFestStatus($vr, $statustypes);
 }
 ?>
 </div><!-- end #festivalstatusverifreq -->
+
+    <?php
+    if (!empty($fest)) {
+        ?>
+
+        <div id="festivalstatuscurrent">
+            <?php
+            $currFest = getFestHeader($fest);
+            drawFestStatus($currFest, $statustypes);
+            ?>
+        </div><!-- end #festivalstatusverifreq -->
+    <?php
+    }
+    ?>
 
 </div> <!-- end #content -->
 

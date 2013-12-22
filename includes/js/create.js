@@ -56,19 +56,115 @@ $(document).ready(function() {
 
         return false;
 	});
-	
-	$('#festselectdates').click(function() {
-	   window.location = basepage + "?disp=festival_status";
-	});
-	
-	$('#festcheckstatus').click(function() {
-	   window.location = basepage + "?disp=festival_status";
-	});
+
+    $("#feststagsecomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "stages"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festbandlistcomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "band_list"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festbandprioritiescomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "band_priority"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festbanddayscomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "band_days"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festbandstagescomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "band_stages"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festbandsetimescomplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_complete",
+            data: {fest: $(this).data('fest'), field: "set_times"},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
+            }
+
+        });
+
+        return false;
+    });
+
+    $('#festselectdates').click(function () {
+        window.location = basepage + "?disp=festival_status";
+    });
+
+    $('#festaddmorebands').click(function () {
+        window.location = basepage + "?disp=edit_band_list";
+    });
+
+    $('#festcheckstatus').click(function () {
+        window.location = basepage + "?disp=festival_status";
+    });
 	
 	$('#stopfestcreation').click(function() {
 	   window.location = basepage + "?disp=home";
 	});
-	
+
+    $('.bandSource').sortable();
+
 });
 	
 //position the popup at the center of the page

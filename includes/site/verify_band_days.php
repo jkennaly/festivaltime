@@ -13,20 +13,13 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
-$cols = array($_POST['field'], $_POST['field'] . "_v");
-$vals = array(0, 0);
-$where = "`id`='" . $_POST['fest'] . "'";
-$table = "festivals";
-
-updateRow($table, $cols, $vals, $where);
-
 
 ?>
 
 
 <div id="content">
 
-    Placeholder for verifying header information.
+    Placeholder for verifying the which bands play on which day.
 </div> <!-- end #content -->
 
 

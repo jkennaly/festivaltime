@@ -7,26 +7,37 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 $right_required = "EditFest";
-If(!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)){
-	die("You do not have rights to access this page. You can login or register here: <a href=\"".$basepage."\">FestivalTime</a>");
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
+if (empty($_SESSION['bandsAdded']))
+    include('includes/content/blocks/bandlist_upload.php');
+else {
+    unset($_SESSION['bandsAdded']);
+    ?>
+    <div id="content">
+        Festival band list accepted.
 
+        <br/>
+        <button id="festbandlistcomplete" data-fest="<?php echo $fest; ?>">Band List is Complete</button>
+        <br/>
+        <button id="festaddmorebands">Add More Bands</button>
+        <br/>
+        <button id="stopfestcreation">Done working on this festival for now</button>
+    </div> <!-- end #content -->
+<?php
+}
 ?>
 
 
-<div id="content">
-
-Placeholder for editing the list of bands.
-</div> <!-- end #content -->
-
 
 <script type="text/javascript">
-<!--
-var basepage = "<?php echo $basepage; ?>";
-//-->
+    <!--
+    var basepage = "<?php echo $basepage; ?>";
+    //-->
 </script>
 <script src="includes/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="includes/js/create.js"></script>

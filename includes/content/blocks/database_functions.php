@@ -11,7 +11,6 @@
 
 include('includes/content/blocks/create_festival_functions.php');
 
-
 function UpdateTable($source, $target, $table, $sourceuser, $sourcepassword, $sourcehost, $sourcedb, $targetuser, $targetpassword, $targethost, $targetdb, $path){
 	//This function will copy table $table from $source database to $target, where $source and $target are the resource links to the databases. If $table already exists at $target, it will be wiped out
 
@@ -92,7 +91,8 @@ function insertRow($table, $cols, $vals){
 		echo mysql_error();
 		die ('Insert row failed with: '.$sql);
 	}
-	return true;
+    $rowID = mysql_insert_id($master);
+    return $rowID;
 }
 
 function updateRow($table, $cols, $vals, $where){
@@ -105,8 +105,8 @@ function updateRow($table, $cols, $vals, $where){
 		$i++;
 	}
 	$sql = "UPDATE `$table` SET $valPair WHERE $where";
-//	error_log(print_r($sql, TRUE)); 
-	$upd = mysql_query($sql, $master);
+//	error_log(print_r($sql, TRUE));
+    $upd = mysql_query($sql, $master);
 
 //	echo "<br>".$sql."<br>";
 	if(!$upd){
@@ -128,14 +128,15 @@ function getUname($source, $userid){
 
 }
 
-function getBname($source, $bandid){
-	//This function checks $source table Users for the username of $userid
-
-	$sql = "select name from `bands` where id='$bandid'";
-	$res = mysql_query($sql, $source);
-	$urow=mysql_fetch_array($res);
-	$bname=$urow['name'];
-	return $bname;
+function getBname($bandid)
+{
+    //This function checks $source table Users for the username of $userid
+    global $master;
+    $sql = "select name from `bands` where id='$bandid'";
+    $res = mysql_query($sql, $master);
+    $urow = mysql_fetch_array($res);
+    $bname = $urow['name'];
+    return $bname;
 
 }
 
@@ -233,17 +234,33 @@ function getBandGenreID($main, $master, $band, $user){
 	return $gid;
 }
 
-function getSname($source, $stageid){
-	//This function checks $source table stages for the name of $stageid
+function getSname($stageid)
+{
+    //This function checks $source table stages for the name of $stageid
+    global $master;
+    $sql = "select `name` from `places` where `id`='$stageid'";
+    $res = mysql_query($sql, $master);
 
-	$sql = "select name from `stages` where id=$stageid";
-	$res = mysql_query($sql, $source);
+
+    $srow = mysql_fetch_array($res);
+    $sname = $srow['name'];
+
+    return $sname;
+
+}
+
+function getDname($dayid)
+{
+    //This function checks $source table stages for the name of $stageid
+    global $master;
+    $sql = "select `name` from `days` where `id`='$dayid'";
+    $res = mysql_query($sql, $master);
 
 
-	$srow = mysql_fetch_array($res);
-	$sname = $srow['name'];
+    $srow = mysql_fetch_array($res);
+    $sname = $srow['name'];
 
-	return $sname;
+    return $sname;
 
 }
 
@@ -251,19 +268,19 @@ function getSuggestedDays(){
 	//This function returns an array containing id, name, priority and layout for each stage in the festival
 	global $master, $fest, $festSeries;
 	$sql = "select `id`, `name`, `days_offset` from `days` where festival='$fest'";
-	$res = mysql_query($sql, $main);
-	if(mysql_num_rows($res) > 0){
-		while($srow = mysql_fetch_array($res)){
-			$sname[] = $srow;
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($srow = mysql_fetch_array($res)) {
+            $sname[] = $srow;
 		}
 		return $sname;
 	}
 	else {
 		$sql = "select `name`, `days_offset` from `days` where festival_series='$festSeries' GROUP BY `days_offset` ORDER BY `days_offset` ASC";
-		$res = mysql_query($sql, $main);
-		if(mysql_num_rows($res) > 0){
-			while($srow = mysql_fetch_array($res)){
-				$sname[] = $srow;
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            while ($srow = mysql_fetch_array($res)) {
+                $sname[] = $srow;
 			}
 			return $sname;
 		}
@@ -271,13 +288,25 @@ function getSuggestedDays(){
 	return false;
 }
 
+function getAllDays()
+{
+    //This function returns an array containing id, name, priority and layout for each stage in the festival
+    global $master, $fest;
+    $sql = "select `id`, `name`, `days_offset` from `days` where `deleted` != '1' and `festival`='$fest' ORDER BY `days_offset` ASC";
+    $res = mysql_query($sql, $master);
+    while ($srow = mysql_fetch_array($res)) {
+        $sname[] = $srow;
+    }
+    return $sname;
+}
+
 function getAllDates(){
 	//This function returns an array containing id, name, priority and layout for each stage in the festival
 	global $master, $fest;
-	$sql = "select `id`, `name`, `venue`, `basedate`, `mode` from `dates` where deleted != '1' and festival='$fest'";
-	$res = mysql_query($sql, $master);
-	while($srow = mysql_fetch_array($res)){
-		$sname[] = $srow;
+    $sql = "select `id`, `name`, `venue`, `basedate`, `mode` from `dates` where `deleted` != '1' and `festival`='$fest'";
+    $res = mysql_query($sql, $master);
+    while ($srow = mysql_fetch_array($res)) {
+        $sname[] = $srow;
 	}
 	return $sname;
 }
@@ -285,10 +314,10 @@ function getAllDates(){
 function getAllStages(){
 	//This function returns an array containing id, name, priority and layout for each stage in the festival
 	global $master, $fest;
-	$sql = "select `id`, `name`, `layout`, `priority` from `places` where `deleted` != '1' and `type`='1' and `festival`='$fest'";
-	$res = mysql_query($sql, $master);
-	if (mysql_num_rows($res) > 0){
-		while($srow = mysql_fetch_array($res)){
+    $sql = "select `id`, `name`, `layout`, `priority` from `places` where `deleted` != '1' and `type`='1' and `festival`='$fest' ORDER BY `priority` ASC";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while($srow = mysql_fetch_array($res)){
 			$sname[] = $srow;
 		}
 		return $sname;
@@ -315,10 +344,10 @@ function getStageLayoutName($layout ){
 function getAllStageLayouts(){
 	//This function returns an array containing the id of each stage layout
 	global $master;
-	$sql = "select id, description from stage_layouts where deleted != '1'";
-	$res = mysql_query($sql, $master);
-	while($row=mysql_fetch_array($res)){
-		$result[] = $row;
+    $sql = "select `id`, `description`, `default` from `stage_layouts` where `deleted` != '1'";
+    $res = mysql_query($sql, $master);
+    while ($row = mysql_fetch_array($res)) {
+        $result[] = $row;
 	}
 	return $result;	
 }
@@ -370,12 +399,13 @@ function getStagePriorities(){
 	return $priority;
 }
 
-function getPriorityInfoFromID($priorityid){
-	global $master;
-	$sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `deleted`!='1' AND `id`='$priorityid'";
-	$res = mysql_query($sql, $master);
-	if(mysql_num_rows($res) > 0){
-		$priority=mysql_fetch_array($res);
+function getStagePriorityInfoFromLevel($priorityid)
+{
+    global $master;
+    $sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `deleted`!='1' AND `level`='$priorityid'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $priority=mysql_fetch_array($res);
 	} else {
 		$sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `stage_priorities` where `default`='1'";
 		$res = mysql_query($sql, $master);
@@ -404,8 +434,8 @@ function getForumLink($master, $user, $mainforum, $forumblog){
 			break;
 				
 	}
-	
-	return $sname;
+
+    return false;
 
 }
 
@@ -424,13 +454,13 @@ function getNewFestivals($master){
 function getIncompleteFestivals($master){
 	//This function returns an array containing each festival that has had all its information completed
 	$sql="select `id`, `sitename`, `description`, `website`, ";
-	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
-	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
-	$sql .= " from `festivals` where `deleted`!='1' AND (`header`='0'";
-	$sql .= " OR `dates`='0' OR `days_venues`='0' OR `stages`='0' OR `band_list`='0' OR `band_stages`='0' OR `set_times`='0')";
-	$res = mysql_query($sql, $master);
-	if(mysql_num_rows($res) > 0){
-		while($row=mysql_fetch_array($res)){
+    $sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_priority`, `band_days`, `band_stages`, `set_times`, ";
+    $sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_priority_v`, `band_days_v`, `band_stages_v`, `set_times_v`";
+    $sql .= " from `festivals` where `deleted`!='1' AND (`header`='0'";
+    $sql .= " OR `dates`='0' OR `days_venues`='0' OR `stages`='0' OR `band_list`='0' OR `band_priority`='0' OR `band_days`='0' OR `band_stages`='0' OR `set_times`='0')";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while($row=mysql_fetch_array($res)){
 			$series[] = $row;
 		}
 		return $series;
@@ -440,14 +470,15 @@ function getIncompleteFestivals($master){
 function getCompletedFestivals($master){
 	//This function returns an array containing each festival that has had all its information completed and verified
 	$sql="select `id`, `sitename`, `description`, `website`, ";
-	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
-	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
-	$sql .= " from `festivals` where `deleted`!='1'";
-	$sql .= " AND `header`!='0' AND `dates`!='0' AND `days_venues`!='0' AND `stages`!='0' AND `band_list`!='0' AND `band_stages`!='0' AND `set_times`!='0'";
-	$sql .= " AND `header_v`!='0' AND `dates_v`!='0' AND `days_venues_v`!='0' AND `stages_v`!='0' AND `band_list_v`!='0' AND `band_stages_v`!='0' AND `set_times_v`!='0'";
-	$res = mysql_query($sql, $master);
-	if(mysql_num_rows($res) > 0){
-		while($row=mysql_fetch_array($res)){
+    $sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_priority`, `band_days`, `band_stages`, `set_times`, ";
+    $sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_priority_v`, `band_days_v`, `band_stages_v`, `set_times_v`";
+    $sql .= " from `festivals` where `deleted`!='1'";
+    $sql .= " AND `header`!='0' AND `dates`!='0' AND `days_venues`!='0' AND `stages`!='0' AND `band_list`!='0' AND `band_priority`!='0' AND `band_days`!='0' AND `band_stages`!='0' AND `set_times`!='0'";
+    $sql .= " AND `header_v`!='0' AND `dates_v`!='0' AND `days_venues_v`!='0' AND `stages_v`!='0' AND `band_list_v`!='0' AND `band_priority_v`!='0' AND `band_days_v`!='0' AND `band_stages_v`!='0' AND `set_times_v`!='0'";
+//    error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while($row=mysql_fetch_array($res)){
 			$series[] = $row;
 		}
 		return $series;
@@ -457,14 +488,14 @@ function getCompletedFestivals($master){
 function getVerifReqFestivals($master){
 	//This function returns an array containing each festival that has information needing verification
 	$sql="select `id`, `sitename`, `description`, `website`, ";
-	$sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_stages`, `set_times`, ";
-	$sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_stages_v`, `set_times_v`";
-	$sql .= " from `festivals` where `deleted`!='1'";
-	$sql .= " AND ( (`header`!='0' AND `header_v`='0' ) OR ( `dates`!='0' AND `dates_v`='0' ) OR ( `days_venues`!='0' AND `days_venues_v`='0' ) ";
-	$sql .= "OR ( `stages`!='0' AND `stages_v`='0' ) OR ( `band_list`!='0' AND `band_list_v`='0' ) OR ( `band_stages`!='0' AND `band_stages_v`='0' ) OR ( `set_times`!='0' AND `set_times_v`='0' ) )";
-	$res = mysql_query($sql, $master);
-	if(mysql_num_rows($res) > 0){
-		while($row=mysql_fetch_array($res)){
+    $sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_priority`, `band_days`, `band_stages`, `set_times`, ";
+    $sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_priority_v`, `band_days_v`, `band_stages_v`, `set_times_v`";
+    $sql .= " from `festivals` where `deleted`!='1'";
+    $sql .= " AND ( (`header`!='0' AND `header_v`='0' ) OR ( `dates`!='0' AND `dates_v`='0' ) OR ( `days_venues`!='0' AND `days_venues_v`='0' ) ";
+    $sql .= "OR ( `stages`!='0' AND `stages_v`='0' ) OR ( `band_list`!='0' AND `band_list_v`='0' ) OR ( `band_priority`!='0' AND `band_priority_v`='0' ) OR ( `band_days`!='0' AND `band_days_v`='0' ) OR ( `band_stages`!='0' AND `band_stages_v`='0' ) OR ( `set_times`!='0' AND `set_times_v`='0' ) )";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while($row=mysql_fetch_array($res)){
 			$series[] = $row;
 		}
 		return $series;
@@ -486,9 +517,10 @@ function getFestVenues($master){
 function getFestHeader($fest){
 	//This function returns an array containing the header info for one festival
 	global $master;
-	$sql =  "select `id`, `name`, `year`, `dbname`, `series`, `sitename`,";
-	$sql .=	" `creator`, `start_time`, `length`, `website`, `description`, `cost`, `num_days`, `num_dates`, `header`";
-	$sql .=	" from `festivals` where `deleted`!='1' and `id`='$fest'";
+    $sql = "select `id`, `sitename`, `description`, `series`, `start_time`, `length`, `website`, `cost`, `num_days`, `num_dates`, ";
+    $sql .= "`header`, `dates`, `days_venues`, `stages`, `band_list`, `band_priority`, `band_days`, `band_stages`, `set_times`, ";
+    $sql .= "`header_v`, `dates_v`, `days_venues_v`, `stages_v`, `band_list_v`, `band_priority_v`, `band_days_v`, `band_stages_v`, `set_times_v`";
+    $sql .= " from `festivals` where `deleted`!='1' and `id`='$fest'";
 //	error_log(print_r($sql, TRUE));
 	$res = mysql_query($sql, $master);
 	if(mysql_num_rows($res) > 0){
@@ -579,6 +611,65 @@ function getInterestingFactor($user, $main, $master, $fest){
 	//If you have a postgame comment, IF is 0
 }
 
+function getBandPriorityInfoFromLevel($priorityid)
+{
+    global $master;
+    $sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `band_priorities` where `deleted`!='1' AND `level`='$priorityid'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $priority = mysql_fetch_array($res);
+    } else {
+        $sql = "SELECT `id`, `name`, `level`, `description`, `default` FROM `band_priorities` where `default`='1'";
+        $res = mysql_query($sql, $master);
+        $priority = mysql_fetch_array($res);
+    }
+    return $priority;
+}
+
+function getDefaultBandPriority()
+{
+    //This function returns the level of the default band priority
+    global $master;
+    $sql = "SELECT `level` from `band_priorities` WHERE `default`='1' AND `deleted`!='1' LIMIT 1";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $raw = $row['level'];
+        return $raw;
+    }
+    return false;
+}
+
+function getAllBandPriorities()
+{
+    //This function returns an array containing the ID and priority of each band in the festival
+    global $master, $fest;
+    $sql = "SELECT `id`, `priority`, `band` from `band_list` WHERE `deleted`!='1' AND `festival`='$fest' ORDER BY `priority` ASC";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $raw[] = $row;
+        }
+        return $raw;
+    }
+    return false;
+}
+
+function getAllAvailableBandPriorities()
+{
+    //This function returns an array containing the ID and priority of each band in the festival
+    global $master, $fest;
+    $sql = "SELECT `level`, `name`, `default` from `band_priorities` WHERE `deleted`!='1' ORDER BY `level` ASC";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $raw[] = $row;
+        }
+        return $raw;
+    }
+    return false;
+}
+
 function getAllBandsUserMissed($user, $main){
 	//This function returns an array containing the id of each band in the festival
 	$saw = getAllBandsUserSaw($user, $main);
@@ -613,6 +704,94 @@ function getAllBandsInFest($main){
 		$result[] = $row['id'];
 	}
 	return $result;
+}
+
+function getSimilarBandNameFromName($name)
+{
+    //This function returns an array containing the id and name of each band with a similar name
+    global $master;
+
+    $namesize = strlen($name);
+    If ($namesize < 6) $testname = $name;
+    If ($namesize >= 6 && $namesize < 10) $testname = substr($name, 3);
+    If ($namesize >= 10) $testname = substr($name, 4, 6);
+
+    $sql = "select `id`, `name` from `bands` where `name` like '%" . $testname . "%'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row;
+        }
+        return $result;
+    } else return false;
+}
+
+function getDayAndStageOfSetsByBandInFest($bandid)
+{
+    //This function returns an array containing keyed to the id of each each set by the band, containing the stage and day
+    global $master, $fest;
+    $sql = "select `id`, `day`, `stage` from `sets` where `deleted` != '1' and `festival`='$fest' AND `band`='$bandid'";
+    $res = mysql_query($sql, $master);
+    $num = mysql_num_rows($res);
+    while ($row = mysql_fetch_array($res)) {
+        $sets[] = $row;
+    }
+    if ($num == 0) $sets = $num;
+    return $sets;
+}
+
+function getNumberOfSetsByBandInFest($bandid)
+{
+    //This function returns an array containing the id of each band in the festival
+    global $master, $fest;
+    $sql = "select `id` from `sets` where `deleted` != '1' and `festival`='$fest' AND `band`='$bandid'";
+    $res = mysql_query($sql, $master);
+    $num = mysql_num_rows($res);
+    return $num;
+}
+
+function getBandIDFromName($name)
+{
+    //This function returns an array containing the id of each band in the festival
+    global $master;
+    $sql = "select `id` from `bands` where `deleted` != '1' and `name`='$name'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    } else return false;
+}
+
+function getDayAndStageNeedingimes()
+{
+    //This function returns an array containing the id, start offset and end offset each band in the festival playing a given day and stage
+    global $master, $fest;
+    $sql = "select `id`, `day`, `stage` from `sets` where `deleted` != '1' and `end`='0' and `festival`='$fest' GROUP BY `day`, `stage`";
+    $res = mysql_query($sql, $master);
+//    error_log(print_r($sql, TRUE));
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row;
+        }
+        return $result;
+    } else return false;
+}
+
+function getBandsByDayAndStage($day, $stage)
+{
+    //This function returns an array containing the id, start offset and end offset each band in the festival playing a given day and stage
+    global $master;
+    $sql = "select `id`, `start`, `end`, `band` from `sets` where `deleted` != '1' and `day`='$day' and `stage`='$stage'";
+    $res = mysql_query($sql, $master);
+//    error_log(print_r($sql, TRUE));
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row;
+        }
+        return $result;
+    } else return false;
 }
 
 function getFollowedBy($user, $master){
@@ -949,7 +1128,6 @@ function acceptRating($main, $master, $user, $band, $fest_id, $rating){
 }
 
 function acceptDiscussReply($main, $master, $user, $band, $fest_id, $discuss_table, $escapedReply, $commentid){
-	$rating = mysql_real_escape_string($rating);
 	$sql = "select `master_id` from `bands` where `id`='$band'";
 	$res = mysql_query($sql, $main);
 	$mas_id = mysql_fetch_assoc($res);
@@ -1103,9 +1281,9 @@ function submitPregame($main, $master, $submittedJSON){
 	}
 	if(empty($response)) $response['localUpdates'] = "noChange";
 
-	 
-	      $response['debug'] = $debug;
-	return $response;
+
+//	      $response['debug'] = $debug;
+    return $response;
 }
 
 ?>
