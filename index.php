@@ -50,6 +50,8 @@ $festivaltimeContext = 1;
     include('includes/content/blocks/database_functions.php');
     include('includes/content/blocks/other_functions.php');
     include('includes/content/blocks/SimpleImage.php');
+    include $baseinstall . "includes/content/blocks/scoring_functions.php";
+    include $baseinstall . "includes/content/blocks/search_selection_function.php";
 
 
     If (!empty($_SESSION['fest'])) {

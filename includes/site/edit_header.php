@@ -12,71 +12,73 @@ $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
+?>
+<div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
+    If (!empty($_POST['submitFestHeader'])) {
+        $start_hour = $_POST['hour'];
+        if ($start_hour == 12) $start_hour = 0;
+        $start_period = $_POST['period'];
+        if ($start_period == "AM") $start_time = 3600 * $start_hour;
+        else $start_time = 3600 * ($start_hour + 12);
 
-If (!empty($_POST['submitFestHeader'])) {
-    $start_hour = $_POST['hour'];
-    if ($start_hour == 12) $start_hour = 0;
-    $start_period = $_POST['period'];
-    if ($start_period == "AM") $start_time = 3600 * $start_hour;
-    else $start_time = 3600 * ($start_hour + 12);
+        $length = $_POST['length'] * 3600;
 
-    $length = $_POST['length'] * 3600;
+        if ($_POST['num_dates'] < 1) die('There must be at least one date! Press back on your browser and try again.');
 
-    if ($_POST['num_dates'] < 1) die('There must be at least one date! Press back on your browser and try again.');
+        $name = $_POST["name"];
+        if (!preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
+            die('Only letters, numbers and white space allowed in the name! Press back on your browser and try again.');
+        }
+        $festnamelower = str_replace($outlawcharacters, "", strtolower($_POST['name']));
+        $festyearlower = str_replace($outlawcharacters, "", strtolower($_POST['year']));
+        $db_name = "festival_" . $festnamelower . "_" . $festyearlower;
+        $sitename = $name . " " . $festyearlower;
 
-    $name = $_POST["name"];
-    if (!preg_match("/^[a-zA-Z0-9 ]*$/", $name)) {
-        die('Only letters, numbers and white space allowed in the name! Press back on your browser and try again.');
-    }
-    $festnamelower = str_replace($outlawcharacters, "", strtolower($_POST['name']));
-    $festyearlower = str_replace($outlawcharacters, "", strtolower($_POST['year']));
-    $db_name = "festival_" . $festnamelower . "_" . $festyearlower;
-    $sitename = $name . " " . $festyearlower;
-
-    $website = $_POST["url"];
-    if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $website)) {
-        die('Website must be valid! Press back on your browser and try again.');
-    }
-
-    // Insert into database
-    $table = "festivals";
-    $cols = array("name", "year", "dbname", "series", "sitename",
-        "start_time", "length", "website", "description", "cost", "num_days", "num_dates", "header", "header_v");
-    $vals = array($name, $festyearlower, $db_name, $_POST['series'], $sitename,
-        $start_time, $length, $website, $_POST['description'], $_POST['cost'], $_POST['num_days'], $_POST['num_dates'], $user, 0);
-    $where = "`id`=$fest";
-    updateRow($table, $cols, $vals, $where);
-    ?>
-
-
-    <div id="content">
-        Festival basic info accepted.
-
-        <br/>
-        <button id="festcheckstatus">See Festival Status</button>
-        <br/>
-        <button id="stopfestcreation">Done working on this festival for now</button>
-    </div> <!-- end #content -->
-
-<?php
-} else {
-
-    If (!empty($_POST['submitFestSeries'])) {
+        $website = $_POST["url"];
+        if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $website)) {
+            die('Website must be valid! Press back on your browser and try again.');
+        }
 
         // Insert into database
-        $table = "festival_series";
-        $cols = array("user", "name", "description");
-        $vals = array($user, $_POST['name'], $_POST['descrip']);
-        insertRow($table, $cols, $vals);
+        $table = "festivals";
+        $cols = array("name", "year", "dbname", "series", "sitename",
+            "start_time", "length", "website", "description", "cost", "num_days", "num_dates", "header", "header_v");
+        $vals = array($name, $festyearlower, $db_name, $_POST['series'], $sitename,
+            $start_time, $length, $website, $_POST['description'], $_POST['cost'], $_POST['num_days'], $_POST['num_dates'], $user, 0);
+        $where = "`id`=$fest";
+        updateRow($table, $cols, $vals, $where);
+        ?>
 
-    }
 
-    $header = getFestHeader($fest);
+        <div id="content">
+            Festival basic info accepted.
+
+            <br/>
+            <button id="festcheckstatus">See Festival Status</button>
+            <br/>
+            <button id="stopfestcreation">Done working on this festival for now</button>
+        </div> <!-- end #content -->
+
+    <?php
+    } else {
+
+        If (!empty($_POST['submitFestSeries'])) {
+
+            // Insert into database
+            $table = "festival_series";
+            $cols = array("user", "name", "description");
+            $vals = array($user, $_POST['name'], $_POST['descrip']);
+            insertRow($table, $cols, $vals);
+
+        }
+
+        $header = getFestHeader($fest);
 
 
-    $series = getFestSeries($master);
-    ?>
-    <div id="content">
+        $series = getFestSeries($master);
+        ?>
         To begin the festival creation process, some basic info about the festival needs to be collected.
         At any time during the process, you can press the "Done working on this festival for now" button,
         and you (or someone else) can pick up where you left later.
@@ -169,16 +171,16 @@ If (!empty($_POST['submitFestHeader'])) {
             ?>
         </div>
         <!-- end #overlay_form -->
-    </div> <!-- end #content -->
 
 
 
 
-<?php
-}
 
-?>
+    <?php
+    }
 
+    ?>
+</div> <!-- end #content -->
 <script type="text/javascript">
     <!--
     var basepage = "<?php echo $basepage; ?>";

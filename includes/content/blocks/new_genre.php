@@ -24,7 +24,7 @@ If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required
 //      echo $query."<br />";
         $gupd = mysql_query($query, $master);
         $genre = $_POST['genre'];
-        $genrename = getBandGenre($main, $master, $band, $user);
+        $genrename = getBandGenre($band, $user);
 
     }
 }

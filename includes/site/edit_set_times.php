@@ -12,41 +12,45 @@ $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
-
-if (!empty($_POST['submitDayAndStage'])) {
-    $_SESSION['setTimes']['day'] = $_POST['day'];
-    $_SESSION['setTimes']['stage'] = $_POST['stage'];
-
-}
-
-if (!empty($_POST['submitBandSchedule'])) {
-    foreach ($_POST['start'] as $sID => $sT) {
-        $startTime = $sT['hour'] + $sT['min'];
-
-        $table = "sets";
-        $cols = array("start");
-        $vals = array($startTime);
-        $where = "`id`='" . $sID . "' AND `deleted`!='1'";
-        updateRow($table, $cols, $vals, $where);
-    }
-    foreach ($_POST['end'] as $sID => $sT) {
-        $startTime = $sT['hour'] + $sT['min'];
-
-        $table = "sets";
-        $cols = array("end");
-        $vals = array($startTime);
-        $where = "`id`='" . $sID . "' AND `deleted`!='1'";
-        updateRow($table, $cols, $vals, $where);
-    }
-
-
-}
-
 ?>
-
-
-
 <div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
+
+    if (!empty($_POST['submitDayAndStage'])) {
+        $_SESSION['setTimes']['day'] = $_POST['day'];
+        $_SESSION['setTimes']['stage'] = $_POST['stage'];
+
+    }
+
+    if (!empty($_POST['submitBandSchedule'])) {
+        foreach ($_POST['start'] as $sID => $sT) {
+            $startTime = $sT['hour'] + $sT['min'];
+
+            $table = "sets";
+            $cols = array("start");
+            $vals = array($startTime);
+            $where = "`id`='" . $sID . "' AND `deleted`!='1'";
+            updateRow($table, $cols, $vals, $where);
+        }
+        foreach ($_POST['end'] as $sID => $sT) {
+            $startTime = $sT['hour'] + $sT['min'];
+
+            $table = "sets";
+            $cols = array("end");
+            $vals = array($startTime);
+            $where = "`id`='" . $sID . "' AND `deleted`!='1'";
+            updateRow($table, $cols, $vals, $where);
+        }
+
+
+    }
+
+    ?>
+
+
+
+
     <?php
 
     //Pick a day and stage
@@ -57,7 +61,7 @@ if (!empty($_POST['submitBandSchedule'])) {
     $remaining = getDayAndStageNeedingimes();
     if ($remaining) {
         foreach ($remaining as $r) {
-            echo "There are still sets that need times for day/stage " . getDname($r['day']) . "/" . getSname($r['stage']) . "<br />";
+            echo "There are still sets that need times for day/stage " . getDname($r['day']) . "/" . getPname($r['stage']) . "<br />";
         }
     } else echo '<button id="festbandsetimescomplete" data-fest="' . $fest . '">Band Set Times Complete</button><br />';
 
@@ -213,7 +217,7 @@ if (!empty($_POST['submitBandSchedule'])) {
 <?php
 }
 ?>
-</div> <!-- end #content -->
+
 
 
 <script type="text/javascript">
@@ -224,3 +228,5 @@ if (!empty($_POST['submitBandSchedule'])) {
 <script src="includes/js/jquery-1.9.1.min.js"></script>
 <script src="includes/js/jquery-ui-1.9.1.js"></script>
 <script type="text/javascript" src="includes/js/create.js"></script>
+<script type="text/javascript" src="includes/js/create-ui.js"></script>
+</div> <!-- end #content -->

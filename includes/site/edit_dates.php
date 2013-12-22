@@ -12,90 +12,92 @@ $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
-date_default_timezone_set('UTC');
-If (!empty($_POST['submitFestDates'])) {
+?>
+<div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
+    date_default_timezone_set('UTC');
+    If (!empty($_POST['submitFestDates'])) {
 
-    for ($i = 0; $i < $_SESSION['dates_added']; $i++) {
+        for ($i = 0; $i < $_SESSION['dates_added']; $i++) {
 
-        $name = $_POST['name'][$i];
-        $venue = $_POST['venue'][$i];
-        $basedate = $_POST['basedate'][$i];
-        $mode = 1;
-        $dateID = $_POST['dateID'][$i];
-        //Validation
+            $name = $_POST['name'][$i];
+            $venue = $_POST['venue'][$i];
+            $basedate = $_POST['basedate'][$i];
+            $mode = 1;
+            $dateID = $_POST['dateID'][$i];
+            //Validation
 
-        // Insert into database
-        $table = "dates";
-        $cols = array("festival", "festival_series", "name", "venue", "basedate", "mode");
-        $vals = array($fest, $festSeries, $name, $venue, $basedate, $mode);
-        if ($dateID > 0) {
-            $where = "`id`='$dateID'";
-            updateRow($table, $cols, $vals, $where);
-        } else insertRow($table, $cols, $vals);
-    }
-    $table = "festivals";
-    $cols = array("dates", "dates_v");
-    $vals = array($user, 0);
-    $where = "`id`=$fest";
-    updateRow($table, $cols, $vals, $where);
-    ?>
+            // Insert into database
+            $table = "dates";
+            $cols = array("festival", "festival_series", "name", "venue", "basedate", "mode");
+            $vals = array($fest, $festSeries, $name, $venue, $basedate, $mode);
+            if ($dateID > 0) {
+                $where = "`id`='$dateID'";
+                updateRow($table, $cols, $vals, $where);
+            } else insertRow($table, $cols, $vals);
+        }
+        $table = "festivals";
+        $cols = array("dates", "dates_v");
+        $vals = array($user, 0);
+        $where = "`id`=$fest";
+        updateRow($table, $cols, $vals, $where);
+        ?>
 
 
-    <div id="content">
         Festival date info accepted.
 
         <br/>
         <button id="festcheckstatus">See Festival Status</button>
         <br/>
         <button id="stopfestcreation">Done working on this festival for now</button>
-    </div> <!-- end #content -->
-
-<?php
-} else {
 
 
-    $date = date('Y-m-d', time());
+    <?php
+    } else {
 
-    $blankData = array(
-        'id' => 0,
-        'name' => "Date Name",
-        'venue' => 0,
-        'basedate' => $date
-    );
 
-    $header = getFestHeader($fest);
+        $date = date('Y-m-d', time());
 
-    $num_dates = $header['num_dates'];
-    $currDates = getAllDates();
+        $blankData = array(
+            'id' => 0,
+            'name' => "Date Name",
+            'venue' => 0,
+            'basedate' => $date
+        );
 
-    if (!empty($currDates)) $defined_dates = count($currDates);
-    else $currDates = 0;
+        $header = getFestHeader($fest);
 
-    if ($currDates > 0) {
-        foreach ($currDates as $c) {
-            $default_date[] = $c;
+        $num_dates = $header['num_dates'];
+        $currDates = getAllDates();
+
+        if (!empty($currDates)) $defined_dates = count($currDates);
+        else $currDates = 0;
+
+        if ($currDates > 0) {
+            foreach ($currDates as $c) {
+                $default_date[] = $c;
+            }
         }
-    }
 
-    for ($i = $currDates; $i < $num_dates; $i++) {
-        $default_date[] = $blankData;
-    }
-    If (!empty($_POST)) {
+        for ($i = $currDates; $i < $num_dates; $i++) {
+            $default_date[] = $blankData;
+        }
+        If (!empty($_POST)) {
 
-        // Insert into database
-        $table = "venues";
-        $cols = array("user", "name", "description", "country", "state", "city", "street_address", "timezone");
-        $vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address'], $_POST['userTimeZone']);
-        insertRow($table, $cols, $vals);
+            // Insert into database
+            $table = "venues";
+            $cols = array("user", "name", "description", "country", "state", "city", "street_address", "timezone");
+            $vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address'], $_POST['userTimeZone']);
+            insertRow($table, $cols, $vals);
 
-    }
-    $used = getFestVenues($master);
+        }
+        $used = getFestVenues($master);
 
-    $venues = getFestVenues($master);
-    ?>
+        $venues = getFestVenues($master);
+        ?>
 
 
-    <div id="content">
 
 
         <form action="<?php echo $basepage . "?disp=edit_dates"; ?>" method="post" enctype="multipart/form-data">
@@ -122,6 +124,7 @@ If (!empty($_POST['submitFestDates'])) {
                     <img alt="info_icon" src="includes/images/emblem-notice.png"
                          title="The base date is the first (or only) date of the festival date"/>:
                     <input type="date" name="basedate[<?php echo $i; ?>]" value="<?php echo $dd['basedate']; ?>"/>
+                    <input type="hidden" name="dateID[<?php echo $i; ?>]" value="<?php echo $dd['id']; ?>">
                 </div> <!-- end .festeditdate -->
                 <?php
                 $i++;
@@ -129,7 +132,7 @@ If (!empty($_POST['submitFestDates'])) {
 
             $_SESSION['dates_added'] = $i;
             ?>
-            <input type="hidden" name="dateID[<?php echo $i; ?>]" value="<?php echo $dd['id']; ?>">
+
             <input type="submit" name="submitFestDates" value="Submit">
         </form>
 
@@ -141,14 +144,15 @@ If (!empty($_POST['submitFestDates'])) {
         </div>
         <!-- end #overlay_form -->
 
-    </div> <!-- end #content -->
 
-<?php
-}
 
-?>
-<script type="text/javascript">
-    var basepage = "<?php echo $basepage; ?>";
-</script>
-<script src="includes/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="includes/js/create.js"></script>
+    <?php
+    }
+
+    ?>
+    <script type="text/javascript">
+        var basepage = "<?php echo $basepage; ?>";
+    </script>
+    <script src="includes/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="includes/js/create.js"></script>
+</div> <!-- end #content -->

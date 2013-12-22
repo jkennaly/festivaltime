@@ -279,9 +279,9 @@ for ($k=$fest_start_time_sec;$k<$fest_end_time_sec;$k=$k+900) {
     			If(empty($band_current[$j])) $band_current[$j]=0;
     			If(empty($band_current_prev[$j])) $band_current_prev[$j]=0;
     			If((($band_current[$j]==1 && $band_current_prev[$j] == 0 )  || ($band_name_prev[$j] != $row_band['name'])   ) && !empty($row_band['name']) ) {$ticks[$j] = ($row_band['sec_end'] - $row_band['sec_start'])/300; $ticked[$j] = 1;}
-    			If($ticked[$j] == 1 ) echo "<td id=\"band".$row_band['id']."\" class=\"rating".$rat_row['rating']."\" rowspan=\"".$ticks[$j]."\">"."<a href=\"".$basepage."?disp=view_band&band=".$row_band['id']."\">".$row_band['name']."<br />".getBandGenre($main, $master, $row_band['id'], $user)."</a></td>";
-    			If($ticked[$j] == 0 ) echo "<td></td>";
-    			$band_current_prev[$j] = $band_current[$j];
+                If ($ticked[$j] == 1) echo "<td id=\"band" . $row_band['id'] . "\" class=\"rating" . $rat_row['rating'] . "\" rowspan=\"" . $ticks[$j] . "\">" . "<a href=\"" . $basepage . "?disp=view_band&band=" . $row_band['id'] . "\">" . $row_band['name'] . "<br />" . getBandGenre($row_band['id'], $user) . "</a></td>";
+                If ($ticked[$j] == 0) echo "<td></td>";
+                $band_current_prev[$j] = $band_current[$j];
     			$band_name_prev[$j] = $row_band['name'];
     		}
 		} // Closes for ($j=1;$j<=$i;$j++)
@@ -380,9 +380,9 @@ If(mysql_num_rows($res_band)>0) {
 	$res_rat = mysql_query($rat_sql, $main);
 	$rat_row=mysql_fetch_array($res_rat);
 	//Lay down the band name
-	echo "<td class=\"rating".$rat_row['rating']."\" colspan=\"$blocks\">"."<a href=\"".$basepage."?disp=view_band&band=".$band_row['id']."\">".$band_row['name']."<br />".getBandGenre($main, $master, $band_row['id'], $user)."</a></td>";
-	//Skip index to end of band
-	$k = $band_row['sec_end'] - 300;
+    echo "<td class=\"rating" . $rat_row['rating'] . "\" colspan=\"$blocks\">" . "<a href=\"" . $basepage . "?disp=view_band&band=" . $band_row['id'] . "\">" . $band_row['name'] . "<br />" . getBandGenre($band_row['id'], $user) . "</a></td>";
+    //Skip index to end of band
+    $k = $band_row['sec_end'] - 300;
 } else {
 	echo "<td></td>";
 

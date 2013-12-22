@@ -8,37 +8,52 @@ Contributors:
     Jason Kennaly - initial API and implementation
 */
 
-div#overlay_form{
-	visibility:hidden;
-	background-color: #eeeeee;
-	padding: 10px;
+div#overlay_form {
+    visibility: hidden;
+    background-color: #eeeeee;
+    padding: 10px;
 }
+
 div.bandsbygenre {
-	overflow: hidden;
-	width: 100%;
+    overflow: hidden;
+    width: 100%;
 }
+
 div.feststatus {
-	padding:0.5em 0;
-	clear:both;
+    padding: 0.5em 0;
+    clear: both;
 }
+
 div.feststatususer {
-	margin:0 1em;
-	float: left;
-	width: 20%;
+    margin: 0 1em;
+    float: left;
+    width: 20%;
+    height: 100%;
 }
+
 div.feststatusname {
-	margin:0 1em;
-	float: left;
-	width: 20%;
+    margin: 0 1em;
+    float: left;
+    width: 20%;
 }
+
 div.feststatusrow {
-	padding:0.1em 0;
-	overflow:auto;
-	border: 1px solid;
-	width: 80%;
+    padding: 0.1em 0;
+    overflow: auto;
+    border: 1px solid;
+    width: 80%;
 }
-div.festivalstatuswrapper{
-	display:none;
+
+div.festivalstatuswrapper {
+    display: none;
+}
+
+div#showfestivalbuttons {
+    display: none;
+}
+
+div#showMoreFunctions {
+    display: none;
 }
 
 div.bandpriorityselectwrapper {
@@ -75,24 +90,26 @@ div.bandname {
     float: left;
 }
 
-div.bandgridpicwrapper{
-	float:left; /* important */
-	position:relative; /* important(so we can absolutely position the description div */
+div.bandgridpicwrapper {
+    float: left; /* important */
+    position: relative; /* important(so we can absolutely position the description div */
 }
-div.bandgridpictitle{
-	position:absolute; /* absolute position (so we can position it where we want)*/
-	bottom:0px; /* position will be on bottom */
-	left:0px;
-	width:100%;
-	/* styling bellow */
-	background-color:black;
-	font-family: 'tahoma';
-	font-size:15px;
-	color:white;
-	opacity:0.6; /* transparency */
-	filter:alpha(opacity=60); /* IE transparency */
+
+div.bandgridpictitle {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 0px; /* position will be on bottom */
+    left: 0px;
+    width: 100%;
+    /* styling bellow */
+    background-color: black;
+    font-family: 'tahoma';
+    font-size: 15px;
+    color: white;
+    opacity: 0.6; /* transparency */
+    filter: alpha(opacity=60); /* IE transparency */
 }
-p.title_content{
-	padding:10px;
-	margin:0px;
+
+p.title_content {
+    padding: 10px;
+    margin: 0px;
 }

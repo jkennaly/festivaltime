@@ -14,6 +14,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 }
 ?>
 <div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
     <?php
     if (!empty($_POST['submitBandStages']) || !empty($_POST['submitSingleBand'])) {
         if (!empty($_POST['submitBandStages'])) {

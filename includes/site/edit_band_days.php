@@ -14,6 +14,13 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 }
 ?>
 <div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+
+
+    <br/>
+    <button id="festbanddayscomplete" data-fest="<?php echo $fest; ?>">Band Days Are Complete</button>
+    <br/>
+    <button id="stopfestcreation">Done working on this festival for now</button>
     <?php
     if (!empty($_POST['submitBandDays']) || !empty($_POST['submitSingleBand'])) {
         if (!empty($_POST['submitBandDays'])) {
@@ -41,10 +48,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
         Festival band priorities accepted. You may continue editing priorities or press the complete button.
 
-        <br/>
-        <button id="festbanddayscomplete" data-fest="<?php echo $fest; ?>">Band Days Are Complete</button>
-        <br/>
-        <button id="stopfestcreation">Done working on this festival for now</button>
+
     <?php
     }
 
@@ -117,13 +121,11 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     </form>
 
 
+    <script type="text/javascript">
+        <!--
+        var basepage = "<?php echo $basepage; ?>";
+        //-->
+    </script>
+    <script src="includes/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="includes/js/create.js"></script>
 </div> <!-- end #content -->
-
-
-<script type="text/javascript">
-    <!--
-    var basepage = "<?php echo $basepage; ?>";
-    //-->
-</script>
-<script src="includes/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="includes/js/create.js"></script>

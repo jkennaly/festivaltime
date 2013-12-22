@@ -12,52 +12,56 @@ $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
-
-$stages = getAllStages();
-
-If (!empty($_POST)) {
-
-    if (empty($_POST['submitNewStage'])) {
-        foreach ($stages as $updated) {
-            $post_edit = "update-" . $updated['id'];
-            $post_delete = "delete-" . $updated['id'];
-//		echo $post_edit."<br />";
-            if (!empty($_POST[$post_edit])) {
-                // Insert into database
-                $table = "places";
-                $cols = array("name", "priority", "layout");
-                $vals = array($_POST['name'], $_POST['level'], $_POST['layout']);
-                $where = "`id`='" . $updated['id'] . "'";
-                updateRow($table, $cols, $vals, $where);
-            }
-            if (!empty($_POST[$post_delete])) {
-
-                // Insert into database
-                $table = "places";
-                $cols = array("deleted");
-                $vals = array(1);
-                $where = "`id`='" . $updated['id'] . "'";
-                updateRow($table, $cols, $vals, $where);
-            }
-        }
-    }
-
-    If (!empty($_POST['submitNewStage'])) {
-
-        // Insert into database
-        $table = "places";
-        $cols = array("festival", "festival_series", "type", "name", "priority", "layout");
-        $vals = array($fest, $festSeries, 1, $_POST['name'], $_POST['level'], $_POST['layout']);
-        insertRow($table, $cols, $vals);
-    }
+?>
+<div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
 
     $stages = getAllStages();
-}
 
-?>
+    If (!empty($_POST)) {
+
+        if (empty($_POST['submitNewStage'])) {
+            foreach ($stages as $updated) {
+                $post_edit = "update-" . $updated['id'];
+                $post_delete = "delete-" . $updated['id'];
+//		echo $post_edit."<br />";
+                if (!empty($_POST[$post_edit])) {
+                    // Insert into database
+                    $table = "places";
+                    $cols = array("name", "priority", "layout");
+                    $vals = array($_POST['name'], $_POST['level'], $_POST['layout']);
+                    $where = "`id`='" . $updated['id'] . "'";
+                    updateRow($table, $cols, $vals, $where);
+                }
+                if (!empty($_POST[$post_delete])) {
+
+                    // Insert into database
+                    $table = "places";
+                    $cols = array("deleted");
+                    $vals = array(1);
+                    $where = "`id`='" . $updated['id'] . "'";
+                    updateRow($table, $cols, $vals, $where);
+                }
+            }
+        }
+
+        If (!empty($_POST['submitNewStage'])) {
+
+            // Insert into database
+            $table = "places";
+            $cols = array("festival", "festival_series", "type", "name", "priority", "layout");
+            $vals = array($fest, $festSeries, 1, $_POST['name'], $_POST['level'], $_POST['layout']);
+            insertRow($table, $cols, $vals);
+        }
+
+        $stages = getAllStages();
+    }
+
+    ?>
 
 
-<div id="content">
+
     <br/>
     <button id="feststagsecomplete" data-fest="<?php echo $fest; ?>">Stages are complete</button>
     <br/>
@@ -171,4 +175,5 @@ If (!empty($_POST)) {
     <script type="text/javascript" src="includes/js/create.js"></script>
     <script type="text/javascript" src="includes/js/thickbox.js"></script>
 </div> <!-- end #content -->
+
 

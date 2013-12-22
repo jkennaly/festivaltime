@@ -7,10 +7,10 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 $right_required = "ViewNotes";
-If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
 
 //My festivals
 
@@ -20,12 +20,13 @@ If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)
 
 //Upcoming festivals
 
+
 //Past Festivals
-	
+
 } else {
     echo "This page requires a higher level access than you currently have.";
 
-include $baseinstall."includes/site/login.php";
+    include $baseinstall . "includes/site/login.php";
 }
 ?>
 </div> <!-- end #content -->

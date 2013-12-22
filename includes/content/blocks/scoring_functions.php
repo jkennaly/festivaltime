@@ -72,21 +72,25 @@ function count_digit($number) {
 return strlen((string) $number);
 }
 
-function act_rating($band, $user, $main) {
+function act_rating($band, $user)
+{
 //This function returns the rating for a given user for a given band in a given fest, or 0 if unrated
-$sql = "SELECT rating FROM ratings WHERE band='$band' and user='$user'";
-$res=mysql_query($sql, $main);
-$row=mysql_fetch_array($res);
-If(!empty($row['rating'])) $rate = $row['rating'];
-else $rate = 0;
+    global $master, $fest;
+    $sql = "SELECT `content` FROM `messages` WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `mode`='1' and `festival`='$fest' and `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    $row=mysql_fetch_array($res);
+    If (!empty($row['rating'])) $rate = $row['content'];
+    else $rate = 0;
 return $rate;
 }
 
-function act_live_rating($band, $user, $main) {
+function act_live_rating($band, $user)
+{
 //This function returns the gametime rating for a given user for a given band in a given fest, or 0 if unrated
-$sql = "SELECT rating, id FROM live_rating WHERE band='$band' and user='$user' ORDER BY id DESC LIMIT 1";
-$res=mysql_query($sql, $main);
-$row=mysql_fetch_array($res);
+    global $master, $fest;
+    $sql = "SELECT `content` as rating, `id` FROM `messages` WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `mode`='2' and `festival`='$fest' and `deleted`!='1' ORDER BY id DESC LIMIT 1";
+    $res = mysql_query($sql, $master);
+    $row=mysql_fetch_array($res);
 If(!empty($row['rating'])) $rate = $row['rating'];
 else $rate = 0;
 return $rate;

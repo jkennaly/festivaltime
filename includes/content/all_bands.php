@@ -27,9 +27,9 @@ $post_target=$basepage."?disp=home";
 $sql="select id, name from bands order by rand()";
 $res=mysql_query($sql, $main);
 while($row=mysql_fetch_array($res)) {
-    $bandgenreid[$row['id']] = getBandGenreID($main, $master, $row['id'], $user);
+    $bandgenreid[$row['id']] = getBandGenreID($row['id'], $user);
     $bandscore[$row['id']] = uscoref2($row['id'], $user, $avg_rating, $main);
-    $bandgenrename[$row['id']] = getBandGenre($main, $master, $row['id'], $user);
+    $bandgenrename[$row['id']] = getBandGenre($row['id'], $user);
     $bandname[$row['id']] = $row['name'];
     $bandid[$row['id']] = $row['id'];
 }

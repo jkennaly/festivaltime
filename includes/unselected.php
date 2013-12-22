@@ -11,7 +11,7 @@
 
 
 If (!empty($_GET["disp"])) $disp = htmlspecialchars($_GET["disp"]);
-If (empty($_GET["disp"]) || $disp == "home") $disp = "fest_select";
+If (empty($_GET["disp"]) || $disp == "home") $disp = "main";
 If (!empty($_GET['regcode'])) {
     $disp = "register";
 }
