@@ -351,13 +351,8 @@ function getAllStageLayouts()
     return $result;
 }
 
-function displayStageLayoutPic($basepage, $layout)
-{
-    global $master;
-    $sql = "select description from stage_layouts where id='$layout'";
-    $res = mysql_query($sql, $master);
-    $row = mysql_fetch_array($res);
-    $title_content = $row['description'];
+function getAllStages($main){
+	//This function returns an array containing id, name, priority and layout for each stage in the festival
 
     $pgdisp = "<div class=\"stagelayoutpicwrapper\" ><img class = \"stagelayoutpic\" src=\"" . $basepage;
     $pgdisp .= "includes/content/blocks/getPicStageLayout.php?layout=" . $layout;
