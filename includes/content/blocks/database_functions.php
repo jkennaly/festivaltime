@@ -145,12 +145,12 @@ function getBname($bandid)
 
 }
 
-function getFname($source, $festid)
+function getFname()
 {
     //This function checks $source table Users for the username of $userid
-
-    $sql = "select * from `info_$festid`";
-    $res = mysql_query($sql, $source);
+    global $master, $fest;
+    $sql = "select * from `info_$fest`";
+    $res = mysql_query($sql, $master);
 
 
     while ($urow = mysql_fetch_array($res)) {
@@ -1056,12 +1056,14 @@ function genreList($user)
     //This function returns all the genres in main, with genreid, genrename, number of bands in genre,
     //number of rated bands in genre, and total rating points for all bands in genre
     global $master;
-    $sql = "select id from bands";
+    $sql = "select `id` from `bands` where `deleted`!='1'";
     $res = mysql_query($sql, $master);
     $ret_genre = array();
     while ($row = mysql_fetch_array($res)) {
         $test['genreid'] = getBandGenreID($row['id'], $user);
         $test['rating'] = act_rating($row['id'], $user);
+        echo "<br />test: ";
+        var_dump($test);
         $genreJustAdded = 0;
         foreach ($ret_genre as &$g) {
             if ($test['genreid'] == $g['id']) {
@@ -1085,11 +1087,12 @@ function genreList($user)
     return $ret_genre;
 }
 
-function getGenresForAllBandsInFest($main, $master, $fest, $user)
+function getGenresForAllBandsInFest($user)
 {
     //Find genre of every band in main
-    $sql = "select id, name from bands order by rand()";
-    $res = mysql_query($sql, $main);
+    global $master, $fest;
+    $sql = "select `id`, `name` from `band_list` where `festival`='$fest' and `deleted`!='1' order by rand()";
+    $res = mysql_query($sql, $master);
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
             $result[$row['id']]['genreid'] = getBandGenreID($row['id'], $user);

@@ -56,6 +56,22 @@ $(document).ready(function () {
         window.location = basepage + "?disp=create_festival" + "&fest=0";
     });
 
+    $("#change-venue").click(function () {
+        window.location = basepage + "?disp=add_venue" + "&fest=0";
+    });
+
+    $("#add-stage-layout").click(function () {
+        window.location = basepage + "?disp=add_stage_layout" + "&fest=0";
+    });
+
+    $("#manage-stage-layout").click(function () {
+        window.location = basepage + "?disp=edit_stage_layouts" + "&fest=0";
+    });
+
+    $("#change-band-priority").click(function () {
+        window.location = basepage + "?disp=edit_band_priority" + "&fest=0";
+    });
+
     $(".unlockbutton").click(function () {
         var targetFest = $(this).data('fest');
 

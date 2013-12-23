@@ -77,7 +77,8 @@ foreach ($used as $u) {
                     $transition = $current_tz->getTransitions($dt->getTimestamp(), $dt->getTimestamp());
                     $abbr = $transition[0]['abbr'];
 
-                    echo '<option value="' . $tz . '">' . $tz . ' [' . $abbr . ' ' . formatOffset($offset) . ']</option>';
+                    if (!($u['timezone'] == $tz)) echo '<option value="' . $tz . '">' . $tz . ' [' . $abbr . ' ' . formatOffset($offset) . ']</option>';
+                    else echo '<option selected="selected" value="' . $tz . '">' . $tz . ' [' . $abbr . ' ' . formatOffset($offset) . ']</option>';
                 }
                 ?>
             </select>

@@ -32,7 +32,7 @@ If (!empty($band)) {
             $live_rater = getUname($master, $row2['user']);
             $live_band = getBname($master, $row2['band']);
             $rtime = strftime($format, $row2['msgtime']);
-            $fest = getFname($master, $row2['festival']);
+            $fest = $header['sitename'];
             echo "<tr><td>$fest</td><td>" . $rtime . "</td><td>" . $live_rater . "</td><td>" . $live_band . "</td><td>" . $row2['rating'] . "</td><td>" . $row2['comment'] . "</td></tr>";
         }
         echo "</table>";

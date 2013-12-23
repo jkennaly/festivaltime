@@ -44,7 +44,7 @@ include('includes/content/blocks/accept_link.php');
                     $rateline = " (" . $rate_row['rating'] . " Stars)";
                 }
 
-                $priorname = getFname($master, $v);
+                $priorname = $header['sitename'];;
                 $oldcomment = $priorname . "$rateline: " . $comment_row['comment'];
                 $priorband = getFestBandIDFromMaster($band_master_id, $v, $master);
                 $commententry .= "<div id=\"hid" . $v . "\" class=\"hiddentext\">$oldcomment</div>";
