@@ -18,6 +18,9 @@ If (!empty($_SESSION['user'])) {
     $user = getUserIDFromUserName($uname);
 
 }
+if (!empty($_REQUEST['band'])) {
+    $band = $_REQUEST['band'];
+}
 
 date_default_timezone_set("America/Los_Angeles");
 

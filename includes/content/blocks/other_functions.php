@@ -7,126 +7,155 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
-function formatOffset($offset) {
-        $hours = $offset / 3600;
-        $remainder = $offset % 3600;
-        $sign = $hours > 0 ? '+' : '-';
-        $hour = (int) abs($hours);
-        $minutes = (int) abs($remainder / 60);
+function formatOffset($offset)
+{
+    $hours = $offset / 3600;
+    $remainder = $offset % 3600;
+    $sign = $hours > 0 ? '+' : '-';
+    $hour = (int)abs($hours);
+    $minutes = (int)abs($remainder / 60);
 
-        if ($hour == 0 AND $minutes == 0) {
-            $sign = ' ';
-        }
-        return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) .':'. str_pad($minutes,2, '0');
+    if ($hour == 0 AND $minutes == 0) {
+        $sign = ' ';
+    }
+    return $sign . str_pad($hour, 2, '0', STR_PAD_LEFT) . ':' . str_pad($minutes, 2, '0');
 
 }
 
-function randLetter() {
-    $int = rand(0,51);
+function randLetter()
+{
+    $int = rand(0, 51);
     $a_z = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $rand_letter = $a_z[$int];
     return $rand_letter;
 }
 
-function randAlphaNum() {
-    $int = rand(0,35);
-    $a_z = "012345679ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function randAlphaNum()
+{
+    $int = rand(0, 35);
+    $a_z = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $rand_letter = $a_z[$int];
     return $rand_letter;
 }
 
-function ratingStars($band, $user, $main, $class, $imgpath, $basepage, $rate_target) {
+function ratingStars($band, $user, $class, $imgpath, $rate_target, $mode)
+{
 //This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
-    $sql = "select rating from `ratings` where band='$band' and user='$user'";
-	$res = mysql_query($sql, $main);
-	$rate="";
-	If(mysql_num_rows($res) == 0) {
-		for($i=1;$i<=5;$i++){
-			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/estar.jpg\"></a>";
-		}
-	} else {
-		$row=mysql_fetch_array($res);
-		$empty=5-$row['rating'];
-		$filled=$row['rating'];
-		for($i=1;$i<=$filled;$i++){
-			$rate.="<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/fstar.jpg\"></a>";
-		}
-		for($j=1;$j<=$empty;$j++){
-			$k=$i+$j-1;
-			$rate.="<a href=\"$rate_target&rateband=$k\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
-		}
-	}	
-	return $rate;
-}
-
-function displayStars($band, $user, $main, $class, $imgpath) {
-//This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
-    $sql = "select rating from `ratings` where band='$band' and user='$user'";
-	$res = mysql_query($sql, $main);
-	$rate="";
-	If(mysql_num_rows($res) == 0) {
-		
-	} else {
-		$row=mysql_fetch_array($res);
-		$empty=5-$row['rating'];
-		$filled=$row['rating'];
-		for($i=1;$i<=$filled;$i++){
-			$rate.="<img class=\"$class\" src=\"$imgpath/fstar.jpg\">";
-		}
-	}	
-	return $rate;
-}
-
-function in_string($needle, $haystack) {
-    $i=0;
-  if(is_array($needle)) {
-    foreach ($needle as $n) {
-      if (strpos($haystack, $n) !== false) {$i=1; break;}
+    global $fest, $master;
+    $sql = "SELECT `content` as rating FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='2' ORDER BY `id` DESC LIMIT 1";
+    //    error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    $rate = "";
+    If (mysql_num_rows($res) == 0) {
+        for ($i = 1; $i <= 5; $i++) {
+            $rate .= "<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/estar.jpg\"></a>";
+        }
+    } else {
+        $row = mysql_fetch_array($res);
+        $empty = 5 - $row['rating'];
+        $filled = $row['rating'];
+        for ($i = 1; $i <= $filled; $i++) {
+            $rate .= "<a href=\"$rate_target&rateband=$i\"><img class=\"$class\" title=\"Rate the band a $i\" src=\"$imgpath/fstar.jpg\"></a>";
+        }
+        for ($j = 1; $j <= $empty; $j++) {
+            $k = $i + $j - 1;
+            $rate .= "<a href=\"$rate_target&rateband=$k\"><img class=\"$class\" src=\"$imgpath/estar.jpg\"></a>";
+        }
     }
-  }
-  else If (strpos($needle, $haystack) !== false) $i=1;
-  return $i;
-} 
+    return $rate;
+}
 
-function email_bad($email) {
-    $i=0;
+function displayStars($band, $user, $main, $class, $imgpath)
+{
+//This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
+    $sql = "select rating from `ratings` where band='$band' and user='$user'";
+    $res = mysql_query($sql, $main);
+    $rate = "";
+    If (mysql_num_rows($res) == 0) {
+
+    } else {
+        $row = mysql_fetch_array($res);
+        $empty = 5 - $row['rating'];
+        $filled = $row['rating'];
+        for ($i = 1; $i <= $filled; $i++) {
+            $rate .= "<img class=\"$class\" src=\"$imgpath/fstar.jpg\">";
+        }
+    }
+    return $rate;
+}
+
+function in_string($needle, $haystack)
+{
+    $i = 0;
+    if (is_array($needle)) {
+        foreach ($needle as $n) {
+            if (strpos($haystack, $n) !== false) {
+                $i = 1;
+                break;
+            }
+        }
+    } else If (strpos($needle, $haystack) !== false) $i = 1;
+    return $i;
+}
+
+function email_bad($email)
+{
+    $i = 0;
     $atloc = strpos($email, '@');
     $dotloc = strpos($email, '.', $atloc);
-    If( $atloc < 1) {$i=1; echo $atloc."at loc<br />";}
-    If( $dotloc < $atloc + 1) {$i=1; echo $dotloc."dot loc<br />";}
-    If( strlen($email) < 6) {$i=1; echo 3;}
-    
-  return $i;
-}  
+    If ($atloc < 1) {
+        $i = 1;
+        echo $atloc . "at loc<br />";
+    }
+    If ($dotloc < $atloc + 1) {
+        $i = 1;
+        echo $dotloc . "dot loc<br />";
+    }
+    If (strlen($email) < 6) {
+        $i = 1;
+        echo 3;
+    }
 
-function email_bad2($email) {
-    $i=0;
+    return $i;
+}
+
+function email_bad2($email)
+{
+    $i = 0;
     $atloc = strpos($email, '@');
     $dotloc = strpos($email, '.', $atloc);
-    If( $atloc < 1) {$i=1;}
-    If( $dotloc < $atloc + 1) {$i=1;}
-    If( strlen($email) < 6) {$i=1;}
-    
-  return $i;
-}  
+    If ($atloc < 1) {
+        $i = 1;
+    }
+    If ($dotloc < $atloc + 1) {
+        $i = 1;
+    }
+    If (strlen($email) < 6) {
+        $i = 1;
+    }
 
-function total_ratings($user, $main) {
-    $sql="select count(id) as total from ratings where user='$user'";
+    return $i;
+}
+
+function total_ratings($user, $main)
+{
+    $sql = "select count(id) as total from ratings where user='$user'";
 //    echo $sql;
     $result = mysql_query($sql, $main);
-    $row=mysql_fetch_array($result);
+    $row = mysql_fetch_array($result);
     return $row['total'];
 }
 
-function rating_count($user, $rating, $main) {
-    $sql="select count(id) as total from ratings where user='$user' and rating='$rating'";
+function rating_count($user, $rating, $main)
+{
+    $sql = "select count(id) as total from ratings where user='$user' and rating='$rating'";
 //    echo $sql;
     $result = mysql_query($sql, $main);
-    $row=mysql_fetch_array($result);
-    If(empty($row['total'])) $row['total'] = 0;
+    $row = mysql_fetch_array($result);
+    If (empty($row['total'])) $row['total'] = 0;
     return $row['total'];
 }
 

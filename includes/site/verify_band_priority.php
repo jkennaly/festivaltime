@@ -13,21 +13,20 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
-$fieldType = "stages";
+$fieldType = "band_priority";
 ?>
-
 
 <div id="content">
     <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
     <?php
-    $festStages = getAllStages();
-    foreach ($festStages as $fD) {
-        $bandsOnStage = getBandsByStage($fD['id']);
-        ?>
-        <h4><?php echo $fD['name']; ?></h4>
-    <?php
+    $festLevels = getPrioritiesUsedInFest();
+    foreach ($festLevels as $fL) {
+        echo "<h2>" . getLname($fL) . "</h2>";
+        $levelBands = getAllBandsAtLevelInFest($fL);
+        foreach ($levelBands as $lB) {
+            echo getBname($lB) . "<br />";
+        }
     }
-
 
     if ($user == $header[$fieldType]) echo "<b>You entered this information.</b>";
     else {
@@ -40,6 +39,7 @@ $fieldType = "stages";
     ?>
 
 </div> <!-- end #content -->
+
 
 <script type="text/javascript">
     <!--

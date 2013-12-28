@@ -24,6 +24,8 @@ chdir($baseinstall . "includes/site/");
 $site_files = glob("*.php");
 chdir($old_path);
 
+if (!$checkFest) $disp = "fest_sign_up";
+
 
 //If there is a specific type of content requested, and there is a file with that name, display it
 If (in_array($disp . ".php", $content_files)) {

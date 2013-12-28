@@ -20,6 +20,8 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
+$currBands = getAllBandsInFest();
+
 if (empty($_POST['submitFinal'])) unset($_SESSION['bandul']);
 If (!empty($_POST['submitFile']) || !empty($_POST['submitSingleBand'])) {
     If (!empty($_POST['submitFile'])) {
@@ -37,20 +39,21 @@ If (!empty($_POST['submitFile']) || !empty($_POST['submitSingleBand'])) {
         $lines = file($file, FILE_IGNORE_NEW_LINES);
     } else $lines = array($_POST['name']);
     foreach ($lines as $name) {
-        $bandid = getBandIDFromName($name);
-        if ($bandid) {
-            $bandMatch['id'] = $bandid;
-            $bandMatch['name'] = $name;
-            $_SESSION['bandul']['bandMatch'][] = $bandMatch;
-        } else {
+        if (!empty($name)) {
+            $bandid = getBandIDFromName($name);
+            if ($bandid) {
+                $bandMatch['id'] = $bandid;
+                $bandMatch['name'] = $name;
+                $_SESSION['bandul']['bandMatch'][] = $bandMatch;
+            } else {
 
-            $possibleMatch = getSimilarBandNameFromName($name);
-            if ($possibleMatch) {
-                foreach ($possibleMatch as $pM) $_SESSION['bandul']['possibleMatch'][$name][] = $pM;
-            } else $_SESSION['bandul']['noMatch'][] = $name;
+                $possibleMatch = getSimilarBandNameFromName($name);
+                if ($possibleMatch) {
+                    foreach ($possibleMatch as $pM) $_SESSION['bandul']['possibleMatch'][$name][] = $pM;
+                } else $_SESSION['bandul']['noMatch'][] = $name;
 
+            }
         }
-
     }
 
 }
@@ -62,6 +65,9 @@ If (!empty($_POST['submitFinal'])) {
     foreach ($_SESSION['bandul']['possibleMatch'] as $uploadedName => $b) {
         $matched = 0;
         foreach ($b as $possib) {
+            echo "uploadedName: " . $_POST[$uploadedName] . "<br />";
+            echo "possible id: " . $possib['id'] . "<br />";
+
             if ($_POST[$uploadedName] == $possib['id']) {
                 $_SESSION['bandul']['bandMatch'][] = $possib;
                 $matched = 1;
@@ -79,10 +85,12 @@ If (!empty($_POST['submitFinal'])) {
         $band = $matchBand['id'][0];
         //var_dump($matchBand);
 
-        // Insert into database
-        $cols = array("festival", "festival_series", "band", "priority");
-        $vals = array($fest, $festSeries, $band, $defpri);
-        insertRow($table, $cols, $vals);
+        if (empty($currBands) || !in_array($band, $currBands)) {
+            // Insert into database
+            $cols = array("festival", "festival_series", "band", "priority");
+            $vals = array($fest, $festSeries, $band, $defpri);
+            insertRow($table, $cols, $vals);
+        }
     }
 
     //Add all unmatched bands into the database as bands and then in the list for this fest
@@ -140,7 +148,9 @@ if (isset($_SESSION['bandul'])) {
             echo "Given name: <b>" . $uploadedName . "</b><br />";
             echo '<input type="radio" name="' . $uploadedName . '" value="none">None of these match<br />';
             foreach ($b as $possib) {
-                echo '<input type="radio" name="' . $uploadedName . '" value="' . $possib['id'] . '">' . $possib['name'] . '<br />';
+                echo '<input type="radio" name="' . $uploadedName . '" value="' . $possib['id'] . '">' . $possib['name'];
+                if (!empty($currBands) && in_array($band, $currBands)) echo "Already in festival.";
+                echo '<br />';
             }
 
         }

@@ -7,7 +7,7 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
 ?>
@@ -15,55 +15,45 @@
 <div id="content">
 
 
+    <?php
+    $right_required = "ViewNotes";
+    If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+        die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+    }
+    If (empty($band)) $band = "";
 
-<?php
-$right_required = "ViewNotes";
-If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
-If(empty($band)) $band="";
-/*/
-?>
-<p>
+    //Process displaying band info
+    If (!empty($_REQUEST["band"])) {
 
-This page allows for viewing the bands and comments.<a class="helplink" href="<?php echo $basepage."?disp=about&band=$band#viewband"; ?>">Click here for help with this section</a>
+        $post_target = $basepage . "?disp=view_band&band=$band&fest=$fest";
 
-</p>
+        //Band Header
+        include $baseinstall . "includes/content/blocks/band_info.php";
+        //Toolbar
 
-<?php
-*/
-
-//Process displaying band info
-	If (!empty($_REQUEST["band"])) {
+        include('includes/content/blocks/toolbar.php');
+        //Comments
 
 
-
-		include('blocks/pregame_band.php');
-
-} else {
+    } else {
 //If no band is passed through GET or POST, display a selector
 
-	$query="select name, id from bands";
-	$query_band = mysql_query($query, $main);
-?>
-<form action="index.php?disp=view_band" method="post">
-<select name="band">
-<?php 
-while($row = mysql_fetch_array($query_band)) {
-	echo "<option value=".$row['id'].">".$row['name']."</option>";
-}
-	
-?>
-</select>
-<input type="submit">
-</form>
-<?php
-	}
+        $bandList = getAllBandsInFest();
+        ?>
+        <form action="index.php?disp=view_band" method="post">
+            <select name="band">
+                <?php
+                foreach ($bandList as $row) {
+                    echo "<option value=" . $row . ">" . getBname($row) . "</option>";
+                }
 
-}
-else{
-echo "This page requires a higher level access than you currently have.";
+                ?>
+            </select>
+            <input type="submit">
+        </form>
+    <?php
+    }
 
-include $baseinstall."includes/site/login.php";
-}
 
-?>
+    ?>
 </div> <!-- end #content -->

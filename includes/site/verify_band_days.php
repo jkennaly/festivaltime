@@ -13,13 +13,35 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
-
+$fieldType = "band_days";
 ?>
 
 
 <div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
+    $festDays = getAllDays();
+    foreach ($festDays as $fD) {
+        $bandsOnDay = getBandsByDay($fD['id']);
+        ?>
+        <h2><?php echo $fD['name']; ?></h2>
+        <?php
+        foreach ($bandsOnDay as $bOD) {
+            echo getBname($bOD['band']) . "<br />";
+        }
+    }
 
-    Placeholder for verifying the which bands play on which day.
+
+    if ($user == $header[$fieldType]) echo "<b>You entered this information.</b>";
+    else {
+        ?><br/>
+        <button id="festVerifyComplete" data-fest="<?php echo $fest; ?>" data-field="<?php echo $fieldType; ?>">Verify
+            this information is correct and complete
+        </button>
+    <?php
+    }
+    ?>
+
 </div> <!-- end #content -->
 
 

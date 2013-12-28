@@ -7,26 +7,47 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 $right_required = "EditFest";
-If(!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)){
-	die("You do not have rights to access this page. You can login or register here: <a href=\"".$basepage."\">FestivalTime</a>");
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
-
+$fieldType = "band_stages";
 ?>
 
 
 <div id="content">
+    <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
+    <?php
+    $festStages = getAllStages();
+    foreach ($festStages as $fD) {
+        $bandsOnStage = getBandsByStage($fD['id']);
+        ?>
+        <h2><?php echo $fD['name']; ?></h2>
+        <?php
+        foreach ($bandsOnStage as $bOD) {
+            echo getBname($bOD['band']) . "<br />";
+        }
+    }
 
-Placeholder for verifying the which bands are on which stage.
+    if ($user == $header[$fieldType]) echo "<b>You entered this information.</b>";
+    else {
+        ?><br/>
+        <button id="festVerifyComplete" data-fest="<?php echo $fest; ?>" data-field="<?php echo $fieldType; ?>">Verify
+            this information is correct and complete
+        </button>
+    <?php
+    }
+    ?>
+
 </div> <!-- end #content -->
 
 
 <script type="text/javascript">
-<!--
-var basepage = "<?php echo $basepage; ?>";
-//-->
+    <!--
+    var basepage = "<?php echo $basepage; ?>";
+    //-->
 </script>
 <script src="includes/js/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="includes/js/create.js"></script>

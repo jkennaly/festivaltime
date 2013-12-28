@@ -34,20 +34,28 @@ $verifreq = getVerifReqFestivals($master);
         <br/>
         <button type="button" id="delete-festival">Delete A Festival</button>
         <br/>
+        <?php if (!empty($fest)) {
+            ?>
+
+            <button type="button" id="delete-band">Delete Band From Current Festival</button>
+            <br/>
+            <button type="button" id="clean-fest">Clean Current Festival</button>
+            <br/>
+
+        <?php
+        }
+        ?>
         <button type="button" id="change-band-name">Change A Band Name</button>
         <br/>
+        <button type="button" id="combine-bands">Combine Bands</button>
+        <br/>
         <button type="button" id="change-venue">Add A Venue</button>
-        <!--functional -->
         <br/>
         <button type="button" id="change-band-priority">Add/Change A Band Priority</button>
         <br/>
         <button type="button" id="change-stage-priority">Add/Change A Stage Priority</button>
         <br/>
         <button type="button" id="add-stage-layout">Add A Stage Layout</button>
-        <!--functional -->
-        <br/>
-        <button type="button" id="manage-stage-layout">Manage Stage Layouts</button>
-        <!--functional -->
         <br/>
         <button type="button" id="change-fest-series">Add/Change A Festival Series</button>
         <br/>

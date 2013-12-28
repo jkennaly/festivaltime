@@ -76,13 +76,13 @@ function count_digit($number)
 
 function act_rating($band, $user)
 {
-//This function returns the rating for a given user for a given band in a given fest, or 0 if unrated
+//This function returns the pregame rating for a given user for a given band in a given fest, or 0 if unrated
     global $master, $fest;
-    $sql = "SELECT `content` FROM `messages` as rating WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `mode`='1' and `festival`='$fest' and `deleted`!='1'";
-    error_log(print_r($sql, TRUE));
+    $sql = "SELECT `content` as rating FROM `messages` as rating WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `mode`='1' and `festival`='$fest' and `deleted`!='1'";
+//    error_log(print_r($sql, TRUE));
     $res = mysql_query($sql, $master);
     $row = mysql_fetch_array($res);
-    If (!empty($row['rating'])) $rate = $row['content'];
+    If (!empty($row['rating'])) $rate = $row['rating'];
     else $rate = 0;
     return $rate;
 }

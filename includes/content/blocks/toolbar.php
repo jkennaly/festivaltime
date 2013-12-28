@@ -9,6 +9,8 @@
 //    Jason Kennaly - initial API and implementation
 */
 
+global $fest;
+
 include('includes/content/blocks/accept_rating.php');
 include('includes/content/blocks/accept_comment.php');
 include('includes/content/blocks/accept_link.php');
@@ -18,35 +20,30 @@ include('includes/content/blocks/accept_link.php');
 <div id="iconrow">
     <?php
 
-    $sql = "select comment from comments where band='$band' and user='$user'";
-    $res = mysql_query($sql, $main);
-    If (mysql_num_rows($res) > 0) {
-        $row = mysql_fetch_array($res);
-        $defcomment = $row['comment'];
-    } else $defcomment = "";
+    $mode = 1;
+    $defcomment = getUserCommentOnBandForFest($user, $band, $fest, $mode);
+    $link = getUserLinkOnBandForFest($user, $band, $fest, $mode);
     $commententry = "<div id=\"commententry\" style=\"display: none;\">";
 
-    $priors = getFestivalsBandIsIn($band, $main, $master);
+    $priors = getFestivalsBandIsIn($band);
     $priorshown = 0;
     If (count($priors) > 1) {
         foreach ($priors as $v) {
-            $sql = "select comment from comments where festival='" . $v . "' and user='" . $user . "' and band='" . $band_master_id . "' ";
-            $res = mysql_query($sql, $master);
-            $sqlr = "select rating from ratings where festival='" . $v . "' and user='" . $user . "' and band='" . $band_master_id . "' ";
-            $resr = mysql_query($sqlr, $master);
-            If (mysql_num_rows($res) > 0) {
+            $festComment = getUserCommentOnBandForFest($user, $band, $v, $mode);
+            $festHeader = getFestHeader($v);
+            $festRating = getUserRatingOnBandForFest($user, $band, $v, $mode);
+            If (!empty($festComment)) {
                 If ($priorshown == 0) $commententry .= "Select a previous festival to copy the comment from that show.<br />";
                 $priorshown = 1;
-                $comment_row = mysql_fetch_array($res);
-                If (mysql_num_rows($resr) == 0) $rateline = "(Unrated)";
+
+                If (empty($festRating)) $rateline = "(Unrated)";
                 else {
                     $rate_row = mysql_fetch_array($resr);
-                    $rateline = " (" . $rate_row['rating'] . " Stars)";
+                    $rateline = " (" . $festRating . " Stars)";
                 }
 
-                $priorname = $header['sitename'];;
-                $oldcomment = $priorname . "$rateline: " . $comment_row['comment'];
-                $priorband = getFestBandIDFromMaster($band_master_id, $v, $master);
+                $priorname = $festHeader['sitename'];
+                $oldcomment = $priorname . "$rateline: " . $festComment;
                 $commententry .= "<div id=\"hid" . $v . "\" class=\"hiddentext\">$oldcomment</div>";
                 If ($v != $fest) $commententry .= "<a href=\"#\" onclick=\"addText('commentarea', 'hid" . $v . "')\">" . $priorname . "</a><br />";
             }
@@ -58,13 +55,9 @@ include('includes/content/blocks/accept_link.php');
     $commententry .= "<textarea rows=\"16\" cols=\"64\" name=\"new_comment\" id=\"commentarea\">$defcomment</textarea>";
     $commententry .= "<input type=\"submit\" value=\"Save comment\" />";
     $commententry .= "</form></div>";
-
-    $sql = "select link, descrip from links where band='$band' and user='$user'";
-    $res = mysql_query($sql, $main);
-    If (mysql_num_rows($res) > 0) {
-        $row = mysql_fetch_array($res);
-        $deflink = $row['link'];
-        $defdescrip = $row['descrip'];
+    If (!empty($link)) {
+        $deflink = $link['link'];
+        $defdescrip = $link['descrip'];
     } else {
         $deflink = "Link here";
         $defdescrip = "Description here";
@@ -76,7 +69,7 @@ include('includes/content/blocks/accept_link.php');
     $linkentry .= "<input type=\"submit\" value=\"Save link\"/>";
     $linkentry .= "</form></div>";
 
-    echo " " . ratingStars($band, $user, $main, "searchratingstars", $basepage . "includes/images", $basepage, $post_target);
+    echo " " . ratingStars($band, $user, "searchratingstars", $basepage . "includes/images", $post_target, 1);
     echo "<a href=\"#\" onclick=\"simpleToggle('commententry', 'commententry');return false;\"><img class=\"searchratingstars\" title=\"Comment on the band\" src=\"" . $basepage . "includes/images/comments.jpg\"></a>";
     echo "<a href=\"#\" onclick=\"simpleToggle('linkentry', 'linkentry');return false;\"><img class=\"searchratingstars\" title=\"Provide a link to the band\" src=\"" . $basepage . "includes/images/link.jpg\"></a>";
 

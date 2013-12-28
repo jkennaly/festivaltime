@@ -12,21 +12,28 @@ $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
-$cols = array("deleted");
-$vals = array(1);
-$festToDelete = $_POST['fest'];
-$festToDeleteTables = array("band_list", "dates", "days", "sets");
-foreach ($festToDeleteTables as $fd) {
 
-    $where = "`festival`='" . $festToDelete . "'";
-    $table = $fd;
-    updateRow($table, $cols, $vals, $where);
-}
-
-$cols = array($_POST['field'], $_POST['field'] . "_v");
-$vals = array($user, 0);
-$where = "`id`='" . $festToDelete . "'";
+$cols = array($_POST['field'] . "_v");
+$vals = array($user);
+$where = "`id`='" . $_POST['fest'] . "'";
 $table = "festivals";
 
 updateRow($table, $cols, $vals, $where);
 
+
+?>
+
+
+<div id="content">
+
+    Placeholder for verifying header information.
+</div> <!-- end #content -->
+
+
+<script type="text/javascript">
+    <!--
+    var basepage = "<?php echo $basepage; ?>";
+    //-->
+</script>
+<script src="includes/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="includes/js/create.js"></script>

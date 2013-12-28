@@ -54,8 +54,7 @@
         $displayedBandID = array();
         //Find all bands with no pic and write the names out
         foreach ($bandsInGenre as &$b) {
-            $b['masterid'] = getMasterBandIDFromFest($b['id'], $main);
-            if (!doesBandHaveShape($b['masterid'], $master, 15)) {
+            if (!doesBandHaveShape($b['id'], 15)) {
                 echo $b['bandname'] . "<br>";
                 $bandsDisplayed++;
                 $displayedBandID[] = $b['id'];
@@ -94,7 +93,7 @@
                         break;
                 }
                 //	echo $shapeCode." is shape code<br>";
-                $bandOK = (doesBandHaveShape($big['masterid'], $master, $shapeCode));
+                $bandOK = (doesBandHaveShape($big['id'], $shapeCode));
                 //	echo "Does band have shape? $bandOK<br>";
 
                 $bandOK = ($bandOK && !in_array($big['id'], $displayedBandID));
@@ -102,7 +101,7 @@
 
                 if ($bandOK) {
 //				echo $big['bandname']." is ok<br>";
-                    $bandPicResult = getBandPicAndShape($big['masterid'], $master, $shapeCode);
+                    $bandPicResult = getBandPicAndShape($big['id'], $shapeCode);
                     if ($bandPicResult[1] == "small_square") {
                         //	echo "<br>Found a small_square";
                         $picArray[$x][0] = 1;
@@ -125,7 +124,7 @@
                         $picArray[$x][1] = 1;
                     }
 
-                    displayPic3($basepage, $big['id'], $bandPicResult[0], $fest, $big['bandname']);
+                    displayPic3($big['id'], $bandPicResult[0], $big['bandname']);
                     $bandsDisplayed++;
                     $bandDisplayedThisLoop = 1;
                     if ($bandsToDisplay == $bandsDisplayed) {
@@ -156,7 +155,7 @@
         if ($bandsToDisplay != $bandsDisplayed) {
             foreach ($bandsInGenre as $leftOver) {
                 if (!in_array($leftOver['id'], $displayedBandID)) {
-                    displayPic4($basepage, $leftOver['id'], $leftOver['masterid'], $fest, $leftOver['bandname']);
+                    displayPic4($leftOver['id'], $leftOver['bandname']);
                 }
             }
         }

@@ -25,6 +25,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     if (!empty($_POST['submitBandDays']) || !empty($_POST['submitSingleBand'])) {
         if (!empty($_POST['submitBandDays'])) {
             foreach ($_POST['update'] as $setid => $day) {
+                if ($day == 0) continue;
                 $table = "sets";
                 $cols = array("day");
                 $vals = array($day);
@@ -32,6 +33,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 updateRow($table, $cols, $vals, $where);
             }
             foreach ($_POST['insert'] as $bandd => $day) {
+                if ($day == 0) continue;
                 $table = "sets";
                 $cols = array("festival", "festival_series", "band", "day");
                 $vals = array($fest, $festSeries, $bandd, $day);
@@ -40,8 +42,8 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         }
         if (!empty($_POST['submitSingleBand'])) {
             $table = "sets";
-            $cols = array("festival", "festival_series", "band", "day");
-            $vals = array($fest, $festSeries, $_POST['insertBandSetName'], $_POST['insertBandSetDay']);
+            $cols = array("festival", "festival_series", "band", "day", "stage");
+            $vals = array($fest, $festSeries, $_POST['insertBandSetName'], $_POST['insertBandSetDay'], $_POST['insertBandSetStage']);
             insertRow($table, $cols, $vals);
         }
         ?>
@@ -60,6 +62,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         //Get each band in the festival, and the band's priority
         $bandPriorities = getAllBandPriorities();
         $availDays = getAllDays();
+        $availStages = getAllStages();
         //For each band in the festival, get the number of sets currently registered
         foreach ($bandPriorities as $bandInList) {
             $setNum = getNumberOfSetsByBandInFest($bandInList['band']);
@@ -80,7 +83,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 foreach ($sets as $set) {
 
                     ?>
-                    <b><?php echo getBname($bandInList['band']); ?></b>
+                    <b><?php echo getBname($bandInList['band']); ?></b> (<?php echo getPname($set['stage']); ?> set)
                     <select name="update[<?php echo $set['id']; ?>]">
                         <?php
                         foreach ($availDays as $a) {
@@ -112,8 +115,15 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         </select>
         <select name="insertBandSetDay">
             <?php
-            foreach ($availDays as $a) {
-                echo "<option value=\"" . $a['id'] . "\">" . $a['name'] . "</option>";
+            foreach ($availDays as $aD) {
+                echo "<option value=\"" . $aD['id'] . "\">" . $aD['name'] . "</option>";
+            }
+            ?>
+        </select>
+        <select name="insertBandSetStage">
+            <?php
+            foreach ($availStages as $aS) {
+                echo "<option value=\"" . $aS['id'] . "\">" . $aS['name'] . "</option>";
             }
             ?>
         </select><br/>

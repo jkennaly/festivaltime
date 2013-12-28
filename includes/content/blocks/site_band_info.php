@@ -15,31 +15,17 @@
 
 include('includes/content/blocks/new_genre.php');
 
-$sets = getBandSetsByFestival($band);
 date_default_timezone_set('UTC');
-
-foreach ($sets as $set) {
-    $startSec = $header['start_time'] + $set['start'];
-    $endSec = $header['start_time'] + $set['end'];
-
-    $startString = strftime('%l:%M %p', $startSec);
-    $endString = strftime('%l:%M %p', $endSec);
-
-    $timeLine[] = getDname($set['day']) . " " . getPname($set['stage']) . " " . $startString . "-" . $endString;
-}
 
 
 If ($_GET['disp'] == "view_band") $bandlink = searchlink($band, $user);
-else $bandlink = "<a href=\"" . $basepage . "?disp=view_band&band=" . $band . "\">" . $name . "</a>";
+else $bandlink = "<a href=\"" . $basepage . "?disp=view_band&band=" . $band . "\">" . getBname($band) . "</a>";
 
 If ($_GET['disp'] == "pic_band") $piclink = $basepage . "?disp=band_gallery&band=" . $band;
 else $piclink = $basepage . "?disp=pic_band&band=" . $band;
 
 //	echo "Clicking the band name will open a new window and search for the band. Change search engine from My Account -> User Settings.";
 
-
-$query = "select name, id from genres order by name asc";
-$query_genre = mysql_query($query, $master);
 
 $genreList = genreList($user);
 $bandGenreID = getBandGenreID($band, $user);
@@ -57,13 +43,6 @@ $rating = getAverageRatingForBandByUsersFollowers($user, $band);
                                           src="includes/content/blocks/getPicture.php?band=<?php echo $band; ?>&fest=<?php echo $_SESSION['fest']; ?>"
                                           alt="click to add a picture of the band"/></a>
 
-    <?php
-    foreach ($timeLine as $t) {
-        ?>
-        <p class="band_info"><?php echo $t; ?></p>
-    <?php
-    }
-    ?>
 
     <p class="band_info">
 

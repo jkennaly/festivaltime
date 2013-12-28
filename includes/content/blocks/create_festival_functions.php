@@ -45,7 +45,7 @@ global $master, $basepage;
                 <button type="button" class="unlockbutton" data-fest="<?php echo $fest['id']; ?>"
                         data-field="<?php echo $st[0]; ?>">Edit
                 </button>
-                <button type="button"
+                <button type="button" class="verifyButton"
                         data-target="<?php echo $basepage . "?disp=verify_" . $st[0] . "&fest=" . $fest['id']; ?>">
                     Verify
                 </button>

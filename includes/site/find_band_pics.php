@@ -13,13 +13,26 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
 
-
+$bandLevels = getBandPriorities();
+$foundLevel = 0;
+foreach ($bandLevels as $level) {
+    $bandsAtLevel = getAllBandsAtLevel($level['level']);
+    foreach ($bandsAtLevel as $b) {
+        if (!doesBandHaveShape($b, 15)) {
+            ?>
+            <a href="<?php echo $basepage; ?>?disp=pic_band&band=<?php echo $b; ?>"><?php echo getBname($b); ?></a><br/>
+            <?php
+            $foundLevel = 1;
+        }
+    }
+    if ($foundLevel) break;
+}
 ?>
 
 
 <div id="content">
 
-    Placeholder for verifying the which bands are where on the bill.
+    Placeholder for finding pics bands that do not have any.
 </div> <!-- end #content -->
 
 

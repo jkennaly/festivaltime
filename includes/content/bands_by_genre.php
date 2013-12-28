@@ -17,16 +17,17 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 <div id="content">
     <?php
 
-    $genreList = genreList($main, $master, $user);
+    $genreList = genreList($user);
     $bandList = getGenresForAllBandsInFest($user);
-
 
     foreach ($genreList as &$g) {
         if (empty($g['name'])) $g['name'] = "Bands that need a genre";
 //	echo $g['name']."-".$g['id']."<br>";
-        foreach ($bandList as &$b) {
-            if ($g['id'] == $b['genreid']) $g['band'][] = $b;
-            unset ($b);
+        if (is_array($bandList)) {
+            foreach ($bandList as &$b) {
+                if ($g['id'] == $b['genreid']) $g['band'][] = $b;
+                unset ($b);
+            }
         }
     }
     /*
@@ -44,18 +45,18 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     unset($g);
 
     foreach ($genreList as &$g) {
-        echo "<div id=\"genre" . $g['name'] . "\" class=\"bandsbygenre\">";
-        echo "<h2>" . $g['name'] . "</h2>";
-        echo "<h4>" . $g['bands'] . " in this genre</h4>";
         $bandsInGenre = $g['band'];
         $bandsToDisplay = count($bandsInGenre);
+        if ($bandsToDisplay == 0) continue;
+        echo "<div id=\"genre" . $g['name'] . "\" class=\"bandsbygenre\">";
+        echo "<h2>" . $g['name'] . "</h2>";
+        echo "<h4>" . $bandsToDisplay . " in this genre</h4>";
         $bandsDisplayed = 0;
         unset($displayedBandID);
         $displayedBandID = array();
         //Find all bands with no pic and write the names out
         foreach ($bandsInGenre as &$b) {
-            $b['masterid'] = getMasterBandIDFromFest($b['id'], $main);
-            if (!doesBandHaveShape($b['masterid'], $master, 15)) {
+            if (!doesBandHaveShape($b['id'], 15)) {
                 echo $b['bandname'] . "<br>";
                 $bandsDisplayed++;
                 $displayedBandID[] = $b['id'];
@@ -94,7 +95,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                         break;
                 }
                 //	echo $shapeCode." is shape code<br>";
-                $bandOK = (doesBandHaveShape($big['masterid'], $master, $shapeCode));
+                $bandOK = (doesBandHaveShape($big['id'], $shapeCode));
                 //	echo "Does band have shape? $bandOK<br>";
 
                 $bandOK = ($bandOK && !in_array($big['id'], $displayedBandID));
@@ -102,7 +103,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
                 if ($bandOK) {
 //				echo $big['bandname']." is ok<br>";
-                    $bandPicResult = getBandPicAndShape($big['masterid'], $master, $shapeCode);
+                    $bandPicResult = getBandPicAndShape($big['id'], $shapeCode);
                     if ($bandPicResult[1] == "small_square") {
                         //	echo "<br>Found a small_square";
                         $picArray[$x][0] = 1;
@@ -125,7 +126,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                         $picArray[$x][1] = 1;
                     }
 
-                    displayPic3($basepage, $big['id'], $bandPicResult[0], $fest, $big['bandname']);
+                    displayPic3($big['id'], $bandPicResult[0], $big['bandname']);
                     $bandsDisplayed++;
                     $bandDisplayedThisLoop = 1;
                     if ($bandsToDisplay == $bandsDisplayed) {
@@ -156,7 +157,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         if ($bandsToDisplay != $bandsDisplayed) {
             foreach ($bandsInGenre as $leftOver) {
                 if (!in_array($leftOver['id'], $displayedBandID)) {
-                    displayPic4($basepage, $leftOver['id'], $leftOver['masterid'], $fest, $leftOver['bandname']);
+                    displayPic4($leftOver['id'], $leftOver['bandname']);
                 }
             }
         }

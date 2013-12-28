@@ -58,9 +58,13 @@ $festivaltimeContext = 1;
 
         include('variables/fest_variables.php');
 
+
     }
 
     include('variables/page_variables.php');
+    $userFestivals = userFestivals($user);
+    if (!empty($userFestivals) && !empty($fest)) $checkFest = in_array($fest, $userFestivals);
+    else $checkFest = false;
     ?>
 
     <title><?php echo $sitename ?></title>

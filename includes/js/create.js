@@ -48,7 +48,11 @@ $(document).ready(function () {
         $("#show-more-functions").hide();
     });
 
-    $(".feststatususer button[type=button]").click(function () {
+    $(".feststatususer  button[type=button]").click(function () {
+        window.location = $(this).data('target');
+    });
+
+    $(".verifyButton").click(function () {
         window.location = $(this).data('target');
     });
 
@@ -56,20 +60,56 @@ $(document).ready(function () {
         window.location = basepage + "?disp=create_festival" + "&fest=0";
     });
 
+    $("#delete-festival").click(function () {
+        window.location = basepage + "?disp=delete_fest" + "&fest=0";
+    });
+
+    $("#delete-band").click(function () {
+        window.location = basepage + "?disp=delete_band_from_fest";
+    });
+
+    $("#clean-fest").click(function () {
+        window.location = basepage + "?disp=clean_fest";
+    });
+
+    $("#change-band-name").click(function () {
+        window.location = basepage + "?disp=edit_band_name" + "&fest=0";
+    });
+
+    $("#combine-bands").click(function () {
+        window.location = basepage + "?disp=combine_bands" + "&fest=0";
+    });
+
     $("#change-venue").click(function () {
         window.location = basepage + "?disp=add_venue" + "&fest=0";
+    });
+
+    $("#change-band-priority").click(function () {
+        window.location = basepage + "?disp=add_band_priority" + "&fest=0";
+    });
+
+    $("#change-stage-priority").click(function () {
+        window.location = basepage + "?disp=add_stage_priority" + "&fest=0";
     });
 
     $("#add-stage-layout").click(function () {
         window.location = basepage + "?disp=add_stage_layout" + "&fest=0";
     });
 
-    $("#manage-stage-layout").click(function () {
-        window.location = basepage + "?disp=edit_stage_layouts" + "&fest=0";
+    $("#change-fest-series").click(function () {
+        window.location = basepage + "?disp=add_fest_series" + "&fest=0";
     });
 
-    $("#change-band-priority").click(function () {
-        window.location = basepage + "?disp=edit_band_priority" + "&fest=0";
+    $("#change-user-settings").click(function () {
+        window.location = basepage + "?disp=edit_user_settings" + "&fest=0";
+    });
+
+    $("#update-missing-band-pics").click(function () {
+        window.location = basepage + "?disp=find_band_pics" + "&fest=0";
+    });
+
+    $("#change-user").click(function () {
+        window.location = basepage + "?disp=edit_users" + "&fest=0";
     });
 
     $(".unlockbutton").click(function () {
@@ -82,6 +122,21 @@ $(document).ready(function () {
             data: {fest: $(this).data('fest'), field: $(this).data('field')},
             success: function (data) {
                 window.location = basepage + "?disp=festival_status" + "&fest=" + targetFest;
+            }
+
+        });
+
+        return false;
+    });
+
+    $("#festVerifyComplete").click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: basepage + "?disp=entry_verified",
+            data: {fest: $(this).data('fest'), field: $(this).data('field')},
+            success: function (data) {
+                window.location = basepage + "?disp=festival_status";
             }
 
         });
