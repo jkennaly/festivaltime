@@ -65,6 +65,8 @@ $verifreq = getVerifReqFestivals($master);
         <br/>
         <button type="button" id="change-user">Change User Account</button>
         <br/>
+        <button type="button" id="manage-genres">Manage Genres</button>
+        <br/>
     </div>
 
     <div id="festivalstatuscompleted" class="festivalstatuswrapper">

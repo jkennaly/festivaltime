@@ -14,6 +14,20 @@ div#overlay_form {
     padding: 10px;
 }
 
+div.festSchedDay {
+    overflow: hidden;
+    width: 100%;
+}
+
+div.festSchedStage {
+    float: left;
+}
+
+div.stageName {
+    overflow-x: hidden;
+    height: 3em;
+}
+
 div.bandsbygenre {
     overflow: hidden;
     width: 100%;

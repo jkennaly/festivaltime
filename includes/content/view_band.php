@@ -29,10 +29,12 @@
 
         //Band Header
         include $baseinstall . "includes/content/blocks/band_info.php";
-        //Toolbar
 
+        //Toolbar
         include('includes/content/blocks/toolbar.php');
+
         //Comments
+        include('includes/content/blocks/pregame_remarks.php');
 
 
     } else {

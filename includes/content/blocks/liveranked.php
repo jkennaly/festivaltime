@@ -23,13 +23,13 @@ If (!empty($band)) {
         echo "<table><tr><th>Festival</th><th>Time</th><th>User</th><th>Band</th><th>Rating</th><th>Comment</th>";
         $format = "%I:%M %p";
         while ($row = mysql_fetch_array($res)) {
-            $live_rater = getUname($master, $row['user']);
+            $live_rater = getUname($row['user']);
             $live_band = getBname($row['band']);
             $rtime = strftime($format, $row['msgtime']);
             echo "<tr><td>$fest_name $fest_year</td><td>" . $rtime . "</td><td>" . $live_rater . "</td><td>" . $live_band . "</td><td>" . $row['rating'] . "</td><td>" . $row['comment'] . "</td></tr>";
         }
         while ($row2 = mysql_fetch_array($res2)) {
-            $live_rater = getUname($master, $row2['user']);
+            $live_rater = getUname($row2['user']);
             $live_band = getBname($row2['band']);
             $rtime = strftime($format, $row2['msgtime']);
             $fest = $header['sitename'];

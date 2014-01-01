@@ -44,7 +44,7 @@ ob_start();
         <ul class="popular-list">
             <?php
             foreach ($newFests as $c) {
-                echo "<li class=\"popular-item\"><a href=\"" . $c['website'] . "\">" . $c['sitename'] . "</a></li>";
+                echo "<li class=\"popular-item\"><a href=\"" . $basepage . '?disp=home&fest=' . $c['id'] . "\">" . $c['sitename'] . "</a></li>";
             }
             ?>
         </ul>

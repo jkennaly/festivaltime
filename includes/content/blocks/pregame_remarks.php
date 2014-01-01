@@ -9,12 +9,14 @@
 //    Jason Kennaly - initial API and implementation
 */
 
-
-$right_required = "CreateNotes";
-If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
-
-    If (!empty($_GET['rateband'])) {
-        $rating = $_GET['rateband'];
-        acceptRating($main, $master, $user, $band, $fest_id, $rating);
-    }
+$right_required = "ViewNotes";
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
 }
+
+global $fest;
+
+include('includes/content/blocks/accept_discuss_reply.php');
+
+?>
+

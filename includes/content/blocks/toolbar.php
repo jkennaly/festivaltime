@@ -9,18 +9,33 @@
 //    Jason Kennaly - initial API and implementation
 */
 
+$right_required = "ViewNotes";
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+}
+
 global $fest;
 
-include('includes/content/blocks/accept_rating.php');
-include('includes/content/blocks/accept_comment.php');
-include('includes/content/blocks/accept_link.php');
+$mode = 1;
+
+If (!empty($_GET['rateband'])) {
+    acceptRemark($user, $band, $fest, $_GET['rateband'], $mode, 2, "Band Rating", 0);
+}
+
+If (!empty($_POST['new_comment'])) {
+    acceptRemark($user, $band, $fest, $_POST['new_comment'], $mode, 1, "Band Comment", 0);
+}
+
+If (!empty($_POST['new_link'])) {
+    acceptRemark($user, $band, $fest, $_POST["new_link"], $mode, 4, $_POST["new_descrip"], 0);
+}
 
 ?>
 
 <div id="iconrow">
     <?php
 
-    $mode = 1;
+
     $defcomment = getUserCommentOnBandForFest($user, $band, $fest, $mode);
     $link = getUserLinkOnBandForFest($user, $band, $fest, $mode);
     $commententry = "<div id=\"commententry\" style=\"display: none;\">";

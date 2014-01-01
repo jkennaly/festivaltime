@@ -31,7 +31,7 @@ If (mysql_num_rows($res) > 0) {
     $discuss_table = "discussion_" . $row['id'];
     $sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
     $res1 = mysql_query($sql, $main);
-    $leftcell = "<h2>" . getUname($master, $row['user']) . "<br />" . displayStars($band, $row['user'], $main, "displaystars", $basepage . "includes/images") . "</h2>";
+    $leftcell = "<h2>" . getUname($row['user']) . "<br />" . displayStars($band, $row['user'], $main, "displaystars", $basepage . "includes/images") . "</h2>";
 
     $linksql = "select id as link, descrip from links where band='$band' and user='" . $row['user'] . "'";
     $linkres = mysql_query($linksql, $main);
@@ -46,7 +46,7 @@ If (mysql_num_rows($res) > 0) {
 
         $discuss = "<div id=\"toggleText$user\" class=\"discussionreply\" style=\"display: none;\">";
         while ($row1 = mysql_fetch_array($res1)) {
-            $discuss .= "<p class=\"responder\">" . getUname($master, $row1['user']) . " at " . $row1['time'] . "</p><p class=\"reply\">" . $row1['reply'] . "</p>";
+            $discuss .= "<p class=\"responder\">" . getUname($row1['user']) . " at " . $row1['time'] . "</p><p class=\"reply\">" . $row1['reply'] . "</p>";
         } //Closes while($row = mysql_fetch_array($res))
         $discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";
         $discuss .= "<input type=\"submit\" value=\"Send response\" id=\"reply" . $row['id'] . "\"><input type=\"hidden\" name=\"comment\" value=\"" . $row['id'] . "\"><input type=\"hidden\" name=\"discuss_table\" value=\"$discuss_table\"></form><a id=\"displayText$user\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText" . $user . "', 'displayText" . $user . "', '$user', '" . $row['id'] . "', 'reply" . $row['id'] . "');return false;\">Hide Discussion</a></div>";
@@ -88,7 +88,7 @@ If (mysql_num_rows($res) > 0) {
         $discuss_table = "discussion_" . $row['id'];
         $sql = "select d.id, d.response as reply, d.created as time, d.user as user from $discuss_table as d";
         $res1 = mysql_query($sql, $main);
-        $leftcell = "<h2>" . getUname($master, $row['user']) . "<br />" . displayStars($band, $row['user'], $main, "displaystars", $basepage . "includes/images") . "</h2>";
+        $leftcell = "<h2>" . getUname($row['user']) . "<br />" . displayStars($band, $row['user'], $main, "displaystars", $basepage . "includes/images") . "</h2>";
 
         $linksql = "select id as link, descrip from links where band='$band' and user='" . $row['user'] . "'";
         $linkres = mysql_query($linksql, $main);
@@ -104,7 +104,7 @@ If (mysql_num_rows($res) > 0) {
                     $rightcell .= "<a id=\"displayText" . $row['user'] . "\" title=\"Click to toggle discussion\" href=\"#\" onclick=\"toggle('toggleText" . $row['user'] . "', 'displayText" . $row['user'] . "', '$user', '" . $row['id'] . "', 'reply" . $row['id'] . "');return false;\">$stat</a>";
                     $discuss = "<div id=\"toggleText" . $row['user'] . "\" class=\"discussionreply\" style=\"display: none;\">";
                 }
-                $discuss .= "<p class=\"responder\">" . getUname($master, $row1['user']) . " at " . $row1['time'] . "</p><p class=\"reply\">" . $row1['reply'] . "</p>";
+                $discuss .= "<p class=\"responder\">" . getUname($row1['user']) . " at " . $row1['time'] . "</p><p class=\"reply\">" . $row1['reply'] . "</p>";
                 $i++;
             } //Closes while($row = mysql_fetch_array($res))
             $discuss .= "<br /><form action=\"$post_target\" method=\"post\"><textarea rows=\"6\" cols=\"64\" name=\"new_reply\"></textarea>";

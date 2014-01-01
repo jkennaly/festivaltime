@@ -112,6 +112,10 @@ $(document).ready(function () {
         window.location = basepage + "?disp=edit_users" + "&fest=0";
     });
 
+    $("#manage-genres").click(function () {
+        window.location = basepage + "?disp=manage_genres" + "&fest=0";
+    });
+
     $(".unlockbutton").click(function () {
         var targetFest = $(this).data('fest');
 

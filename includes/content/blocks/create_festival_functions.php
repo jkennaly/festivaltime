@@ -22,8 +22,8 @@ global $master, $basepage;
             <?php
             echo "<div class=\"feststatusname\">" . $st[1] . "</div><!-- end .feststatusname -->";
             if ($fest[$st[0]] > 0) {
-                echo '<div class="feststatususer">' . getUname($master, $fest[$st[0]]) . "</div><!-- end .feststatususer -->";
-                if ($fest[$st[2]] > 0) echo '<div class="feststatususer">' . getUname($master, $fest[$st[2]]) . "</div><!-- end .feststatususer -->";
+                echo '<div class="feststatususer">' . getUname($fest[$st[0]]) . "</div><!-- end .feststatususer -->";
+                if ($fest[$st[2]] > 0) echo '<div class="feststatususer">' . getUname($fest[$st[2]]) . "</div><!-- end .feststatususer -->";
                 else {
                     ?>
                     <div class="feststatususer">Unverified</div><!-- end .feststatususer -->

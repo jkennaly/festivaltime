@@ -91,12 +91,12 @@ function updateRow($table, $cols, $vals, $where)
     return true;
 }
 
-function getUname($source, $userid)
+function getUname($userid)
 {
     //This function checks $source table Users for the username of $userid
-
+    global $master;
     $sql = "select username from `Users` where id='$userid'";
-    $res = mysql_query($sql, $source);
+    $res = mysql_query($sql, $master);
     $urow = mysql_fetch_array($res);
     $uname = $urow['username'];
     return $uname;
@@ -398,16 +398,110 @@ function getStagePriorityInfoFromLevel($priorityid)
     return $priority;
 }
 
-function getForumLink($master, $user, $mainforum, $forumblog)
+function getAllUserSettings()
 {
-    //This function checks $source table stages for the name of $stageid
+    //This function returns all the possible user settings
 
-    $sql = "select value from `user_settings_$user` where item='Forum Link'";
+    global $master;
+    $sql = "select `id`, `name`, `description` from `user_setting` where `deleted`!='1'";
     $res = mysql_query($sql, $master);
 
+    if (mysql_num_rows($res) > 0) {
+        $value = array();
+        while ($row = mysql_fetch_array($res)) {
+            $value[] = $row;
+        }
+        return $value;
+    }
+    return false;
+}
 
-    $srow = mysql_fetch_array($res);
-    $flink = $srow['value'];
+function getPermValuesForUserSetting($setting)
+{
+    //This function returns the permissible values for the given user setting
+
+    global $master;
+    $sql = "select `item`, `value` from `user_setting_value` where `user_setting`='$setting' AND `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+
+    if (mysql_num_rows($res) > 0) {
+        $value = array();
+        while ($row = mysql_fetch_array($res)) {
+            $value[] = $row;
+        }
+        return $value;
+    }
+    return false;
+}
+
+function getUserSetting($user, $setting)
+{
+    //This function returns the current value of $setting for $user
+
+    global $master;
+    $sql = "select `value` from `user_setting_current` where `user`='$user' AND `user_setting`='$setting'";
+    $res = mysql_query($sql, $master);
+
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $value = $row['value'];
+        return $value;
+    }
+    $sql = "select `value` from `user_setting_current` where `user`='0' AND `user_setting`='$setting'";
+    $res = mysql_query($sql, $master);
+    $row = mysql_fetch_array($res);
+    $value = $row['value'];
+    return $value;
+}
+
+function setUserSetting($user, $setting, $value)
+{
+    //This function sets a new value of $setting for $user
+
+    global $master;
+    $sql = "select `value` from `user_setting_current` where `user`='$user' AND `user_setting`='$setting'";
+    $res = mysql_query($sql, $master);
+
+    if (mysql_num_rows($res) > 0) {
+        $table = "user_setting_current";
+        $cols = array("value");
+        $vals = array($value);
+        $where = "`user`='" . $user . "' AND `setting`='$setting''";
+        updateRow($table, $cols, $vals, $where);
+        return true;
+    }
+    $table = "user_setting_current";
+    $cols = array("user", "setting", "value");
+    $vals = array($user, $setting, $value);
+    insertRow($table, $cols, $vals);
+    return true;
+}
+
+function createUserSetting($name, $description)
+{
+    //This function sets a new value of $setting for $user
+
+    $table = "user_setting";
+    $cols = array("name", "description");
+    $vals = array($name, $description);
+    insertRow($table, $cols, $vals);
+    return true;
+}
+
+function createPermissibleUserSettingValue($setting, $name)
+{
+    //This function sets a new value of $setting for $user
+
+    $table = "user_setting_value";
+    $cols = array("item", "setting");
+    $vals = array($name, $setting);
+    insertRow($table, $cols, $vals);
+    return true;
+}
+
+function getForumLink($user, $mainforum, $forumblog)
+{
+    $flink = getUserSetting($user, 70);
     switch ($flink) {
         case 1:
             return $forumblog;
@@ -886,6 +980,19 @@ function getSimilarBandNameFromName($name)
     } else return false;
 }
 
+function getFavoriteBands($user)
+{
+    global $master;
+    $sql = "select `band` from `messages` where `fromuser`='$user' AND `remark`='2' AND `content`>='5' GROUP BY `band`";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row['band'];
+        }
+        return $result;
+    } else return false;
+}
+
 function deleteSet($setid)
 {
     //This function returns an array containing keyed to the id of each each set by the band, containing the stage and day
@@ -1102,20 +1209,63 @@ function getFollowedBy($user)
     If (isset($final)) return $final; else return false;
 }
 
-function userIsPrivate($user, $master)
+function userIsPrivate($user)
 {
     //This function returns true if the given user is private
-    $sql = "select value from user_settings_$user where item='Privacy'";
-    $res = mysql_query($sql, $master);
-    $row = mysql_fetch_array($res);
-    $privacy = $row['value'];
+    $privacy = getUserSetting($user, 68);
 
     If ($privacy == 1) return false; else return true;
 }
 
-function userFollowsUser($follower, $followee, $master)
+function followUser($follower, $followee)
+{
+    //This function sets the follower to following the followee
+    global $master;
+    if (userVisibleToUser($follower, $followee)) {
+        $sql = "UPDATE `Users` SET `follows` = CONCAT(`follows`,'--$followee--') WHERE `id`='$follower'";
+        mysql_query($sql, $master);
+        return true;
+    } else return false;
+
+}
+
+function unFollowUser($follower, $followee)
+{
+    //This function sets the follower to not be following the followee anymore
+    global $master;
+    if (userFollowsUser($follower, $followee)) {
+        $sql = "UPDATE `Users` SET `follows` = REPLACE(`follows`,'--$followee--','') WHERE `id`='$follower'";
+        mysql_query($sql, $master);
+        return true;
+    } else return true;
+
+}
+
+function blockUser($blocker, $blockee)
+{
+    //This function sets the blocker to block the blockee
+    global $master;
+    $sql = "UPDATE `Users` SET `blocks` = CONCAT(`blocks`,'--$blockee--') WHERE `id`='$blocker'";
+    mysql_query($sql, $master);
+    return true;
+}
+
+function unBlockUser($blocker, $blockee)
+{
+    //This function sets the blocker to not be blocking the $blockee anymore
+    global $master;
+    if (userBlocksUser($blocker, $blockee)) {
+        $sql = "UPDATE `Users` SET `blocks` = REPLACE(`blocks`,'--$blockee--','') WHERE `id`='$blocker'";
+        mysql_query($sql, $master);
+        return true;
+    } else return true;
+
+}
+
+function userFollowsUser($follower, $followee)
 {
     //This function returns true if the follower follows the followee
+    global $master;
     $sql = "select id from Users where id='$follower' AND follows like '%--$followee--%'";
     $res = mysql_query($sql, $master);
     $follows = mysql_num_rows($res);
@@ -1123,9 +1273,10 @@ function userFollowsUser($follower, $followee, $master)
     If ($follows > 0) return true; else return false;
 }
 
-function userBlocksUser($blocker, $blockee, $master)
+function userBlocksUser($blocker, $blockee)
 {
     //This function returns true if the blocker blocks the blockee
+    global $master;
     $sql = "select id from Users where id='$blocker' AND blocks like '%--$blockee--%'";
     $res = mysql_query($sql, $master);
     $blocks = mysql_num_rows($res);
@@ -1133,23 +1284,24 @@ function userBlocksUser($blocker, $blockee, $master)
     If ($blocks > 0) return true; else return false;
 }
 
-function userVisibleToUser($looker, $lookee, $master)
+function userVisibleToUser($looker, $lookee)
 {
     //This function returns true if the lookee is visible to the looker
 
-    if (userBlocksUser($lookee, $looker, $master)) return false;
-    if (userIsPrivate($lookee, $master) && !userFollowsUser($lookee, $looker, $master)) return false;
+    if (userBlocksUser($lookee, $looker)) return false;
+    if (userIsPrivate($lookee) && !userFollowsUser($lookee, $looker)) return false;
 
     return true;
 }
 
-function getVisibleUsers($user, $master)
+function getVisibleUsers($user)
 {
     //This function returns an array containing the id and name of each user visible to the entered user
+    global $master;
     $sql = "select id, username from Users";
     $res = mysql_query($sql, $master);
     while ($row = mysql_fetch_array($res)) {
-        if (userVisibleToUser($user, $row['id'], $master)) $visibleUsers[] = $row;
+        if (userVisibleToUser($user, $row['id'])) $visibleUsers[] = $row;
     }
     if (empty($visibleUsers)) return false;
     return $visibleUsers;
@@ -1263,6 +1415,72 @@ function displayPic3($bandsFestID, $bandsPicID, $title_content)
     echo $pgdisp;
 }
 
+function getAllGenres()
+{
+    //This function returns all genres as an array, containing id, parent and name
+    global $master;
+    $sql = "select `id`, `name`, `parent` from `genres` where `deleted`!='1' ORDER BY `name` ASC";
+    $res = mysql_query($sql, $master);
+    $genres = array();
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $genres[] = $row;
+        }
+    }
+    return $genres;
+}
+
+function getParentGenres()
+{
+    //This function returns all genres as an array, containing id, parent and name
+    global $master;
+    $sql = "select `genre` from `genre_parents` where `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    $genres = array();
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $genres[] = $row['genre'];
+        }
+    }
+    return $genres;
+}
+
+function setParentGenre($genre, $parent)
+{
+    //This function sets the parent of $genre to $parent
+    $table = "genres";
+    $cols = array("parent");
+    $vals = array($parent);
+    $where = "`id`='" . $genre . "'";
+    updateRow($table, $cols, $vals, $where);
+
+    return true;
+}
+
+function addParentGenre($parent)
+{
+    //This function adds $parent as a parent genre
+
+    $table = "genre_parents";
+    $cols = array("genre");
+    $vals = array($parent);
+    insertRow($table, $cols, $vals);
+
+    return true;
+}
+
+function addGenre($genreName, $parent)
+{
+    //This function adds $parent as a parent genre
+
+    $table = "genres";
+    $cols = array("name", "parent");
+    $vals = array($genreName, $parent);
+    insertRow($table, $cols, $vals);
+
+    return true;
+}
+
 function genreList($user)
 {
     //This function returns all the genres in main, with genreid, genrename, number of bands in genre,
@@ -1329,6 +1547,21 @@ function getBandSetsByFestival($band)
         }
         return $result;
     } else return false;
+}
+
+function getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark)
+{
+    global $master;
+    //Get most recent comment by user on band for fest
+    $sql = "SELECT `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='$remark' ORDER BY `id` DESC LIMIT 1";
+    //    error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row['content'];
+        }
+        return $result;
+    } else return "";
 }
 
 function getUserCommentOnBandForFest($user, $band, $fest, $mode)
@@ -1398,69 +1631,46 @@ function getAverageRatingForBandByUsersFollowers($user, $band)
     } else return 0;
 }
 
-function acceptComment($main, $master, $user, $band, $fest_id, $comment)
+function displayUnscaledUserPic($user)
 {
-    //This function returns the genre for each band in main
-    $sql = "select `master_id` from `bands` where `id`='$band'";
-    $res = mysql_query($sql, $main);
-    $mas_id = mysql_fetch_assoc($res);
-    $band_master_id = $mas_id['master_id'];
-
-    $query = "SELECT comment FROM comments WHERE band='$band' AND user='$user'";
-    $query_comment = mysql_query($query, $main);
-    $num = mysql_num_rows($query_comment);
-    $comment = mysql_real_escape_string($comment);
-
-    //New comments
-    If ($num == 0) {
-        $sql = "INSERT INTO comments (band, user, comment, discuss_current) VALUES ('$band', '$user', '$comment', '--" . $user . "--')";
-        $sql_run = mysql_query($sql, $main);
-        //	echo $sql;
-        $sql = "INSERT INTO comments (band, user, comment, festival) VALUES ('$band_master_id', '$user', '$comment', '$fest_id')";
-        $sql_run = mysql_query($sql, $master);
-        //Get id for new comment
-        $sql = "select max(id) as disc from comments";
-        $sql_run = mysql_query($sql, $main);
-        $res = mysql_fetch_array($sql_run);
-
-        //set $discuss_table for comment
-        $discuss_table = "discussion_" . $res['disc'];
-
-        //Create a discussion table for the comment
-        $sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
-        $res = mysql_query($sql, $main);
-    } else {
-        $sql = "UPDATE comments SET comment='$comment' WHERE band='$band' AND user='$user'";
-        $sql_run = mysql_query($sql, $main);
-        $sql = "UPDATE comments SET comment='$comment' WHERE band='$band_master_id' AND user='$user' and `festival`='$fest_id'";
-        $sql_run = mysql_query($sql, $master);
-    }
+    global $basepage;
+    $disp = "<div class=\"unscaledUserPicWrapper\" ><img class = \"unscaledUserPic\" src=\"" . $basepage;
+    $disp .= "includes/content/blocks/getUUserPicture.php?user=" . $user;
+    $disp .= "\" alt=\"user pic\" /></div><!-- end .unscaledUserPicWrapper -->";
+    echo $disp;
 }
 
-function acceptRating($main, $master, $user, $band, $fest_id, $rating)
+function displayScaledUserPic($user)
 {
-    $rating = mysql_real_escape_string($rating);
-    $sql = "select `master_id` from `bands` where `id`='$band'";
-    $res = mysql_query($sql, $main);
-    $mas_id = mysql_fetch_assoc($res);
-    $band_master_id = $mas_id['master_id'];
-    //Find out if an exisiting rating is in
-    $query = "SELECT rating FROM ratings WHERE band='$band' AND user='$user'";
-    $query_rating = mysql_query($query, $main);
-    //	echo mysql_error();
-    $rating_row = mysql_fetch_assoc($query_rating);
+    global $basepage;
+    $disp = "<div class=\"scaledUserPicWrapper\" ><img class = \"scaledUserPic\" src=\"" . $basepage;
+    $disp .= "includes/content/blocks/getSUserPicture.php?user=" . $user;
+    $disp .= "\" alt=\"user pic\" /></div><!-- end .scaledUserPicWrapper -->";
+    echo $disp;
+}
 
-    If (!isset($rating_row['rating'])) {
-        $sql = "INSERT INTO ratings (band, user, rating) VALUES ('$band', '$user', '$rating')";
-        $sql_run = mysql_query($sql, $main);
-        $sql = "INSERT INTO ratings (band, user, rating, festival) VALUES ('$band_master_id', '$user', '$rating', '$fest_id')";
-        $sql_run = mysql_query($sql, $master);
+function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $touser)
+{
+    //This function stores the pregame remark for the current fest, user, and band, updating or creating as needed
+    if ($remark != 3) $existingRemark = getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark);
+    else $existingRemark = "";
+
+    //New comments
+    If ($existingRemark != "") {
+        $table = "messages";
+        $cols = array("subject", "content");
+        $vals = array($subject, $content);
+        $where = "`fromuser`='" . $user . "' AND `band`='$band' AND `festival`='$fest' `remark`='$remark' AND `mode`='$mode' AND `deleted`!='1'";
+        updateRow($table, $cols, $vals, $where);
+        return true;
     } else {
-        //	echo "With rating logic entered<br>";
-        $sql = "UPDATE ratings SET rating='$rating' WHERE band='$band' AND user='$user'";
-        $sql_run = mysql_query($sql, $main);
-        $sql = "UPDATE ratings SET rating='$rating' WHERE band='$band_master_id' AND user='$user'";
-        $sql_run = mysql_query($sql, $master);
+        if ($remark != 3) $touser = (-1);
+        $header = getFestHeader($fest);
+        $table = "messages";
+        $cols = array("festival", "band", "remark", "privacy", "mode", "fromuser", "festival_series", "content", "subject", "touser");
+        $vals = array($fest, $band, $remark, 1, $mode, $user, $header['series'], $content, $subject, $touser);
+        insertRow($table, $cols, $vals);
+        return true;
     }
 }
 
