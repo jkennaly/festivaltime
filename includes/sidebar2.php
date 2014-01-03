@@ -7,67 +7,82 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
-$bandActivitySQL= "SELECT * FROM( SELECT name, band as id, sum(hits) FROM(
-SELECT bands.name as name, band, count(band) as hits FROM `live_rating` left join bands on bands.id=live_rating.band group by band
-UNION ALL
-SELECT bands.name as name, band, count(band) as hits FROM `comments` left join bands on bands.id=comments.band group by band
-UNION ALL
-SELECT bands.name as name, band, count(band) as hits FROM `ratings` left join bands on bands.id=ratings.band group by band
-) as inter where band!='0' group by band order by sum(hits) desc limit 25) as intera order by rand() limit 3";
-
-$res = mysql_query($bandActivitySQL, $master);
-echo mysql_error($master);
-$maxi = mysql_num_rows($res);
-for($i = 0; $i < $maxi; $i++ ){
-    $row=mysql_fetch_array($res);
-    $bandl[$i] = $row;
-    $bandl[$i]["fest"] = max(getFestivalsMaster($bandl[$i]["id"], $master));
-    $bandl[$i]["id"] = getFestBandIDFromMaster($bandl[$i]["id"], $bandl[$i]["fest"], $master);
-}
+$activeBands = getActiveBands();
 $bandList = "";
-foreach($bandl as $b){
+foreach ($activeBands as $b) {
+    $fests = getFestivalsBandIsIn($b);
     $bandList .= '<li class="popular-item">';
-    $bandList .= '<a href="'.$basepage.'?disp=view_band&band='.$b["id"].'&fest='.$b["fest"].'" >'.$b["name"].'</a>';
-    $bandList .= '</li>'; 
+    $bandList .= '<a href="' . $basepage . '?disp=view_band&band=' . $b . '&fest=' . $fests['0'] . '" >' . getBname($b) . '</a>';
+    $bandList .= '</li>';
 }
+
+$newFests = getNewFestivals();
 
 
 ob_start();
-?>   
+?>
 
 
 <div id="sidebar2" class="sidebar">
 
-<aside id="popular-bands-widget" class="widget">
-<h3 class="wideget-title">Popular Bands</h3>
-<ul class="popular-list">
-<?php echo $bandList; ?>
-</ul>
-</aside>
+    <aside id="popular-bands-widget" class="widget">
+        <h3 class="wideget-title">Popular Bands</h3>
+        <ul class="popular-list">
+            <?php echo $bandList; ?>
+        </ul>
+    </aside>
 
-<aside id="popular-users-widget" class="widget">
-<h3 class="wideget-title">Popular Users</h3>
-<ul class="popular-list">
-<li class="popular-item">Eric</li>
-</ul>
-</aside>
+    <aside id="popular-users-widget" class="widget">
+        <?php
+        $followingUsers = getFollowedBy($user);
+        $visibleUsers = getVisibleUsers($user);
+        $followerCount = array();
+        foreach ($visibleUsers as $u) {
+            if (!in_array($u, $followingUsers)) {
+                $followerCount[$u] = count(getUsersFollowing($u, $user));
+            }
+        }
+        arsort($followerCount);
+        $i = 0;
 
-<aside id="popular-users-widget" class="widget">
-<h3 class="wideget-title">Popular Festivals</h3>
-<ul class="popular-list">
-<li class="popular-item">Coachella Weekend 1 2014</li>
-</ul>
-</aside>
+        ?>
+        <h3 class="wideget-title">Popular Users</h3>
+        <ul class="popular-list">
+            <?php
+            foreach ($followerCount as $u => $count) {
+                ?>
+                <li class="popular-item">
+                    <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
+                    <?php echo getUname($u); ?></li>
+                </a>
+                <?php
 
+                $i++;
+                if ($i > 2) break;
+            }
+            ?>
+        </ul>
+    </aside>
+
+    <aside id="recent-fests-widget" class="widget">
+        <h3 class="wideget-title">Newly Added Fests</h3>
+        <ul class="popular-list">
+            <?php
+            foreach ($newFests as $c) {
+                echo "<li class=\"popular-item\"><a href=\"" . $basepage . '?disp=home&fest=' . $c['id'] . "\">" . $c['sitename'] . "</a></li>";
+            }
+            ?>
+        </ul>
+    </aside>
 
 
 </div> <!-- end #sidebar2 -->
 
 <?php
 $output = ob_get_contents();
-$file = $baseinstall."external/cache-sidebar2.txt";
+$file = $baseinstall . "external/cache-sidebar2.txt";
 file_put_contents($file, $output);
 ob_flush();
 

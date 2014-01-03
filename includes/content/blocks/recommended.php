@@ -7,7 +7,7 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 /*
 *  This block requires the following variables: $userid (must contain 
@@ -17,19 +17,15 @@
 //Get data for display of recommended bands
 
 
-
-	$query="SELECT bands.id as id, bands.name as name, recommendations.id as recomm from recommendations, bands where touser='$userid' AND followed='0' AND bands.id=recommendations.band limit 0,9";
-	$result=mysql_query($query, $main);
+$query = "SELECT bands.id as id, bands.name as name, recommendations.id as recomm from recommendations, bands where touser='$userid' AND followed='0' AND bands.id=recommendations.band limit 0,9";
+$result = mysql_query($query, $main);
 
 //Do not display anything if there are no recommendations to show
-	If (0 != mysql_num_rows($result)) {
-		echo "<div id=\"recommended\" class=\"activelist\"><p class=\"activehead\">Bands that have been recommended to you:<a class=\"helplink\" href=\"".$basepage."?disp=about#recommended\">Click here for help with this section</a></p><p><ul>";
-	while($row = mysql_fetch_array($result)) {
-		echo "<li><a href=\"".$basepage."?disp=view_band&band=".$row["id"]."&recomm=".$row["recomm"]."\">".$row["name"]."</a></li>";
-echo "</p></ul><br /></div><!-- End #recommended -->";	
-		}  //Closes while($row = mysql_fetch_array($result))
-	} //Closes If (0 != mysql_num_rows($result))
+If (0 != mysql_num_rows($result)) {
+    echo "<div id=\"recommended\" class=\"activelist\"><p class=\"activehead\">Bands that have been recommended to you:<a class=\"helplink\" href=\"" . $basepage . "?disp=about#recommended\">Click here for help with this section</a></p><p><ul>";
+    while ($row = mysql_fetch_array($result)) {
+        echo "<li><a href=\"" . $basepage . "?disp=view_band&band=" . $row["id"] . "&recomm=" . $row["recomm"] . "\">" . $row["name"] . "</a></li>";
+        echo "</p></ul><br /></div><!-- End #recommended -->";
+    } //Closes while($row = mysql_fetch_array($result))
+} //Closes If (0 != mysql_num_rows($result))
 //End of recommended bands
-
-
-?>

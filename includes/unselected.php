@@ -7,33 +7,34 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
-If(!empty($_GET["disp"])) $disp =  htmlspecialchars($_GET["disp"]);
-If(empty($_GET["disp"]) || $disp ==  "home") $disp = "fest_select";
-If(!empty($_GET['regcode'])) {$disp="register";}
+If (!empty($_GET["disp"])) $disp = htmlspecialchars($_GET["disp"]);
+If (empty($_GET["disp"]) || $disp == "home") $disp = "main";
+If (!empty($_GET['regcode'])) {
+    $disp = "register";
+}
 
 //Find all content files that can be displayed
 $old_path = getcwd();
-chdir($baseinstall."includes/unselected/");
+chdir($baseinstall . "includes/unselected/");
 $content_files = glob("*.php");
-chdir($baseinstall."includes/site/");
+chdir($baseinstall . "includes/site/");
 $site_files = glob("*.php");
 chdir($old_path);
 
 
-	//If there is a specific type of content requested, and there is a file with that name, display it
-	If(in_array($disp . ".php", $content_files)){
-		include $baseinstall."includes/unselected/" . $disp . ".php";
-	} elseif(in_array($disp . ".php", $site_files)){
-        include $baseinstall."includes/site/" . $disp . ".php";
-    }
-	//If a content file is requested that does not exist, return error
-	else{
-		include $baseinstall."includes/unselected/error.php";
-	}
+//If there is a specific type of content requested, and there is a file with that name, display it
+If (in_array($disp . ".php", $content_files)) {
+    include $baseinstall . "includes/unselected/" . $disp . ".php";
+} elseif (in_array($disp . ".php", $site_files)) {
+    include $baseinstall . "includes/site/" . $disp . ".php";
+} //If a content file is requested that does not exist, return error
+else {
+    include $baseinstall . "includes/unselected/error.php";
+}
 
 
 
-?>
+

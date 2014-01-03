@@ -7,70 +7,94 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 $right_required = "EditFest";
-If(!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)){
-	die("You do not have rights to access this page. You can login or register here: <a href=\"".$basepage."\">FestivalTime</a>");
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 
 ?>
 
 
 <div id="content">
-<?php 
+<?php
 
 ?>
 
-<?php 
-If(!empty($_POST)){
+<?php
+If (!empty($_POST)) {
 
-		// Insert into database
-		$table = "venues";
-		$cols = array("user", "name", "description", "country", "state", "city", "street_address");
-		$vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address']);
-		insertRow($master, $table, $cols, $vals);
+    // Insert into database
+    $table = "venues";
+    $cols = array("user", "name", "description", "country", "state", "city", "street_address", "timezone");
+    $vals = array($user, $_POST['name'], $_POST['descrip'], $_POST['country'], $_POST['state'], $_POST['city'], $_POST['address'], $_POST['userTimeZone']);
+    insertRow($table, $cols, $vals);
 
 }
 $used = getFestVenues($master);
 ?>
 <p>
 
-This page allows for adding a festival venue.
+    This page allows for adding a festival venue.
 </p>
 
-<?php 
-foreach ($used as $u){
-	?>
-<br><br>
-<div class="festvenuewrapper">
-	
-	<div class="festvenuename">
-	Fest Venue Name: 
-	<?php echo $u['name'] ?>
-	</div> <!-- end .festvenuename -->
-	
-	<div class="festvenuedescrip">
-	Festival Venue Description: 
-	<?php echo $u['description'] ?>
-	</div> <!-- end .festvenuedescrip -->
-	
-	<div class="festvenueaddress">
-	Festival Venue Address:<br />
-	<?php echo $u['street_address'] ?><br />
-	<?php echo $u['city'] ?>, <?php echo $u['state'] ?><br />
-	<?php echo $u['country'] ?><br />
-	</div> <!-- end .festvenueaddress -->
-	
-</div> <!-- end .festvenuewrapper -->
+<?php
+foreach ($used as $u) {
+    ?>
+    <br><br>
+    <div class="festvenuewrapper">
 
-<?php 
+        <div class="festvenuename">
+            Fest Venue Name:
+            <?php echo $u['name'] ?>
+        </div>
+        <!-- end .festvenuename -->
+
+        <div class="festvenuedescrip">
+            Festival Venue Description:
+            <?php echo $u['description'] ?>
+        </div>
+        <!-- end .festvenuedescrip -->
+
+        <div class="festvenueaddress">
+            Festival Venue Address:<br/>
+            <?php echo $u['street_address'] ?><br/>
+            <?php echo $u['city'] ?>, <?php echo $u['state'] ?><br/>
+            <?php echo $u['country'] ?><br/>
+        </div>
+        <!-- end .festvenueaddress -->
+
+        <div class="festvenuetz">
+            Timezone:
+            <select name="userTimeZone">
+                <?php
+                $utc = new DateTimeZone('UTC');
+                $dt = new DateTime('now', $utc);
+                $timezone_identifiers = DateTimeZone::listIdentifiers();
+                foreach ($timezone_identifiers as $tz) {
+                    $current_tz = new DateTimeZone($tz);
+                    $offset = $current_tz->getOffset($dt);
+                    $transition = $current_tz->getTransitions($dt->getTimestamp(), $dt->getTimestamp());
+                    $abbr = $transition[0]['abbr'];
+
+                    if (!($u['timezone'] == $tz)) echo '<option value="' . $tz . '">' . $tz . ' [' . $abbr . ' ' . formatOffset($offset) . ']</option>';
+                    else echo '<option selected="selected" value="' . $tz . '">' . $tz . ' [' . $abbr . ' ' . formatOffset($offset) . ']</option>';
+                }
+                ?>
+            </select>
+        </div>
+        <!-- end .festvenuetz -->
+
+    </div> <!-- end .festvenuewrapper -->
+
+<?php
 }
 ?>
 
-<form action="<?php echo $basepage."?disp=add_venue"; ?>" method="post" enctype="multipart/form-data">
-<input size="100" type="text" name="name" value="Replace this text with a name of the festival venue"><br />
-<input size="100" type="text" name="descrip" value="Replace this text with a description of the festival venue"><br />
-<input size="100" type="text" name="address" value="Street Address"><br />
+<form action="<?php echo $basepage . "?disp=add_venue"; ?>" method="post" enctype="multipart/form-data">
+<input size="100" type="text" name="name" value="Replace this text with a name of the festival venue"><br/>
+<input size="100" type="text" name="descrip" value="Replace this text with a description of the festival venue"><br/>
+<input size="100" type="text" name="address" value="Street Address"><br/>
 <select id="country" name="country">
 <option value="Afghanistan">Afghanistan</option>
 <option value="Åland Islands">Åland Islands</option>
@@ -316,9 +340,9 @@ foreach ($used as $u){
 <option value="Yemen">Yemen</option>
 <option value="Zambia">Zambia</option>
 <option value="Zimbabwe">Zimbabwe</option>
-</select><br />
-<input size="50" type="text" name="state" value="State"><br />
-<input size="50" type="text" name="city" value="City"><br />
+</select><br/>
+<input size="50" type="text" name="state" value="State"><br/>
+<input size="50" type="text" name="city" value="City"><br/>
 <input type="submit" name="submit" value="Submit">
 </form>
 

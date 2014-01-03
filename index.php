@@ -7,101 +7,99 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 $festivaltimeContext = 1;
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html>
 
 <head>
 
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 
-<meta name="description" content="" />
+    <meta name="description" content=""/>
 
-<meta name="keywords" content="" />
+    <meta name="keywords" content=""/>
 
-<meta name="author" content="" />
+    <meta name="author" content=""/>
 
-<link rel="stylesheet" type="text/css" href="styles/style.css" media="screen" />
-<link rel="stylesheet" type="text/css" href="styles/festival_style.css" media="screen" />
-<link rel="stylesheet" href="styles/thickbox.css" type="text/css" media="screen" />
-<?php
+    <link rel="stylesheet" type="text/css" href="styles/style.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="styles/festival_style.css" media="screen"/>
+    <link rel="stylesheet" href="styles/thickbox.css" type="text/css" media="screen"/>
+    <?php
 
-session_start(); 
+    session_start();
 
-include('variables/variables.php');
+    include('variables/variables.php');
 
-$master = mysql_connect($dbhost,$master_dbuser,$master_dbpw);
-@mysql_select_db($master_db, $master) or die( "Unable to select master database");
+    $master = mysql_connect($dbhost, $master_dbuser, $master_dbpw);
+    @mysql_select_db($master_db, $master) or die("Unable to select master database");
 
-function isInteger($input){
-    return(ctype_digit(strval($input)));
-}
+    function isInteger($input)
+    {
+        return (ctype_digit(strval($input)));
+    }
 
-If(isset($_GET['fest']) && isInteger($_GET['fest'])) {
-	$_SESSION['fest'] = $_GET['fest'];
-} 
- include('includes/check_rights.php');
- include('includes/content/blocks/database_functions.php'); 
-include('includes/content/blocks/other_functions.php'); 
-include('includes/content/blocks/SimpleImage.php'); 
+    If (isset($_GET['fest']) && isInteger($_GET['fest'])) {
+        $_SESSION['fest'] = $_GET['fest'];
+    }
+    include('includes/check_rights.php');
+    include('includes/content/blocks/database_functions.php');
+    include('includes/content/blocks/other_functions.php');
+    include('includes/content/blocks/SimpleImage.php');
+    include $baseinstall . "includes/content/blocks/scoring_functions.php";
+    include $baseinstall . "includes/content/blocks/search_selection_function.php";
 
 
-If(!empty($_SESSION['fest'])){
+    If (!empty($_SESSION['fest'])) {
 
-include('variables/fest_variables.php');
-//	echo "host=$dbhost user=$master_dbuser2 pw=$master_dbpw2 dbname=$dbname sitename =$sitename<br />";
+        include('variables/fest_variables.php');
 
-$main = mysql_connect($dbhost,$dbuser,$dbpw);
-@mysql_select_db($dbname, $main) or die( "Unable to select main database");
 
-if($modeChange == 1) changeMode($main, $master, $festmode, $fest);
+    }
 
- 
+    include('variables/page_variables.php');
+    $userFestivals = userFestivals($user);
+    if (!empty($userFestivals) && !empty($fest)) $checkFest = in_array($fest, $userFestivals);
+    else $checkFest = false;
+    ?>
 
-}
-
-include('variables/page_variables.php'); 
-?>
-
-<title><?php echo $sitename ?></title>
-
-<script type="text/javascript" src="includes/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="includes/js/docflow.js"></script>
+    <title><?php echo $sitename ?></title>
+    <script type="text/javascript" src="includes/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="includes/js/docflow.js"></script>
 
 </head>
 
-	<body>
+<body>
 
-		<div id="wrapper">
-<?php // var_dump($_SESSION); 
+<div id="wrapper">
+    <?php // var_dump($_SESSION);
 
- include('includes/header.php'); 
+    include('includes/header.php');
 
- include('includes/nav.php'); 
+    include('includes/nav.php');
 
- include('includes/sidebar.php'); 
+    include('includes/sidebar.php');
 
-If(!empty($_SESSION['fest']) && $_SESSION['fest']>0){
+    If (!empty($_SESSION['fest']) && $_SESSION['fest'] > 0) {
 
-	include('includes/content.php'); 
+        include('includes/content.php');
 
-} else include('includes/unselected.php');
+    } else include('includes/unselected.php');
 
- include('includes/sidebar2.php'); 
+    include('includes/sidebar2.php');
 
- include('includes/footer.php'); ?>
+    include('includes/footer.php'); ?>
 
-		</div> <!-- End #wrapper -->
+</div>
+<!-- End #wrapper -->
 
-	</body>
+</body>
 <?php
-If(!empty($main)) mysql_close($main);
-If(!empty($master)) mysql_close($master);
+If (!empty($master)) mysql_close($master);
 ?>
 </html>
 

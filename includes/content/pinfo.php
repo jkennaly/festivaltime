@@ -7,20 +7,18 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
 $right_required = "SiteAdmin";
-If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
 
-phpinfo();
+    phpinfo();
 
 
-} else{
-echo "This page requires a higher level access than you currently have.";
+} else {
+    echo "This page requires a higher level access than you currently have.";
 
-include $baseinstall."includes/site/login.php";
+    include $baseinstall . "includes/site/login.php";
 }
-
-?>
 

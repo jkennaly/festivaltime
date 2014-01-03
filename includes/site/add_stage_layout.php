@@ -7,51 +7,49 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 $right_required = "EditFest";
-If(!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)){
-	die("You do not have rights to access this page. You can login or register here: <a href=\"".$basepage."\">FestivalTime</a>");
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 ?>
 
 <div id="content">
-<?php 
+    <?php
 
-If(!empty($_POST)){
-	if ($_FILES["file"]["error"] > 0)
-	{
-		echo "Error: " . $_FILES["file"]["error"] . "<br>";
-	}
-	else
-	{
-		echo "Upload: " . $_FILES["file"]["name"] . "<br>";
-		echo "Type: " . $_FILES["file"]["type"] . "<br>";
-		echo "Stored in: " . $_FILES["file"]["tmp_name"];
-		$file= $_FILES["file"]["tmp_name"];
-		unlink($file);
-		// Insert into database
-		$table = "stage_layouts";
-		$cols = array("image", "user", "filename", "type", "description");
-		$vals = array(file_get_contents($file), $user, $_POST['name'], $_FILES["file"]["type"], $_POST['descrip']);
-		insertRow($master, $table, $cols, $vals);
+    If (!empty($_POST)) {
+        if ($_FILES["file"]["error"] > 0) {
+            echo "Error: " . $_FILES["file"]["error"] . "<br>";
+        } else {
+            echo "Upload: " . $_FILES["file"]["name"] . "<br>";
+            echo "Type: " . $_FILES["file"]["type"] . "<br>";
+            echo "Stored in: " . $_FILES["file"]["tmp_name"];
+            $file = $_FILES["file"]["tmp_name"];
+            unlink($file);
+            // Insert into database
+            $table = "stage_layouts";
+            $cols = array("image", "user", "filename", "type", "description");
+            $vals = array(file_get_contents($file), $user, $_POST['name'], $_FILES["file"]["type"], $_POST['descrip']);
+            insertRow($table, $cols, $vals);
 
-	}
+        }
 
-}
+    }
 
-?>
-<p>
+    ?>
+    <p>
 
-This page allows for adding a layout of a stage.
+        This page allows for adding a layout of a stage.
 
-</p>
+    </p>
 
-<form action="<?php echo $basepage."?disp=add_stage_layout"; ?>" method="post" enctype="multipart/form-data">
-<label for="file">Filename:</label>
-<input type="file" name="file" id="file"><br />
-<input size="100" type="text" name="name" value="Replace this text with a name of the stage layout"><br />
-<input size="100" type="text" name="descrip" value="Replace this text with a description of the stage layout"><br />
-<input type="submit" name="submit" value="Submit">
-</form>
+    <form action="<?php echo $basepage . "?disp=add_stage_layout"; ?>" method="post" enctype="multipart/form-data">
+        <label for="file">Filename:</label>
+        <input type="file" name="file" id="file"><br/>
+        <input size="100" type="text" name="name" value="Replace this text with a name of the stage layout"><br/>
+        <input size="100" type="text" name="descrip"
+               value="Replace this text with a description of the stage layout"><br/>
+        <input type="submit" name="submit" value="Submit">
+    </form>
 
 </div> <!-- end #content -->

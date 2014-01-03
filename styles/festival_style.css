@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Jason Kennaly.
+Copyright (c) 2013-2014 Jason Kennaly.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
 http://www.gnu.org/licenses/agpl.html
@@ -8,29 +8,128 @@ Contributors:
     Jason Kennaly - initial API and implementation
 */
 
-div.bandsbygenre {
-	overflow: hidden;
-	width: 100%;
+div#overlay_form {
+    visibility: hidden;
+    background-color: #eeeeee;
+    padding: 10px;
 }
 
-div.bandgridpicwrapper{
-	float:left; /* important */
-	position:relative; /* important(so we can absolutely position the description div */
+div.festSchedDay {
+    overflow: hidden;
+    width: 100%;
 }
-div.bandgridpictitle{
-	position:absolute; /* absolute position (so we can position it where we want)*/
-	bottom:0px; /* position will be on bottom */
-	left:0px;
-	width:100%;
-	/* styling bellow */
-	background-color:black;
-	font-family: 'tahoma';
-	font-size:15px;
-	color:white;
-	opacity:0.6; /* transparency */
-	filter:alpha(opacity=60); /* IE transparency */
+
+div.festSchedStage {
+    float: left;
 }
-p.title_content{
-	padding:10px;
-	margin:0px;
+
+div.stageName {
+    overflow-x: hidden;
+    height: 3em;
+}
+
+div.bandsbygenre {
+    overflow: hidden;
+    width: 100%;
+}
+
+div.bands-by-level {
+    overflow: hidden;
+    width: 100%;
+    padding: 1em 0;
+}
+
+div.feststatus {
+    padding: 0.5em 0;
+    clear: both;
+}
+
+div.feststatususer {
+    margin: 0 1em;
+    float: left;
+    width: 20%;
+    height: 100%;
+}
+
+div.feststatusname {
+    margin: 0 1em;
+    float: left;
+    width: 20%;
+}
+
+div.feststatusrow {
+    padding: 0.1em 0;
+    overflow: auto;
+    border: 1px solid;
+    width: 80%;
+}
+
+div.festivalstatuswrapper {
+    display: none;
+}
+
+div#showfestivalbuttons {
+    display: none;
+}
+
+div#showMoreFunctions {
+    display: none;
+}
+
+div.bandpriorityselectwrapper {
+    padding: 0.5em 0;
+    overflow: auto;
+    border: 1px solid;
+    width: 50%;
+}
+
+div.bandSource {
+    width: 50%;
+    float: left;
+}
+
+div.scheduleBand {
+    padding: 0.5em 0;
+
+}
+
+div.topform {
+    width: 100%;
+}
+
+table#scheduletable {
+    width: 50%;
+    float: left;
+}
+
+div.bandpriority {
+    float: left;
+}
+
+div.bandname {
+    float: left;
+}
+
+div.bandgridpicwrapper {
+    float: left; /* important */
+    position: relative; /* important(so we can absolutely position the description div */
+}
+
+div.bandgridpictitle {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 0px; /* position will be on bottom */
+    left: 0px;
+    width: 100%;
+    /* styling bellow */
+    background-color: black;
+    font-family: 'tahoma';
+    font-size: 15px;
+    color: white;
+    opacity: 0.6; /* transparency */
+    filter: alpha(opacity=60); /* IE transparency */
+}
+
+p.title_content {
+    padding: 10px;
+    margin: 0px;
 }
