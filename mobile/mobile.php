@@ -382,7 +382,7 @@ If (!empty($i)) {
         $gametime_band[$i]['name'] = $row['name'];
         $gametime_band[$i]['rating'] = $row['rating'];
         $gametime_band[$i]['stage'] = $row_stage['stage'];
-        $gametime_band[$i]['genre'] = getGname($master, $row['genre']);
+        $gametime_band[$i]['genre'] = getGname($row['genre']);
         $gametime_band[$i]['avg'] = round($row_avg['avg'], 1);
         $gametime_band[$i]['starts'] = $starts_in;
         $gametime_band[$i]['ends'] = $ends_in;

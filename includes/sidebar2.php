@@ -19,6 +19,8 @@ foreach ($activeBands as $b) {
 }
 
 $newFests = getNewFestivals();
+
+
 ob_start();
 ?>
 
@@ -33,9 +35,34 @@ ob_start();
     </aside>
 
     <aside id="popular-users-widget" class="widget">
+        <?php
+        $followingUsers = getFollowedBy($user);
+        $visibleUsers = getVisibleUsers($user);
+        $followerCount = array();
+        foreach ($visibleUsers as $u) {
+            if (!in_array($u, $followingUsers)) {
+                $followerCount[$u] = count(getUsersFollowing($u, $user));
+            }
+        }
+        arsort($followerCount);
+        $i = 0;
+
+        ?>
         <h3 class="wideget-title">Popular Users</h3>
         <ul class="popular-list">
-            <li class="popular-item">Eric</li>
+            <?php
+            foreach ($followerCount as $u => $count) {
+                ?>
+                <li class="popular-item">
+                    <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
+                    <?php echo getUname($u); ?></li>
+                </a>
+                <?php
+
+                $i++;
+                if ($i > 2) break;
+            }
+            ?>
         </ul>
     </aside>
 

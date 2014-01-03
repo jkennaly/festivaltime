@@ -12,12 +12,15 @@
 
 $right_required = "ViewNotes";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
-    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 date_default_timezone_set('UTC');
 $festDays = getAllDays();
 $festStages = getAllStages();
 $stageWidth = 95 / (1 + count($festStages));
+$heightFactor = 4;
+$textHeight = $heightFactor * 2.5;
+$borderWidth = 1;
 ?>
 
 <div id="content">
@@ -44,10 +47,10 @@ $stageWidth = 95 / (1 + count($festStages));
                 <?php
                 $maxTime = $header['start_time'] + $header['length'];
                 for ($i = $header['start_time']; $i < $maxTime; $i = $i + 3600) {
-                    $setHeight = 12;
+                    $setHeight = ((60 * $heightFactor) / 5) - 2 * $borderWidth;
                     ?>
                     <div id="time-<?php echo $i; ?>; ?>" class="festSchedSet"
-                         style="border:1px solid;height:<?php echo $setHeight; ?>em;">
+                         style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;">
                         <?php
                         echo strftime('%l:%M %p', $i);
                         ?>
@@ -78,18 +81,21 @@ $stageWidth = 95 / (1 + count($festStages));
                             $iPrev = $i - 1;
                             $spaceTime = ($set['start'] - $setList[$iPrev]['end']) / 60;
                         }
-                        $spaceHeight = $spaceTime / 5;
+                        $spaceHeight = ($spaceTime * $heightFactor) / 5;
 
                         $minInSet = ($set['end'] - $set['start']) / 60;
-                        $setHeight = $minInSet / 5;
+                        $setHeight = ($minInSet * $heightFactor) / 5 - 2 * $borderWidth;
                         ?>
-                        <div class="spacer" style="border:none;height:<?php echo $spaceHeight; ?>em;">
+                        <div class="spacer" style="border:none;height:<?php echo $spaceHeight; ?>px;">
                         </div> <!--end .spacer -->
                         <div id="set-<?php echo $set['id']; ?>; ?>" class="festSchedSet"
-                             style="border:1px solid;height:<?php echo $setHeight; ?>em;background-color:LightBlue;">
+                             style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;background-color:LightBlue;">
+                            <span
+                                style="font-size:<?php echo $textHeight; ?>px;vertical-align:middle;line-height: <?php echo $setHeight / 2; ?>px;text-align: center;width:100%;">
                             <?php
                             echo getBname($set['band']);
                             ?>
+                                </span>
                         </div> <!--end #set-<?php echo $set['id']; ?> -->
                     <?php
                     }

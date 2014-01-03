@@ -18,7 +18,7 @@
     <?php
     $right_required = "ViewNotes";
     If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
-        die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+        die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
     }
     If (empty($band)) $band = "";
 
@@ -48,7 +48,6 @@
                 foreach ($bandList as $row) {
                     echo "<option value=" . $row . ">" . getBname($row) . "</option>";
                 }
-
                 ?>
             </select>
             <input type="submit">
@@ -59,3 +58,10 @@
 
     ?>
 </div> <!-- end #content -->
+<script type="text/javascript">
+    <!--
+    var basepage = "<?php echo $basepage; ?>";
+    //-->
+</script>
+<script src="includes/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="includes/js/discussion.js"></script>

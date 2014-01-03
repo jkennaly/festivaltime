@@ -35,7 +35,15 @@
                 <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
             </ul>
         </li>
-        <li><a href="<?php echo $basepage; ?>?disp=festival_status">Manage Festivals</a></li>
+        <?php
+        $right_required = "EditFest";
+        If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
+            ?>
+            <li><a href="<?php echo $basepage; ?>?disp=festival_status">Manage Festivals</a></li>
+        <?php
+        }
+        ?>
+
         <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
 
         <li><a href="<?php echo getForumLink($user, $mainforum, $forumblog); ?>">Forum</a></li>

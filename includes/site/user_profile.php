@@ -18,28 +18,9 @@
     <?php
     $right_required = "ViewNotes";
     If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
-        die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+        die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
     }
-    if (!empty($_POST['submitFollow'])) {
-        $followee = $_POST['submitFollow'];
-        $follower = $user;
-        followUser($follower, $followee);
-    }
-    if (!empty($_POST['submitUnfollow'])) {
-        $followee = $_POST['submitUnfollow'];
-        $follower = $user;
-        unFollowUser($follower, $followee);
-    }
-    if (!empty($_POST['submitBlock'])) {
-        $blockee = $_POST['submitBlock'];
-        $blocker = $user;
-        blockUser($blocker, $blockee);
-    }
-    if (!empty($_POST['submitUnblock'])) {
-        $blockee = $_POST['submitUnblock'];
-        $blocker = $user;
-        unBlockUser($blocker, $blockee);
-    }
+    include($baseinstall . 'includes/content/blocks/accept_follow.php');
     If (!empty($_REQUEST["profileUser"])) {
         $_SESSION['profileUser'] = $_REQUEST["profileUser"];
     }
@@ -52,7 +33,7 @@
         <select name="profileUser">
             <?php
             foreach ($userList as $row) {
-                echo "<option value=" . $row['id'] . ">" . $row['username'] . "</option>";
+                echo "<option value=" . $row . ">" . getUname($row) . "</option>";
             }
 
             ?>
@@ -79,33 +60,10 @@
         } else {
 
             ?>
-            <form action="index.php?disp=user_profile" method="post">
-                <?php
-                if (!userFollowsUser($user, $profileUser)) {
-                    ?>
-                    <button type="submit" name="submitFollow" value="<?php echo $profileUser; ?>">
-                        Follow <?php echo getUname($profileUser); ?></button>
-                <?php
-                } else {
-                    ?>
-                    <button type="submit" name="submitUnfollow" value="<?php echo $profileUser; ?>">Stop
-                        following <?php echo getUname($profileUser); ?></button>
-                <?php
-                }
-                if (!userBlocksUser($user, $profileUser)) {
-                    ?>
-                    <button type="submit" name="submitBlock" value="<?php echo $profileUser; ?>">
-                        Block <?php echo getUname($profileUser); ?></button>
-                <?php
-                } else {
-                    ?>
-                    <button type="submit" name="submitUnblock" value="<?php echo $profileUser; ?>">Stop
-                        blocking <?php echo getUname($profileUser); ?></button>
-                <?php
-                }
-                ?>
+            <?php
+            drawFollowButtons($user, $profileUser);
+            ?>
 
-            </form>
         <?php
         }
     }

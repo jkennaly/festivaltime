@@ -267,7 +267,7 @@ class DB_Functions
                 $gid = $row1['genre'];
             } else $gid = 0;
         }
-        $gname = getGname($master, $gid);
+        $gname = getGname($gid);
 
         return $gname;
     }

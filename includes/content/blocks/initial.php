@@ -17,7 +17,6 @@
     <?php
 
     $genreList = genreList($user);
-    var_dump($genrelist);
     $bandList = getGenresForAllBandsInFest($user);
 
 

@@ -18,7 +18,7 @@ include('includes/content/blocks/new_genre.php');
 date_default_timezone_set('UTC');
 
 
-If ($_GET['disp'] == "view_band") $bandlink = searchlink($band, $user);
+If ($_GET['disp'] == "view_band") $bandlink = searchLink($band, $user);
 else $bandlink = "<a href=\"" . $basepage . "?disp=view_band&band=" . $band . "\">" . getBname($band) . "</a>";
 
 If ($_GET['disp'] == "pic_band") $piclink = $basepage . "?disp=band_gallery&band=" . $band;

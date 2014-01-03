@@ -10,23 +10,19 @@
 */
 
 
-//Retunrs a string, formatted according to the users spec'd search engine
-function searchlink($band, $user)
+//Return a string, formatted according to the users specified search engine
+function searchLink($band, $user)
 {
 //Get user's search engine
 
     global $master;
-    $sql = "select value from user_settings_$user where item='Search Engine'";
-    $res = mysql_query($sql, $master);
-    $val = mysql_fetch_array($res);
+
+    $val = getUserSetting($user, 1);
 
 //Get band name
-    $sql = "select name from bands where id='$band'";
-    $res = mysql_query($sql, $master);
-    $value = mysql_fetch_array($res);
-    $name = $value['name'];
+    $name = getBname($band);
 
-    switch ($val['value']) {
+    switch ($val) {
         case "1":
 //Youtube
             $link = "<a href=\"http://www.youtube.com/results?search_query=" . str_replace(" ", "+", $name) . "\" target=\"_blank\">" . $name . "</a>";

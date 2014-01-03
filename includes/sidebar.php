@@ -1,40 +1,63 @@
 <?php
 /*
-//Copyright (c) 2013 Jason Kennaly.
+//Copyright (c) 2013-2014 Jason Kennaly.
 //All rights reserved. This program and the accompanying materials
 //are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
 //http://www.gnu.org/licenses/agpl.html
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
-
-    $myCachedFile = $baseinstall."external/cache-sidebar.txt";
-    if(file_exists($myCachedFile))
-    include_once($myCachedFile);
-    else {
-?>   
-
-
-<div id="sidebar">
-
-<ul id="sidebarnav">
-	<li><a href="#">My Account</a>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=login">Log In</a></li></ul>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=logout">Log Out</a></li></ul>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=change_password">Change Password</a></li></ul>
-		<ul><li><a href="<?php echo $basepage; ?>?disp=user_settings">User Settings</a></li></ul>
-        <ul><li><a href="<?php echo $basepage; ?>?disp=my_groups">My Groups</a></li></ul>
-	</li>
-
-</ul> <!-- end #sidebarnav -->
-</div> <!-- end #sidebar -->
-
-<?php
-}
+*/
 
 
 ?>
 
 
+<div id="sidebar-left">
 
+    <div id="new-comments" class="widget">
+        <?php
+        $newCommentBands = getNewPregameCommentBands($user, $fest, 5);
+        if (!empty($newCommentBands)) {
+            ?>
+            <h3 class="widget-title">New Comments</h3>
+            <?php
+            $displayed = array();
+            foreach ($newCommentBands as $nCB) {
+                if (!in_array($nCB, $displayed)) {
+                    ?>
+                    <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                    <br/>
+                    <?php
+                    $displayed[] = $nCB;
+                }
+            }
+        }
+        ?>
+
+    </div>
+    <!-- end #new-comments -->
+
+    <div id="new-discussion" class="widget">
+        <?php
+        $newDiscussionBands = getNewPregameDiscussionBands($user, $fest, 5);
+        if (!empty($newDiscussionBands)) {
+            ?>
+            <h3 class="widget-title">New Discussion</h3>
+            <?php
+            $displayed = array();
+            foreach ($newDiscussionBands as $nCB) {
+                if (!in_array($nCB, $displayed)) {
+                    ?>
+                    <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                    <br/>
+                    <?php
+                    $displayed[] = $nCB;
+                }
+            }
+        }
+        ?>
+
+    </div>
+    <!-- end #new-discussion -->
+</div> <!-- end #sidebar -->

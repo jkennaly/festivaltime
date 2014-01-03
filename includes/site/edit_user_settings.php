@@ -1,224 +1,90 @@
 <?php
 /*
-//Copyright (c) 2013 Jason Kennaly.
+//Copyright (c) 2013-2014 Jason Kennaly.
 //All rights reserved. This program and the accompanying materials
 //are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
 //http://www.gnu.org/licenses/agpl.html
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
 $right_required = "SiteAdmin";
-If(isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)){
+If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
+}
+
+if (!empty($_POST['submitChangedSettings'])) {
+    foreach ($_POST['default'] as $setting => $value) setDefaultUserSettingValue($setting, $value);
+    foreach ($_POST['newValue'] as $setting => $value) {
+        if (!empty($value)) createPermissibleUserSettingValue($setting, $value);
+    }
+}
+if (!empty($_POST['submitNewSetting'])) {
+    createUserSetting($_POST['newSettingName'], $_POST['newSettingDescription'], $_POST['newSettingValueName']);
+}
+if (!empty($_POST['submitDeletedSetting'])) {
+    deleteUserSetting($_POST['deleteSetting']);
+}
+
 ?>
 
 <div id="content">
-<?php
+    <form method="post">
+        <input type="submit" name="submitChangedSettings" value="Update Current Settings">
+        <?php
+        $userSettings = getAllUserSettings();
+        foreach ($userSettings as $uS) {
+            echo "<h3>" . $uS['id'] . "-" . $uS['name'] . "</h3>";
 
-$post_target = $basepage."?disp=edit_user_settings";
-?>
-<!-- Form for submissions
-<form action="<?php echo $post_target; ?>" method="post" name="search">
-</form>
--->
+            $currentDefault = getDefaultValueForUserSetting($uS['id']);
+            $permItems = getPermValuesForUserSetting($uS['id']);
+            echo "<h5>Current default is " . getUSItem($uS['id'], $currentDefault) . "</h5>";
+            ?>
+            Change default:
+            <select name="default[<?php echo $uS['id']; ?>]">
+                <?php
+                foreach ($permItems as $row) {
+                    if ($currentDefault != $row['value']) echo "<option value=" . $row['value'] . ">" . $row['item'] . "</option>";
+                    else echo "<option selected=\"selected\" value=" . $row['value'] . ">" . $row['item'] . "</option>";
+                }
 
-<h4>Any new settings must have at least one each of name and item.</h4>
+                ?>
+            </select><br/>
+            <h5>Current Permissible values for this setting:</h5>
+            <?php
+            foreach ($permItems as $row) echo "Value " . $row['value'] . " is " . $row['item'] . "<br />";
+            ?>
+            Add a new value by typing it's name here:
+            <input type="text" name="newValue[<?php echo $uS['id']; ?>]" size="30"/>
+        <?php
+        }
 
-<?php
+        ?>
+        <br/><input type="submit" name="submitChangedSettings" value="Update Current Settings">
+    </form>
+    <br/>
 
-//If there is a POST['chg_default'], change the value in the user_setting_template
+    <form method="post">
+        <h3>Add new setting</h3>
+        New setting name: <input type="text" name="newSettingName" size="30"/><br/>
+        New setting description: <input type="text" name="newSettingDescription" size="30"/><br/>
+        New value name: <input type="text" name="newSettingValueName" size="30"/><br/>
+        <input type="submit" name="submitNewSetting" value="Add New Setting">
+    </form>
+    <br/>
 
-If(!empty($_POST['chg_default'])) {	
-	
-	$sql="update user_settings_template set value='".$_POST['value']."' where item='".$_POST['name']."'";
-	$res = mysql_query($sql, $master);
-	echo $sql;
-	echo mysql_error()."<br>";
+    <form method="post">
+        <h3>Delete setting</h3>
+        <select name="deleteSetting">
+            <?php
+            foreach ($userSettings as $uS) {
+                echo "<option value=" . $uS['id'] . ">" . $uS['name'] . "</option>";
+            }
+            ?>
+        </select>
+        <br/><input type="submit" name="submitDeletedSetting" value="Delete Setting">
+    </form>
 
-	
-
-} //Closes If(!empty($_POST['chg_default...
-//End change default item logic
-
-//If there is a POST['new_item'], add the item to the database
-
-If(!empty($_POST['new_item'])) {
-	//First escape the two entered values
-	$escapedName = mysql_real_escape_string($_POST['name']);
-	$escapedItem = mysql_real_escape_string($_POST['item']);
-	$escapedValue = mysql_real_escape_string($_POST['value']);
-
-	//Second add the new record into the user_settings table
-	$sql="insert into user_settings (name, item, value) values ('$escapedName', '$escapedItem', '$escapedValue')";
-	$res = mysql_query($sql, $master);
-	echo mysql_error()."<br>";
-
-	
-
-} //Closes If(!empty($_POST['ne...
-//End add item logic
-
-//If there is a POST['rmv_setting'], delete the setting from the database
-
-If(!empty($_POST['rmv_setting'])) {
-	$escapedName = str_replace("%20", " ", $_POST['rmv_setting']);
-
-	//First remove all records from the user_settings table
-	$sql="delete from user_settings where name='".$escapedName."'";
-	$res = mysql_query($sql, $master);
-	echo mysql_error()."<br>";
-
-	//Second, remove all records from each existing user_settings_xx table
-	$sqla="show tables like 'user_settings_%'";
-	$resa = mysql_query($sqla, $master);
-
-	while($row=mysql_fetch_array($resa)) {
-		$sql="delete from ".$row[0]." where item='".$escapedName."'";
-		$res = mysql_query($sql, $master);
-
-	} //Closes while($row=mysql_fetch_array($resa)
-
-} //Closes If(!empty($_POST['rm...
-//End delete setting logic
-
-//If there is a POST['new_setting'], add the setting to the database
-
-If(!empty($_POST['new_setting'])) {
-	//First escape the two entered values
-	$escapedName = mysql_real_escape_string($_POST['name']);
-	$escapedItem = mysql_real_escape_string($_POST['item']);
-	$escapedValue = mysql_real_escape_string($_POST['value']);
-	$escapedDescrip = mysql_real_escape_string($_POST['description']);
-
-	//Second add the new record into the user_settings table
-	$sql="insert into user_settings (name, item, value, description) values ('$escapedName', '$escapedItem', '$escapedValue', '$escapedDescrip')";
-	$res = mysql_query($sql, $master);
-	echo mysql_error()."<br>";
-
-	//Third, add the new setting into each existing user_settings_xx table
-	$sqla="show tables like 'user_settings_%'";
-	$resa = mysql_query($sqla, $master);
-
-	while($row=mysql_fetch_array($resa)) {
-		$sql="insert into ".$row[0]." (item, value) values ('$escapedName', '$escapedValue')";
-		$res = mysql_query($sql, $master);
-
-	} //Closes while($row=mysql_fetch_array($resa)
-
-} //Closes If(!empty($_POST['ne...
-//End add new setting logic
-
-//Display existing user settings and the defaults from the template
-$sql = "select * from user_settings order by name, value asc";
-$res = mysql_query($sql, $master);
-$setting_prev = "";
-
-	$i=0;
-while($row=mysql_fetch_array($res)) {
-	$settings[]=$row;
-	If($row['name'] != $setting_prev) {
-		If($i>0) {
-?>
-</select>
-<!--<input type="hidden" name="name" value="<?php echo $row['name']; ?>">-->
-<input type="hidden" name="name" value="<?php echo $setting_prev; ?>">
-<input type="submit" name="chg_default" value="Set new default"><br>
-</form>
-
-<?php
-echo $text;
-} //Close If($row['name'] != $setting_prev) previous chg_default form
-		echo "<h3>".$row['name']."</h3>";
-		echo "<h4>".$row['description']."</h4>";
-		echo "<h5>Current default:";
-		$text="";
-		$def_sql = "select value from user_settings_template where item='".$row['name']."'";
-		$def_res = mysql_query($def_sql, $master);
-		$def = mysql_fetch_array($def_res);
-		$def_q = "select item from user_settings where name='".$row['name']."' and value='".$def['value']."'";
-		$def_r = mysql_query($def_q, $master);
-		$de = mysql_fetch_array($def_r);
-		
-		echo $de['item']."</h5>";
-$value = str_replace(" ", "%20", $row['name']);		
-		?>
-
-<form name="add_<?php echo $value; ?>" action="<?php echo $post_target; ?>" method="post" >
-<input size="100" type="text" name="item" value="Add an item to setting <?php echo $row['name']; ?> by typing the name of the new item here"><br>
-<input type="hidden" name="value" value="<?php echo $row['value']+1; ?>">
-<input type="hidden" name="name" value="<?php echo $row['name']; ?>">
-<input type="submit" name="new_item" value="And pressing this button to store it"><br>
-</form>
-
-		<?php
-	
-	echo "<form name=\"def_".$value."\" action=\"".$post_target."\" method=\"post\" ><select name=\"value\">";
-	} //Closes If($row['name'] != $se...
-	$text .= "Item ".$row['value']." is ".$row['item']."<br>";
-	echo "<option value=".$row['value'].">".$row['item']."</option>";
-	$setting_prev = $row['name'];
-	$i++;
-} // Closes while($row=mysql_fetch_array($res))
-
-//Closes the last chg_default form
-?>
-</select>
-<input type="hidden" name="name" value="<?php echo $setting_prev; ?>">
-<input type="submit" name="chg_default" value="Set new default"><br>
-</form>
-
-<?php
-//Prints the last rows of settings info
-echo $text;
-//End display exsiitng user settings
-
-//Add new user setting
-?>
-<h3>Add new setting</h3>
-<h5>Adding a new setting will add that setting to the template and all existing users. The first item you add in will be the default until changed.</h5>
-<form action="<?php echo $post_target; ?>" method="post" >
-<input size="100" type="text" name="name" value="Name of new setting here"><br>
-<input size="100" type="text" name="description" value="Description of new setting here"><br>
-<input size="100" type="text" name="item" value="Name of first item in new setting here"><br>
-<input type="hidden" name="value" value="1">
-<input type="submit" name="new_setting" value="Add New Setting"><br>
-</form>
-
-<?php
-//End add new user setting form
-
-//Delete user setting
-?>
-<h3>Delete a setting</h3>
-<h5>Deleting a setting will delete that setting from the template and all existing users. Any changes users have made to this setting will be lost if it is recreated in the future.</h5>
-<form action="<?php echo $post_target; ?>" method="post" >
-<select name="rmv_setting">
-<?php
-$name_prev = "";
-foreach($settings as $v) {
-	$value = str_replace(" ", "%20", $v['name']);
-	If($v['name'] != $name_prev) echo "<option value=".$value.">".$v['name']."</option>";
-	$name_prev=$v['name'];
-} //Closes foreach($settings as $v)
-	
-?>
-</select>
-<input type="submit" name="delete_setting" value="Delete Setting"><br>
-</form>
-<?php
-//End delete new user setting form
-
-
-?>
 </div> <!-- end #content -->
-<?php
-} else{
-echo "This page requires a higher level access than you currently have.";
-
-include $baseinstall."includes/site/login.php";
-} //Closes else If(isset($_SESSION['le...
-
-?>
-

@@ -91,6 +91,18 @@ function updateRow($table, $cols, $vals, $where)
     return true;
 }
 
+function getUSItem($setting, $value)
+{
+    //This function checks $source table Users for the username of $userid
+    global $master;
+    $sql = "select `item` from `user_setting_value` where `user_setting`='$setting' AND `value`='$value'";
+    $res = mysql_query($sql, $master);
+    $urow = mysql_fetch_array($res);
+    $uname = $urow['item'];
+    return $uname;
+
+}
+
 function getUname($userid)
 {
     //This function checks $source table Users for the username of $userid
@@ -161,12 +173,12 @@ function getVname($venue)
 
 }
 
-function getGname($source, $genreid)
+function getGname($genreid)
 {
     //This function checks $source table genres for the name of $genreid
-
+    global $master;
     $sql = "select name from `genres` where id=$genreid";
-    $res = mysql_query($sql, $source);
+    $res = mysql_query($sql, $master);
 
 
     $grow = mysql_fetch_array($res);
@@ -180,24 +192,7 @@ function getBandGenre($band, $user)
 {
     //This function gets the name of a genre for a given user and band
 
-    global $master;
-    $mrow['master_id'] = $band;
-    //If the user has an entry in the genre table for that band, return that genre
-    $sql = "select genre from bandgenres where band='" . $mrow['master_id'] . "' and user='$user'";
-    $res = mysql_query($sql, $master);
-    If (mysql_num_rows($res) > 0) {
-        $row = mysql_fetch_array($res);
-        $gid = $row['genre'];
-    } else {
-        //If the user has no entry, return the genre with the highest count
-        $sql1 = "select genre, count(user) as num from bandgenres where band='" . $mrow['master_id'] . "' group by genre order by num desc limit 1";
-        $res1 = mysql_query($sql1, $master);
-        If (mysql_num_rows($res1) > 0) {
-            $row1 = mysql_fetch_array($res1);
-            $gid = $row1['genre'];
-        } else $gid = 0;
-    }
-    $gname = getGname($master, $gid);
+    $gname = getGname(getBandGenreID($band, $user));
 
     return $gname;
 }
@@ -223,8 +218,11 @@ function getBandGenreID($band, $user)
             $gid = $row1['genre'];
         } else $gid = 0;
     }
+    $genreSetting = getUserSetting($user, 73);
+    if ($genreSetting == 2) return $gid;
+    return getParentGenre($gid);
 
-    return $gid;
+
 }
 
 function getPname($stageid)
@@ -416,6 +414,13 @@ function getAllUserSettings()
     return false;
 }
 
+function getDefaultValueForUserSetting($setting)
+{
+    //This function returns the default value for the given user setting
+
+    return getUserSetting(0, $setting);
+}
+
 function getPermValuesForUserSetting($setting)
 {
     //This function returns the permissible values for the given user setting
@@ -466,25 +471,43 @@ function setUserSetting($user, $setting, $value)
         $table = "user_setting_current";
         $cols = array("value");
         $vals = array($value);
-        $where = "`user`='" . $user . "' AND `setting`='$setting''";
+        $where = "`user`='" . $user . "' AND `user_setting`='$setting'";
         updateRow($table, $cols, $vals, $where);
         return true;
     }
     $table = "user_setting_current";
-    $cols = array("user", "setting", "value");
+    $cols = array("user", "user_setting", "value");
     $vals = array($user, $setting, $value);
     insertRow($table, $cols, $vals);
     return true;
 }
 
-function createUserSetting($name, $description)
+function createUserSetting($settingName, $settingDescription, $valueName)
 {
-    //This function sets a new value of $setting for $user
+    //This function creates a new setting with one permissible value
 
     $table = "user_setting";
     $cols = array("name", "description");
-    $vals = array($name, $description);
-    insertRow($table, $cols, $vals);
+    $vals = array($settingName, $settingDescription);
+    $setting = insertRow($table, $cols, $vals);
+    createPermissibleUserSettingValue($setting, $valueName);
+
+    return true;
+}
+
+function deleteUserSetting($setting)
+{
+    //This function deletes a user setting
+    $table = "user_setting";
+    $cols = array("deleted");
+    $vals = array(1);
+    $where = "`id`='$setting'";
+    updateRow($table, $cols, $vals, $where);
+    $table = "user_setting_current";
+    $where = "`user_setting`='$setting'";
+    updateRow($table, $cols, $vals, $where);
+    $table = "user_setting_value";
+    updateRow($table, $cols, $vals, $where);
     return true;
 }
 
@@ -492,11 +515,25 @@ function createPermissibleUserSettingValue($setting, $name)
 {
     //This function sets a new value of $setting for $user
 
+    $values = getPermValuesForUserSetting($setting);
+    $i = 0;
+    foreach ($values as $v) {
+        if ($v['value'] > $i) $i = $v['value'];
+    }
+    $i = $i + 1;
+
     $table = "user_setting_value";
-    $cols = array("item", "setting");
-    $vals = array($name, $setting);
+    $cols = array("item", "user_setting", "value");
+    $vals = array($name, $setting, $i);
     insertRow($table, $cols, $vals);
     return true;
+}
+
+function setDefaultUserSettingValue($setting, $value)
+{
+    //This function sets a new default value of $setting
+
+    return setUserSetting(0, $setting, $value);
 }
 
 function getForumLink($user, $mainforum, $forumblog)
@@ -593,7 +630,7 @@ function getPastsFests($excludeFests)
     while ($row = mysql_fetch_array($res)) {
         $checkFest = $row['festival'];
 
-        if (!in_array($checkFest, $excludeFests)) {
+        if (!is_array($excludeFests) || !in_array($checkFest, $excludeFests)) {
             $pastFest[] = $checkFest;
         }
     }
@@ -1189,6 +1226,17 @@ function getUserIDFromUserName($userName)
     return $user;
 }
 
+function getUsersFollowing($user, $viewingUser)
+{
+    //This function returns an array containing the id of each user the entered user is followed by that are visible to $viewingUser
+    $followers = array();
+    $possible = getVisibleUsers($viewingUser);
+    foreach ($possible as $u) {
+        if (userFollowsUser($u, $user)) $followers[] = $u;
+    }
+    return $followers;
+}
+
 function getFollowedBy($user)
 {
     //This function returns an array containing the id of each user the entered user is following
@@ -1199,14 +1247,13 @@ function getFollowedBy($user)
     $raw = $row['follows'];
 
     $working = explode("-", $raw);
-    $i = 0;
+    $final = array();
     foreach ($working as $v) {
         If (isInteger($v)) {
-            $final[$i] = $v;
+            $final[] = $v;
         }
-        $i++;
     }
-    If (isset($final)) return $final; else return false;
+    If (!empty($final)) return $final; else return false;
 }
 
 function userIsPrivate($user)
@@ -1262,6 +1309,56 @@ function unBlockUser($blocker, $blockee)
 
 }
 
+function deleteUser($deleteUser)
+{
+    //This function deletes a user
+    $followers = getUsersFollowing($deleteUser, $deleteUser);
+    foreach ($followers as $f) {
+        unFollowUser($f, $deleteUser);
+    }
+    $table = "Users";
+    $cols = array("deleted");
+    $vals = array(1);
+    $where = "`id`='$deleteUser'";
+    updateRow($table, $cols, $vals, $where);
+    return true;
+}
+
+function drawFollowButtons($user, $profileUser)
+{
+    if ($user == $profileUser) return false;
+    ?>
+
+    <form method="post">
+        <?php
+        if (!userFollowsUser($user, $profileUser)) {
+            ?>
+            <button type="submit" name="submitFollow" value="<?php echo $profileUser; ?>">
+                Follow <?php echo getUname($profileUser); ?></button><br/>
+        <?php
+        } else {
+            ?>
+            <button type="submit" name="submitUnfollow" value="<?php echo $profileUser; ?>">
+                Unfollow <?php echo getUname($profileUser); ?></button><br/>
+        <?php
+        }
+        if (!userBlocksUser($user, $profileUser)) {
+            ?>
+            <button type="submit" name="submitBlock" value="<?php echo $profileUser; ?>">
+                Block <?php echo getUname($profileUser); ?></button>
+        <?php
+        } else {
+            ?>
+            <button type="submit" name="submitUnblock" value="<?php echo $profileUser; ?>">
+                Unblock <?php echo getUname($profileUser); ?></button>
+        <?php
+        }
+        ?>
+
+    </form>
+<?php
+}
+
 function userFollowsUser($follower, $followee)
 {
     //This function returns true if the follower follows the followee
@@ -1298,10 +1395,10 @@ function getVisibleUsers($user)
 {
     //This function returns an array containing the id and name of each user visible to the entered user
     global $master;
-    $sql = "select id, username from Users";
+    $sql = "select `id` from `Users` where `deleted`!='1'";
     $res = mysql_query($sql, $master);
     while ($row = mysql_fetch_array($res)) {
-        if (userVisibleToUser($user, $row['id'])) $visibleUsers[] = $row;
+        if (userVisibleToUser($user, $row['id'])) $visibleUsers[] = $row['id'];
     }
     if (empty($visibleUsers)) return false;
     return $visibleUsers;
@@ -1430,6 +1527,34 @@ function getAllGenres()
     return $genres;
 }
 
+function getAllVisibleGenres($user)
+{
+    //This function returns all genres visible to user as an array, containing id and name
+    global $master;
+    $genreSetting = getUserSetting($user, 73);
+
+    if ($genreSetting == 2) {
+        $sql = "select `id`, `name` from `genres` where `deleted`!='1' ORDER BY `name` ASC";
+        $res = mysql_query($sql, $master);
+        $genres = array();
+        if (mysql_num_rows($res) > 0) {
+            while ($row = mysql_fetch_array($res)) {
+                $genres[] = $row;
+            }
+        }
+        return $genres;
+    }
+    $sql = "select `id`, `name` from `genres` where `deleted`!='1' AND `parent`=`id` ORDER BY `name` ASC";
+    $res = mysql_query($sql, $master);
+    $genres = array();
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $genres[] = $row;
+        }
+    }
+    return $genres;
+}
+
 function getParentGenres()
 {
     //This function returns all genres as an array, containing id, parent and name
@@ -1443,6 +1568,20 @@ function getParentGenres()
         }
     }
     return $genres;
+}
+
+function getParentGenre($genre)
+{
+    //This function returns all genres as an array, containing id, parent and name
+    global $master;
+    $sql = "select `parent` from `genres` where `id`='$genre' AND `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    $genre = 98;
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $genre = $row['parent'];
+    }
+    return $genre;
 }
 
 function setParentGenre($genre, $parent)
@@ -1486,6 +1625,11 @@ function genreList($user)
     //This function returns all the genres in main, with genreid, genrename, number of bands in genre,
     //number of rated bands in genre, and total rating points for all bands in genre
     global $master;
+
+    //Get whether to use parent genres or all genres
+    $genreSetting = getUserSetting($user, 73);
+
+
     $sql = "select `id` from `bands` where `deleted`!='1'";
     $res = mysql_query($sql, $master);
     $ret_genre = array();
@@ -1534,6 +1678,203 @@ function getGenresForAllBandsInFest($user)
     } else return false;
 }
 
+function drawPregameRemark($viewingUser, $user, $band, $fest, $mode)
+{
+    global $basepage;
+    $userCommentRaw = getUserRemarkOnBandForFest($user, $band, $fest, $mode, 1);
+    if ($userCommentRaw != "") {
+        $userComment = $userCommentRaw['content'];
+        $userCommentID = $userCommentRaw['id'];
+        //Note that $viewingUser is seeing this comment
+        $discussPoint = userDiscussionPointOnMessage($viewingUser, $userCommentID);
+        if ($discussPoint < 0) userHasSeenMessage($viewingUser, $userCommentID);
+        $currentDiscussPoint = currentMessageDiscussionPoint($userCommentID);
+        $visibleDiscussions = getVisibleDiscussions($userCommentID, $viewingUser);
+        if (count($visibleDiscussions) == 0) $discussButtonText = "Start Discussion";
+        else {
+            if ($discussPoint < $currentDiscussPoint) $discussButtonText = "New Discussion!";
+            else $discussButtonText = "View Discussion";
+        }
+
+        //draw a row for the user's comment
+        ?>
+        <div class="commentRow">
+            <div class="commenter">
+                <div class="commentPic">
+                    <a href="<?php echo $basepage . "?disp=user_profile&profileUser=" . $user; ?>">
+                        <?php displayScaledUserPic($user); ?>
+                    </a>
+                </div>
+                <!-- end .commentPic -->
+                <div class="commentInfo">
+                    <div class="commenterName"><?php echo getUname($user); ?></div>
+                    <!-- end .commenterName -->
+                    <div
+                        class="commenterRating"><?php echo displayStars($band, $user, "displaystars", $basepage . "includes/images"); ?></div>
+                    <!-- end .commenterRating -->
+                    <?php drawFollowButtons($viewingUser, $user); ?>
+                    <div class="viewDiscussion">
+                        <button type="button" class="viewDiscussionButton"
+                                data-messageid="<?php echo $userCommentID; ?>"
+                                data-viewingUser="<?php echo $viewingUser; ?>"><?php echo $discussButtonText; ?></button>
+                    </div>
+                </div>
+                <!-- end .commentInfo -->
+            </div>
+            <!-- end .commenter -->
+            <div class="commentContent"><?php echo $userComment; ?></div>
+            <!-- end .commentContent -->
+            <div id="discussion-<?php echo $userCommentID; ?>" class="discussion">
+                <?php foreach ($visibleDiscussions as $vD) drawDiscussionLine($vD, $viewingUser, $band); ?>
+                <form method="post">
+                    <textarea class="discussText" rows="6" cols="64"
+                              name="discuss[<?php echo $userCommentID; ?>]"></textarea>
+
+                    <div class="clearfloat"></div>
+                    <input class="discussSubmit" type="submit" name="submitDiscussion" value="Submit Discussion">
+                </form>
+            </div>
+            <!-- end .discussion -->
+        </div> <!-- end .commentRow -->
+        <div class="clearfloat"></div>
+    <?php
+
+    }
+}
+
+function userDiscussionPointOnMessage($viewingUser, $messageID)
+{
+    global $master;
+    $sql = "SELECT `read_discussion` FROM `discussion_monitor` WHERE `message`='$messageID' AND `user`='$viewingUser' AND `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $discussPoint = $row['read_discussion'];
+        return $discussPoint;
+    } else return (-1);
+
+}
+
+function userHasSeenMessage($viewingUser, $messageID)
+{
+    if (userDiscussionPointOnMessage($viewingUser, $messageID) < 0) {
+        $table = "discussion_monitor";
+        $cols = array("user", "message", "read_discussion", "phptime");
+        $vals = array($viewingUser, $messageID, 0, time());
+        insertRow($table, $cols, $vals);
+    }
+    return true;
+}
+
+function userCurrentOnMessage($viewingUser, $messageID)
+{
+    $currentPoint = currentMessageDiscussionPoint($messageID);
+    $table = "discussion_monitor";
+    $cols = array("user", "message", "read_discussion", "phptime");
+    $vals = array($viewingUser, $messageID, $currentPoint, time());
+
+    if (userDiscussionPointOnMessage($viewingUser, $messageID) < 0) {
+        insertRow($table, $cols, $vals);
+    } else {
+        $where = "`user`='$viewingUser' AND `message`='$messageID'";
+        updateRow($table, $cols, $vals, $where);
+    }
+
+    return true;
+}
+
+function currentMessageDiscussionPoint($messageID)
+{
+    global $master;
+    $sql = "SELECT count(`id`) as total FROM `discussions` WHERE `message`='$messageID'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $discussPoint = $row['total'];
+        if ($discussPoint == 0) $discussPoint = (-1);
+        return $discussPoint;
+    } else return (-1);
+}
+
+function getVisibleDiscussions($messageID, $viewingUser)
+{
+    global $master;
+    $userList = getVisibleUsers($viewingUser);
+    if (count($userList) == 0) return false;
+    $where = "";
+    foreach ($userList as $k => $u) {
+        if ($k == 0) $where = "`user`='" . $u . "'";
+        else $where .= " OR `user`='" . $u . "'";
+    }
+    $sql = "SELECT `id` FROM `discussions` WHERE `message`='$messageID' AND ( " . $where . " )";
+    //   error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row['id'];
+        }
+        return $result;
+    } else return array();
+}
+
+function getDiscussionLine($discussionID)
+{
+    global $master;
+    //Get most recent comment by user on band for fest
+    $sql = "SELECT `content`, `user`, `timestamp` FROM `discussions` WHERE `id`='$discussionID'";
+    //    error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row;
+        }
+        return $result;
+    } else return "";
+}
+
+function drawDiscussionLine($discussionID, $viewingUser, $band)
+{
+    global $basepage;
+    $userDiscussionRaw = getDiscussionLine($discussionID);
+    $userDiscussion = $userDiscussionRaw['content'];
+    $user = $userDiscussionRaw['user'];
+    $userDiscussionTime = $userDiscussionRaw['timestamp'];
+    if ($userDiscussion != "") {
+        ?>
+        <div class="discussionRow">
+            <div class="discussionIndent"></div>
+            <!-- end .discussionIndent -->
+            <div class="discusser">
+                <div class="discussionPic">
+                    <a href="<?php echo $basepage . "?disp=user_profile&profileUser=" . $user; ?>">
+                        <?php displayScaledUserPic($user); ?>
+                    </a>
+                </div>
+                <!-- end .discussionPic -->
+                <div class="discussionInfo">
+                    <div class="discusserName"><?php echo getUname($user); ?></div>
+                    <!-- end .discusserName -->
+                    <div
+                        class="discusserRating"><?php echo displayStars($band, $user, "displaystars", $basepage . "includes/images"); ?></div>
+                    <!-- end .discusserRating -->
+                    <?php
+                    drawFollowButtons($viewingUser, $user);
+                    ?>
+                    <div class="discusserTime"><?php echo $userDiscussionTime; ?></div>
+                    <!-- end .discusserTime -->
+                </div>
+                <!-- end .discussionInfo -->
+            </div>
+            <!-- end .discusser -->
+            <div class="discussionContent"><?php echo $userDiscussion; ?></div>
+            <!-- end .discussionContent -->
+        </div> <!-- end .discussionRow -->
+        <div class="clearfloat"></div>
+    <?php
+
+    }
+}
+
 function getBandSetsByFestival($band)
 {
     //Get info of all sets played by band in fest
@@ -1553,12 +1894,12 @@ function getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark)
 {
     global $master;
     //Get most recent comment by user on band for fest
-    $sql = "SELECT `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='$remark' ORDER BY `id` DESC LIMIT 1";
-    //    error_log(print_r($sql, TRUE));
+    $sql = "SELECT `id`, `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='$remark' ORDER BY `id` DESC LIMIT 1";
+//        error_log(print_r($sql, TRUE));
     $res = mysql_query($sql, $master);
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
-            $result = $row['content'];
+            $result = $row;
         }
         return $result;
     } else return "";
@@ -1649,11 +1990,70 @@ function displayScaledUserPic($user)
     echo $disp;
 }
 
+function getNewPregameCommentBands($user, $fest, $displayCount)
+{
+    global $master;
+    $userList = getFollowedBy($user);
+    if (!is_array($userList) || count($userList) == 0) return false;
+    $where = "";
+    foreach ($userList as $k => $u) {
+        if ($k == 0) $where = "`fromuser`='" . $u . "'";
+        else $where .= " OR `fromuser`='" . $u . "'";
+    }
+    $sql = "SELECT `id`, `band` FROM `messages` WHERE `festival`='$fest' AND ( " . $where . " ) AND `remark`='1' AND `mode`='1' AND `timestamp` > DATE_SUB(NOW(), INTERVAL 7 DAY)";
+//      error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    $result = array();
+    $i = 0;
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $discussPoint = userDiscussionPointOnMessage($user, $row['id']);
+            if ($discussPoint < 0 && !in_array($row['band'], $result)) {
+                $result[] = $row['band'];
+                $i = $i + 1;
+            }
+            if ($i >= $displayCount) break;
+        }
+        return $result;
+    } else return array();
+}
+
+function getNewPregameDiscussionBands($user, $fest, $displayCount)
+{
+    global $master;
+    $userList = getFollowedBy($user);
+    if (!is_array($userList) || count($userList) == 0) return false;
+    $where = "";
+    foreach ($userList as $k => $u) {
+        if ($k == 0) $where = "`fromuser`='" . $u . "'";
+        else $where .= " OR `fromuser`='" . $u . "'";
+    }
+    //Get all pregame remarks from the festival
+    $sql = "SELECT `id`, `band` FROM `messages` WHERE `festival`='$fest' AND `remark`='1' AND `mode`='1'";
+//   error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    $result = array();
+    $i = 0;
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            if (userDiscussionPointOnMessage($user, $row['id']) < currentMessageDiscussionPoint($row['id'])) {
+                $result[] = $row['band'];
+                $i = $i + 1;
+            }
+            if ($i >= $displayCount) break;
+        }
+        return $result;
+    } else return array();
+}
+
+
 function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $touser)
 {
     //This function stores the pregame remark for the current fest, user, and band, updating or creating as needed
-    if ($remark != 3) $existingRemark = getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark);
-    else $existingRemark = "";
+    if ($remark != 3) {
+        $existingRemarkRaw = getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark);
+        $existingRemark = $existingRemarkRaw['content'];
+    } else $existingRemark = "";
 
     //New comments
     If ($existingRemark != "") {
@@ -1674,34 +2074,14 @@ function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $
     }
 }
 
-function acceptDiscussReply($main, $master, $user, $band, $fest_id, $discuss_table, $escapedReply, $commentid)
+function acceptDiscussReply($user, $message, $content)
 {
-    $sql = "select `master_id` from `bands` where `id`='$band'";
-    $res = mysql_query($sql, $main);
-    $mas_id = mysql_fetch_assoc($res);
-    $band_master_id = $mas_id['master_id'];
-    $escapedReply = mysql_real_escape_string($escapedReply);
-    //Find out if an exisiting rating is in
+    $table = "discussions";
+    $cols = array("user", "message", "content", "phptime");
+    $vals = array($user, $message, $content, time());
+    insertRow($table, $cols, $vals);
+    userCurrentOnMessage($user, $message);
 
-    $query = "show tables like '$discuss_table'";
-    $result = mysql_query($query, $main);
-
-    If ((mysql_num_rows($result) == 0)) {
-        //table did not exist, so create it
-        $sql = "CREATE TABLE $discuss_table (id int NOT NULL AUTO_INCREMENT, user int, response varchar(4096), viewed varchar(4096), created TIMESTAMP DEFAULT NOW(), PRIMARY KEY (id))";
-        $res = mysql_query($sql, $main);
-    }
-
-
-    $comment = $commentid;
-    $discuss_table = $_POST['discuss_table'];
-    $escapedReply = mysql_real_escape_string($_POST['new_reply']);
-
-    $sql = "INSERT INTO $discuss_table (user, response) VALUES ('$user', '$escapedReply')";
-    $result = mysql_query($sql, $main);
-    //Update the tracking columns in the comment table to reflect the activity
-    $query = "UPDATE comments SET discuss_current='--$user--' where id=$comment";
-    $upd = mysql_query($query, $main);
 }
 
 function changeMode($main, $master, $festmode, $fest)

@@ -68,19 +68,17 @@ function ratingStars($band, $user, $class, $imgpath, $rate_target, $mode)
     return $rate;
 }
 
-function displayStars($band, $user, $main, $class, $imgpath)
+function displayStars($band, $user, $class, $imgpath)
 {
 //This function returns the html text for a string of 5 rating stars, with the number of filled stars equal to rating
-    $sql = "select rating from `ratings` where band='$band' and user='$user'";
-    $res = mysql_query($sql, $main);
+    global $fest, $mode;
+    $ratingRaw = getUserRemarkOnBandForFest($user, $band, $fest, $mode, 2);
+    $rating = $ratingRaw['content'];
     $rate = "";
-    If (mysql_num_rows($res) == 0) {
+    If (empty($rating)) {
 
     } else {
-        $row = mysql_fetch_array($res);
-        $empty = 5 - $row['rating'];
-        $filled = $row['rating'];
-        for ($i = 1; $i <= $filled; $i++) {
+        for ($i = 1; $i <= $rating; $i++) {
             $rate .= "<img class=\"$class\" src=\"$imgpath/fstar.jpg\">";
         }
     }

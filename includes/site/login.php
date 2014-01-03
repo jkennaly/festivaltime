@@ -7,13 +7,17 @@
 //
 //Contributors:
 //    Jason Kennaly - initial API and implementation
-*/ 
+*/
 
 
-if(!empty($_POST)){ session_destroy(); Login($master);}
+if (!empty($_POST)) {
+    session_destroy();
+    Login($master);
+}
 if(!empty($_SESSION['user'])){
-if(empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user."; 
-include $baseinstall."includes/unselected/fest_select.php";
+    if (empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user.";
+    $user =
+        include $baseinstall . "includes/unselected/main.php";
 }
 else{
 ?>
@@ -32,7 +36,7 @@ else{
 <p>Or <a href="<?php echo $basepage; ?>?disp=register">Register</a></p>
 </div> <!-- end #content -->
 
-<?php	echo "No user is currently logged in.";
+<?php
 }
 
 
@@ -67,7 +71,9 @@ function Login($mysql_link)
 	$pwq = mysql_query($query, $mysql_link);
 	$row = mysql_fetch_assoc($pwq);
 	$_SESSION['level'] = $row['level'];
-	$sql = "UPDATE Users SET count=count+1 WHERE username='".$_SESSION['user']."'";
+    global $user;
+    $user = $row['id'];
+    $sql = "UPDATE Users SET count=count+1 WHERE username='".$_SESSION['user']."'";
 	$pwq = mysql_query($sql, $mysql_link);
 
 
@@ -96,9 +102,9 @@ $pwq = mysql_query($query, $mysql_link);
 
 $row = mysql_fetch_assoc($pwq);
 
-echo "Logging in user ".$row["username"]."<br>";
+//echo "Logging in user ".$row["username"]."<br>";
 
-If($row["username"] == $escapedName){
+    If($row["username"] == $escapedName){
 	
 	return true;
 }

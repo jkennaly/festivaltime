@@ -22,10 +22,8 @@
 //First, find all users
 
         If (!empty($_POST["delete_user"])) {
-            $sql = "DELETE FROM Users WHERE id = '" . $_POST["delete_user"] . "'";
-            $upd = mysql_query($sql, $master);
-            $sql2 = "DROP TABLE user_settings_" . $_POST["delete_user"] . "";
-            $drop = mysql_query($sql2, $master);
+
+            deleteUser($_POST["delete_user"]);
         }
 
         If (!empty($_POST["acl_radio"])) {

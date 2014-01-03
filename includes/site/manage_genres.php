@@ -10,7 +10,7 @@
 */
 $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
-    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 
 if (!empty($_POST['submitNewParent'])) {
@@ -44,7 +44,7 @@ $parentGenreList = getParentGenres();
     Current parent genres:<br/>
     <?php
     foreach ($parentGenreList as $p) {
-        echo getGname($master, $p) . "<br />";
+        echo getGname($p) . "<br />";
     }
 
     //Add a new genre
@@ -55,7 +55,7 @@ $parentGenreList = getParentGenres();
             <select name="parentGenre">
                 <?php
                 foreach ($parentGenreList as $pG) {
-                    echo '<option value="' . $pG . '">' . getGname($master, $pG) . '</option>';
+                    echo '<option value="' . $pG . '">' . getGname($pG) . '</option>';
                 }
                 ?>
             </select>
@@ -94,8 +94,8 @@ $parentGenreList = getParentGenres();
                 <select name="selectedParent[<?php echo $g['id'] ?>]">
                     <?php
                     foreach ($parentGenreList as $pG) {
-                        if ($g['parent'] != $pG) echo '<option value="' . $pG . '">' . getGname($master, $pG) . '</option>';
-                        else echo '<option selected="selected" value="' . $pG . '">' . getGname($master, $pG) . '</option>';
+                        if ($g['parent'] != $pG) echo '<option value="' . $pG . '">' . getGname($pG) . '</option>';
+                        else echo '<option selected="selected" value="' . $pG . '">' . getGname($pG) . '</option>';
                     }
                     ?>
                 </select><br/>

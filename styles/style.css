@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Jason Kennaly.
+Copyright (c) 2013-2014 Jason Kennaly.
 All rights reserved. This program and the accompanying materials
 are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
 http://www.gnu.org/licenses/agpl.html
@@ -17,7 +17,7 @@ body {
 }
 
 #wrapper {
-    width: 1390px;
+    width: 1300px;
     background-color: #f8f8f8;
     margin: 0 auto;
     border-left: 1px solid #ccc;
@@ -25,7 +25,7 @@ body {
 }
 
 #header {
-    width: 1390px;
+    width: 1260px;
     height: 45px;
     margin: 0 auto;
     margin-bottom: 25px;
@@ -40,7 +40,7 @@ body {
 }
 
 #navwrapper {
-    width: 1390px;
+    width: 1260px;
     height: 4em !important;
     padding: 2px;
     margin: 0px;
@@ -48,19 +48,23 @@ body {
 }
 
 #sidebar-left {
-    width: 320px;
+    width: 210px;
     margin: 0 auto;
     float: left;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
+    overflow-x: hidden;
+    padding: 0 1em 0 0;
 }
 
 #sidebar2 {
-    width: 240px;
+    width: 210px;
     margin: 0 auto;
+    padding: 0 0 0 1em;
     float: left;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
+    overflow-x: hidden;
 }
 
 #searchbox input {
@@ -185,7 +189,7 @@ p.band_info {
     margin-top: 2px;
     padding: 0px;
     float: left;
-    width: 1390px;
+    width: 1260px;
     height: 50% !important;
     border-bottom: 1px solid #ccc;
     z-index: 1;
@@ -673,3 +677,86 @@ p.responder {
     float: left;
 }
 
+div.commentRow {
+    margin: 1em 0;
+}
+
+div.commenter {
+    width: 35%;
+    float: left;
+}
+
+div.commentPic {
+    width: 105px;
+    height: 105px;
+    float: left;
+}
+
+div.commentInfo {
+    float: left;
+    margin: 0 1em;
+}
+
+div.commenterName {
+
+}
+
+div.commenterRating {
+
+}
+
+div.commentContent {
+    width: 60%;
+    float: left;
+
+}
+
+div.discussion {
+    width: 100%;
+    display: none;
+}
+
+div.discussionRow {
+    width: 100%;
+
+}
+
+div.discussionIndent {
+    width: 37.5%;
+    float: left;
+
+}
+
+div.discussionPic {
+    width: 12.5%;
+    float: left;
+
+}
+
+div.discussionInfo {
+    width: 25%;
+    float: left;
+
+}
+
+div.discussionContent {
+    width: 25%;
+    float: left;
+
+}
+
+textarea.discussText {
+    float: right;
+}
+
+input.discussSubmit {
+    float: right;
+}
+
+.widget {
+    margin: 1em 0;
+}
+
+.widget li {
+    list-style-type: none;
+}

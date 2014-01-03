@@ -8,32 +8,29 @@
 //Contributors:
 //    Jason Kennaly - initial API and implementation
 */
-$right_required = "EditFest";
+
+$right_required = "ViewNotes";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
     die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 
-$cols = array($_POST['field'] . "_v");
-$vals = array($user);
-$where = "`id`='" . $_POST['fest'] . "'";
-$table = "festivals";
-
-updateRow($table, $cols, $vals, $where);
-
-
-?>
-
-
-<div id="content">
-
-    Placeholder for verifying header information.
-</div> <!-- end #content -->
-
-
-<script type="text/javascript">
-    <!--
-    var basepage = "<?php echo $basepage; ?>";
-    //-->
-</script>
-<script src="includes/js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="includes/js/create.js"></script>
+if (!empty($_POST['submitFollow'])) {
+    $followee = $_POST['submitFollow'];
+    $follower = $user;
+    followUser($follower, $followee);
+}
+if (!empty($_POST['submitUnfollow'])) {
+    $followee = $_POST['submitUnfollow'];
+    $follower = $user;
+    unFollowUser($follower, $followee);
+}
+if (!empty($_POST['submitBlock'])) {
+    $blockee = $_POST['submitBlock'];
+    $blocker = $user;
+    blockUser($blocker, $blockee);
+}
+if (!empty($_POST['submitUnblock'])) {
+    $blockee = $_POST['submitUnblock'];
+    $blocker = $user;
+    unBlockUser($blocker, $blockee);
+}

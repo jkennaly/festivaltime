@@ -10,7 +10,7 @@
 */
 $right_required = "EditFest";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
-    die("You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "\">FestivalTime</a>");
+    die("<div id=\"content\">You do not have rights to access this page. You can login or register here: <a href=\"" . $basepage . "?disp=login\">FestivalTime</a></div> <!-- end #content -->");
 }
 
 ?>
@@ -30,7 +30,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     <?php
     If (!empty($_POST)) {
 
-        // Insert into database
+        // Insert into the database
         $table = "places";
         $cols = array("festival", "festival_series", "type", "name", "priority", "layout");
         $vals = array($fest, $festSeries, 1, $_POST['name'], $_POST['level'], $_POST['layout']);

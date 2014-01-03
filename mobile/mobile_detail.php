@@ -161,7 +161,7 @@ If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required
             <dl>
 
                 <dd><?php echo $band_row['name']; ?></dd>
-                <dd><?php echo getGname($master, $band_row['genre']); ?></dd>
+                <dd><?php echo getGname($band_row['genre']); ?></dd>
                 <dd>Group average: <?php echo round($avg_rating, 1); ?></dd>
                 <dd>
                     <?php

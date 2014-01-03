@@ -68,32 +68,17 @@
 
                 $hashedPW = hash('sha256', $saltedPW);
 
-                $query = "insert into Users (username, hashedpw, salt, level, email)";
-                $query .= " values ('$escapedName', '$hashedPW', '$salt', 'member', '$escapedEmail'); ";
+                $query = "insert into Users (username, hashedpw, salt, level, email, credits)";
+                $query .= " values ('$escapedName', '$hashedPW', '$salt', 'member', '$escapedEmail', 25); ";
 //        echo $query;
-                $upd = mysql_query($query, $master);
-//Get the id for the new user
-                $query = "select max(id) as id from Users";
-                $res = mysql_query($query, $master);
-                $max = mysql_fetch_array($res);
-//Verify that the user was created
+                $userid = mysql_query($query, $master);
+                session_start();
 
-                $query = "select username from Users where id='" . $max['id'] . "'";
-                $res = mysql_query($query, $master);
-                $name = mysql_fetch_array($res);
-                If ($name['username'] != $escapedName) die("User not created");
-                echo $usermessage;
+                $_SESSION['user'] = '$escapedName';
+                $_SESSION['level'] = 'member';
+                $sql = "UPDATE Users SET count=count+1 WHERE username='" . $_SESSION['user'] . "'";
+                $pwq = mysql_query($sql, $master);
 
-//Create a settings table for the user
-
-
-                $sql = "CREATE TABLE user_settings_" . $max['id'] . " (id int NOT NULL AUTO_INCREMENT, item varchar( 255 ) NOT NULL ,value varchar( 255 ) NOT NULL, `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL , PRIMARY KEY (id))";
-                $sql2 = "INSERT INTO user_settings_" . $max['id'] . " SELECT * FROM user_settings_template;";
-
-                $res = mysql_query($sql, $master);
-                echo mysql_error() . "<br>";
-                $res = mysql_query($sql2, $master);
-                echo mysql_error() . "<br>";
             }
         }
 
