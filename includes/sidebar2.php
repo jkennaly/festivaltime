@@ -27,7 +27,19 @@ ob_start();
 
 <div id="sidebar2" class="sidebar">
 
-    <aside id="popular-bands-widget" class="widget">
+    <aside id="account-management-widget" class="widget">
+        <h3 class="wideget-title">My Account</h3>
+        <ul class="popular-list">
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=login">Log In</a></li>
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=logout">Log Out</a></li>
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=change_password">Change Password</a></li>
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_settings">User Settings</a></li>
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_profile">My Profile</a></li>
+        </ul>
+        <!-- end #account-management-widget -->
+
+
+        <aside id="popular-bands-widget" class="widget">
         <h3 class="wideget-title">Popular Bands</h3>
         <ul class="popular-list">
             <?php echo $bandList; ?>

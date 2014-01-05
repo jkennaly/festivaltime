@@ -9,7 +9,7 @@ Contributors:
 */
 
 body {
-    background-color: #f1f1f1;
+    background-color: #1f1f1f;
     font-family: georgia, sans-serif;
     color: #333;
     margin: 0;
@@ -17,30 +17,27 @@ body {
 }
 
 #wrapper {
-    width: 1300px;
+    width: 1296px;
     background-color: #f8f8f8;
     margin: 0 auto;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-left: 1px solid #1f1f1f;
+    border-right: 1px solid #1f1f1f;
 }
 
 #header {
-    width: 1260px;
-    height: 45px;
+    width: 1296px;
+    height: 140px;
     margin: 0 auto;
-    margin-bottom: 25px;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #1f1f1f;
+    border-top: 1px solid #1f1f1f;
 }
 
-#header h2 {
-    padding: 2px;
-    margin: 5px 20px;
+#headerPic {
     display: inline;
 }
 
 #navwrapper {
-    width: 1260px;
+    width: 1292px;
     /*    height: 4em !important; */
     padding: 2px;
     margin: 0px;
@@ -71,8 +68,7 @@ body {
 
 #searchbox {
     float: right;
-
-    width: 420px;
+    /*    width: 150px; */
 }
 
 #searchbox input {
@@ -125,72 +121,7 @@ p.band_info {
     margin-bottom: .1em;
 }
 
-/*Header Account Manager menu */
-#headernav {
-    /*   font-weight:bold;*/
-    padding: 0px;
-    float: right;
-    width: 160px;
-    height: 100%;
-    z-index: 2;
-}
 
-#headernav li {
-    list-style: none;
-    float: right;
-    margin-right: 15px;
-    z-index: 5;
-    position: absolute;
-}
-
-#headernav a {
-    display: block;
-    padding: 5px;
-    margin: 0px;
-    color: #fff;
-    background: #333;
-    text-decoration: none;
-    z-index: 5;
-}
-
-#headernav a:hover {
-    color: #fff;
-    background: #6b0c36;
-    text-decoration: underline;
-}
-
-/* First set of menus-displays vertically down from prior item */
-#headernav li ul {
-    width: 160px;
-    margin: 0px;
-    padding: 0px;
-    white-space: nowrap;
-}
-
-#headernav li ul li {
-    width: 100%;
-    display: none;
-    color: red;
-    height: 30px;
-    margin: 0px;
-    padding: 0px;
-    clear: both;
-    position: relative;
-}
-
-#headernav li ul li a {
-    padding: 6px;
-
-    color: red;
-}
-
-#headernav li:hover ul li {
-    display: block;
-}
-
-#headernav li ul a:hover {
-    display: block;
-}
 
 /*Main Nav Bar */
 .nav {
@@ -333,6 +264,13 @@ p.band_info {
     padding: 5px;
 }
 
+#mainHeader {
+    width: 820px;
+    position: relative;
+    left: 226px;
+    padding: 5px;
+}
+
 #content {
     width: 820px;
     float: left;
@@ -395,6 +333,54 @@ p.band_info {
     width: 200px;
     list-style-type: none;
     padding: 2px;
+}
+
+input.mobile-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    margin: 1.5em 0;
+    font-size: 1em;
+    line-height: 2.5em;
+    color: #333;
+    font-weight: bold;
+    height: 2.5em;
+    width: 100%;
+    background: #fdfdfd;
+    background: -moz-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fdfdfd), color-stop(100%, #bebebe));
+    background: -webkit-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -o-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -ms-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: linear-gradient(to bottom, #fdfdfd 0%, #bebebe 100%);
+    border: 1px solid #bbb;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+button.mobile-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    margin: 1.5em 0;
+    font-size: 1em;
+    line-height: 2.5em;
+    color: #333;
+    font-weight: bold;
+    height: 2.5em;
+    width: 100%;
+    background: #fdfdfd;
+    background: -moz-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fdfdfd), color-stop(100%, #bebebe));
+    background: -webkit-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -o-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: -ms-linear-gradient(top, #fdfdfd 0%, #bebebe 100%);
+    background: linear-gradient(to bottom, #fdfdfd 0%, #bebebe 100%);
+    border: 1px solid #bbb;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }
 
 #empty1 {

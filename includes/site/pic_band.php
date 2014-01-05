@@ -22,7 +22,7 @@
     }
 
     If (!empty($_POST)) {
-        if ($_FILES["file"]["error"] > 0) {
+        if (empty($_POST['picURL']) && $_FILES["file"]["error"] > 0) {
             echo "Error: " . $_FILES["file"]["error"] . "<br>";
         } else {
             /*  echo "Upload: " . $_FILES["file"]["name"] . "<br>";
@@ -30,17 +30,21 @@
               echo "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
               echo "Stored in: " . $_FILES["file"]["tmp_name"];
   */
-
-            $fileo = $_FILES["file"]["tmp_name"];
-            // you migh want to escape it just in case
-            $data = mysql_real_escape_string(file_get_contents($fileo));
-
+            $submitBand = $_POST['submitBand'];
             $file = "image";
             for ($i = 0; $i < 8; $i++) {
                 $file .= randAlphaNum();
             }
 
-            file_put_contents($file, file_get_contents($fileo));
+            if (empty($_POST['picURL'])) {
+                $fileo = $_FILES["file"]["tmp_name"];
+                // you migh want to escape it just in case
+                $data = mysql_real_escape_string(file_get_contents($fileo));
+                file_put_contents($file, file_get_contents($fileo));
+            } else {
+                file_put_contents($file, file_get_contents($_POST['picURL']));
+                $data = mysql_real_escape_string(file_get_contents($file));
+            }
 
             $size = getimagesize($file);
             $ratio = $size['1'] / $size['0'];
@@ -74,8 +78,8 @@
             if ($size[0] < 205 || $size[1] < 205) echo "Sorry, pictures must be at least 205x205 pixels.";
             else {
                 $sql = "INSERT INTO pics (`pic`, `scaled_pic`, `user`, `band`, `name`, `type`, `size`, `width`, `height`, `h2w_ratio`, `shape`)";
-            $sql .= " VALUES ('$data', '$data2', '$user', '$band', '" . $_FILES["file"]["name"] . "', '" . $_FILES["file"]["type"] . "', '" . ($_FILES["file"]["size"] / 1024) . "', '" . $size['0'] . "', '" . $size['1'] . "', '" . $ratio . "', '" . $shape . "');";
-            $upd = mysql_query($sql, $master);
+                $sql .= " VALUES ('$data', '$data2', '$user', '$submitBand', '" . $_FILES["file"]["name"] . "', '" . $_FILES["file"]["type"] . "', '" . ($_FILES["file"]["size"] / 1024) . "', '" . $size['0'] . "', '" . $size['1'] . "', '" . $ratio . "', '" . $shape . "');";
+                $upd = mysql_query($sql, $master);
 //echo "<br>".$sql."<br>";
             echo mysql_error();
             }
@@ -83,28 +87,47 @@
 
     }
 
+    $bandLevels = getBandPriorities();
+    $foundLevel = 0;
+    foreach ($bandLevels as $level) {
+        $bandsAtLevel = getAllBandsAtLevel($level['level']);
+        foreach ($bandsAtLevel as $b) {
+            if (!doesBandHaveShape($b, 15) && $band != $b) {
+                $nextBand = $b;
+                break(2);
+            }
+        }
+    }
+    if (!empty($nextBand)) $post_target = $basepage . "?disp=pic_band&band=" . $nextBand;
+    else $post_target = $basepage . "?disp=pic_band&band=" . $band;
+
+    //    include $baseinstall . "includes/content/blocks/site_band_info.php";
+    echo "<h1>" . getBname($band) . "</h1>";
+
+    echo "<a href=\"http://www.google.com/search?q=" . str_replace(" ", "%20", getBname($band)) . " band live" . "&tbm=isch\" target=\"_blank\"><button class=\"mobile-button\" >Search Google for " . getBname($band) . " pics</button></a>";
+
     ?>
-    <p>
-
-        This page allows for adding a picture of a band.
-
-    </p>
-
-    <?php
-
-    $post_target = $basepage . "?disp=view_band&band=" . $band;
-
-    include $baseinstall . "includes/content/blocks/site_band_info.php";
-
-    echo "<a href=\"http://www.google.com/search?q=" . str_replace(" ", "%20", getBname($band)) . "&tbm=isch\" target=\"_blank\">Search Google for band pics</a>";
-
-    ?>
-    <form action="<?php echo $basepage . "?disp=pic_band&band=" . $band; ?>" method="post"
+    <form action="<?php echo $post_target ?>" method="post"
           enctype="multipart/form-data">
+        <h6>Submit a file or a link to the file</h6>
         <label for="file">Filename:</label>
-        <input type="file" name="file" id="file"><br>
-        <input type="submit" name="submit" value="Submit">
+        <input type="file" name="file" class="mobile-button" id="file"><br>
+        <label for="URL">Link:</label>
+        <input type="url" name="picURL" class="mobile-button" id="link"><br>
+
+        <input type="hidden" name="submitBand" value="<?php echo $band; ?>"/>
+        <input type="submit" name="submit" class="mobile-button" value="Submit">
     </form>
 
-
+    <script>
+        if ($(window).width() < 1024) {
+            $('#content').animate({
+                width: '820px',
+                top: '0',
+                left: '0',
+                'font-size': '50px',
+                'line-height': '100px'
+            }, 1000);
+        }
+    </script>
 </div> <!-- end #content -->

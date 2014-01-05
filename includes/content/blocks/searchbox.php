@@ -14,7 +14,7 @@
     <div id="searchbox">
         <form action="<?php echo $basepage . "?disp=search"; ?>" method="post">
             <input type="submit" value="Search">
-            <input type="text" size="40" name="search_query" autofocus="autofocus"></textarea>
+            <input type="text" size="15" name="search_query" autofocus="autofocus">
             <input type="hidden" name="bands" value="true">
             <input type="hidden" name="comments" value="true">
             <?php

@@ -192,19 +192,27 @@ displayPicForCrop($picID, $picType);
 <br/>
 
 <button id="square">Square</button>
+<!--
 <button id="vertTangle">Vertical Rectangle</button>
+-->
 <button id="horizTangle">Horizontal Rectangle</button>
 
 
 <script>
     var jCropAspectRatio = 1;
     jQuery(function ($) {
+        $("#target").load(function () {
 
-        $('#target').Jcrop({
+            var width = $("#target").width();
+            var height = $("#target").height();
+            if (width > 1.7 * height) jCropAspectRatio = 2;
+
+            $('#target').Jcrop({
             onSelect: showCoords,
             bgColor: 'black',
             bgOpacity: .4,
-            aspectRatio: jCropAspectRatio
+                setSelect: [ 0, 0, width, height ],
+                aspectRatio: jCropAspectRatio
         }, function () {
             jcrop_api = this;
         });
@@ -222,6 +230,7 @@ displayPicForCrop($picID, $picType);
             jCropAspectRatio = 2;
             jQuery('#ar').val(jCropAspectRatio);
             jcrop_api.setAspectRatio(jCropAspectRatio);
+        });
         });
     });
     function showCoords(c) {
