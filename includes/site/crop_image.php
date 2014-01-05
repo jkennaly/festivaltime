@@ -144,8 +144,8 @@ If (!empty($_POST['submitScaledPic'])) {
     if ($h < 205 || $w < 205) $reviewed = 0;
     else $reviewed = $user;
     $table = "pics";
-    $cols = array("scaled_pic", "reviewed");
-    $vals = array($data2, $reviewed);
+    $cols = array("scaled_pic", "reviewed", "shape");
+    $vals = array($data2, $reviewed, $shape);
     $where = "`id`='$picID'";
     updateRow($table, $cols, $vals, $where);
 }
