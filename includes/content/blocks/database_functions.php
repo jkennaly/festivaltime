@@ -1512,6 +1512,107 @@ function displayPic3($bandsFestID, $bandsPicID, $title_content)
     echo $pgdisp;
 }
 
+function displayPicForCrop($picID, $picType)
+{
+    global $basepage;
+    if ($picType == 1) {
+        $pgdisp = "<img id=\"target\" class = \"bandgridpic\" src=\"" . $basepage;
+        $pgdisp .= "includes/content/blocks/getPicture5.php?pic=";
+        $pgdisp .= $picID . "\" alt=\"band pic\" />";
+        echo $pgdisp;
+    }
+}
+
+function getPicInfo($picID, $picType)
+{
+    global $master;
+    $result = array();
+    if ($picType == 1) {
+        $sql = "SELECT `width`, `height`, `reviewed`, `band` FROM `pics` WHERE `id`='$picID'";
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            $result = mysql_fetch_array($res);
+        }
+    }
+    return $result;
+
+}
+
+function getPic($picID, $picType)
+{
+    global $master;
+    $result = array();
+    if ($picType == 1) {
+        $sql = "SELECT `pic` FROM `pics` WHERE `id`='$picID'";
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            $row = mysql_fetch_array($res);
+            $result = $row['pic'];
+        }
+    }
+    return $result;
+
+}
+
+function getReviewPic()
+{
+    global $master;
+    $result = 0;
+    $sql = "SELECT `id` FROM `pics` WHERE `deleted`!='1' AND `reviewed`='0' LIMIT 1";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $result = $row['id'];
+    }
+    return $result;
+
+}
+
+function deletePic($picID)
+{
+    $table = "pics";
+    $cols = array("deleted");
+    $vals = array(1);
+    $where = "`id`='$picID'";
+    updateRow($table, $cols, $vals, $where);
+}
+
+function getBandsWithPics()
+{
+    global $master;
+    $sql = "SELECT `band` FROM `pics` WHERE `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    $result = array();
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row['band'];
+        }
+    }
+    return $result;
+}
+
+function checkIfAllBandsHavePics()
+{
+    $bandList = getAllBands();
+    $picBands = getBandsWithPics();
+    foreach ($bandList as $b) {
+        if (in_array($b, $picBands)) return false;
+    }
+    return true;
+}
+
+function checkIfAllBandPicsReviewed()
+{
+
+    global $master;
+    $sql = "SELECT `id` FROM `pics` WHERE `deleted`!='1' AND `reviewed`='0'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        return false;
+    }
+    return true;
+}
+
 function getAllGenres()
 {
     //This function returns all genres as an array, containing id, parent and name
@@ -1990,6 +2091,45 @@ function displayScaledUserPic($user)
     echo $disp;
 }
 
+function getBandsToRate($user, $fest, $displayCount)
+{
+    global $master;
+    $userList = getFollowedBy($user);
+    if (!is_array($userList) || count($userList) == 0) return false;
+    $where = "";
+    foreach ($userList as $k => $u) {
+        if ($k == 0) $where = "`fromuser`='" . $u . "'";
+        else $where .= " OR `fromuser`='" . $u . "'";
+    }
+    $sql = "SELECT `id`, `band` FROM `messages` WHERE `festival`='$fest' AND ( " . $where . " ) AND `remark`='2' AND `mode`='1' AND `content` > '3'";
+//      error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    $result = array();
+    $i = 0;
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $currentRating = act_rating($row['band'], $user);
+            if ($currentRating == 0 && !in_array($row['band'], $result)) {
+                $result[] = $row['band'];
+                $i = $i + 1;
+            }
+            if ($i >= $displayCount) break;
+        }
+        if ($i > 0) return $result;
+    }
+    $allBands = getAllBandsInFest();
+    foreach ($allBands as $b) {
+        $currentRating = act_rating($b, $user);
+        if ($currentRating == 0) {
+            $result[] = $b;
+            $i = $i + 1;
+        }
+        if ($i >= $displayCount) break;
+    }
+    return $result;
+
+}
+
 function getNewPregameCommentBands($user, $fest, $displayCount)
 {
     global $master;
@@ -2163,11 +2303,11 @@ function submitPregame($main, $master, $submittedJSON)
 
     while ($row = mysql_fetch_array($result)) {
         $table_name = $row['table_name'];
-//		$debug['tableName'][] = $table_name;
+//                $debug['tableName'][] = $table_name;
         $tablesql = "SELECT * FROM `$table_name`";
         $tableres = mysql_query($tablesql, $main);
         if (empty($submittedTableState[$table_name])) {
-//			$debug[] = "Table $table_name submission is empty";
+//                        $debug[] = "Table $table_name submission is empty";
             If ((mysql_num_rows($tableres) > 0)) {
                 $i = 0;
                 while ($tablerow = mysql_fetch_assoc($tableres)) {
@@ -2177,18 +2317,18 @@ function submitPregame($main, $master, $submittedJSON)
                 }
             }
         } else {
-//			$debug[] = "Table $table_name submission is not empty";
+//                        $debug[] = "Table $table_name submission is not empty";
             $i = 0;
             while ($tablerow = mysql_fetch_assoc($tableres)) {
                 if ($table_name == "live_rating") $timestampCol = "time";
                 else $timestampCol = "timestamp";
                 $id = $tablerow['id'];
                 $serverTimestamp = $tablerow[$timestampCol];
-//				$debug[] = "Table $table_name checking id $id";
+//                                $debug[] = "Table $table_name checking id $id";
                 unset($mobileTableRowKey);
                 foreach ($submittedTableState[$table_name]['result'] as $k => $v) {
                     if ($v['id'] == $id) {
-//						$debug[] = "Table $table_name checking id $id found key $k";
+//                                                $debug[] = "Table $table_name checking id $id found key $k";
                         $mobileTableRowKey = $k;
                         break;
                     }
@@ -2198,7 +2338,7 @@ function submitPregame($main, $master, $submittedJSON)
                     $response['localUpdates'][$table_name][$i]['row'] = $tablerow;
                 } else {
                     if ($submittedTableState[$table_name]['result'][$mobileTableRowKey]['timestamp'] == $tablerow[$timestampCol]) {
-//						$debug[] = "Table $table_name checking id $id found key $mobileTableRowKey with matching timestamp ".$tablerow[$timestampCol];
+//                                                $debug[] = "Table $table_name checking id $id found key $mobileTableRowKey with matching timestamp ".$tablerow[$timestampCol];
 
                     } else {
                         $response['localUpdates'][$table_name][$i]['action'] = "update";
@@ -2212,7 +2352,7 @@ function submitPregame($main, $master, $submittedJSON)
     if (empty($response)) $response['localUpdates'] = "noChange";
 
 
-//	      $response['debug'] = $debug;
+//              $response['debug'] = $debug;
     return $response;
 }
 
@@ -2233,7 +2373,7 @@ function userFestivals($user)
     global $master;
     $sql = "SELECT `festival` FROM `festival_monitor` WHERE `user`='$user' AND `deleted`!='1'";
     $res = mysql_query($sql, $master);
-    if (mysql_num_rows($res) == 0) return 0;
+    if (mysql_num_rows($res) == 0) return array();
     while ($row = mysql_fetch_array($res)) {
         $credits[] = $row['festival'];
     }
