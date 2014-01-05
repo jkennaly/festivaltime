@@ -45,6 +45,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     unset($g);
 
     foreach ($genreList as &$g) {
+        if (empty($g['band'])) continue;
         $bandsInGenre = $g['band'];
         $bandsToDisplay = count($bandsInGenre);
         if ($bandsToDisplay == 0) continue;

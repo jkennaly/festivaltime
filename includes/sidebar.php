@@ -17,20 +17,27 @@
 
     <div id="new-comments" class="widget">
         <?php
-        $newCommentBands = getNewPregameCommentBands($user, $fest, 5);
-        if (!empty($newCommentBands)) {
-            ?>
-            <h3 class="widget-title">New Comments</h3>
-            <?php
-            $displayed = array();
-            foreach ($newCommentBands as $nCB) {
-                if (!in_array($nCB, $displayed)) {
-                    ?>
-                    <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
-                    <br/>
+        if (!empty($fest)) {
+            $newCommentBands = getNewPregameCommentBands($user, $fest, 5);
+            if (!empty($newCommentBands)) {
+                ?>
+                <h3 class="widget-title">New Comments</h3>
+                <ul>
                     <?php
-                    $displayed[] = $nCB;
-                }
+                    $displayed = array();
+                    foreach ($newCommentBands as $nCB) {
+                        if (!in_array($nCB, $displayed)) {
+                            ?>
+                            <li title="<?php echo getBname($nCB); ?>">
+                                <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                            </li>
+                            <?php
+                            $displayed[] = $nCB;
+                        }
+                    }
+                    ?>
+                </ul>
+            <?php
             }
         }
         ?>
@@ -40,24 +47,94 @@
 
     <div id="new-discussion" class="widget">
         <?php
-        $newDiscussionBands = getNewPregameDiscussionBands($user, $fest, 5);
-        if (!empty($newDiscussionBands)) {
-            ?>
-            <h3 class="widget-title">New Discussion</h3>
-            <?php
-            $displayed = array();
-            foreach ($newDiscussionBands as $nCB) {
-                if (!in_array($nCB, $displayed)) {
-                    ?>
-                    <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
-                    <br/>
+        if (!empty($fest)) {
+            $newDiscussionBands = getNewPregameDiscussionBands($user, $fest, 5);
+            if (!empty($newDiscussionBands)) {
+                ?>
+                <h3 class="widget-title">New Discussion</h3>
+                <ul>
                     <?php
-                    $displayed[] = $nCB;
-                }
+                    $displayed = array();
+                    foreach ($newDiscussionBands as $nCB) {
+                        if (!in_array($nCB, $displayed)) {
+                            ?>
+                            <li title="<?php echo getBname($nCB); ?>">
+                                <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                            </li>
+                            <?php
+                            $displayed[] = $nCB;
+                        }
+                    }
+                    ?>
+                </ul>
+            <?php
             }
         }
         ?>
 
     </div>
     <!-- end #new-discussion -->
+
+    <div id="bands-to-rate" class="widget">
+        <?php
+        if (!empty($fest)) {
+            $newRateBands = getBandsToRate($user, $fest, 5);
+            if (!empty($newRateBands)) {
+                ?>
+                <h3 class="widget-title">Bands To Rate</h3>
+                <ul>
+                    <?php
+                    $displayed = array();
+                    foreach ($newRateBands as $nCB) {
+                        if (!in_array($nCB, $displayed)) {
+                            ?>
+                            <li title="<?php echo getBname($nCB); ?>">
+                                <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                            </li>
+                            <?php
+                            $displayed[] = $nCB;
+                        }
+                    }
+                    ?>
+                </ul>
+            <?php
+            }
+        }
+        ?>
+
+    </div>
+    <!-- end #bands-to-rate -->
+
+    <div id="bands-i-saw" class="widget">
+        <?php
+        /*
+        if(!empty($fest)){
+            $newSeenBands = getBandsToRate($user, $fest, 5);
+            if (!empty($newRateBands)) {
+                ?>
+                <h3 class="widget-title">Bands To Rate</h3>
+                <ul>
+                    <?php
+                    $displayed = array();
+                    foreach ($newRateBands as $nCB) {
+                        if (!in_array($nCB, $displayed)) {
+                            ?>
+                            <li title="<?php echo getBname($nCB); ?>">
+                                <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $nCB; ?>"><?php echo getBname($nCB); ?></a>
+                            </li>
+                            <?php
+                            $displayed[] = $nCB;
+                        }
+                    }
+                    ?>
+                </ul>
+            <?php
+            }
+        }
+        */
+        ?>
+
+    </div>
+    <!-- end #bands-to-rate -->
+
 </div> <!-- end #sidebar -->

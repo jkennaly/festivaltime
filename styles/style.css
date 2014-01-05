@@ -41,9 +41,11 @@ body {
 
 #navwrapper {
     width: 1260px;
-    height: 4em !important;
+    /*    height: 4em !important; */
     padding: 2px;
     margin: 0px;
+    border-bottom: 1px solid #ccc;
+    overflow: auto;
 
 }
 
@@ -67,8 +69,14 @@ body {
     overflow-x: hidden;
 }
 
+#searchbox {
+    float: right;
+
+    width: 420px;
+}
+
 #searchbox input {
-    display: inline-block;
+    /*    display: inline-block; */
     float: right;
     margin-bottom: 1em;
 
@@ -79,10 +87,12 @@ body {
 
 }
 
+/*
 #searchbox after {
     clear: float;
 
 }
+*/
 
 #genrebands h2 {
     clear: both;
@@ -183,20 +193,19 @@ p.band_info {
 }
 
 /*Main Nav Bar */
-#nav {
+.nav {
     /*   font-weight:bold;*/
     margin-bottom: 5px;
     margin-top: 2px;
     padding: 0px;
     float: left;
-    width: 1260px;
+    width: 840px;
     height: 50% !important;
-    border-bottom: 1px solid #ccc;
     z-index: 1;
     bottom: 15%;
 }
 
-#nav li {
+.nav li {
     list-style: none;
     float: left;
     margin-left: 10px;
@@ -205,7 +214,7 @@ p.band_info {
 
 }
 
-#nav a {
+.nav a {
     display: block;
     padding: 5px;
     color: #fff;
@@ -213,46 +222,47 @@ p.band_info {
     text-decoration: none;
 }
 
-#nav a:hover {
+.nav a:hover {
     color: #fff;
     background: #6b0c36;
     text-decoration: underline;
 }
 
 /* First set of menus-displays vertically down from prior item */
-#nav li ul {
+.nav li ul {
     width: 8em;
     margin: 0px;
     padding: 0px;
     white-space: nowrap;
 }
 
-#nav li ul li {
+.nav li ul li {
     width: 100%;
     display: none;
     color: red;
     height: 30px;
     margin: 0px;
     padding: 0px;
+    position: absolute;
 }
 
-#nav li ul li a {
+.nav li ul li a {
     padding: 6px;
 
     color: red;
 }
 
-#nav li:hover ul li {
+.nav li:hover ul li {
     display: block;
 }
 
 /* Second set of menus-displays horizontally left from prior item */
 
-#nav li:hover ul li ul li {
+.nav li:hover ul li ul li {
     display: none;
 }
 
-#nav li ul li ul {
+.nav li ul li ul {
     margin: 0px;
     padding: 0px;
     white-space: nowrap;
@@ -266,7 +276,7 @@ p.band_info {
     display: inline-block;
 }
 
-#nav li ul li ul li {
+.nav li ul li ul li {
     /*   width:160px;*/
     display: none;
     color: blue;
@@ -274,22 +284,22 @@ p.band_info {
     width: auto;
 }
 
-#nav li ul li ul li a {
+.nav li ul li ul li a {
 
     color: blue;
 }
 
-#nav li ul li:hover ul li {
+.nav li ul li:hover ul li {
     display: inline-block;
 }
 
 /* Third set of menus-displays vertically down from prior item */
 
-#nav li ul li:hover ul li ul li {
+.nav li ul li:hover ul li ul li {
     display: none;
 }
 
-#nav li ul li ul li ul {
+.nav li ul li ul li ul {
     width: 160px;
     margin: 0px;
     padding: 0px;
@@ -299,7 +309,7 @@ p.band_info {
     top: 0px;
 }
 
-#nav li ul li ul li ul li {
+.nav li ul li ul li ul li {
     width: 100%;
     display: none;
     height: 30px;
@@ -308,13 +318,19 @@ p.band_info {
     color: green;
 }
 
-#nav li ul li ul li ul li a {
+.nav li ul li ul li ul li a {
 
     color: green;
 }
 
-#nav li ul li ul li:hover ul li {
+.nav li ul li ul li:hover ul li {
     display: block;
+}
+
+#main {
+    width: 1060px;
+    float: left;
+    padding: 5px;
 }
 
 #content {
@@ -755,8 +771,30 @@ input.discussSubmit {
 
 .widget {
     margin: 1em 0;
+
 }
 
 .widget li {
     list-style-type: none;
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipses;
+    -o-text-overflow: ellipses;
+    text-overflow: ellipsis;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:active {
+    text-decoration: underline;
 }

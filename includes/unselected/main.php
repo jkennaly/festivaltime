@@ -23,7 +23,10 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     //My festivals
     $myFestivals = userFestivals($user);
     $activeFests = getActiveFests();
-    $excludeFests = array_merge($myFestivals, $activeFests);
+    if (!empty($myFestivals) && !empty($activeFests)) $excludeFests = array_merge($myFestivals, $activeFests);
+    elseif (!empty($myFestivals)) $excludeFests = $myFestivals;
+    elseif (!empty($activeFests)) $excludeFests = $activeFests;
+    else $excludeFests = array();
     $upFests = getUpcomingFests($excludeFests);
     $pastFests = getPastsFests($excludeFests);
     ?>

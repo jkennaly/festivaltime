@@ -26,8 +26,37 @@ chdir($old_path);
 
 if (!$checkFest) $disp = "fest_sign_up";
 
+?>
+<div id="main">
+    <div id="mainHeader">
+        <h2><?php echo $sitename; ?></h2>
+        <ul id="mainNav" class="nav">
+            <li><a href="<?php echo $basepage; ?>?disp=home">Bands</a>
+                <ul>
+                    <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
+                </ul>
+            </li>
+            <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
+            <?php
 
-//If there is a specific type of content requested, and there is a file with that name, display it
+            if ($header['band_list'] <= 0) {
+                $bandList = getAllBandsInFest();
+                if (empty($bandList)) {
+                    ?>
+                    <li><a href="<?php echo $basepage; ?>?disp=band_speculation">Predict the Lineup</a></li>
+                <?php
+                }
+            }
+            ?>
+
+        </ul>
+    </div>
+
+    <?php
+    if (!empty($user)) include('includes/sidebar.php');
+
+
+    //If there is a specific type of content requested, and there is a file with that name, display it
 If (in_array($disp . ".php", $content_files)) {
     include $baseinstall . "includes/content/" . $disp . ".php";
 } elseif (in_array($disp . ".php", $site_files)) {
@@ -37,6 +66,7 @@ else {
     include $baseinstall . "includes/content/error.php";
 }
 
-
+    ?>
+</div> <!-- end #main -->
 
 

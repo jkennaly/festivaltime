@@ -17,7 +17,7 @@ $master = mysql_connect($dbhost, $master_dbuser, $master_dbpw);
 
 $picGet = $_GET['pic'];
 
-$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `id` = '$picGet'";
+$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `id` = '$picGet' AND `deleted`!='1'";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
 $picData = $pic['scaled_pic'];

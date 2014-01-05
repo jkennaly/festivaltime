@@ -43,9 +43,9 @@ $festivaltimeContext = 1;
         return (ctype_digit(strval($input)));
     }
 
-    If (isset($_GET['fest']) && isInteger($_GET['fest'])) {
+    If (!empty($_GET['fest']) && isInteger($_GET['fest'])) {
         $_SESSION['fest'] = $_GET['fest'];
-    }
+    } elseif (isset($_GET['fest'])) unset($_SESSION['fest']);
     include('includes/check_rights.php');
     include('includes/content/blocks/database_functions.php');
     include('includes/content/blocks/other_functions.php');
@@ -62,14 +62,16 @@ $festivaltimeContext = 1;
     }
 
     include('variables/page_variables.php');
-    $userFestivals = userFestivals($user);
+    if (!empty($user)) $userFestivals = userFestivals($user);
     if (!empty($userFestivals) && !empty($fest)) $checkFest = in_array($fest, $userFestivals);
     else $checkFest = false;
     ?>
 
-    <title><?php echo $sitename ?></title>
+    <title><?php echo $sitedesignation ?></title>
     <script type="text/javascript" src="includes/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="includes/js/docflow.js"></script>
+    <script src="includes/js/jquery.Jcrop.js"></script>
+    <link rel="stylesheet" href="styles/jquery.Jcrop.css" type="text/css"/>
 
 </head>
 
@@ -80,9 +82,8 @@ $festivaltimeContext = 1;
 
     include('includes/header.php');
 
-    include('includes/nav.php');
+    if (!empty($user)) include('includes/nav.php');
 
-    include('includes/sidebar.php');
 
     If (!empty($_SESSION['fest']) && $_SESSION['fest'] > 0) {
 
