@@ -1,6 +1,6 @@
 <?php
 /*
-//Copyright (c) 2013 Jason Kennaly.
+//Copyright (c) 2013-2014 Jason Kennaly.
 //All rights reserved. This program and the accompanying materials
 //are made available under the terms of the GNU Affero General Public License v3.0 which accompanies this distribution, and is available at
 //http://www.gnu.org/licenses/agpl.html
@@ -99,56 +99,29 @@ function act_live_rating($band, $user)
     return $rate;
 }
 
-function all_live_rating($main)
-{
-    //This function returns all gametime ratings for a given festival
-    $sql = "SELECT lr.id as id, lr.user as user, lr.band as band, lr.rating as rating, lr.`comment` as comment, lr.`msgtime` as time
-FROM `live_rating` lr
-LEFT JOIN `live_rating` lr2 ON lr.user = lr2.user AND lr.band = lr2.band AND lr.id < lr2.id
-WHERE lr2.user IS NULL
-ORDER BY lr.id";
-    $res = mysql_query($sql, $main);
-    while ($row = mysql_fetch_array($res)) {
-        $result[] = $row;
-    }
-    return $result;
-}
-
-function avg_live_rating($main)
+function avg_live_rating($fest)
 {
     //This function returns the average live rting for a given festival
-    $ratingArray = all_live_rating($main);
-    $i = 0;
-    $total = 0;
-    foreach ($ratingArray as $v) {
-        $total = $total + $v['rating'];
-        $i++;
-    }
-    $avg = $total / $i;
-    return $avg;
+    global $master;
+    $sql = "SELECT AVG(`content`) as rate FROM `messages` WHERE `festival`='$fest' AND `remark`='2' AND `mode`='2'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) !== 0) {
+        $row = mysql_fetch_array($res);
+        return $row['rate'];
+    } else return 0;
 }
 
-function avg_live_rating_band($main, $band)
+function avg_live_rating_band($band)
 {
     //This function returns the average live rting for one band for a given festival
-
-    $sql = "SELECT lr.id as id, lr.user as user, lr.band as band, lr.rating as rating, lr.`comment` as comment, lr.`msgtime` as time
-	FROM `live_rating` lr
-	LEFT JOIN `live_rating` lr2 ON lr.user = lr2.user AND lr.band = lr2.band AND lr.id < lr2.id
-	WHERE lr2.user IS NULL AND lr.band='$band'
-	ORDER BY lr.id";
-
-    $res = mysql_query($sql, $main);
+    global $master, $fest;
+    $sql = "SELECT AVG(`content`) as rate FROM `messages` WHERE `festival`='$fest' AND `remark`='2' AND `mode`='2' AND `band`='$band'";
+    $res = mysql_query($sql, $master);
     if (mysql_num_rows($res) !== 0) {
-        $i = 0;
-        $total = 0;
-        while ($row = mysql_fetch_array($res)) {
-            $total = $total + $row['rating'];
-            $i++;
-        }
-        $avg = $total / $i;
-    } else return false;
-    return $avg;
+        $row = mysql_fetch_array($res);
+        return $row['rate'];
+    } else return 0;
+
 }
 
 ?>

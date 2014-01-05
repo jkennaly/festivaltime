@@ -22,7 +22,7 @@ include('SimpleImage.php');
 
 $band = $_GET['band'];
 
-$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$band' order by rand() limit 1";
+$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$band' AND `deleted`!='1' order by rand() limit 1";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
 $picData = $pic['scaled_pic'];

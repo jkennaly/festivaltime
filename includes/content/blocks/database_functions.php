@@ -586,7 +586,7 @@ function getActiveFests()
     //First query: Get every festival that has started or is just about to, along with the base date of the last date of the festival
     $sql = "SELECT festival, max(`basedate`) as max FROM `dates` WHERE `basedate` <= DATE_ADD(NOW(), INTERVAL 2 DAY) AND `deleted`!='1' GROUP BY `festival`";
     $res = mysql_query($sql, $master);
-    if (mysql_num_rows($res) == 0) return false;
+    if (mysql_num_rows($res) == 0) return array();
     while ($row = mysql_fetch_array($res)) {
         $checkFest = $row['festival'];
         $maxDate = $row['max'];
@@ -810,7 +810,7 @@ function getUpcomingFestivals()
 
 }
 
-function getInterestingFactor($user, $main, $master, $fest)
+function getInterestingFactor($user, $fest)
 {
     //This function returns an array containing the id of each band in the fest, along with a rating on how interesting the band is
     //First get all the bands
@@ -820,14 +820,14 @@ function getInterestingFactor($user, $main, $master, $fest)
     }
     // Difference between pregame rating and live rating x20
     foreach ($interfact as $bandid => &$factor) {
-        $pregame = act_rating($bandid, $user, $main);
-        $gametime = act_live_rating($bandid, $user, $main);
+        $pregame = act_rating($bandid, $user);
+        $gametime = act_live_rating($bandid, $user);
         $factor = $factor + abs($pregame - $gametime) * 20;
 //		echo "<br>pregame : $pregame gametime: $gametime factor: $factor band: $bandid";
     }
 //	var_dump($interfact);
     //Band with high live average you missed And with low live average ou missed
-    $missedBands = getAllBandsUserMissed($user, $main);
+    $missedBands = getAllBandsUserMissed($user, $fest);
     foreach ($missedBands as $v) {
         $avg = avg_live_rating_band($main, $v);
         if ($avg != 0) $interfact[$v] = $interfact[$v] + 20 * (abs(3 - $avg) ^ 2);
@@ -928,28 +928,28 @@ function getBandsAtPriority($priority)
     return false;
 }
 
-function getAllBandsUserMissed($user, $main)
+function getAllBandsUserMissed($user, $fest)
 {
     //This function returns an array containing the id of each band in the festival
-    $saw = getAllBandsUserSaw($user, $main);
-    $where = "WHERE deleted != '1'";
-    $i = 0;
-    foreach ($saw as $v) {
-        $where .= " AND id != '$v'";
+    $saw = getAllBandsUserSaw($user, $fest);
+    $allBands = getAllBandsInFest();
+    $result = array();
+    if (!empty($saw) && !empty($allBands)) {
+        foreach ($allBands as $b) {
+            if (!in_array($b, $saw)) $result[] = $b;
+        }
+        return $result;
     }
-    $sql = "select id from bands " . $where;
-    $res = mysql_query($sql, $main);
-    while ($row = mysql_fetch_array($res)) {
-        $result[] = $row['id'];
-    }
-    return $result;
+    return $allBands;
 }
 
-function getAllBandsUserSaw($user, $main)
+function getAllBandsUserSaw($user, $fest)
 {
     //This function returns an array containing the id of each band in the festival
-    $sql = "select band from comms where fromuser= '$user'";
-    $res = mysql_query($sql, $main);
+    global $master;
+    $sql = "select `band` from `messages` where `fromuser`= '$user' AND `festival`='$fest' AND `mode`='2' AND (`location` > '0' OR `content` > 0) AND `band` > 0 GROUP BY `band`";
+    $res = mysql_query($sql, $master);
+    $result = array();
     while ($row = mysql_fetch_array($res)) {
         $result[] = $row['band'];
     }
@@ -972,7 +972,7 @@ function getActiveBands()
 
 function getAllBands()
 {
-    //This function returns an array containing the id of each band in the festival, headliners first
+    //This function returns an array containing the id of each band in the database
     global $master;
     $sql = "select `id` from `bands` where `deleted` != '1' ORDER BY `name` ASC";
 //    error_log(print_r($sql, TRUE));
@@ -1512,6 +1512,107 @@ function displayPic3($bandsFestID, $bandsPicID, $title_content)
     echo $pgdisp;
 }
 
+function displayPicForCrop($picID, $picType)
+{
+    global $basepage;
+    if ($picType == 1) {
+        $pgdisp = "<img id=\"target\" class = \"bandgridpic\" src=\"" . $basepage;
+        $pgdisp .= "includes/content/blocks/getPicture5.php?pic=";
+        $pgdisp .= $picID . "\" alt=\"band pic\" />";
+        echo $pgdisp;
+    }
+}
+
+function getPicInfo($picID, $picType)
+{
+    global $master;
+    $result = array();
+    if ($picType == 1) {
+        $sql = "SELECT `width`, `height`, `reviewed`, `band` FROM `pics` WHERE `id`='$picID'";
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            $result = mysql_fetch_array($res);
+        }
+    }
+    return $result;
+
+}
+
+function getPic($picID, $picType)
+{
+    global $master;
+    $result = array();
+    if ($picType == 1) {
+        $sql = "SELECT `pic` FROM `pics` WHERE `id`='$picID' AND `deleted`!='1'";
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            $row = mysql_fetch_array($res);
+            $result = $row['pic'];
+        }
+    }
+    return $result;
+
+}
+
+function getReviewPic()
+{
+    global $master;
+    $result = 0;
+    $sql = "SELECT `id` FROM `pics` WHERE `deleted`!='1' AND `reviewed`='0' LIMIT 1";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $result = $row['id'];
+    }
+    return $result;
+
+}
+
+function deletePic($picID)
+{
+    $table = "pics";
+    $cols = array("deleted");
+    $vals = array(1);
+    $where = "`id`='$picID'";
+    updateRow($table, $cols, $vals, $where);
+}
+
+function getBandsWithPics()
+{
+    global $master;
+    $sql = "SELECT `band` FROM `pics` WHERE `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    $result = array();
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result[] = $row['band'];
+        }
+    }
+    return $result;
+}
+
+function checkIfAllBandsHavePics()
+{
+    $bandList = getAllBands();
+    $picBands = getBandsWithPics();
+    foreach ($bandList as $b) {
+        if (in_array($b, $picBands)) return false;
+    }
+    return true;
+}
+
+function checkIfAllBandPicsReviewed()
+{
+
+    global $master;
+    $sql = "SELECT `id` FROM `pics` WHERE `deleted`!='1' AND `reviewed`='0'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        return false;
+    }
+    return true;
+}
+
 function getAllGenres()
 {
     //This function returns all genres as an array, containing id, parent and name
@@ -1990,6 +2091,45 @@ function displayScaledUserPic($user)
     echo $disp;
 }
 
+function getBandsToRate($user, $fest, $displayCount)
+{
+    global $master;
+    $userList = getFollowedBy($user);
+    if (!is_array($userList) || count($userList) == 0) return false;
+    $where = "";
+    foreach ($userList as $k => $u) {
+        if ($k == 0) $where = "`fromuser`='" . $u . "'";
+        else $where .= " OR `fromuser`='" . $u . "'";
+    }
+    $sql = "SELECT `id`, `band` FROM `messages` WHERE `festival`='$fest' AND ( " . $where . " ) AND `remark`='2' AND `mode`='1' AND `content` > '3'";
+//      error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    $result = array();
+    $i = 0;
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $currentRating = act_rating($row['band'], $user);
+            if ($currentRating == 0 && !in_array($row['band'], $result)) {
+                $result[] = $row['band'];
+                $i = $i + 1;
+            }
+            if ($i >= $displayCount) break;
+        }
+        if ($i > 0) return $result;
+    }
+    $allBands = getAllBandsInFest();
+    foreach ($allBands as $b) {
+        $currentRating = act_rating($b, $user);
+        if ($currentRating == 0) {
+            $result[] = $b;
+            $i = $i + 1;
+        }
+        if ($i >= $displayCount) break;
+    }
+    return $result;
+
+}
+
 function getNewPregameCommentBands($user, $fest, $displayCount)
 {
     global $master;
@@ -2233,7 +2373,7 @@ function userFestivals($user)
     global $master;
     $sql = "SELECT `festival` FROM `festival_monitor` WHERE `user`='$user' AND `deleted`!='1'";
     $res = mysql_query($sql, $master);
-    if (mysql_num_rows($res) == 0) return 0;
+    if (mysql_num_rows($res) == 0) return array();
     while ($row = mysql_fetch_array($res)) {
         $credits[] = $row['festival'];
     }

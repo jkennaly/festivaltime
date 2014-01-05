@@ -40,7 +40,7 @@ ob_start();
         $visibleUsers = getVisibleUsers($user);
         $followerCount = array();
         foreach ($visibleUsers as $u) {
-            if (!in_array($u, $followingUsers)) {
+            if (empty($followingUsers) || !in_array($u, $followingUsers)) {
                 $followerCount[$u] = count(getUsersFollowing($u, $user));
             }
         }
@@ -52,6 +52,7 @@ ob_start();
         <ul class="popular-list">
             <?php
             foreach ($followerCount as $u => $count) {
+                if ($u == $user) continue;
                 ?>
                 <li class="popular-item">
                     <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
@@ -75,6 +76,26 @@ ob_start();
             }
             ?>
         </ul>
+    </aside>
+
+    <aside id="bands-need-pics-widget" class="widget">
+        <?php
+        if (!checkIfAllBandsHavePics()) {
+            ?>
+            <a href="<?php echo $basepage; ?>?disp=find_band_pics">Bands missing pictures</a>
+        <?php
+        }
+        ?>
+    </aside>
+
+    <aside id="bands-pics-need-review-widget" class="widget">
+        <?php
+        if (!checkIfAllBandPicsReviewed()) {
+            ?>
+            <a href="<?php echo $basepage; ?>?disp=crop_image">Bands pictures require cropping</a>
+        <?php
+        }
+        ?>
     </aside>
 
 

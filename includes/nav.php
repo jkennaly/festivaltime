@@ -19,22 +19,14 @@
     include $baseinstall . "includes/content/blocks/searchbox.php";
     ?>
 
-    <ul id="nav">
+    <ul id="nav" class="nav">
 
-        <li><a href="<?php echo $basepage; ?>?disp=home">Home</a>
-            <ul>
-                <li></li>
-            </ul>
+        <li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Home</a>
+
         </li>
         <li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
-        <!--                <ul><li><a href="<?php echo $basepage; ?>?disp=guide">Guide</a></li></ul></li> -->
-        <li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Festivals</a>
-        </li>
-        <li><a href="<?php echo $basepage; ?>?disp=home">Bands</a>
-            <ul>
-                <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
-            </ul>
-        </li>
+
+
         <?php
         $right_required = "EditFest";
         If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
@@ -44,7 +36,7 @@
         }
         ?>
 
-        <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
+
 
         <li><a href="<?php echo getForumLink($user, $mainforum, $forumblog); ?>">Forum</a></li>
         <?php

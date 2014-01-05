@@ -8,20 +8,19 @@
 //Contributors:
 //    Jason Kennaly - initial API and implementation
 */
-
 $festivaltimeContext = 1;
+
 
 include("../../../variables/variables.php");
 $master = mysql_connect($dbhost, $master_dbuser, $master_dbpw);
 @mysql_select_db($master_db, $master) or die("Unable to select master database");
 
-$band = mysql_real_escape_string($_GET['band']);
+$picGet = $_GET['pic'];
 
-
-$sql = "SELECT `scaled_pic`, `type`, `descrip` FROM `pics` WHERE `band` = '$band' AND `deleted`!='1'  ORDER BY RAND() LIMIT 1";
+$sql = "SELECT `pic`, `type`, `descrip` FROM `pics` WHERE `id` = '$picGet'";
 $res = mysql_query($sql, $master);
 $pic = mysql_fetch_array($res);
-$picData = $pic['scaled_pic'];
+$picData = $pic['pic'];
 
 header("Content-type: " . $pic['type']);
 echo $picData;

@@ -24,17 +24,20 @@ chdir($baseinstall . "includes/site/");
 $site_files = glob("*.php");
 chdir($old_path);
 
+?>
+<div id="main">
 
-//If there is a specific type of content requested, and there is a file with that name, display it
-If (in_array($disp . ".php", $content_files)) {
-    include $baseinstall . "includes/unselected/" . $disp . ".php";
-} elseif (in_array($disp . ".php", $site_files)) {
-    include $baseinstall . "includes/site/" . $disp . ".php";
-} //If a content file is requested that does not exist, return error
-else {
-    include $baseinstall . "includes/unselected/error.php";
-}
+    <?php
 
+    //If there is a specific type of content requested, and there is a file with that name, display it
+    If (in_array($disp . ".php", $content_files)) {
+        include $baseinstall . "includes/unselected/" . $disp . ".php";
+    } elseif (in_array($disp . ".php", $site_files)) {
+        include $baseinstall . "includes/site/" . $disp . ".php";
+    } //If a content file is requested that does not exist, return error
+    else {
+        include $baseinstall . "includes/unselected/error.php";
+    }
 
-
-
+    ?>
+</div> <!-- end #main -->
