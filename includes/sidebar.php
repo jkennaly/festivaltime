@@ -13,9 +13,9 @@
 ?>
 
 
-<div id="sidebar-left">
+<div id="sidebar-left" class="sidebar">
 
-    <div id="new-comments" class="widget">
+<div id="new-comments" class="widget">
         <?php
         if (!empty($fest)) {
             $newCommentBands = getNewPregameCommentBands($user, $fest, 5);

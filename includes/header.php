@@ -14,6 +14,8 @@
 
 <div id="header">
 
+    <h1>festivaltime</h1>
+
     <!--
     <h2><?php echo $sitedesignation; ?></h2>
     -->

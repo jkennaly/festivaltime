@@ -34,22 +34,31 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
     <?php
     if (empty($myFestivals))
-    echo "You are not signed up for any festivals yet.<br />";
+        echo "You are not signed up for any festivals yet.<br />";
     else {
-    foreach ($myFestivals as $myF){
-    ?>
-    <a href="<?php echo $basepage . "?disp=home&fest=" . $myF . "\">" . getFname($myF); ?></a><br />
+        ?>
+        <ul>
+            <?php
+            foreach ($myFestivals as $myF) {
+                ?>
+                <li>
+                    <a href="<?php echo $basepage; ?>?disp=home&fest=<?php echo $myF; ?>"><?php echo getFname($myF); ?></a>
+                </li>
 
-        <?php
+            <?php
+            }
+            ?>
+        </ul>
+    <?php
     }
-    }
+
 
     //Users
 
     //Account Status
     $creditsAvailable = getCurrentCredits($user);
     ?>
-    <b>Number of credits currently available: </b><?php echo $creditsAvailable; ?><br />
+    <b>Number of credits currently available: </b><?php echo $creditsAvailable; ?><br/>
 
     <?php
 
@@ -60,39 +69,55 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     <?php
     $activeFound = 0;
     if (empty($activeFests))
-    echo "There are not any currently active festivals.<br />";
+        echo "There are not any currently active festivals.<br />";
     else {
-    foreach ($activeFests as $aF){
-    if (in_array($aF, $myFestivals)) continue;
-    $activeFound = 1;
+        ?>
+        <ul>
+            <?php
+            foreach ($activeFests as $aF) {
+                if (in_array($aF, $myFestivals)) continue;
+                $activeFound = 1;
+                ?>
+                <li>
+                    <a href="<?php echo $basepage; ?>?disp=home&fest=<?php echo $aF; ?>"><?php echo getFname($aF); ?></a>
+                </li>
+
+            <?php
+            }
+            ?>
+        </ul>
+        <?php
+        if (empty($activeFound)) echo "You are already signed up for all currently active festivals.<br />";
+    }
+
+
+
+    //Upcoming festivals
     ?>
-            <a href="<?php echo $basepage . "?disp=home&fest=" . $aF . "\">" . getFname($aF); ?></a><br/>
-
-<?php
-}
-if (empty($activeFound)) echo "You are already signed up for all currently active festivals.<br />";
-}
-
-
-
-//Upcoming festivals
-?>
     <h3>Upcoming festivals:</h3>
 
     <?php
     $upFound = 0;
     if (empty($upFests))
-    echo "There are not any upcoming festivals.<br />";
+        echo "There are not any upcoming festivals.<br />";
     else {
-    foreach ($upFests as $uF){
-    if (in_array($uF, $myFestivals)) continue;
-    $upFound = 1;
-    ?>
-    <a href="<?php echo $basepage . "?disp=home&fest=" . $uF . "\">" . getFname($uF); ?></a><br />
+        ?>
+        <ul>
+            <?php
+            foreach ($upFests as $uF) {
+                if (in_array($uF, $myFestivals)) continue;
+                $upFound = 1;
+                ?>
+                <li>
+                    <a href="<?php echo $basepage; ?>?disp=home&fest=<?php echo $uF; ?>"><?php echo getFname($uF); ?></a>
+                </li>
 
-<?php
-    }
-    if (empty($upFound)) echo "You are already signed up for all upcoming festivals.<br />";
+            <?php
+            }
+            ?>
+        </ul>
+        <?php
+        if (empty($upFound)) echo "You are already signed up for all upcoming festivals.<br />";
     }
 
 
@@ -101,7 +126,7 @@ if (empty($activeFound)) echo "You are already signed up for all currently activ
     ?>
     <h3>Past festivals:</h3>
 
-<?php
+    <?php
     $pastFound = 0;
     if (empty($pastFests))
     echo "There are not any past festivals.<br />";
@@ -110,12 +135,12 @@ if (empty($activeFound)) echo "You are already signed up for all currently activ
     if (in_array($pF, $myFestivals)) continue;
     $pastFound = 1;
     ?>
-        <a href="<?php echo $basepage . "?disp=home&fest=" . $pF . "\">" . getFname($pF); ?></a><br/>
+    <a href="<?php echo $basepage . "?disp=home&fest=" . $pF . "\">" . getFname($pF); ?></a><br/>
 
 <?php
-}
-if (empty($pastFound)) echo "You are already signed up for all past festivals.<br />";
-}
-?>
+    }
+    if (empty($pastFound)) echo "You are already signed up for all past festivals.<br />";
+    }
+    ?>
 
 </div> <!-- end #content -->

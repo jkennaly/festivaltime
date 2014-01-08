@@ -10,18 +10,31 @@ Contributors:
 
 body {
     background-color: #1f1f1f;
-    font-family: georgia, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     color: #333;
     margin: 0;
     padding: 0;
 }
 
+#content li {
+    font-family: tahoma, serif;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.sidebar li {
+    font-family: tahoma, serif;
+    text-decoration: none;
+    list-style-type: none;
+}
+
 #wrapper {
     width: 1296px;
-    background-color: #f8f8f8;
     margin: 0 auto;
     border-left: 1px solid #1f1f1f;
     border-right: 1px solid #1f1f1f;
+    /*   background: linear-gradient(to right, #1f1f1f , #f8f8f8 5%, #f8f8f8 95%, #1f1f1f); */
+    background-color: #f8f8f8;
 }
 
 #header {
@@ -30,6 +43,23 @@ body {
     margin: 0 auto;
     border-bottom: 1px solid #1f1f1f;
     border-top: 1px solid #1f1f1f;
+    position: relative;
+}
+
+#header h1 {
+    position: absolute; /* absolute position (so we can position it where we want)*/
+    bottom: 0px; /* position will be on bottom */
+    left: 0px;
+    width: 100%;
+    font-family: monospace;
+    z-index: 1;
+    font-size: 55px;
+    color: white;
+    opacity: 0.6; /* transparency */
+    filter: alpha(opacity=60); /* IE transparency */
+    text-align: left;
+    /*    text-justify: auto;
+        letter-spacing: 80px; */
 }
 
 #headerPic {
@@ -38,7 +68,6 @@ body {
 
 #navwrapper {
     width: 1292px;
-    /*    height: 4em !important; */
     padding: 2px;
     margin: 0px;
     border-bottom: 1px solid #ccc;
@@ -47,22 +76,20 @@ body {
 }
 
 #sidebar-left {
-    width: 210px;
+    width: 205px;
     margin: 0 auto;
     float: left;
     border-bottom: 1px solid #ccc;
     border-top: 1px solid #ccc;
     overflow-x: hidden;
-    padding: 0 1em 0 0;
+    padding: 0 0.5em 0 1.0em;
 }
 
 #sidebar2 {
-    width: 210px;
+    width: 205px;
     margin: 0 auto;
     padding: 0 0 0 1em;
     float: left;
-    border-bottom: 1px solid #ccc;
-    border-top: 1px solid #ccc;
     overflow-x: hidden;
 }
 
@@ -289,8 +316,7 @@ p.band_info {
 #footer {
     clear: both;
     width: 1070px;
-    height: 135px;
-    border-top: 1px solid #ccc;
+    margin: 0 0 0 2em;
 }
 
 #footer p {

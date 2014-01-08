@@ -81,7 +81,7 @@
                 $sql .= " VALUES ('$data', '$data2', '$user', '$submitBand', '" . $_FILES["file"]["name"] . "', '" . $_FILES["file"]["type"] . "', '" . ($_FILES["file"]["size"] / 1024) . "', '" . $size['0'] . "', '" . $size['1'] . "', '" . $ratio . "', '" . $shape . "');";
                 $upd = mysql_query($sql, $master);
 //echo "<br>".$sql."<br>";
-            echo mysql_error();
+                echo mysql_error();
             }
         }
 
@@ -104,7 +104,10 @@
     //    include $baseinstall . "includes/content/blocks/site_band_info.php";
     echo "<h1>" . getBname($band) . "</h1>";
 
-    echo "<a href=\"http://www.google.com/search?q=" . str_replace(" ", "%20", getBname($band)) . " band live" . "&tbm=isch\" target=\"_blank\"><button class=\"mobile-button\" >Search Google for " . getBname($band) . " pics</button></a>";
+    $replaceFrom = array(" ", "&");
+    $replaceTo = array("%20", "and");
+
+    echo "<a href=\"http://www.google.com/search?q=" . str_replace($replaceFrom, $replaceTo, getBname($band)) . " band live" . "&tbm=isch\" target=\"_blank\"><button class=\"mobile-button\" >Search Google for " . getBname($band) . " pics</button></a>";
 
     ?>
     <form action="<?php echo $post_target ?>" method="post"
