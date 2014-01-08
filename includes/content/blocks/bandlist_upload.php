@@ -65,8 +65,8 @@ If (!empty($_POST['submitFinal'])) {
     foreach ($_SESSION['bandul']['possibleMatch'] as $uploadedName => $b) {
         $matched = 0;
         foreach ($b as $possib) {
-            echo "uploadedName: " . $_POST[$uploadedName] . "<br />";
-            echo "possible id: " . $possib['id'] . "<br />";
+            //    echo "uploadedName: " . $_POST[$uploadedName] . "<br />";
+            //     echo "possible id: " . $possib['id'] . "<br />";
 
             if ($_POST[$uploadedName] == $possib['id']) {
                 $_SESSION['bandul']['bandMatch'][] = $possib;

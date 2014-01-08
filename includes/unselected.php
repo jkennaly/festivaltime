@@ -26,6 +26,9 @@ chdir($old_path);
 
 ?>
 <div id="main">
+    <div id="sidebar-left" class="sidebar">
+    </div>
+    <!-- end #sidebar -->
 
     <?php
 

@@ -28,20 +28,21 @@ ob_start();
 <div id="sidebar2" class="sidebar">
 
     <aside id="account-management-widget" class="widget">
-        <h3 class="wideget-title">My Account</h3>
+        <h3 class="widget-title">My Account</h3>
         <ul class="popular-list">
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=login">Log In</a></li>
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=logout">Log Out</a></li>
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=change_password">Change Password</a></li>
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_settings">User Settings</a></li>
-            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_profile">My Profile</a></li>
+            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_profile=<?php echo $user; ?>&fest=0">My
+                    Profile</a></li>
         </ul>
         <!-- end #account-management-widget -->
 
 
         <aside id="popular-bands-widget" class="widget">
-        <h3 class="wideget-title">Popular Bands</h3>
-        <ul class="popular-list">
+            <h3 class="widget-title">Popular Bands</h3>
+            <ul class="popular-list">
             <?php echo $bandList; ?>
         </ul>
     </aside>
@@ -60,7 +61,7 @@ ob_start();
         $i = 0;
 
         ?>
-        <h3 class="wideget-title">Popular Users</h3>
+        <h3 class="widget-title">Popular Users</h3>
         <ul class="popular-list">
             <?php
             foreach ($followerCount as $u => $count) {
@@ -68,8 +69,8 @@ ob_start();
                 ?>
                 <li class="popular-item">
                     <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
-                    <?php echo getUname($u); ?></li>
-                </a>
+                        <?php echo getUname($u); ?></a></li>
+
                 <?php
 
                 $i++;
@@ -79,9 +80,48 @@ ob_start();
         </ul>
     </aside>
 
-    <aside id="recent-fests-widget" class="widget">
-        <h3 class="wideget-title">Newly Added Fests</h3>
-        <ul class="popular-list">
+        <aside id="users-to-consider-widget" class="widget">
+            <?php
+            $followingUsers = getFollowedBy($user);
+            $visibleUsers = getVisibleUsers($user);
+            $followerCount = array();
+            $i = 0;
+            foreach ($followingUsers as $u) {
+                $following2 = getFollowedBy($u);
+                if (!empty($following2)) {
+//                    var_dump($following2);
+                    foreach ($followingUsers as $fU) {
+                        if (in_array($fU, $visibleUsers) && !in_array($fU, $followingUsers) && $fU != $user) {
+                            $i++;
+                            $suggest[] = $fU;
+                            if ($i > 2) break(2);
+                        }
+                    }
+                }
+            }
+            if ($i > 0) {
+                ?>
+                <h3 class="widget-title">People to Consider</h3>
+                <ul class="popular-list">
+                    <?php
+                    foreach ($suggest as $u) {
+                        ?>
+                        <li class="popular-item">
+                            <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
+                                <?php echo getUname($u); ?></a></li>
+
+                    <?php
+                    }
+                    ?>
+                </ul>
+            <?php
+            }
+            ?>
+        </aside>
+
+        <aside id="recent-fests-widget" class="widget">
+            <h3 class="widget-title">Newly Added Fests</h3>
+            <ul class="popular-list">
             <?php
             foreach ($newFests as $c) {
                 echo "<li class=\"popular-item\"><a href=\"" . $basepage . '?disp=home&fest=' . $c['id'] . "\">" . $c['sitename'] . "</a></li>";

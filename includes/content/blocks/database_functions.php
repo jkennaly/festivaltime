@@ -983,6 +983,19 @@ function getAllBands()
     return $result;
 }
 
+function getAllUsedBands()
+{
+    //This function returns an array containing the id of each band in that is in at least one festival
+    global $master;
+    $sql = "select `band` from `band_list` where `deleted` != '1' GROUP BY `band`";
+//    error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    while ($row = mysql_fetch_array($res)) {
+        $result[] = $row['band'];
+    }
+    return $result;
+}
+
 function getAllBandsInFest()
 {
     //This function returns an array containing the id of each band in the festival, headliners first
@@ -1580,12 +1593,13 @@ function deletePic($picID)
 function getBandsWithPics()
 {
     global $master;
-    $sql = "SELECT `band` FROM `pics` WHERE `deleted`!='1'";
+    $sql = "SELECT `band` FROM `pics` WHERE `deleted`!='1' GROUP BY `band`";
     $res = mysql_query($sql, $master);
+    $bandList = getAllBands();
     $result = array();
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
-            $result[] = $row['band'];
+            if (in_array($row['band'], $bandList)) $result[] = $row['band'];
         }
     }
     return $result;
@@ -1593,11 +1607,15 @@ function getBandsWithPics()
 
 function checkIfAllBandsHavePics()
 {
-    $bandList = getAllBands();
+    $bandList = getAllUsedBands();
     $picBands = getBandsWithPics();
     foreach ($bandList as $b) {
-        if (in_array($b, $picBands)) return false;
+        if (!in_array($b, $picBands)) {
+            echo getBname($b) . "<br />";
+            return false;
+        }
     }
+
     return true;
 }
 
