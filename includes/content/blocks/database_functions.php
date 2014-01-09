@@ -2388,7 +2388,8 @@ function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $
     //This function stores the pregame remark for the current fest, user, and band, updating or creating as needed
     if ($remark != 3) {
         $existingRemarkRaw = getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark);
-        $existingRemark = $existingRemarkRaw['content'];
+        if (!empty($existingRemarkRaw['content'])) $existingRemark = $existingRemarkRaw['content'];
+        else $existingRemark = "";
     } else $existingRemark = "";
 
     //New comments
@@ -2396,7 +2397,7 @@ function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $
         $table = "messages";
         $cols = array("subject", "content");
         $vals = array($subject, $content);
-        $where = "`fromuser`='" . $user . "' AND `band`='$band' AND `festival`='$fest' `remark`='$remark' AND `mode`='$mode' AND `deleted`!='1'";
+        $where = "`fromuser`='" . $user . "' AND `band`='$band' AND `festival`='$fest' AND `remark`='$remark' AND `mode`='$mode' AND `deleted`!='1'";
         updateRow($table, $cols, $vals, $where);
         return true;
     } else {
