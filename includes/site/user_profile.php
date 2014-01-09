@@ -45,20 +45,20 @@
         ?>
         <h2><?php echo getUname($profileUser); ?></h2>
         <?php
-        displayScaledUserPic($profileUser);
 
 
         if ($profileUser == $user) {
             ?>
             <div class="picUpload">
-                Upload a new user profile picture:
+
                 <?php
                 include $baseinstall . "includes/content/blocks/pic_user.php";
+                displayScaledUserPic($profileUser);
                 ?>
             </div> <!-- end .picUpload -->
         <?php
         } else {
-
+            displayScaledUserPic($profileUser);
             ?>
             <?php
             drawFollowButtons($user, $profileUser);

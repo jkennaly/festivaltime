@@ -34,7 +34,8 @@ ob_start();
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=logout">Log Out</a></li>
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=change_password">Change Password</a></li>
             <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_settings">User Settings</a></li>
-            <li class="popular-item"><a href="<?php echo $basepage; ?>?disp=user_profile=<?php echo $user; ?>&fest=0">My
+            <li class="popular-item"><a
+                    href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $user; ?>&fest=0">My
                     Profile</a></li>
         </ul>
         <!-- end #account-management-widget -->
@@ -43,42 +44,42 @@ ob_start();
         <aside id="popular-bands-widget" class="widget">
             <h3 class="widget-title">Popular Bands</h3>
             <ul class="popular-list">
-            <?php echo $bandList; ?>
-        </ul>
-    </aside>
+                <?php echo $bandList; ?>
+            </ul>
+        </aside>
 
-    <aside id="popular-users-widget" class="widget">
-        <?php
-        $followingUsers = getFollowedBy($user);
-        $visibleUsers = getVisibleUsers($user);
-        $followerCount = array();
-        foreach ($visibleUsers as $u) {
-            if (empty($followingUsers) || !in_array($u, $followingUsers)) {
-                $followerCount[$u] = count(getUsersFollowing($u, $user));
-            }
-        }
-        arsort($followerCount);
-        $i = 0;
-
-        ?>
-        <h3 class="widget-title">Popular Users</h3>
-        <ul class="popular-list">
+        <aside id="popular-users-widget" class="widget">
             <?php
-            foreach ($followerCount as $u => $count) {
-                if ($u == $user) continue;
-                ?>
-                <li class="popular-item">
-                    <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
-                        <?php echo getUname($u); ?></a></li>
-
-                <?php
-
-                $i++;
-                if ($i > 2) break;
+            $followingUsers = getFollowedBy($user);
+            $visibleUsers = getVisibleUsers($user);
+            $followerCount = array();
+            foreach ($visibleUsers as $u) {
+                if (empty($followingUsers) || !in_array($u, $followingUsers)) {
+                    $followerCount[$u] = count(getUsersFollowing($u, $user));
+                }
             }
+            arsort($followerCount);
+            $i = 0;
+
             ?>
-        </ul>
-    </aside>
+            <h3 class="widget-title">Popular Users</h3>
+            <ul class="popular-list">
+                <?php
+                foreach ($followerCount as $u => $count) {
+                    if ($u == $user) continue;
+                    ?>
+                    <li class="popular-item">
+                        <a href="<?php echo $basepage; ?>?disp=user_profile&profileUser=<?php echo $u; ?>">
+                            <?php echo getUname($u); ?></a></li>
+
+                    <?php
+
+                    $i++;
+                    if ($i > 2) break;
+                }
+                ?>
+            </ul>
+        </aside>
 
         <aside id="users-to-consider-widget" class="widget">
             <?php
@@ -123,33 +124,33 @@ ob_start();
         <aside id="recent-fests-widget" class="widget">
             <h3 class="widget-title">Newly Added Fests</h3>
             <ul class="popular-list">
+                <?php
+                foreach ($newFests as $c) {
+                    echo "<li class=\"popular-item\"><a href=\"" . $basepage . '?disp=home&fest=' . $c['id'] . "\">" . $c['sitename'] . "</a></li>";
+                }
+                ?>
+            </ul>
+        </aside>
+
+        <aside id="bands-need-pics-widget" class="widget">
             <?php
-            foreach ($newFests as $c) {
-                echo "<li class=\"popular-item\"><a href=\"" . $basepage . '?disp=home&fest=' . $c['id'] . "\">" . $c['sitename'] . "</a></li>";
+            if (!checkIfAllBandsHavePics()) {
+                ?>
+                <a href="<?php echo $basepage; ?>?disp=find_band_pics">Bands missing pictures</a>
+            <?php
             }
             ?>
-        </ul>
-    </aside>
+        </aside>
 
-    <aside id="bands-need-pics-widget" class="widget">
-        <?php
-        if (!checkIfAllBandsHavePics()) {
+        <aside id="bands-pics-need-review-widget" class="widget">
+            <?php
+            if (!checkIfAllBandPicsReviewed()) {
+                ?>
+                <a href="<?php echo $basepage; ?>?disp=crop_image">Bands pictures require cropping</a>
+            <?php
+            }
             ?>
-            <a href="<?php echo $basepage; ?>?disp=find_band_pics">Bands missing pictures</a>
-        <?php
-        }
-        ?>
-    </aside>
-
-    <aside id="bands-pics-need-review-widget" class="widget">
-        <?php
-        if (!checkIfAllBandPicsReviewed()) {
-            ?>
-            <a href="<?php echo $basepage; ?>?disp=crop_image">Bands pictures require cropping</a>
-        <?php
-        }
-        ?>
-    </aside>
+        </aside>
 
 
 </div> <!-- end #sidebar2 -->
