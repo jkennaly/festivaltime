@@ -16,6 +16,7 @@ if ($festivaltimeContext != 1) die('This page load was out of context');
 If (!empty($_SESSION['user'])) {
     $uname = $_SESSION['user'];
     $user = getUserIDFromUserName($uname);
+    if (empty($user)) session_destroy();
 
 }
 if (!empty($_REQUEST['band'])) {

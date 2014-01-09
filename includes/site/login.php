@@ -94,9 +94,9 @@ $saltedPW =  $escapedPW . $salt;
 
 $hashedPW = hash('sha256', $saltedPW);
 
-$query = "select * from Users where username = '$escapedName' and hashedpw = '$hashedPW'; ";
+    $query = "select * from Users where username = '$escapedName' and hashedpw = '$hashedPW' AND `deleted`!='1'; ";
 
-$pwq = mysql_query($query, $mysql_link);
+    $pwq = mysql_query($query, $mysql_link);
 
 # if nonzero query return then successful login
 

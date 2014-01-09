@@ -148,8 +148,6 @@ p.band_info {
     margin-bottom: .1em;
 }
 
-
-
 /*Main Nav Bar */
 .nav {
     /*   font-weight:bold;*/
@@ -735,41 +733,46 @@ div.commenterRating {
 }
 
 div.commentContent {
-    width: 60%;
+    width: 63%;
     float: left;
 
 }
 
 div.discussion {
-    width: 100%;
+    width: 87.5%;
     display: none;
+    float: right;
+}
+
+div.discusser {
+    overflow: hidden;
+    width: 40%;
+    float: left;
 }
 
 div.discussionRow {
     width: 100%;
-
-}
-
-div.discussionIndent {
-    width: 37.5%;
-    float: left;
-
+    overflow: auto;
+    /*    position: relative;
+        left: 37.5%; */
 }
 
 div.discussionPic {
-    width: 12.5%;
+    /*    width: 12.5%; */
     float: left;
+    /*    position: relative; */
+    /*   left: 410px; */
 
 }
 
 div.discussionInfo {
-    width: 25%;
+    /*    width: 25%; */
     float: left;
 
 }
 
 div.discussionContent {
-    width: 25%;
+    width: 58%;
     float: left;
 
 }
