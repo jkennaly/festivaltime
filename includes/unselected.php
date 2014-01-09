@@ -22,6 +22,8 @@ chdir($baseinstall . "includes/unselected/");
 $content_files = glob("*.php");
 chdir($baseinstall . "includes/site/");
 $site_files = glob("*.php");
+chdir($baseinstall . "gametime/");
+$gametime_files = glob("*.php");
 chdir($old_path);
 
 ?>
@@ -37,6 +39,8 @@ chdir($old_path);
         include $baseinstall . "includes/unselected/" . $disp . ".php";
     } elseif (in_array($disp . ".php", $site_files)) {
         include $baseinstall . "includes/site/" . $disp . ".php";
+    } elseif (in_array($disp . ".php", $gametime_files)) {
+        include $baseinstall . "gametime/" . $disp . ".php";
     } //If a content file is requested that does not exist, return error
     else {
         include $baseinstall . "includes/unselected/error.php";

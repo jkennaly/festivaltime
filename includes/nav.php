@@ -39,6 +39,7 @@
 
 
         <li><a href="<?php echo getForumLink($user, $mainforum, $forumblog); ?>">Forum</a></li>
+        <li><a href="<?php echo $basepage; ?>?disp=get_gametime">Gametime</a></li>
         <?php
         //}
         ?>

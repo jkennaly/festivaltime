@@ -30,7 +30,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     $upFests = getUpcomingFests($excludeFests);
     $pastFests = getPastsFests($excludeFests);
     ?>
-    <h3>My festivals:</h3>
+    <h3>My festivals</h3>
 
     <?php
     if (empty($myFestivals))
@@ -64,7 +64,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
     //Currently Active festivals
     ?>
-    <h3>Active festivals:</h3>
+    <h3>Active festivals</h3>
 
     <?php
     $activeFound = 0;
@@ -94,7 +94,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
     //Upcoming festivals
     ?>
-    <h3>Upcoming festivals:</h3>
+    <h3>Upcoming festivals</h3>
 
     <?php
     $upFound = 0;
@@ -124,7 +124,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
     //Past Festivals
     ?>
-    <h3>Past festivals:</h3>
+    <h3>Past festivals</h3>
 
     <?php
     $pastFound = 0;

@@ -69,7 +69,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         $header = getFestHeader($fest);
 
         $num_dates = $header['num_dates'];
-        $currDates = getAllDates();
+        $currDates = getAllDates($fest);
 
         if (!empty($currDates)) $defined_dates = count($currDates);
         else $currDates = 0;

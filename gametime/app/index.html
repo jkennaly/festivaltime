@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" manifest="cache.appcache" class="no-js" ng-app="myApp">
+<head>
+    <meta charset="utf-8"/>
+    <title>Gametime</title>
+    <meta name="description" content="Web App for making the most of a music festival"/>
+    <meta name="keyword" content="music, festival, app"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link rel="icon" href="assets/images/palm_tree.ico"/>
+    <link rel="apple-touch-icon" href="assets/images/palm_tree.ico"/>
+    <link rel="shortcut icon" href="assets/images/palm_tree.ico"/>
+    <link rel="stylesheet" href="assets/styles/styles.css"/>
+    <script src="assets/js/modernizr-latest.js"></script>
+    <script src="assets/js/angular.min.js"></script>
+</head>
+<body>
+<header>
+    <h3>Network Status: Up</h3>
+
+    <h3>Time since last update: 00:01</h3>
+</header>
+<menu type="toolbar">
+    <button type="button">Bands</button>
+    <button type="button">Check In</button>
+    <button type="button">Rate</button>
+    <button type="button">Messages</button>
+    <button type="button">Find People</button>
+</menu>
+<div ng-controller="PeopleCtrl">
+    <p> Click <a ng-click="loadPeople(1)">here</a> to load followed.</p>
+
+    <p> Click <a ng-click="loadPeople(2)">here</a> to load unfollowed.</p>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>User Name</th>
+        </tr>
+        <tr ng-repeat="person in people">
+            <td>{{person.id}}</td>
+            <td>{{person.userName}}</td>
+        </tr>
+    </table>
+</div>
+<script>
+    var app = angular.module('myApp', []);
+
+    function PeopleCtrl($scope) {
+
+        $scope.people = [];
+
+        $scope.loadPeople = function (type) {
+            $scope.data = JSON.parse(localStorage.getItem('data'));
+
+            if (type == 1) {
+                $scope.people = $scope.data.followedUsers
+            }
+            ;
+            if (type == 2) {
+                $scope.people = $scope.data.unfollowedUsers
+            }
+            ;
+        };
+
+    }
+    ;
+</script>
+</body>
+
+</html>

@@ -38,10 +38,6 @@ $festivaltimeContext = 1;
     $master = mysql_connect($dbhost, $master_dbuser, $master_dbpw);
     @mysql_select_db($master_db, $master) or die("Unable to select master database");
 
-    function isInteger($input)
-    {
-        return (ctype_digit(strval($input)));
-    }
 
     If (!empty($_GET['fest']) && isInteger($_GET['fest'])) {
         $_SESSION['fest'] = $_GET['fest'];

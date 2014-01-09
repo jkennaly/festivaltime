@@ -22,7 +22,7 @@ $fieldType = "dates";
     <a href="<?php echo $header['website']; ?>" target="_blank">Festival Website</a><br/>
     <?php
     $num_dates = $header['num_dates'];
-    $default_date = getAllDates();
+    $default_date = getAllDates($fest);
     foreach ($default_date as $dd) {
         ?>
         <div class="festeditdate">

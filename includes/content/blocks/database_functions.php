@@ -9,7 +9,7 @@
 //    Jason Kennaly - initial API and implementation
 */
 
-include('includes/content/blocks/create_festival_functions.php');
+include($baseinstall . 'includes/content/blocks/create_festival_functions.php');
 
 
 function checkTable($source, $target, $stable, $ttable)
@@ -291,16 +291,38 @@ function getAllDays()
     return $sname;
 }
 
-function getAllDates()
+function getAllDates($fest)
 {
     //This function returns an array containing id, name, priority and layout for each stage in the festival
-    global $master, $fest;
-    $sql = "select `id`, `name`, `venue`, `basedate`, `mode` from `dates` where `deleted` != '1' and `festival`='$fest'";
+    global $master;
+    $sql = "select `id`, `name`, `venue`, `basedate`, `mode` from `dates` where `deleted` != '1' and `festival`='$fest' ORDER BY `basedate` DESC";
     $res = mysql_query($sql, $master);
     while ($srow = mysql_fetch_array($res)) {
         $sname[] = $srow;
     }
     return $sname;
+}
+
+function getGametimeKey($user)
+{
+    //This function returns the user's gametime key as a string
+    global $master;
+    $sql = "select `key` from `key_gametime` where `deleted` != '1' and `user`='$user'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        $row = mysql_fetch_array($res);
+        $key = $row['key'];
+    } else {
+        $key = "";
+        for ($i = 0; $i < 10; $i++) {
+            $key .= randAlphaNum();
+        }
+        $table = "key_gametime";
+        $cols = array("key", "user");
+        $vals = array($key, $user);
+        insertRow($table, $cols, $vals);
+    }
+    return $key;
 }
 
 function getAllStages()
@@ -1260,13 +1282,19 @@ function getFollowedBy($user)
     $raw = $row['follows'];
 
     $working = explode("-", $raw);
+    $possible = getVisibleUsers($user);
     $final = array();
     foreach ($working as $v) {
-        If (isInteger($v)) {
+        If (isInteger($v) && in_array($v, $possible)) {
             $final[] = $v;
         }
     }
     If (!empty($final)) return $final; else return false;
+}
+
+function isInteger($input)
+{
+    return (ctype_digit(strval($input)));
 }
 
 function userIsPrivate($user)
