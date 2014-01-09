@@ -58,6 +58,10 @@ $festivaltimeContext = 1;
     }
 
     include('variables/page_variables.php');
+    if (!empty($_SESSION['level']) && empty($user)) {
+        session_destroy();
+        die('Please login again.');
+    }
     if (!empty($user)) $userFestivals = userFestivals($user);
     if (!empty($userFestivals) && !empty($fest)) $checkFest = in_array($fest, $userFestivals);
     else $checkFest = false;

@@ -2139,7 +2139,6 @@ function drawDiscussionLine($discussionID, $viewingUser, $band)
     if ($userDiscussion != "") {
         ?>
         <div class="discussionRow">
-            <div class="discussionIndent"></div>
             <!-- end .discussionIndent -->
             <div class="discusser">
                 <div class="discussionPic">
@@ -2392,6 +2391,7 @@ function acceptRemark($user, $band, $fest, $content, $mode, $remark, $subject, $
         else $existingRemark = "";
     } else $existingRemark = "";
 
+    //New comments
     //New comments
     If ($existingRemark != "") {
         $table = "messages";

@@ -16,14 +16,13 @@
 
 <p>
 
-You are logged out of <?php echo $sitename; ?>.
+    You are logged out of <?php echo $sitedesignation; ?>.
 
 </p>
 
 <?php
 
 	session_destroy();
-
 
 ?>
 
