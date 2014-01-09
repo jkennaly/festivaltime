@@ -25,19 +25,58 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     }
     */
 
-    $bandTiers = getAllAvailableBandPriorities();
+    $displayNumSetting = getUserSetting($user, 74);
+    $displayRatedSetting = getUserSetting($user, 75);
+    $displaySortSetting = getUserSetting($user, 76);
+    switch ($displayNumSetting) {
+        case 1:
+            $bandsToDisplay = 5;
+            break;
+        case 2:
+            $bandsToDisplay = 10;
+            break;
+        case 3:
+            $bandsToDisplay = 20;
+            break;
+        case 4:
+            $bandsToDisplay = 1000;
+            break;
+        default:
+            $bandsToDisplay = 25;
+            break;
+    }
+
+    if ($displaySortSetting == 1) $bandTiers = getAllAvailableBandPriorities();
+    if ($displaySortSetting == 2) $bandTiers = getGenresForAllBandsInFest($user);
+
+    $bandsDisplayed = 0;
     foreach ($bandTiers as $bT) {
-        $bandsAtLevel = getBandsAtPriority($bT['level']);
+
+
+        if ($displaySortSetting == 1) {
+            $bandsAtLevel = getBandsAtPriority($bT);
+            $levelName = getBPname($bT);
+        }
+        if ($displaySortSetting == 2) {
+            $bandsAtLevel = getAllBandsOfAGenreInFest($user, $bT);
+            $levelName = getGname($bT);
+        }
         if (!$bandsAtLevel) continue;
-        $bandsToDisplay = count($bandsAtLevel);
+//        $bandsToDisplay = count($bandsAtLevel);
+
         if ($bandsToDisplay == 0) continue;
-        echo "<div id=\"level-" . $bT['level'] . "\" class=\"bands-by-level\">";
-        $bandsDisplayed = 0;
+        if ($bandsDisplayed >= $bandsToDisplay) break;
+        echo "<div id=\"level-" . $bT . "\" class=\"bands-by-level\">";
+        echo "<h2>" . $levelName . "</h2>";
         unset($displayedBandID);
         $displayedBandID = array();
         //Find all bands with no pic and write the names out
         $bandsMissingPics = 0;
         foreach ($bandsAtLevel as &$b) {
+            if ($displayRatedSetting == 1 && act_rating($b, $user) != 0) {
+                $displayedBandID[] = $b;
+                continue;
+            }
             if (!doesBandHaveShape($b, 15)) {
                 if (!$bandsMissingPics) {
                     echo '<div class="bands-with-no-pic">';
@@ -51,109 +90,13 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         }
         if ($bandsMissingPics) echo '</div> <!-- end .bands-with-no-pic -->';
         $bandsLeft = $bandsToDisplay - $bandsDisplayed;
-        $picArray = array(
-            array(0, 0),
-            array(0, 0),
-            array(0, 0),
-            array(0, 0),
-        );
-
-        $x = 0;
-        do {
-            $bandDisplayedThisLoop = 0;
-//		echo $i." is in for loop<br>";
-            foreach ($bandsAtLevel as &$big) {
-                //               echo "Band ID: " . $big. "<br />";
-                switch ($x) {
-                    case 0:
-                        $shapeCode = 15;
-                        break;
-                    case 1:
-                        if ($picArray[0][1] == 1) $shapeCode = 15;
-                        else $shapeCode = 3;
-                        break;
-                    case 2:
-                        if ($picArray[1][1] == 1) $shapeCode = 15;
-                        else $shapeCode = 3;
-                        break;
-                    case 3:
-                        if ($picArray[2][1] == 1) $shapeCode = 5;
-                        else $shapeCode = 1;
-                        break;
-                    default:
-                        break;
-                }
-                //	echo $shapeCode." is shape code<br>";
-                $bandOK = (doesBandHaveShape($big, $shapeCode));
-                //	echo "Does band have shape? $bandOK<br>";
-
-                $bandOK = ($bandOK && !in_array($big, $displayedBandID));
-                //	echo "Is band in array? $bandOK<br>";
-
-                if ($bandOK) {
-//				echo $big['bandname']." is ok<br>";
-                    $bandPicResult = getBandPicAndShape($big, $shapeCode);
-                    if ($bandPicResult[1] == "small_square") {
-                        //	echo "<br>Found a small_square";
-                        $picArray[$x][0] = 1;
-                    }
-                    if ($bandPicResult[1] == "large_square") {
-                        //	echo "<br>Found a large_square";
-                        $picArray[$x][0] = 1;
-                        $picArray[$x + 1][0] = 1;
-                        $picArray[$x][1] = 1;
-                        $picArray[$x + 1][1] = 1;
-                    }
-                    if ($bandPicResult[1] == "horizontal_rectangle") {
-                        //	echo "<br>Found a horizontal_rectangle";
-                        $picArray[$x][0] = 1;
-                        $picArray[$x + 1][0] = 1;
-                    }
-                    if ($bandPicResult[1] == "vertical_rectangle") {
-                        //	echo "<br>Found a vertical_rectangle";
-                        $picArray[$x][0] = 1;
-                        $picArray[$x][1] = 1;
-                    }
-
-                    displayPic3($big, $bandPicResult[0], getBname($big));
-                    $bandsDisplayed++;
-                    $bandDisplayedThisLoop = 1;
-                    if ($bandsToDisplay == $bandsDisplayed) {
-                        //	echo "Breaking Loop";
-                        break(2);
-                    }
-                    $displayedBandID[] = $big;
-//				echo count($displayedBandID)." is count of displayed bands.";
 
 
-                    while ($picArray[$x][0] == 1) {
-                        $x = $x + 1;
-                        if ($x > 3) {
-                            $x = 0;
-                            $picArray[0][0] = $picArray[0][1];
-                            $picArray[1][0] = $picArray[1][1];
-                            $picArray[2][0] = $picArray[2][1];
-                            $picArray[3][0] = $picArray[3][1];
-                            $picArray[0][1] = 0;
-                            $picArray[1][1] = 0;
-                            $picArray[2][1] = 0;
-                            $picArray[3][1] = 0;
-                        }
-                    }
-                } //else echo $big['bandname']." is NOT ok<br>";
-            }
-        } while ($bandDisplayedThisLoop == 1);
-        if ($bandsToDisplay != $bandsDisplayed) {
-            foreach ($bandsAtLevel as $leftOver) {
-                if (!in_array($leftOver, $displayedBandID)) {
-                    displayPic4($leftOver, getBname($leftOver));
-                }
-            }
-        }
-        echo "</div> <!-- end #level-" . $bT['level'] . " -->";
+        displayBandPicArray($bandsAtLevel);
+        echo "</div> <!-- end #level-" . $bT . " -->";
     }
 
     ?>
 
-
+    <script src="includes/js/home.js"></script>
 </div> <!-- end #content -->

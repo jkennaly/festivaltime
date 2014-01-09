@@ -157,7 +157,7 @@ p.band_info {
     margin-top: 2px;
     padding: 0px;
     float: left;
-    width: 840px;
+    /*    width: 840px; */
     height: 50% !important;
     z-index: 1;
     bottom: 15%;
@@ -296,6 +296,7 @@ p.band_info {
     position: relative;
     left: 226px;
     padding: 5px;
+    overflow: auto;
 }
 
 #content {
@@ -809,4 +810,12 @@ a:hover {
 
 a:active {
     text-decoration: underline;
+}
+
+#bandOptions {
+    float: right;
+}
+
+.band-option {
+    float: right;
 }
