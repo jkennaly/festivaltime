@@ -30,7 +30,7 @@ foreach ($sets as $set) {
 }
 
 
-If ($_GET['disp'] == "view_band") $bandLink = searchLink($band, $user);
+If ($_GET['disp'] == "view_band") $bandLink = getBname($band);
 else $bandLink = "<a href=\"" . $basepage . "?disp=view_band&band=" . $band . "\">" . $name . "</a>";
 
 If ($_GET['disp'] == "pic_band") $picLink = $basepage . "?disp=band_gallery&band=" . $band;
@@ -59,6 +59,7 @@ $rating = getAverageRatingForBandByUsersFollowers($user, $band);
                                           alt="click to add a picture of the band"/></a>
 
     <?php
+    echo searchLink($band, $user);
     foreach ($timeLine as $t) {
         ?>
         <p class="band_info"><?php echo $t; ?></p>

@@ -32,9 +32,6 @@ if (!$checkFest) $disp = "fest_sign_up";
         <h2><?php echo $sitename; ?></h2>
         <ul id="mainNav" class="nav">
             <li><a href="<?php echo $basepage; ?>?disp=home">Bands</a>
-                <ul>
-                    <li><a href="<?php echo $basepage; ?>?disp=bands_by_genre">Bands by Genre</a></li>
-                </ul>
             </li>
             <li><a href="<?php echo $basepage; ?>?disp=sched">Schedule</a></li>
             <?php
@@ -50,9 +47,15 @@ if (!$checkFest) $disp = "fest_sign_up";
             ?>
 
         </ul>
+        <?php
+        if ($disp == "home") {
+            include('includes/content/blocks/band_options.php');
+        }
+        ?>
     </div>
-
     <?php
+
+
     if (!empty($user)) include('includes/sidebar.php');
 
 

@@ -59,8 +59,8 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                     <select name="band[<?php echo $s['band']; ?>]">
                         <?php
                         foreach ($availPrior as $a) {
-                            if ($s['priority'] != $a['level']) echo "<option value=\"" . $a['level'] . "\">" . $a['name'] . "</option>";
-                            else echo "<option selected=\"selected\" value=\"" . $a['level'] . "\">" . $a['name'] . "</option>";
+                            if ($s['priority'] != $a) echo "<option value=\"" . $a . "\">" . getBPname($a) . "</option>";
+                            else echo "<option selected=\"selected\" value=\"" . $a . "\">" . getBPname($a) . "</option>";
                         }
                         ?>
                     </select>
