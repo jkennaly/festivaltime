@@ -130,6 +130,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         if(!empty($_POST['submitUserPic']) || !empty($_POST['submitScaledPic']) ){
         ?>
         $("#pic-user").show();
+        $("#show-pics").hide();
         <?php
         } else{
         ?>
