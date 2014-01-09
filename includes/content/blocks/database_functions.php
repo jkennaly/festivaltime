@@ -1546,6 +1546,12 @@ function displayPicForCrop($picID, $picType)
         $pgdisp .= $picID . "\" alt=\"band pic\" />";
         echo $pgdisp;
     }
+    if ($picType == 2) {
+        $pgdisp = "<img id=\"target\" class = \"bandgridpic\" src=\"" . $basepage;
+        $pgdisp .= "includes/content/blocks/getUUserPicture.php?user=";
+        $pgdisp .= $picID . "\" alt=\"band pic\" />";
+        echo $pgdisp;
+    }
 }
 
 function getPicInfo($picID, $picType)
@@ -1569,6 +1575,14 @@ function getPic($picID, $picType)
     $result = array();
     if ($picType == 1) {
         $sql = "SELECT `pic` FROM `pics` WHERE `id`='$picID'";
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            $row = mysql_fetch_array($res);
+            $result = $row['pic'];
+        }
+    }
+    if ($picType == 2) {
+        $sql = "SELECT `pic`, `id` FROM `pics_users` WHERE `user`='$picID' ORDER BY `id` DESC";
         $res = mysql_query($sql, $master);
         if (mysql_num_rows($res) > 0) {
             $row = mysql_fetch_array($res);
@@ -2023,6 +2037,7 @@ function userHasSeenMessage($viewingUser, $messageID)
 function userCurrentOnMessage($viewingUser, $messageID)
 {
     $currentPoint = currentMessageDiscussionPoint($messageID);
+    if ($currentPoint < 0) $currentPoint = 0;
     $table = "discussion_monitor";
     $cols = array("user", "message", "read_discussion", "phptime");
     $vals = array($viewingUser, $messageID, $currentPoint, time());

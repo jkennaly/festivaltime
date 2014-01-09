@@ -55,7 +55,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 
         if ($displaySortSetting == 1) {
             $bandsAtLevel = getBandsAtPriority($bT);
-            $levelName = getBPname($bT);
+            $levelName = "";
         }
         if ($displaySortSetting == 2) {
             $bandsAtLevel = getAllBandsOfAGenreInFest($user, $bT);
