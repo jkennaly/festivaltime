@@ -25,49 +25,49 @@ function searchLink($band, $user)
     switch ($val) {
         case "1":
 //Youtube
-            $link = "<a href=\"http://www.youtube.com/results?search_query=" . str_replace(" ", "+", $name) . "\" target=\"_blank\">Listen to " . $name . " on Youtube</a>";
+            $link = "<a href=\"http://www.youtube.com/results?search_query=" . urlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Youtube</a>";
             break;
         case "2":
 //Rdio
-            $link = "<a href=\"http://www.rdio.com/artist/" . str_replace(" ", "%20", $name) . "\" target=\"_blank\">Listen to " . $name . " on Rdio</a>";
+            $link = "<a href=\"http://www.rdio.com/artist/" . rawurlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Rdio</a>";
             break;
         case "3":
 //Google
-            $link = "<a href=\"https://www.google.com/search?q=" . str_replace(" ", "%20", $name) . "\" target=\"_blank\">Search for " . $name . " on Google</a>";
+            $link = "<a href=\"https://www.google.com/search?q=" . rawurlencode($name) . "\" target=\"_blank\">Search for " . $name . " on Google</a>";
             break;
-        /*
+
         case "4":
-        //Spotify
-          $link = "<a href=\"http://ws.spotify.com/search/1/artist?q=".str_replace(" ", "+", $name)."\" target=\"_blank\">".$name."</a>";
-          break;
-        */
+//Spotify
+            $link = "<a href=\"https://play.spotify.com/search/" . rawurlencode($name) . "\" target=\"_blank\">" . $name . "</a>";
+            break;
+
         case "5":
 //Yahoo Music
-            $link = "<a href=\"http://music.yahoo.com/search/?m=artist&p=" . str_replace(" ", "-", $name) . "\" target=\"_blank\">Listen to " . $name . " on Yahoo</a>";
+            $link = "<a href=\"http://music.yahoo.com/search/?m=artist&p=" . urlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Yahoo</a>";
             break;
         case "6":
 //Soundcloud
-            $link = "<a href=\"https://soundcloud.com/search?q=" . str_replace(" ", "%20", $name) . "\" target=\"_blank\">Listen to " . $name . " on Soundcloud</a>";
+            $link = "<a href=\"https://soundcloud.com/search?q=" . rawurlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Soundcloud</a>";
             break;
         case "7":
 //Myspace
-            $link = "<a href=\"http://www.myspace.com/search/music?q=" . str_replace(" ", "%20", $name) . "\" target=\"_blank\">Listen to " . $name . " on MySpace</a>";
+            $link = "<a href=\"http://www.myspace.com/search/music?q=" . rawurlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on MySpace</a>";
             break;
         case "8":
 //AOL Music
-            $link = "<a href=\"http://music.search.aol.com/search?q=" . str_replace(" ", "+", $name) . "&s_it=header_form\" target=\"_blank\">Listen to " . $name . " on AOL</a>";
+            $link = "<a href=\"http://music.search.aol.com/search?q=" . urlencode($name) . "&s_it=header_form\" target=\"_blank\">Listen to " . $name . " on AOL</a>";
             break;
         case "9":
 //Grooveshark
-            $link = "<a href=\"http://html5.grooveshark.com/#!/search/" . str_replace(" ", "%20", $name) . "\" target=\"_blank\">Listen to " . $name . " on Grooveshark</a>";
+            $link = "<a href=\"http://html5.grooveshark.com/#!/search/" . rawurlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Grooveshark</a>";
             break;
         case "10":
 //eMusic
-            $link = "<a href=\"http://www.emusic.com/search/music/?s=" . str_replace(" ", "+", $name) . "\" target=\"_blank\">Listen to " . $name . " on eMusic</a>";
+            $link = "<a href=\"http://www.emusic.com/search/music/?s=" . urlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on eMusic</a>";
             break;
         default:
 //  echo "Youtube";
-            $link = "<a href=\"http://www.youtube.com/results?search_query=" . str_replace(" ", "+", $name) . "\" target=\"_blank\">Listen to " . $name . " on Youtube</a>";
+            $link = "<a href=\"http://www.youtube.com/results?search_query=" . urlencode($name) . "\" target=\"_blank\">Listen to " . $name . " on Youtube</a>";
     }
 
     return $link;
