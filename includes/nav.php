@@ -23,20 +23,14 @@
 
         <li><a href="<?php echo $basepage; ?>?disp=home&fest=0">Home</a>
 
-        </li>
-        <li><a href="<?php echo $basepage; ?>?disp=about">About</a></li>
-
-
-        <?php
-        $right_required = "EditFest";
-        If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
+            <?php
+            $right_required = "EditFest";
+            If (isset($_SESSION['level']) && CheckRights($_SESSION['level'], $right_required)) {
             ?>
-            <li><a href="<?php echo $basepage; ?>?disp=festival_status">Manage Festivals</a></li>
+        <li><a href="<?php echo $basepage; ?>?disp=festival_status">Manage Festivals</a></li>
         <?php
         }
         ?>
-
-
 
         <li><a href="<?php echo getForumLink($user, $mainforum, $forumblog); ?>">Forum</a></li>
         <li><a href="<?php echo $basepage; ?>?disp=get_gametime">Gametime</a></li>
