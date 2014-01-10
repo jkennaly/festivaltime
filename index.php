@@ -95,7 +95,10 @@ $festivaltimeContext = 1;
 
     } else include('includes/unselected.php');
 
-    include('includes/sidebar2.php');
+    if (!empty($user)) {
+
+        include('includes/sidebar2.php');
+    }
 
     include('includes/footer.php'); ?>
 
