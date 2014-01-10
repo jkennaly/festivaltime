@@ -73,6 +73,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         //Find all bands with no pic and write the names out
         $bandsMissingPics = 0;
         foreach ($bandsAtLevel as &$b) {
+            if ($bandsDisplayed > $bandsToDisplay) break;
             if ($displayRatedSetting == 1 && act_rating($b, $user) != 0) {
                 $displayedBandID[] = $b;
                 continue;

@@ -19,6 +19,14 @@ if (!empty($_POST['displayNumSelect'])) {
     setUserSetting($user, 74, $_POST['displayNumSelect']);
 }
 
+if (!empty($_POST['submitShowRated'])) {
+    setUserSetting($user, 75, 2);
+}
+
+if (!empty($_POST['submitHideRated'])) {
+    setUserSetting($user, 75, 1);
+}
+
 if (!empty($_POST['displayTiersSelect'])) {
     setUserSetting($user, 76, $_POST['displayTiersSelect']);
 }
