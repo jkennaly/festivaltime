@@ -10,31 +10,32 @@
 */
 
 
-if (!empty($_POST)) {
+if (!empty($_POST['submitLogin'])) {
     session_destroy();
     Login($master);
 }
-if(!empty($_SESSION['user'])){
+if (!empty($_SESSION['user'])) {
     if (empty($_POST)) echo "User $uname already logged in. Press Log Out first to change user.";
     $user =
         include $baseinstall . "includes/unselected/main.php";
-}
-else{
-?>
-<div id="content">
-<form id='login' action='index.php?disp=login' method='post' accept-charset='UTF-8'>
-<fieldset >
-<legend>Login</legend>
-<input type='hidden' name='submitted' id='submitted' value='1'/>
-<label for='username' >UserName*:</label>
-<input type='text' name='username' id='username'  maxlength="50" />
-<label for='password' >Password*:</label>
-<input type='password' name='password' id='password' maxlength="50" />
-<input type='submit' name='Submit' value='Submit' />
-</fieldset>
-</form>
-<p>Or <a href="<?php echo $basepage; ?>?disp=register">Register</a></p>
-</div> <!-- end #content -->
+} else {
+    ?>
+    <div id="content">
+        <form id='login' action='index.php?disp=login' method='post' accept-charset='UTF-8'>
+            <fieldset>
+                <legend>Login</legend>
+                <input type='hidden' name='submitted' id='submitted' value='1'/>
+                <label for='username'>UserName*:</label>
+                <input type='text' name='username' id='username' maxlength="50"/>
+                <label for='password'>Password*:</label>
+                <input type='password' name='password' id='password' maxlength="50"/>
+                <input type='submit' name='submitLogin' value='Submit'/>
+            </fieldset>
+        </form>
+        <p>Or <a href="<?php echo $basepage; ?>?disp=register">Register</a> to create an account.</p>
+
+        <p>Forget your password? <a href="<?php echo $basepage; ?>?disp=reset_password">Reset</a> your password.</p>
+    </div> <!-- end #content -->
 
 <?php
 }
@@ -42,57 +43,54 @@ else{
 
 function Login($mysql_link)
 {
-	if(isset($_SESSION['uid'])){
-		session_destroy();
-	}
+    if (isset($_SESSION['uid'])) {
+        session_destroy();
+    }
 
-    if(empty($_POST['username']))
-    {
+    if (empty($_POST['username'])) {
         die("UserName is empty!");
         return false;
     }
 
-    if(empty($_POST['password']))
-    {
+    if (empty($_POST['password'])) {
         die("Password is empty!");
         return false;
     }
-    
-    If(!CheckLoginInDB($_POST['username'],$_POST['password'], $mysql_link)){
-		die("That username or password is invalid.");
-		return false;
-	}
+
+    If (!CheckLoginInDB($_POST['username'], $_POST['password'], $mysql_link)) {
+        die("That username or password is invalid.");
+        return false;
+    }
 
     session_start();
 
     $_SESSION['user'] = mysql_real_escape_string($_POST['username']);
 
-	$query = "select * from Users where username = '".$_SESSION['user']."'";
-	$pwq = mysql_query($query, $mysql_link);
-	$row = mysql_fetch_assoc($pwq);
-	$_SESSION['level'] = $row['level'];
+    $query = "select * from Users where username = '" . $_SESSION['user'] . "'";
+    $pwq = mysql_query($query, $mysql_link);
+    $row = mysql_fetch_assoc($pwq);
+    $_SESSION['level'] = $row['level'];
     global $user;
     $user = $row['id'];
-    $sql = "UPDATE Users SET count=count+1 WHERE username='".$_SESSION['user']."'";
-	$pwq = mysql_query($sql, $mysql_link);
+    $sql = "UPDATE Users SET count=count+1 WHERE username='" . $_SESSION['user'] . "'";
+    $pwq = mysql_query($sql, $mysql_link);
 
 
-
-   return true;
+    return true;
 }
 
-function CheckLoginInDB($username,$password, $mysql_link)
+function CheckLoginInDB($username, $password, $mysql_link)
 {
-$escapedName = mysql_real_escape_string($username);
-$escapedPW = mysql_real_escape_string($password);
-$saltQuery = "select salt from Users where username = '$escapedName';";
-$result = mysql_query($saltQuery, $mysql_link);
-$row = mysql_fetch_assoc($result);
-$salt = $row['salt'];
+    $escapedName = mysql_real_escape_string($username);
+    $escapedPW = mysql_real_escape_string($password);
+    $saltQuery = "select salt from Users where username = '$escapedName';";
+    $result = mysql_query($saltQuery, $mysql_link);
+    $row = mysql_fetch_assoc($result);
+    $salt = $row['salt'];
 
-$saltedPW =  $escapedPW . $salt;
+    $saltedPW = $escapedPW . $salt;
 
-$hashedPW = hash('sha256', $saltedPW);
+    $hashedPW = hash('sha256', $saltedPW);
 
     $query = "select * from Users where username = '$escapedName' and hashedpw = '$hashedPW' AND `deleted`!='1'; ";
 
@@ -100,15 +98,16 @@ $hashedPW = hash('sha256', $saltedPW);
 
 # if nonzero query return then successful login
 
-$row = mysql_fetch_assoc($pwq);
+    $row = mysql_fetch_assoc($pwq);
 
 //echo "Logging in user ".$row["username"]."<br>";
 
-    If($row["username"] == $escapedName){
-	
-	return true;
+    If ($row["username"] == $escapedName) {
+
+        return true;
+    }
+    return false;
 }
-return false;
-}
+
 ?>
 

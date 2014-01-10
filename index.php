@@ -10,6 +10,7 @@
 */
 
 $festivaltimeContext = 1;
+
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +33,9 @@ $festivaltimeContext = 1;
     <?php
 
     session_start();
+    if (!empty($_GET['disp']) && $_GET['disp'] == 'logout') unset($_SESSION);
+    if (empty($_GET['disp']) && empty($_SESSION['level'])) $_GET['disp'] = 'login';
+    if (empty($_GET['disp']) && !empty($_SESSION['level'])) $_GET['disp'] = 'home';
 
     include('variables/variables.php');
 
@@ -59,7 +63,6 @@ $festivaltimeContext = 1;
 
     include('variables/page_variables.php');
     if (!empty($_SESSION['level']) && empty($user)) {
-        session_destroy();
         die('Please login again.');
     }
     if (!empty($user)) $userFestivals = userFestivals($user);

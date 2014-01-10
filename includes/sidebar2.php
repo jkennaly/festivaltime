@@ -92,7 +92,7 @@ ob_start();
                 if (!empty($following2)) {
 //                    var_dump($following2);
                     shuffle($following2);
-                    foreach ($followingUsers as $fU) {
+                    foreach ($following2 as $fU) {
                         if (in_array($fU, $visibleUsers) && !in_array($fU, $followingUsers) && $fU != $user) {
                             $i++;
                             $suggest[] = $fU;
