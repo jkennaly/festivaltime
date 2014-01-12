@@ -334,7 +334,8 @@ function getBaseTimeFromDate($date, $fest)
     $days = getAllDays();
     $baseTime = array();
     foreach ($days as $day) {
-        $baseTime[$day['id']] = strtotime("+" . $day['days_offset'] . " day", $baseDate) + $header['start_time'];
+        $startTime = strtotime($baseDate);
+        $baseTime[$day['id']] = strtotime("+" . $day['days_offset'] . " day", $startTime) + $header['start_time'];
     }
     return $baseTime;
 }
@@ -2266,7 +2267,7 @@ function getAllUserFollowedRemarksForFest($user, $fest, $mode)
         $res = mysql_query($sql, $master);
         if (mysql_num_rows($res) > 0) {
             while ($row = mysql_fetch_array($res)) {
-                $result = $row;
+                $result[] = $row;
             }
         }
 

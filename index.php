@@ -43,11 +43,13 @@ $festivaltimeContext = 1;
     @mysql_select_db($master_db, $master) or die("Unable to select master database");
 
 
+    include('includes/content/blocks/database_functions.php');
+
+
     If (!empty($_GET['fest']) && isInteger($_GET['fest'])) {
         $_SESSION['fest'] = $_GET['fest'];
     } elseif (isset($_GET['fest'])) unset($_SESSION['fest']);
     include('includes/check_rights.php');
-    include('includes/content/blocks/database_functions.php');
     include('includes/content/blocks/other_functions.php');
     include('includes/content/blocks/SimpleImage.php');
     include $baseinstall . "includes/content/blocks/scoring_functions.php";
