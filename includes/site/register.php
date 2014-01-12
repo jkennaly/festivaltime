@@ -24,6 +24,7 @@
 //Escape entered info
 
             $escapedName = mysql_real_escape_string($_POST['username']);
+            $escapedName = $str = preg_replace('/\s+/', '', $escapedName);
             //        $escapedPW = mysql_real_escape_string($_POST['password']);
             $escapedEmail = mysql_real_escape_string($_POST['email']);
             $credentials_version = "2"; //Credentials v1 is the first version to incorporate keys and the credited field
