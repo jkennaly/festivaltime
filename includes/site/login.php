@@ -43,9 +43,11 @@ if (!empty($_SESSION['user'])) {
 
 function Login($mysql_link)
 {
+
     if (isset($_SESSION['uid'])) {
         session_destroy();
     }
+
 
     if (empty($_POST['username'])) {
         die("UserName is empty!");

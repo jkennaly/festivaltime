@@ -13,6 +13,7 @@ $festivaltimeContext = 1;
 
 session_start();
 
+
 include('../variables/variables.php');
 include($baseinstall . 'includes/content/blocks/database_functions.php');
 include($baseinstall . 'includes/check_rights.php');
@@ -21,6 +22,10 @@ $master = mysql_connect($dbhost, $master_dbuser, $master_dbpw);
 @mysql_select_db($master_db, $master) or die("Unable to select master database");
 
 include($baseinstall . 'variables/page_variables.php');
+if (getGametimeKey($user) != $_COOKIE['key']) die;
+$fest = $_COOKIE['fest'];
+$date = $_COOKIE['date'];
+
 
 $right_required = "ViewNotes";
 If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_required)) {
@@ -47,23 +52,56 @@ foreach ($visibleUsers as $vU) {
 }
 
 //Get set info
+$baseTimes = getBaseTimeFromDate($date, $fest);
+$sets = getAllSetsInFest();
+foreach ($sets as &$set) {
+    $set['start'] = $set['start'] + $baseTimes[$set['day']];
+    $set['end'] = $set['end'] + $baseTimes[$set['day']];
+}
 
 //Get band info
+$bandIDs = getAllBandsInFest();
+foreach ($bandIDs as $b) {
+    $bandName = getBname($b);
+    $bandGenre = getBandGenre($b, $user);
+    $baseScore = getBaseScore($b, $user, $fest);
+    $bands[] = array('id' => $b, 'bandName' => $bandName, 'bandGenre' => $bandGenre, 'baseScore' => $baseScore);
+}
 
 //Get stage info
+$stages = getAllStages();
+$layouts = array();
+$layoutTemp = array();
+foreach ($stages as $s) {
+    if (!in_array($s['layout'], $layoutTemp)) $layoutTemp[] = $s['layout'];
+}
+foreach ($layoutTemp as $l) {
+    $pic = file_get_contents('includes/content/blocks/getPicStageLayout.php?layout=' . $l['layout']);
+    $layouts[] = array('layout-' . $l, $pic);
+}
+
 
 //Get day info
+$days = getAllDays();
 
 //Get self made pregame remarks
+$pregameSelf = getAllUserRemarksForFest($user, $fest, 1);
 
 //Get pregame remarks from followed
-
-//Get genre names
-
-//Get stage layouts
+$pregameFollowed = getAllUserFollowedRemarksForFest($user, $fest, 1);
 
 //Bring it all home
 $data['followedUsers'] = $followedUsers;
 $data['unfollowedUsers'] = $unfollowedUsers;
+$data['bands'] = $bands;
+$data['sets'] = $sets;
+$data['stages'] = $stages;
+$data['layouts'] = $layouts;
+$data['days'] = $days;
+$data['pregameSelf'] = $pregameSelf;
+$data['pregameFollowed'] = $pregameFollowed;
+$data['updateURL'] = $basepage . "/gametime/gametime_update.php";
+
+
 header('Content-Type: application/json');
 echo json_encode($data);

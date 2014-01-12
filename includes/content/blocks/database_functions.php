@@ -315,6 +315,30 @@ function getAllDates($fest)
     return $sname;
 }
 
+function getBaseTimeFromDate($date, $fest)
+{
+    //This function returns an array of integers containing the time offset for a given date and fest with the array key being the day id
+    //Adding this offset to the band's start and end will yield the UNIX timestamps (in sec)
+    global $master;
+    $sql = "select `venue`, `basedate` from `dates` where `deleted` != '1' and `festival`='$fest' AND `id`='$date'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) != 1) return false;
+    while ($srow = mysql_fetch_array($res)) {
+        $sname = $srow;
+    }
+    $venue = $sname['venue'];
+    $baseDate = $sname['basedate'];
+    $tz = getVenueTZ($venue);
+    date_default_timezone_set($tz);
+    $header = getFestHeader($fest);
+    $days = getAllDays();
+    $baseTime = array();
+    foreach ($days as $day) {
+        $baseTime[$day['id']] = strtotime("+" . $day['days_offset'] . " day", $baseDate) + $header['start_time'];
+    }
+    return $baseTime;
+}
+
 function getGametimeKey($user)
 {
     //This function returns the user's gametime key as a string
@@ -748,6 +772,20 @@ function getFestVenues($master)
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
             $series[] = $row;
+        }
+        return $series;
+    } else return false;
+}
+
+function getVenueTZ($venue)
+{
+    //This function returns a string containing the venue's timezone
+    global $master;
+    $sql = "select `timezone` from `venues` where `deleted`!='1' and `id`='$venue'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) == 1) {
+        while ($row = mysql_fetch_array($res)) {
+            $series = $row['venue'];
         }
         return $series;
     } else return false;
@@ -1191,7 +1229,7 @@ function getAllSetsInFest()
 {
     //This function returns an array containing the id, start offset and end offset each band in the festival playing a given day and stage
     global $master, $fest;
-    $sql = "select `id`, `band` from `sets` where `deleted` != '1' and `festival`='$fest' ORDER BY `band` ASC";
+    $sql = "select `id`, `band`, `day`, `stage`, `start`, `end` from `sets` where `deleted` != '1' and `festival`='$fest' ORDER BY `band` ASC";
     $res = mysql_query($sql, $master);
 //    error_log(print_r($sql, TRUE));
     if (mysql_num_rows($res) > 0) {
@@ -2190,7 +2228,7 @@ function getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark)
 {
     global $master;
     //Get most recent comment by user on band for fest
-    $sql = "SELECT `id`, `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='$remark' ORDER BY `id` DESC LIMIT 1";
+    $sql = "SELECT `id`, `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='$remark' AND `deleted`!='1'  ORDER BY `id` DESC LIMIT 1";
 //        error_log(print_r($sql, TRUE));
     $res = mysql_query($sql, $master);
     if (mysql_num_rows($res) > 0) {
@@ -2201,11 +2239,46 @@ function getUserRemarkOnBandForFest($user, $band, $fest, $mode, $remark)
     } else return "";
 }
 
+function getAllUserRemarksForFest($user, $fest, $mode)
+{
+    global $master;
+    //Get most recent comment by user on band for fest
+    $sql = "SELECT `id`, `content`, `band`, `remark`  FROM `messages` WHERE `fromuser`='$user' AND `festival`='$fest' AND `mode`='$mode' AND `deleted`!='1' ORDER BY `id` DESC";
+//        error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row;
+        }
+        return $result;
+    } else return "";
+}
+
+function getAllUserFollowedRemarksForFest($user, $fest, $mode)
+{
+    global $master;
+    //Get most recent comment by user on band for fest
+    $followed = getFollowedBy($user);
+    $result = array();
+    foreach ($followed as $f) {
+        $sql = "SELECT `id`, `content`, `band`, `remark`  FROM `messages` WHERE `fromuser`='$f' AND `festival`='$fest' AND `mode`='$mode' AND `deleted`!='1' ORDER BY `id` DESC";
+//        error_log(print_r($sql, TRUE));
+        $res = mysql_query($sql, $master);
+        if (mysql_num_rows($res) > 0) {
+            while ($row = mysql_fetch_array($res)) {
+                $result = $row;
+            }
+        }
+
+    }
+    return $result;
+}
+
 function getUserCommentOnBandForFest($user, $band, $fest, $mode)
 {
     global $master;
     //Get most recent comment by user on band for fest
-    $sql = "SELECT `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='1' ORDER BY `id` DESC LIMIT 1";
+    $sql = "SELECT `content` FROM `messages` WHERE `fromuser`='$user' AND `band`='$band' AND `festival`='$fest' AND `mode`='$mode' AND `remark`='1' AND `deleted`!='1'  ORDER BY `id` DESC LIMIT 1";
     //    error_log(print_r($sql, TRUE));
     $res = mysql_query($sql, $master);
     if (mysql_num_rows($res) > 0) {
@@ -2229,6 +2302,67 @@ function getUserRatingOnBandForFest($user, $band, $fest, $mode)
         }
         return $result;
     } else return 0;
+}
+
+function getBaseScore($band, $user, $fest)
+{
+    global $master;
+    $userRating = getUserRatingOnBandForFest($user, $band, $fest, 1);
+    if ($userRating > 0) return $userRating;
+    $followed = getFollowedBy($user);
+    if (!empty($followed)) {
+        $where = "( ";
+        for ($i = 0; $i < count($followed); $i++) {
+            if ($i == 0) $where .= "`fromuser`='" . $followed[$i] . "'";
+            else $where .= " OR `fromuser`='" . $followed[$i] . "'";
+        }
+        $where .= " )";
+    } else $where = "";
+    $sql = "SELECT AVG(`content`) as score FROM `messages` WHERE " . $where . " AND `band`='$band' AND `festival`='$fest' AND `mode`='1' AND `deleted`!='1'";
+//        error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row['score'];
+        }
+        if ($result > 0) return $result;
+    }
+    if ($userRating > 0) return $userRating;
+
+    $visibleUsers = getVisibleUsers($user);
+    $unfollowedUsers = array();
+    foreach ($visibleUsers as $vU) {
+
+        $uName = getUname($vU);
+        if (!in_array($vU, $followed) && $vU != $user) $unfollowedUsers[] = array('id' => $vU, 'userName' => $uName);
+    }
+    if (!empty($unfollowedUsers)) {
+        $where = "( ";
+        for ($i = 0; $i < count($unfollowedUsers); $i++) {
+            if ($i == 0) $where .= "`fromuser`='" . $unfollowedUsers[$i] . "'";
+            else $where .= " OR `fromuser`='" . $unfollowedUsers[$i] . "'";
+        }
+        $where .= " ) AND ";
+    } else $where = "";
+    $sql = "SELECT AVG(`content`) as score FROM `messages` WHERE " . $where . " AND `band`='$band' AND `festival`='$fest' AND `mode`='1' AND `deleted`!='1'";
+//        error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row['score'];
+        }
+        if ($result > 0) return $result;
+    }
+    $sql = "SELECT AVG(`content`) as score FROM `messages` WHERE " . $where . " AND `festival`='$fest' AND `mode`='1' AND `deleted`!='1'";
+//        error_log(print_r($sql, TRUE));
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        while ($row = mysql_fetch_array($res)) {
+            $result = $row['score'];
+        }
+        if ($result > 0) return $result;
+    }
+    return 1;
 }
 
 function getUserLinkOnBandForFest($user, $band, $fest, $mode)
