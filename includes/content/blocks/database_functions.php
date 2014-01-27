@@ -2010,6 +2010,22 @@ function drawPregameRemark($viewingUser, $user, $band, $fest, $mode)
     }
 }
 
+function userInvolvedInDiscussionOnMessage($viewingUser, $messageID)
+{
+    global $master;
+    $sql = "SELECT `id` FROM `discussions` WHERE `message`='$messageID' AND `user`='$viewingUser' AND `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        return true;
+    }
+    $sql = "SELECT `id` FROM `messages` WHERE `message`='$messageID' AND `fromuser`='$viewingUser' AND `deleted`!='1'";
+    $res = mysql_query($sql, $master);
+    if (mysql_num_rows($res) > 0) {
+        return true;
+    }
+    return false;
+}
+
 function userDiscussionPointOnMessage($viewingUser, $messageID)
 {
     global $master;
@@ -2344,10 +2360,23 @@ function getNewPregameDiscussionBands($user, $fest, $displayCount)
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
             if (userDiscussionPointOnMessage($user, $row['id']) < currentMessageDiscussionPoint($row['id'])) {
-                $result[] = $row['band'];
-                $i = $i + 1;
+                if (userInvolvedInDiscussionOnMessage($user, $row['id'])) {
+                    $result[] = $row['band'];
+                    $i = $i + 1;
+                } else {
+                    $unInvolved[] = $row['band'];
+                }
+
             }
             if ($i >= $displayCount) break;
+        }
+        if (!empty($unInvolved)) {
+            foreach ($unInvolved as $un) {
+                $result[] = $un;
+                $i = $i + 1;
+                if ($i >= $displayCount) break;
+            }
+
         }
         return $result;
     } else return array();
