@@ -106,7 +106,7 @@ $borderWidth = 1;
                         <div class="spacer" style="border:none;height:<?php echo $spaceHeight; ?>px;">
                         </div> <!--end .spacer -->
                         <a href="<?php echo $basepage; ?>?disp=view_band&band=<?php echo $set['band']; ?>&fest=<?php echo $fest; ?>">
-                     
+
                         <div id="set-<?php echo $set['id']; ?>; ?>" class="festSchedSet"
                              style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;background-color:<?php echo $scoreColor; ?>;">
                             <span
