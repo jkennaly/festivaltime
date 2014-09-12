@@ -85,11 +85,29 @@ $borderWidth = 1;
 
                         $minInSet = ($set['end'] - $set['start']) / 60;
                         $setHeight = ($minInSet * $heightFactor) / 5 - 2 * $borderWidth;
+                        $score = uscoref2($set['band'], $user);
+                        if ($score > 4){
+                            $scoreClass = "score-green";
+                            $scoreColor = "green";
+                        }
+                        elseif ($score < 3 && $score > 0) {
+                            $scoreClass = "score-red";
+                            $scoreColor = "red";
+                        }
+                        elseif ($score > 0 ) {
+                            $scoreClass = "score-yellow";
+                            $scoreColor = "yellow";
+                        }
+                        else {
+                            $scoreClass = "score-unknown";
+                            $scoreColor = "LightBlue";
+                        }
                         ?>
                         <div class="spacer" style="border:none;height:<?php echo $spaceHeight; ?>px;">
                         </div> <!--end .spacer -->
+                        <?php   echo "rate-" . uscoref2($set['band'], $user); ?>
                         <div id="set-<?php echo $set['id']; ?>; ?>" class="festSchedSet"
-                             style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;background-color:LightBlue;">
+                             style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;background-color:<?php echo $scoreColor; ?>;">
                             <span
                                 style="font-size:<?php echo $textHeight; ?>px;vertical-align:middle;line-height: <?php echo $setHeight / 2; ?>px;text-align: center;width:100%;">
                             <?php
