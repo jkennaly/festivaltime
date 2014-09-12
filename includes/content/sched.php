@@ -105,7 +105,8 @@ $borderWidth = 1;
                         ?>
                         <div class="spacer" style="border:none;height:<?php echo $spaceHeight; ?>px;">
                         </div> <!--end .spacer -->
-                        <?php   echo "rate-" . uscoref2($set['band'], $user); ?>
+                        echo '<a href="' . $basepage . "?disp=view_band&band=" . <?php echo $set['band']; ?>">
+                        <a href="<?php echo $basepage; ?>"?disp=view_band&band=>
                         <div id="set-<?php echo $set['id']; ?>; ?>" class="festSchedSet"
                              style="border:<?php echo $borderWidth; ?>px solid;height:<?php echo $setHeight; ?>px;background-color:<?php echo $scoreColor; ?>;">
                             <span
@@ -114,7 +115,7 @@ $borderWidth = 1;
                             echo getBname($set['band']);
                             ?>
                                 </span>
-                        </div> <!--end #set-<?php echo $set['id']; ?> -->
+                        </div> <!--end #set-<?php echo $set['id']; ?> --></a>
                     <?php
                     }
                     ?>
