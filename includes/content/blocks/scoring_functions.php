@@ -46,16 +46,17 @@ function uscoref($band, $user, $avg_rating, $mysql_link)
 function uscoref2($band, $user)
 {
 
+    global $master;
     $sql1 = "SELECT avg(content) as score FROM `messages` WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `deleted`!='1'";
 //echo $sql1."<br />";
 
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
-    $res = mysql_query($sql1, $mysql_link);
+    $res = mysql_query($sql1, $master);
     If (mysql_num_rows($res) > 0) {
         $arr = mysql_fetch_assoc($res);
         $uscore = $arr['score'];
-        echo $uscore."<br />";
+//        echo $uscore."<br />";
     }
     If (empty($uscore)) {
         $sql_curr_avg = "SELECT avg(content) as average FROM `messages` WHERE `band`='$band' and `remark`='2' and `deleted`!='1'";
