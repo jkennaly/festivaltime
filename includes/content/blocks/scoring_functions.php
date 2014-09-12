@@ -46,8 +46,8 @@ function uscoref($band, $user, $avg_rating, $mysql_link)
 function uscoref2($band, $user)
 {
 
-    $sql1 = "SELECT avg(content) as score FROM `messages` WHERE `band`='$band' and `user`='$user' and `remark`='2' and `deleted`!='1'";
-echo $sql1."<br />";
+    $sql1 = "SELECT avg(content) as score FROM `messages` WHERE `band`='$band' and `fromuser`='$user' and `remark`='2' and `deleted`!='1'";
+//echo $sql1."<br />";
 
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
