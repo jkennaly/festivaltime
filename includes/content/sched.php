@@ -86,6 +86,7 @@ $borderWidth = 1;
                         $minInSet = ($set['end'] - $set['start']) / 60;
                         $setHeight = ($minInSet * $heightFactor) / 5 - 2 * $borderWidth;
                         $score = uscoref2($set['band'], $user);
+                        echo $score."<br />";
                         if ($score > 4){
                             $scoreClass = "score-green";
                             $scoreColor = "green";
