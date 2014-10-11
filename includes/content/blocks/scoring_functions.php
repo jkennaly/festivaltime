@@ -46,19 +46,20 @@ function uscoref($band, $user, $avg_rating, $mysql_link)
 function uscoref2($band, $user)
 {
 
+    global $master;
     $sql1 = "SELECT avg(content) as score FROM `messages` WHERE `band`='$band' and `user`='$user' and `remark`='2' and `deleted`!='1'";
 //echo $sql1."<br />";
 
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
-    $res = mysql_query($sql1, $mysql_link);
+    $res = mysql_query($sql1, $master);
     If (mysql_num_rows($res) > 0) {
         $arr = mysql_fetch_assoc($res);
         $uscore = $arr['score'];
     }
     If (empty($uscore)) {
         $sql_curr_avg = "SELECT avg(content) as average FROM `messages` WHERE `band`='$band' and `remark`='2' and `deleted`!='1'";
-        $res1 = mysql_query($sql_curr_avg, $mysql_link);
+        $res1 = mysql_query($sql_curr_avg, $master);
         If (mysql_num_rows($res1) > 0) {
             $curr_avg_rate = mysql_fetch_assoc($res1);
             $uscore = $curr_avg_rate['average'];
@@ -74,7 +75,7 @@ function count_digit($number)
     return strlen((string)$number);
 }
 
-function act_rating($band, $user)
+function getUsersPregameRating($band, $user)
 {
 //This function returns the pregame rating for a given user for a given band in a given fest, or 0 if unrated
     global $master, $fest;
@@ -87,7 +88,7 @@ function act_rating($band, $user)
     return $rate;
 }
 
-function act_live_rating($band, $user)
+function getUsersGametimeRating($band, $user)
 {
 //This function returns the gametime rating for a given user for a given band in a given fest, or 0 if unrated
     global $master, $fest;

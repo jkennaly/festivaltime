@@ -36,6 +36,25 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 $where = "`id`='$dateID'";
                 updateRow($table, $cols, $vals, $where);
             } else insertRow($table, $cols, $vals);
+            $festBands = getAllBandsInFest();
+            foreach ($festBands as $festBand) {
+                $setDetails = getSetDetailsForBand($festBand);
+                if ($setDetails) {
+                    $table = "sets";
+                    $cols = array("festival", "festival_series", "band", "day", "stage", "date", "start", "end");
+                    $vals = array(
+                        $setDetails[0]["festival"],
+                        $setDetails[0]["festival_series"],
+                        $setDetails[0]["band"],
+                        $setDetails[0]["day"],
+                        $setDetails[0]["stage"],
+                        $dateID,
+                        $setDetails[0]["start"],
+                        $setDetails[0]["end"]
+                    );
+                    insertRow($table, $cols, $vals);
+                }
+            }
         }
         $table = "festivals";
         $cols = array("dates", "dates_v");

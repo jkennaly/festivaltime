@@ -74,7 +74,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         $bandsMissingPics = 0;
         foreach ($bandsAtLevel as &$b) {
             if ($bandsDisplayed > $bandsToDisplay) break;
-            if ($displayRatedSetting == 1 && act_rating($b, $user) != 0) {
+            if ($displayRatedSetting == 1 && getUsersPregameRating($b, $user) != 0) {
                 $displayedBandID[] = $b;
                 continue;
             }

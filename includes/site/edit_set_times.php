@@ -20,13 +20,13 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 if (!empty($_POST['submitDayAndStage'])) {
     $_SESSION['setTimes']['day'] = $_POST['day'];
     $_SESSION['setTimes']['stage'] = $_POST['stage'];
+    $_SESSION['setTimes']['date'] = $_POST['date'];
 
 }
 
 if (!empty($_POST['submitBandSchedule'])) {
     foreach ($_POST['start'] as $sID => $sT) {
         $startTime = $sT['hour'] + $sT['min'];
-
         $table = "sets";
         $cols = array("start");
         $vals = array($startTime);
@@ -68,12 +68,13 @@ if (!empty($_POST['submitBandSchedule'])) {
 //Pick a day and stage
 $availStages = getAllStages();
 $availDays = getAllDays();
+$availDates = getAllDates();
 
 //Find Stage/Day combinations that still need set times
-$remaining = getDayAndStageNeedingimes();
+$remaining = getDateDayAndStageNeedingTimes();
 if ($remaining) {
     foreach ($remaining as $r) {
-        echo "There are still sets that need times for day/stage " . getDname($r['day']) . "/" . getPname($r['stage']) . "<br />";
+        echo "There are still sets that need times for date/day/stage " . getDtname($r['date']) . "/" . getDname($r['day']) . "/" . getPname($r['stage']) . "<br />";
     }
 } else echo '<button id="festbandsetimescomplete" data-fest="' . $fest . '">Band Set Times Complete</button><br />';
 
@@ -84,6 +85,14 @@ if ($remaining) {
 
 <div class="topform">
     <form method="post" enctype="multipart/form-data">
+        <select name="date">
+            <?php
+            foreach ($availDates as $aDt) {
+                if (!empty($_SESSION['setTimes']['date']) && $_SESSION['setTimes']['date'] == $aDt['id']) echo "<option selected=\"selected\" value=\"" . $aDt['id'] . "\">" . $aDt['name'] . "</option>";
+                else echo "<option value=\"" . $aDt['id'] . "\">" . $aDt['name'] . "</option>";
+            }
+            ?>
+        </select>
         <select name="day">
             <?php
             foreach ($availDays as $a) {
@@ -138,7 +147,11 @@ for ($i = 0; $i < 60; $i = $i + 5) {
 
 
         //Get bands on the target day and stage
-        $bandList = getBandsByDayAndStage($_SESSION['setTimes']['day'], $_SESSION['setTimes']['stage']);
+        $bandList = getBandsByDateDayAndStage(
+            $_SESSION['setTimes']['day'],
+            $_SESSION['setTimes']['stage'],
+            $_SESSION['setTimes']['date']
+        );
         foreach ($bandList as $b) {
             //change current start and end time into seconds of offset
             $start = $b['start'];

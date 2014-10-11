@@ -16,6 +16,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
 }
 date_default_timezone_set('UTC');
 $festDays = getAllDays();
+$festDates = getAllDates();
 $festStages = getAllStages();
 $stageWidth = 95 / (1 + count($festStages));
 $heightFactor = 4;
@@ -64,7 +65,7 @@ $borderWidth = 1;
             <?php
 
             foreach ($festStages as $fS) {
-                $setList = getBandsByDayAndStage($fD['id'], $fS['id']);
+                $setList = getBandsByDateDayAndStage($fD['id'], $fS['id'], $festDates[0]);
                 $setCount = count($setList);
                 ?>
                 <div id="day-<?php echo $fD['id']; ?>-stage-<?php echo $fS['id']; ?>" class="festSchedStage"

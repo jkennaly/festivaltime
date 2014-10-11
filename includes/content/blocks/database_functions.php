@@ -267,6 +267,21 @@ function getDname($dayid)
 
 }
 
+function getDtname($dateid)
+{
+    //This function checks $source table stages for the name of $stageid
+    global $master;
+    $sql = "select `name` from `dates` where `id`='$dateid'";
+    $res = mysql_query($sql, $master);
+
+
+    $srow = mysql_fetch_array($res);
+    $sname = $srow['name'];
+
+    return $sname;
+
+}
+
 function getSuggestedDays()
 {
     //This function returns an array containing id, name, priority and layout for each stage in the festival
@@ -832,8 +847,8 @@ function getInterestingFactor($user, $main, $master, $fest)
     }
     // Difference between pregame rating and live rating x20
     foreach ($interfact as $bandid => &$factor) {
-        $pregame = act_rating($bandid, $user, $main);
-        $gametime = act_live_rating($bandid, $user, $main);
+        $pregame = getUsersPregameRating($bandid, $user, $main);
+        $gametime = getUsersGametimeRating($bandid, $user, $main);
         $factor = $factor + abs($pregame - $gametime) * 20;
 //		echo "<br>pregame : $pregame gametime: $gametime factor: $factor band: $bandid";
     }
@@ -1080,6 +1095,20 @@ function getDayAndStageOfSetsByBandInFest($bandid)
     return $sets;
 }
 
+function getSetDetailsForBand($bandid)
+{
+    //This function returns an array containing the id of each band in the festival
+    global $master, $fest;
+    $sql = "select `id`, `festival`, `band`, `day`, `stage`, `start`, `end`, `date` from `sets` where `deleted` != '1' and `festival`='$fest' AND `band`='$bandid'";
+    $res = mysql_query($sql, $master);
+    $num = mysql_num_rows($res);
+    while ($row = mysql_fetch_array($res)) {
+        $sets[] = $row;
+    }
+    if ($num == 0) $sets = $num;
+    return $sets;
+}
+
 function getNumberOfSetsByBandInFest($bandid)
 {
     //This function returns an array containing the id of each band in the festival
@@ -1105,11 +1134,11 @@ function getBandIDFromName($name)
     } else return false;
 }
 
-function getDayAndStageNeedingimes()
+function getDateDayAndStageNeedingTimes()
 {
     //This function returns an array containing the id, start offset and end offset each band in the festival playing a given day and stage
     global $master, $fest;
-    $sql = "select `id`, `day`, `stage` from `sets` where `deleted` != '1' and `end`='0' and `festival`='$fest' GROUP BY `day`, `stage`";
+    $sql = "select `id`, `day`, `stage`, `date` from `sets` where `deleted` != '1' and `end`='0' and `festival`='$fest' GROUP BY `date`, `day`, `stage`";
     $res = mysql_query($sql, $master);
 //    error_log(print_r($sql, TRUE));
     if (mysql_num_rows($res) > 0) {
@@ -1120,11 +1149,11 @@ function getDayAndStageNeedingimes()
     } else return false;
 }
 
-function getBandsByDayAndStage($day, $stage)
+function getBandsByDateDayAndStage($day, $stage, $date)
 {
     //This function returns an array containing the id, start offset and end offset each band in the festival playing a given day and stage
     global $master;
-    $sql = "select `id`, `start`, `end`, `band` from `sets` where `deleted` != '1' and `day`='$day' and `stage`='$stage' ORDER BY `start` ASC";
+    $sql = "select `id`, `start`, `end`, `band`, `date` from `sets` where `deleted` != '1' and `day`='$day' and `stage`='$stage' and `date`='$date' ORDER BY `start` ASC";
     $res = mysql_query($sql, $master);
 //    error_log(print_r($sql, TRUE));
     if (mysql_num_rows($res) > 0) {
@@ -1889,7 +1918,7 @@ function genreList($user)
     $ret_genre = array();
     while ($row = mysql_fetch_array($res)) {
         $test['genreid'] = getBandGenreID($row['id'], $user);
-        $test['rating'] = act_rating($row['id'], $user);
+        $test['rating'] = getUsersPregameRating($row['id'], $user);
 //        echo "<br />test: ";
 //        var_dump($test);
         $genreJustAdded = 0;
@@ -1907,7 +1936,7 @@ function genreList($user)
             $new['id'] = $test['genreid'];
             $new['name'] = getBandGenre($row['id'], $user);
             $new['bands'] = 1;
-            $new['rating_total'] = act_rating($row['id'], $user);
+            $new['rating_total'] = getUsersPregameRating($row['id'], $user);
             if ($new['rating_total'] == 0) $new['rated'] = 0; else $new['rated'] = 1;
             $ret_genre[] = $new;
         }
@@ -2291,7 +2320,7 @@ function getBandsToRate($user, $fest, $displayCount)
     $i = 0;
     if (mysql_num_rows($res) > 0) {
         while ($row = mysql_fetch_array($res)) {
-            $currentRating = act_rating($row['band'], $user);
+            $currentRating = getUsersPregameRating($row['band'], $user);
             if ($currentRating == 0 && !in_array($row['band'], $result)) {
                 $result[] = $row['band'];
                 $i = $i + 1;
@@ -2302,7 +2331,7 @@ function getBandsToRate($user, $fest, $displayCount)
     }
     $allBands = getAllBandsInFest();
     foreach ($allBands as $b) {
-        $currentRating = act_rating($b, $user);
+        $currentRating = getUsersPregameRating($b, $user);
         if ($currentRating == 0) {
             $result[] = $b;
             $i = $i + 1;
