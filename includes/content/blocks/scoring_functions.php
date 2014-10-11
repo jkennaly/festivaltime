@@ -52,7 +52,7 @@ function uscoref2($band, $user)
 
 //echo "alert(\"Found a band: ".$band." with a user  of ".$user."\");";
 
-    $res = mysql_query($sql1, $master);
+    $res = mysql_query($sql1, $mysql_link);
     If (mysql_num_rows($res) > 0) {
         $arr = mysql_fetch_assoc($res);
         $uscore = $arr['score'];
