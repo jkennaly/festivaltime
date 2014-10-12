@@ -19,16 +19,18 @@ $sets = getBandSetsByFestival($band);
 date_default_timezone_set('UTC');
 $timeLine = array();
 
-foreach ($sets as $set) {
-    $startSec = $header['start_time'] + $set['start'];
-    $endSec = $header['start_time'] + $set['end'];
+if ($sets) {
+
+    foreach ($sets as $set) {
+        $startSec = $header['start_time'] + $set['start'];
+        $endSec = $header['start_time'] + $set['end'];
 
     $startString = strftime('%l:%M %p', $startSec);
     $endString = strftime('%l:%M %p', $endSec);
 
-    $timeLine[] = getDname($set['day']) . " " . getPname($set['stage']) . " " . $startString . "-" . $endString;
+        $timeLine[] = getDtname($set['date']) . " " . getDname($set['day']) . " " . getPname($set['stage']) . " " . $startString . "-" . $endString;
+    }
 }
-
 
 If ($_GET['disp'] == "view_band") $bandLink = getBname($band);
 else $bandLink = "<a href=\"" . $basepage . "?disp=view_band&band=" . $band . "\">" . $name . "</a>";

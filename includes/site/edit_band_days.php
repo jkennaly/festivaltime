@@ -22,10 +22,9 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     <br/>
     <button id="stopfestcreation">Done working on this festival for now</button>
     <?php
-    error_log("Log test");
     if (!empty($_POST['submitBandDays']) || !empty($_POST['submitSingleBand'])) {
         if (!empty($_POST['submitBandDays'])) {
-            foreach ($_POST['update'] as $setid => $day) {
+            if (isset($_POST['update'])) foreach ($_POST['update'] as $setid => $day) {
                 if ($day == 0) continue;
                 $table = "sets";
                 $cols = array("day");
@@ -33,11 +32,10 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 $where = "`id`='" . $setid . "'";
                 updateRow($table, $cols, $vals, $where);
             }
-            foreach ($_POST['insert'] as $bandd => $day) {
+            if (isset($_POST['insert'])) foreach ($_POST['insert'] as $bandd => $day) {
                 if ($day == 0) continue;
                 $dates = getAllDates();
                 foreach ($dates as $date) {
-                    error_log("Processing date " . $date["id"] . " for band " . $bandd);
                     $table = "sets";
                     $cols = array("festival", "festival_series", "band", "day", "date");
                     $vals = array($fest, $festSeries, $bandd, $day, $date["id"]);
@@ -99,7 +97,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 foreach ($sets as $set) {
 
                     ?>
-                    <b><?php echo getBname($bandInList['band']); ?></b> (<?php echo getPname($set['stage']); ?> set)
+                    <b><?php echo getBname($bandInList['band']); ?></b> (<?php echo getDtname($set["date"]) . " " . getPname($set['stage']); ?> set)
                     <select name="update[<?php echo $set['id']; ?>]">
                         <?php
                         foreach ($availDays as $a) {

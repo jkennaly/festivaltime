@@ -35,11 +35,15 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
             if ($dateID > 0) {
                 $where = "`id`='$dateID'";
                 updateRow($table, $cols, $vals, $where);
-            } else insertRow($table, $cols, $vals);
+            } else {
+                insertRow($table, $cols, $vals);
+                $dateID = getNewestDate();
+            }
             $festBands = getAllBandsInFest();
             foreach ($festBands as $festBand) {
                 $setDetails = getSetDetailsForBand($festBand);
                 if ($setDetails) {
+
                     $table = "sets";
                     $cols = array("festival", "festival_series", "band", "day", "stage", "date", "start", "end");
                     $vals = array(
@@ -93,13 +97,13 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
         if (!empty($currDates)) $defined_dates = count($currDates);
         else $currDates = 0;
 
-        if ($currDates > 0) {
+        if ($currDates) {
             foreach ($currDates as $c) {
                 $default_date[] = $c;
             }
         }
 
-        for ($i = $currDates; $i < $num_dates; $i++) {
+        for ($i = count($currDates); $i < $num_dates; $i++) {
             $default_date[] = $blankData;
         }
         If (!empty($_POST)) {

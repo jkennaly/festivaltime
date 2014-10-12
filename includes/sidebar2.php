@@ -87,7 +87,7 @@ ob_start();
             $visibleUsers = getVisibleUsers($user);
             $followerCount = array();
             $i = 0;
-            foreach ($followingUsers as $u) {
+            if (!empty($followingUsers)) foreach ($followingUsers as $u) {
                 $following2 = getFollowedBy($u);
                 if (!empty($following2)) {
 //                    var_dump($following2);
