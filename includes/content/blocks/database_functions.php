@@ -1017,6 +1017,7 @@ function getAllUsedBands()
     $sql = "select `band` from `band_list` where `deleted` != '1' GROUP BY `band`";
 //    error_log(print_r($sql, TRUE));
     $res = mysql_query($sql, $master);
+    $result = array();
     while ($row = mysql_fetch_array($res)) {
         $result[] = $row['band'];
     }

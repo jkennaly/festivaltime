@@ -38,7 +38,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 foreach ($dates as $date) {
                     $table = "sets";
                     $cols = array("festival", "festival_series", "band", "day", "date");
-                    $vals = array($fest, $festSeries, $bandd, $day, $date);
+                    $vals = array($fest, $festSeries, $bandd, $day, $date["id"]);
                     insertRow($table, $cols, $vals);
                 }
             }
