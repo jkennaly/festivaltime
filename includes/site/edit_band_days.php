@@ -22,6 +22,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
     <br/>
     <button id="stopfestcreation">Done working on this festival for now</button>
     <?php
+    error_log("Log test");
     if (!empty($_POST['submitBandDays']) || !empty($_POST['submitSingleBand'])) {
         if (!empty($_POST['submitBandDays'])) {
             foreach ($_POST['update'] as $setid => $day) {
@@ -36,6 +37,7 @@ If (!isset($_SESSION['level']) || !CheckRights($_SESSION['level'], $right_requir
                 if ($day == 0) continue;
                 $dates = getAllDates();
                 foreach ($dates as $date) {
+                    error_log("Processing date " . $date["id"] . " for band " . $bandd);
                     $table = "sets";
                     $cols = array("festival", "festival_series", "band", "day", "date");
                     $vals = array($fest, $festSeries, $bandd, $day, $date["id"]);
